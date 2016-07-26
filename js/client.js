@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import store from "./store";
 import DisplayPanel from "./components/DisplayPanel/DisplayPanel";
 
+import DetailPanel from "./components/DisplayPanel/DetailPanel";
+
 
 
 
@@ -16,12 +18,8 @@ ReactDOM.render(
     <Provider store = {store}>
     <Router history={hashHistory}>
     <Route path="/" component={Layout}>
-    	<Route path="/articles/(:articles)" component = {Article}>
-    	</Route>
-    <Provider store = {store}>
 	<Route path="/overview/" component = {DisplayPanel}>
     	</Route>
- </Provider>
     </Route>
   </Router>
     </Provider>,

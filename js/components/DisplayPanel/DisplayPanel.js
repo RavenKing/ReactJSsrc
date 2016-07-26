@@ -1,73 +1,76 @@
 import React from "react";
-import { Button,Card,Carousel } from "antd";
+import { Button,Card,Icon } from "antd";
 import { Link } from "react-router";
+import MainPanel from "./MainPanel";
+import DetailPanel from "./DetailPanel";
 
 
+import { ShowMainPanel } from "../../Actions/KnowledgeAction";
 
+import { connect } from "react-redux";
+
+@connect((store)=>{    
+    return {
+        articles:store.articles
+    };
+    
+})
 export default class DisplayPanel extends React.Component {   
- componentWillMount(){
-         
+   
 
-  const { articles } = this.props;
+   CloseMainCard(){
 
+  this.props.dispatch(ShowMainPanel());
 
-if( articles != null )
-{
-     this.setState={
-articles: articles,
-         }
-      }
-}
-
-
-   reloadData()
-   {
    }
- onChange(a, b, c) {
-  console.log(a, b, c);
+
+ componentWillMount(){         
+
 }
 
     render() {
+
+
+// show or close Main Panel
     	const { articles } = this.props;
-
-
-    	var Display;
-
+    	 var DisplayMain;
        var test;
-    	test =articles;
-    	console.log(test);
-    	if(test.fetched === true)
+    	test = articles;
+    	if(test.showMain === true)
     	{ 
 
-    		var array = test.articles;
-
-    		const { results } = array;
-    		console.log( results );
-
-    		Display= results.map((result)=><Card class = "tile" title={ result.ARCHOBJ }  style={{ width: 200 }}><p>{result.ARTICLE_NAM }</p>
-
-    		 <p>{result.ARTICLE_DSC }</p>
-				<p>{"Total Size:" + result.TOTAL_SIZE} </p>
-
-    			</Card>);
-				
-    	}
+      	var array = test.articles;
+      	const { results } = array;
+    		DisplayMain = <MainPanel results={ results } ></MainPanel>
+      }
     	else
     	{
 
-    		Display = <h1>shit</h1>
-    	}
+    		DisplayMain = <div></div>
+
+        }
+
+
+// show or close Detail Panels 
+    const { displayPanel } = articles ;
+     var detaildisplay;
+    detaildisplay = displayPanel.map((displayone)=>{  if(displayone.visible==true)
+                                                   {
+                                                    return <h1><DetailPanel articlenumber={displayone.article}></DetailPanel></h1> 
+                                                   }
+                                                   else { return <div></div>}
+                                                  } )
+ 
+
+
+
 
    return (
      <div>
      
-     <Card title="DVM Articles" extra="Customer Number" style={{ width: 800 }} >
-
-{Display}
-
-    </Card>
-     
-
+		{ DisplayMain }
+   
+     { detaildisplay }
 
     </div>
       );

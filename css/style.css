@@ -8,6 +8,24 @@ li {
   list-style: none;
 }
 
+.leftside{
+  position:absolute;
+  left:0;
+  vertical-align: middle;
+  top:50%;
+ cursor:pointer;
+}
+
+.rightside{
+  cursor:pointer;
+  position:absolute;
+  right:0;
+  vertical-align: middle;
+  top:50%;
+
+
+}
+
 #content {
   height: 3000px;
   background: #649173;

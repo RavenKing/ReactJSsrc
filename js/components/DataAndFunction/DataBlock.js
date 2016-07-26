@@ -10,13 +10,12 @@ export default class DataBlock extends React.Component {
     render() { 
         const { articles } =this.props;
         var  DataItems;
-        console.log(articles);
       if(articles.fetched === true)
       {
        
       const  { results } = articles.articles;
 
-         DataItems = results.map((item)=><DataItem title = {item.ARTICLE_ID} key = {item.ARTICLE_ID}  />);
+         DataItems = results.map((item)=><DataItem title = {item.ARTICLE_NAM} key = {item.ARTICLE_ID} uniquekey={item.ARTICLE_ID} />);
       
        }
        else
