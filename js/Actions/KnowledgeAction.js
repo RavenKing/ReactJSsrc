@@ -5,7 +5,7 @@ export function fetchArticles(){
 
 
     return dispatch=>{
-    axios.get("http://localhost/Ped/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'",{
+    axios.get("http://10.128.245.87:8004/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'",{
 	  auth: {
     username: 'kevinyan',
     password: 'Sap12345'
