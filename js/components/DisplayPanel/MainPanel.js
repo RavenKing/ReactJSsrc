@@ -1,6 +1,8 @@
 import React from "react";
+import ReactDOM from "react-dom";
+import ArticleMenuPanel from "./ArticleMenuPanel";
 import { Button,Card,Icon } from "antd";
-
+import {setCardDragable} from "../../interactScript";
 import { CloseMainPanel } from "../../Actions/KnowledgeAction";
 
 import { connect } from "react-redux";
@@ -14,26 +16,29 @@ import { connect } from "react-redux";
 })
 export default class FunctionPanel extends React.Component {
 
+    CloseMainCardPanel(){
 
-   CloseMainCardPanel(){
+        this.props.dispatch(CloseMainPanel());
 
-  this.props.dispatch(CloseMainPanel());
+    }
 
-   }
+    componentDidMount() {
+      setCardDragable(ReactDOM.findDOMNode(this));
+    }
 
     render() {
-const { results } = this.props;
+        const { results } = this.props.articles;
 
-const DisplayMain= results.map((result)=><Card class = "tile" key={result.ARTICLE_ID} title={ result.ARCHOBJ }  style={{ width: 200 }}><p>{result.ARTICLE_NAM }</p>
-    		 <p>{result.ARTICLE_DSC }</p>
-				<p>{"Total Size:" + result.TOTAL_SIZE} </p>
-    			</Card>);
+        const DisplayMain= results.map((result)=>
+          <ArticleMenuPanel article_id={result.ARTICLE_ID} archobj={result.ARCHOBJ} article_nam={result.ARTICLE_NAM} 
+          article_dsc={result.ARTICLE_DSC} total_size={result.TOTAL_SIZE}/>
+        );
 
         return (
-        	<div>
-           <Card title="DVM Articles" extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />} style={{ width: 800 }} >
-        	{DisplayMain}
-          </Card>
+        	<div className="main-panel">
+              <Card title="DVM Articles" extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />} style={{ width: 800 }} >
+        	       {DisplayMain}
+              </Card>
         </div>
 
       );

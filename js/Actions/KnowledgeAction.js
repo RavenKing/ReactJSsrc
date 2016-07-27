@@ -11,10 +11,10 @@ export function fetchArticles(){
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
         },
-	  auth: {
-    username: 'zengheng',
-    password: 'Sap12345'
- 		 }
+        auth: {
+          username: 'zengheng',
+          password: 'Sap12345'
+        }
     })
     .then(function (response,err) {
         var data = response.data;
@@ -25,7 +25,6 @@ export function fetchArticles(){
     
     
 }
-
 
 export function ShowMainPanel()
 {
@@ -66,47 +65,14 @@ export function RemoveCard(data)
 
 }
 
-export function ShowCreatePanel()
-{
-
-   return dispatch=>{
-
-    dispatch({type:"SHOW_CREATE_PANEL"});
-   }
-
-
-}
-
-export function CloseCreatePanel()
-{
-  return dispatch=>{
-
-    dispatch({type:"CLOSE_CREATE_PANEL"});
-   }
-}
-
-export function NewArticleStepOne(data)
-{
-  return dispatch=>{
-
-    dispatch({type:"NEW_ARTICLE_STEP_ONE",payload:data})
-
-  }
-
-
-
-}
-
-export function ForwardStep(){
-
-  return dispatch=>{
-      dispatch({type:"ADD_ONE_STEP"})
-
-  }
-}
 
 
 
 
 
+
+
+
+
+ 
 

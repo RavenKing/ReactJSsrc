@@ -8,16 +8,17 @@ export default function reducer(state={
     switch(action.type)
     {
         case "FETCH_TWEETS":
-                { 
-                 return {...state,fetching:true};
+        { 
+            return {...state,fetching:true};
                  
-                }
-                case "FETCH_TWEETS_FULFILLED":{
-    
-                    return {...state,fetching:false,fetched:true,tweets:action.payload,}
-                }
-            
         }
+        case "FETCH_TWEETS_FULFILLED":
+        {
     
-        return state;
+            return {...state,fetching:false,fetched:true,tweets:action.payload,}
+        }
+            
+    }
+    
+    return state;
 }

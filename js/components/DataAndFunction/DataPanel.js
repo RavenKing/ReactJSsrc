@@ -7,13 +7,13 @@ import DataBlock  from "./DataBlock";
 export default class DataPanel extends React.Component {
     
     render() {
-const { articles } = this.props
+		const { articles } = this.props
 
         return (
- <div class="data-panel">
+ 			<div className="data-panel">
             
-        <DataBlock  articles = { articles }> </DataBlock>
- </div>
+        		<DataBlock  articles = { articles }/> 
+ 			</div>
             
       );
   }

@@ -16,11 +16,11 @@ import DetailPanel from "./components/DisplayPanel/DetailPanel";
 const app = document.getElementById('app');
 ReactDOM.render(
     <Provider store = {store}>
-    <Router history={hashHistory}>
-    <Route path="/" component={Layout}>
-	<Route path="/overview/" component = {DisplayPanel}>
-    	</Route>
-    </Route>
-  </Router>
+    	<Router history={hashHistory}>
+    		<Route path="/" component={Layout}>
+				<Route path="/overview/" component = {DisplayPanel}>
+    			</Route>
+    		</Route>
+  		</Router>
     </Provider>,
 app);
