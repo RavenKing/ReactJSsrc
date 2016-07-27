@@ -3,6 +3,7 @@ import { Button,Card,Icon } from "antd";
 import { Link } from "react-router";
 import MainPanel from "./MainPanel";
 import DetailPanel from "./DetailPanel";
+import CreatePanel from "../CreatePanel/CreatePanel";
 
 
 import { ShowMainPanel } from "../../Actions/KnowledgeAction";
@@ -24,9 +25,6 @@ export default class DisplayPanel extends React.Component {
 
    }
 
- componentWillMount(){         
-
-}
 
     render() {
 
@@ -47,10 +45,19 @@ export default class DisplayPanel extends React.Component {
     	{
 
     		DisplayMain = <div></div>
+      }
 
-        }
+      var createpanel;
+      if(test.showCreate == true) 
+      {
 
+        createpanel = <CreatePanel></CreatePanel>
+      }
+      else{
+         
+      createpanel = <div></div>
 
+      }
 // show or close Detail Panels 
     const { displayPanel } = articles ;
      var detaildisplay;
@@ -62,16 +69,15 @@ export default class DisplayPanel extends React.Component {
                                                   } )
  
 
-
+    
 
 
    return (
      <div>
      
 		{ DisplayMain }
-   
-     { detaildisplay }
-
+    { detaildisplay }
+    { createpanel  }
     </div>
       );
   }

@@ -34,13 +34,9 @@ export default class Layout extends React.Component {
   }
       render() {
       var DisplayView,DataView;
-      console.log("layout");
-      console.log(this.props);
        const {  articles } = this.props;
        if(articles.fetched == true)
        {
-
-      console.log("layout");
         DataView = <DataPanel articles={this.props.articles}> </DataPanel>  
         DisplayView = <DisplayPanel articles = {this.props.articles}> </DisplayPanel>
 
