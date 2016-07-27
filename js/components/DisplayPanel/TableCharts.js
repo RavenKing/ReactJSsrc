@@ -7,16 +7,18 @@ import  ReactHighCharts  from "react-highcharts";
 export default class TableCharts extends React.Component {
     
     render() {
+      const { Tables } = this.props;
 
-const config={
-
+  const config={
   chart:{type:"column"},
   xAxis: {
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    categories: Tables.map((table)=>{return table.ATTR_NAM})
   },
   series: [{
-    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 295.6, 454.4]
-  }]
+    data: Tables.map((table)=>{return parseInt(table.TBL_SIZE) 
+
+    })
+      }]
 
       }
 
