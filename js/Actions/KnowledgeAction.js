@@ -4,15 +4,20 @@ export function fetchArticles(){
   
 
 
+//http://10.128.245.87:8004/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'
     return dispatch=>{
-    axios.get("http://10.128.245.87:8004/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'",{
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/articleContent.xsjs?customerId=32326",{
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        },
 	  auth: {
-    username: 'kevinyan',
+    username: 'zengheng',
     password: 'Sap12345'
  		 }
     })
     .then(function (response,err) {
-        var data = response.data.d;
+        var data = response.data;
         dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data})    
   })
   

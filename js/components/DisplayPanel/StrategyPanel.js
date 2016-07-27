@@ -27,8 +27,8 @@ export default class StrategyPanel extends React.Component {
 var data = [{
   key: '1',
   name: 'Archiving',
-  suggestion: Strategy[0].ARCHIVING,
-  Retention: Strategy[0].RETENTION
+  suggestion: Strategy.ARCHIVING,
+  Retention: Strategy.RETENTION
 }];
     
 

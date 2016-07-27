@@ -42,7 +42,7 @@ export default class DetailPanel extends React.Component {
     const target = results.filter((result)=>{ return result.ARTICLE_ID == articlenumber })
  
   this.setState({
-    articles:target,
+    articles:target[0],
     page:1
   })
 
@@ -63,7 +63,7 @@ export default class DetailPanel extends React.Component {
 
   <div>
 
-      <Card title={this.state.articles[0].ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
+      <Card title={this.state.articles.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
 <div class="leftside" onClick={this.NavLeft.bind(this)}>
   <Icon type="left" />
 </div>

@@ -9,9 +9,10 @@ export default class DvmPanel extends React.Component {
 const { Page } = this.props;
 const { Article} = this.props;
  var displaydata ;
+ console.log( Article );
  if(Page == 1)
  {
-displaydata =  <TableCharts></TableCharts>
+displaydata =  <TableCharts Tables={Article.TABLES}></TableCharts>
  }
  else if(Page ==2)
  {
