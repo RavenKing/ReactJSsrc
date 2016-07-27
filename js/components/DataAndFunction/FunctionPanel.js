@@ -1,7 +1,8 @@
 import React from "react";
 import { Button } from "antd";
 
-import { ShowMainPanel } from "../../Actions/KnowledgeAction";
+import { ShowMainPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
+
 
 import { connect } from "react-redux";
 
@@ -14,6 +15,10 @@ import { connect } from "react-redux";
     
 })
 export default class FunctionPanel extends React.Component {
+  CreatePanel()
+  {
+     this.props.dispatch(ShowCreatePanel());
+  }
 ShowMain(){
 
   this.props.dispatch(ShowMainPanel());
@@ -25,7 +30,7 @@ ShowMain(){
 
         return (
        <div class = "function-panel ">
-         <Button type="ghost">Create</Button>
+         <Button type="ghost" onClick ={ this.CreatePanel.bind(this)}>Create</Button>
          <Button type="ghost">Edit</Button>
          <Button type="ghost">Delete</Button>
          <Button type="ghost" onClick = {this.ShowMain.bind(this) }>Show Main</Button>

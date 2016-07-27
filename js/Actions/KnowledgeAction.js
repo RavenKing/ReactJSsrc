@@ -26,6 +26,7 @@ export function fetchArticles(){
     
 }
 
+
 export function ShowMainPanel()
 {
 return dispatch=>{
@@ -65,10 +66,44 @@ export function RemoveCard(data)
 
 }
 
+export function ShowCreatePanel()
+{
+
+   return dispatch=>{
+
+    dispatch({type:"SHOW_CREATE_PANEL"});
+   }
+
+
+}
+
+export function CloseCreatePanel()
+{
+  return dispatch=>{
+
+    dispatch({type:"CLOSE_CREATE_PANEL"});
+   }
+}
+
+export function NewArticleStepOne(data)
+{
+  return dispatch=>{
+
+    dispatch({type:"NEW_ARTICLE_STEP_ONE",payload:data})
+
+  }
 
 
 
+}
 
+export function ForwardStep(){
+
+  return dispatch=>{
+      dispatch({type:"ADD_ONE_STEP"})
+
+  }
+}
 
 
 

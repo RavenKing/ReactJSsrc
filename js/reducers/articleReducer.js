@@ -3,6 +3,8 @@ export default function reducer(state={
     fetching:false,
     fetched:false,
     showMain:false,
+    showCreate:false,
+    newArticle:null,
     displayPanel:[],
     error:null
     },action){
@@ -42,6 +44,24 @@ export default function reducer(state={
             return {...state,displayPanel:newdata}
 
         }
+        case "SHOW_CREATE_PANEL":
+        {
+        return {...state,showCreate:true}
+        }
+        case "CLOSE_CREATE_PANEL":{
+            return {...state,showCreate:false}
+        }
+        case "NEW_ARTICLE_STEP_ONE":{
+
+           return {...state,newArticle:action.payload}
+
+        }
+        case "ADD_ONE_STEP":{
+                const { newArticle } = state;
+                 newArticle.currentstep = newArticle.currentstep + 1 ; 
+            return {...state,newArticle:newArticle}
+        }
+
 
 
     }
