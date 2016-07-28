@@ -72,18 +72,20 @@ export default class DetailPanel extends React.Component {
   <div className="detail-panel">
 
       <Card title={this.state.articles.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
-<div class="leftside" onClick={this.NavLeft.bind(this)}>
-  <Icon type="left" />
-</div>
- <div class="middlecontainer">  
+        
+        <div className="leftside" onClick={this.NavLeft.bind(this)}>
+          <Icon type="left" />
+        </div>
 
-  <DvmPanel Page={this.state.page} Article={this.state.articles}> </DvmPanel>
+        <div className="middlecontainer">  
+          <DvmPanel Page={this.state.page} Article={this.state.articles}> </DvmPanel>
+        </div>
+
+        <div className="rightside" onClick={this.NavRight.bind(this)}>
+          <Icon type="right"/>
+        </div>
+      </Card>
   </div>
-  <div class="rightside" onClick={this.NavRight.bind(this)}>
-  <Icon type="right"/>
-  </div>
-   </Card>
-   </div>
       );
   }
 }

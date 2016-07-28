@@ -30,8 +30,7 @@ export default class DataItem extends React.Component {
   }
     render() {
 
-        console.log("item's uniquekey:",this.props.uniquekey);
-   
+           
         return (
             <div className="data-item" data-type="ITEM" data-id={this.props.uniquekey}>
               <Button type="dashed" onClick={this.AddOneCard.bind(this)}>
