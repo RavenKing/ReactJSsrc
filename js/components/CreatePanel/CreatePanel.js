@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import {Card,Icon,Steps} from "antd";
 import { CloseCreatePanel } from "../../Actions/KnowledgeAction";
 
@@ -7,6 +8,7 @@ import ObjectDefinition from "./ObjectDefinition";
 import BasicInfo from "./BasicInfo";
 
 import { connect } from "react-redux";
+import { setCardDragable } from "../../interactScript";
 
 
 
@@ -20,32 +22,40 @@ const Step = Steps.Step;
 })
 export default class CreatePanel extends React.Component {
 
- componentWillMount(){
-
-const { articles } =this.props;
-console.log(articles);
-const { newArticle } = articles;
-    if(newArticle == null )
-    {
-    this.setState({currentstep:0});
-    }
-    else{
-console.log(newArticle.currentstep)
-      this.setState({currentstep:newArticle.currentstep})
-
+    componentDidMount() {
+      setCardDragable(ReactDOM.findDOMNode(this));
     }
 
-}
+    componentWillMount(){
+
+        const { articles } =this.props;
+        console.log(articles);
+        const { newArticle } = articles;
+        if(newArticle == null )
+        {
+
+          this.setState({currentstep:0});
+        
+        }
+        else{
+
+          console.log(newArticle.currentstep)
+          this.setState({currentstep:newArticle.currentstep})
+
+        }
+
+    }
 
  
     MoveDoc(){
-       alert("shitty");
+
+        alert("shitty");
 
     }
  
     CloseCreatePanel(){
 
-this.props.dispatch(CloseCreatePanel());
+        this.props.dispatch(CloseCreatePanel());
 
     }
 
@@ -53,35 +63,41 @@ this.props.dispatch(CloseCreatePanel());
 
     render() {
 
-const { articles } =this.props;
-const { newArticle } = articles;
-var currentstep;
-if(newArticle!=null)
-{
+      const { articles } =this.props;
+      const { newArticle } = articles;
+      var currentstep;
+      if(newArticle!=null)
+      {
 
-   currentstep=newArticle.currentstep;
-}
-else
-{
-  currentstep=0
-}
+        currentstep=newArticle.currentstep;
+      }
+      else
+      {
+          currentstep=0
+      }
 
-  var displaystep;
+      var displaystep;
 
-   switch(parseInt(currentstep))
-   {
-   case 0 :{
-    displaystep = <TemplateSelect></TemplateSelect> ;  break;
-  } 
-  case 1 : {displaystep = <ObjectDefinition></ObjectDefinition> ; break;
-}
-   case 2 :{ displaystep= <BasicInfo></BasicInfo>; break}
+      switch(parseInt(currentstep))
+      {
+          case 0 :{
+            displaystep = <TemplateSelect></TemplateSelect> ; 
+             break;
+          } 
+          case 1 : {
+            displaystep = <ObjectDefinition></ObjectDefinition> ; 
+            break;
+          }
+          case 2 :{ 
+            displaystep= <BasicInfo></BasicInfo>; 
+            break
+          }
 
-   }
+      }
 
 
   return (
-  <div>
+  <div className="create-panel">
 
    <Card title="Create New Article" extra={<Icon type="cross" onClick = {this.CloseCreatePanel.bind(this)}/>}>
     <div>

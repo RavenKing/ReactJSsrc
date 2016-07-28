@@ -4,12 +4,13 @@ import { Button,Card,Icon } from "antd";
 import { Link } from "react-router";
 import MainPanel from "./MainPanel";
 import DetailPanel from "./DetailPanel";
-import { ShowMainPanel } from "../../Actions/KnowledgeAction";
-import { connect } from "react-redux";
-import {setAreaDropable} from "../../interactScript";
+import CreatePanel from "../CreatePanel/CreatePanel";
+import { setAreaDropable } from "../../interactScript";
+
 import { AddCard }  from "../../Actions/KnowledgeAction";
+import { ShowMainPanel } from "../../Actions/KnowledgeAction";
 
-
+import { connect } from "react-redux";
 
 @connect((store)=>{    
     return {
@@ -20,107 +21,112 @@ import { AddCard }  from "../../Actions/KnowledgeAction";
 export default class DisplayPanel extends React.Component {   
    
 
-    CloseMainCard(){
+   CloseMainCard(){
 
       this.props.dispatch(ShowMainPanel());
 
-    }
+   }
 
-    componentDidMount(){
+   componentDidMount() {
 
-      //console.log("this.props:",this.props);
-      var props = this.props;
-
+      const props = this.props;
+      console.log("display panel did mount,and props is:",props);
       this.interactable = setAreaDropable({
-        
-        element: ReactDOM.findDOMNode(this),
-        accept: '.data-item, .data-block,.tile',
-        ondrop: function(event) {
-          let draggableElement = event.relatedTarget;
-          console.log("draggableElement",draggableElement);
-          switch(draggableElement.getAttribute('data-type')){
-            case "ITEM":
-            {
-              alert("item drag");
-              props.dispatch(AddCard(draggableElement.getAttribute('article-id')));
-              break;
-            }
-            case "TITLE":
-            {
-              alert("title alert");
-              props.dispatch(ShowMainPanel());
-              break;
-            }
-            case "MENU":
-            {
-              alert("menu alert");
-              props.dispatch(AddCard( draggableElement.getAttribute('article-id')));
-              break;            
-            }
-            default:
-                ;
-          }
-          
+
+          element: ReactDOM.findDOMNode(this),
+          accept: '.data-item, .data-block',
+          ondrop: function(event) {
+              let draggableElement = event.relatedTarget;
+              console.log("draggableElement",draggableElement);
+              switch(draggableElement.getAttribute('data-type')){
+              case "ITEM":
+              {
+                  //alert("item drag");
+                  props.dispatch(AddCard(draggableElement.getAttribute('data-id')));
+                  break;
+              }
+              case "TITLE":
+              {
+                  //alert("title alert");
+                  props.dispatch(ShowMainPanel());
+                  break;
+              }
+              case "MENU":
+              {
+                  //alert("menu alert");
+                  props.dispatch(AddCard( draggableElement.getAttribute('data-id')));
+                  break;            
+              }
+              default:
+                  ;
+              }
               
+              //props.dispatch(AddCard( props.uniquekey ));
           }
       });
+  }
 
-    }
+  componentWillUnmount() {
+      this.interactable.unset();
+      this.interactable = null;
+      
+  }
 
-    componentWillMount(){         
-
-    }
 
     render() {
 
-      // show or close Main Panel
-      const { articles } = this.props;
-      var DisplayMain;
-      var test;
-      test = articles;
-      if(test.showMain === true)
-      {
-        var array = test.articles;
+
+// show or close Main Panel
+    	const { articles } = this.props;
+    	 var DisplayMain;
+       var test;
+    	test = articles;
+    	if(test.showMain === true)
+    	{ 
+
+      	var array = test.articles;
       	const { results } = array;
-    		DisplayMain = <MainPanel results={ results } />
+    		DisplayMain = <MainPanel results={ results } ></MainPanel>
       }
     	else
     	{
 
     		DisplayMain = <div></div>
+      }
+
+      var createpanel;
+      if(test.showCreate == true) 
+      {
+
+        createpanel = <CreatePanel></CreatePanel>
+      }
+      else{
+         
+      createpanel = <div></div>
 
       }
-      console.log("displaymain:",DisplayMain);
+// show or close Detail Panels 
+    const { displayPanel } = articles ;
+     var detaildisplay;
+    detaildisplay = displayPanel.map((displayone)=>{  
+      if(displayone.visible==true)
+      {
+        return <h1><DetailPanel articlenumber={displayone.article}></DetailPanel></h1> 
+      }
+      else { return <div></div>}
+      } )
+ 
 
-      // show or close Detail Panels 
-      const { displayPanel } = articles ;
-      console.log("displayPanel:",displayPanel);
-      var detaildisplay;
-      detaildisplay = displayPanel.map((displayone)=>{  
-        if(displayone.visible==true)
-        {
-          console.log("DetailPanel:",<DetailPanel articlenumber={displayone.article}/>);
-            return (
-              
-                <DetailPanel articlenumber={displayone.article}/>)
-            
-              
-        }
-        else { 
-          return <div></div>
-        }
+    
 
-      })
-      console.log("detaildisplay:",detaildisplay);
 
-      return (
-        
-        <div>
-          { DisplayMain }
-   
-          { detaildisplay }
-
-        </div>
+   return (
+     <div className="display-panel">
+     
+		{ DisplayMain }
+    { detaildisplay }
+    { createpanel  }
+    </div>
       );
-    }
+  }
 }

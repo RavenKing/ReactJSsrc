@@ -1,11 +1,20 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import DataItem from "./DataItem";
 
 import { Link } from "react-router";
+import { setNodeDragable } from "../../interactScript";
 
 export default class DataBlock extends React.Component {
     
+    componentDidMount() {
+        this.interactable = setNodeDragable(ReactDOM.findDOMNode(this));
+    }
 
+    componentWillUnmount() {
+      this.interactable.unset();
+      this.interactable = null;
+    }
 
     render() { 
         const { articles } =this.props;
@@ -25,7 +34,7 @@ export default class DataBlock extends React.Component {
        }
 
         return (
-  <div class="data-block"> 
+  <div className="data-block" data-type="TITLE"> 
 
             <span> DVM </span>
 

@@ -52,14 +52,8 @@ export default class Layout extends React.Component {
          <div>
 
 
-
-        { DataView  }
-  <div class="display-panel">
-  {this.props.children}
- {
-    DisplayView
- }
-  </div>
+         <DataPanel articles={this.props.articles}> </DataPanel>
+         <DisplayPanel articles = {this.props.articles}> </DisplayPanel>
       
      <FunctionPanel> 
     </FunctionPanel>
