@@ -1,5 +1,5 @@
 import React from "react";
-import {  Form, Input, Button, Checkbox, Radio, Tooltip, Icon,notification  } from "antd";
+import {  Form, Input, Button, Checkbox, Radio, Tooltip, Icon,Modal  } from "antd";
 
 import { connect } from "react-redux";
 
@@ -17,15 +17,31 @@ const FormItem = Form.Item;
 })
 export default class ObjectDefinition extends React.Component {
 
+constructor(props) {
+    super(props);
+this.state={ visible:false ,}
+  }
+
 
 GoToStepThree()
 {
 
-
-
 this.props.dispatch(ForwardStep());
 }
 
+showMessage(){
+   this.setState({
+      visible: true,
+    });
+}
+handleOk(){
+
+this.GoToStepThree();
+
+}
+handleCancel(){
+  this.setState({visible:false})
+}
 
     render() {
 
@@ -51,9 +67,21 @@ this.props.dispatch(ForwardStep());
         </FormItem>
 
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
-          <Button type="primary" onClick={this.GoToStepThree.bind(this)}>Check</Button>
+        
+          <Button type="primary" onClick={this.showMessage.bind(this)}>Check</Button>
         </FormItem>
       </Form>
+
+
+
+
+
+    <Modal title="Notification" visible={this.state.visible}
+          onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}
+        >
+         The corresponding  archiving object is MM_MATBEL. Please also fill in the top 5 largest Tables.
+        </Modal>
+
         </div>
 
       );

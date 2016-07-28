@@ -1,8 +1,13 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Button,Card,Icon } from "antd";
 
-import { CloseMainPanel } from "../../Actions/KnowledgeAction";
+import ArticleMenuTile from "./ArticleMenuTile";
+import { AddCard }  from "../../Actions/KnowledgeAction";
 
+import { CloseMainPanel } from "../../Actions/KnowledgeAction";
+import { setCardDragable } from "../../interactScript";
+import { setAreaDropable } from "../../interactScript";
 import { connect } from "react-redux";
 
 
@@ -12,26 +17,55 @@ import { connect } from "react-redux";
     };
     
 })
-export default class FunctionPanel extends React.Component {
+export default class MainPanel extends React.Component {
+
+    CloseMainCardPanel(){
+
+      this.props.dispatch(CloseMainPanel());
+
+    }
+
+    componentDidMount(){
+      
+      setCardDragable(ReactDOM.findDOMNode(this));
 
 
-   CloseMainCardPanel(){
+      const props = this.props;
+      this.interactable = setAreaDropable({
 
-  this.props.dispatch(CloseMainPanel());
-
-   }
+          element: ReactDOM.findDOMNode(this),
+          accept: '.menu-tile',
+          ondrop: function(event) {
+              let draggableElement = event.relatedTarget;
+              console.log("draggableElement",draggableElement);
+              switch(draggableElement.getAttribute('data-type')){
+              case "MENU":
+              {
+                  //alert("menu alert");
+                  props.dispatch(AddCard( draggableElement.getAttribute('data-id')));
+                  break;            
+              }
+              default:
+                  ;
+              }
+              
+              //props.dispatch(AddCard( props.uniquekey ));
+          }
+      });
+  
+    }
 
     render() {
-const { results } = this.props;
+      const { results } = this.props;
 
-const DisplayMain= results.map((result)=><Card class = "tile" key={result.ARTICLE_ID} title={ result.ARCHOBJ }  style={{ width: 200 }}><p>{result.ARTICLE_NAM }</p>
-    		 <p>{result.ARTICLE_DSC }</p>
-				<p>{"Total Size:" + result.TOTAL_SIZE} </p>
-    			</Card>);
+      const DisplayMain= results.map((result)=><ArticleMenuTile article_id={result.ARTICLE_ID} archobj={result.ARCHOBJ} 
+        article_nam={result.ARTICLE_NAM} article_dsc={result.ARTICLE_DSC} total_size={result.TOTAL_SIZE}/>);
+        
+    		 
 
         return (
-        	<div>
-           <Card title="DVM Articles" extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />} style={{ width: 800 }} >
+        	<div className="main-panel">
+           <Card title="DVM Articles" extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />}  >
         	{DisplayMain}
           </Card>
         </div>
