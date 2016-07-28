@@ -1,7 +1,5 @@
  import interact from "interact.js";
- import $ from "jquery";
  
-
   let dragMoveListener = function(event) {
     let target = event.target,
       x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
@@ -51,8 +49,8 @@
         endOnly: true,
         elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
       },
-      onmove: dragMoveListener
-      
+      onmove: dragMoveListener 
+
     });
     return interactable;
   };
@@ -79,35 +77,6 @@
     return interactable;
   };
 
-  export function handleFocus(ele) {
-    $(ele).click(function() {
-      $(ele).css("zIndex", 101);
-      $(ele).siblings().css("zIndex", 100);
-    });
-  };
 
- let setGlobalFree = function() {
-    try {
-      $('#loadingOverlay').fadeOut(200);
-      document.getElementById('wrapper').classList.remove('blur-content');
-    } catch (e) {}
-  };
-
-  let getGlobalBusy = function() {
-    try {
-      $('#loadingOverlay').fadeIn(200);
-      document.getElementById('wrapper').classList.remove('blur-content');
-      document.getElementById('wrapper').classList.add('blur-content');
-    } catch (e) {}
-  };
-
-  $(document).ajaxStart(function() {
-    setGlobalBusy();
-  });
-  $(document).ajaxStop(function() {
-    setGlobalFree();
-  });
-
-  
 
 

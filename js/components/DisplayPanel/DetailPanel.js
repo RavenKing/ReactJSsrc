@@ -1,9 +1,11 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Button,Card,Icon} from "antd";
 import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
 import { RemoveCard } from "../../Actions/KnowledgeAction";
+import { setCardDragable } from "../../interactScript";
 
 @connect((store)=>{
     return {
@@ -17,37 +19,43 @@ export default class DetailPanel extends React.Component {
 
   NavLeft(){
 
- var data = this.state.articles;
- var pagenumber = this.state.page -1 ;
- this.setState({articles:data,
+    var data = this.state.articles;
+    var pagenumber = this.state.page -1 ;
+    this.setState({articles:data,
           page:pagenumber
- })
+    })
   }
 
- NavRight(){
+  NavRight(){
  
- var data = this.state.articles;
- var pagenumber = this.state.page + 1;
- this.setState({articles:data,
+    var data = this.state.articles;
+    var pagenumber = this.state.page + 1;
+    this.setState({articles:data,
           page:pagenumber
- })
+    })
 
   }
- componentWillMount(){
+
+  componentDidMount() {
+    setCardDragable(ReactDOM.findDOMNode(this));
+  }
+
+  componentWillMount(){
+   
 
   // get number 
-  const { articlenumber } = this.props;
-  const { articles } = this.props;
-  const { results } = articles.articles;
+    const { articlenumber } = this.props;
+    const { articles } = this.props;
+    const { results } = articles.articles;
     const target = results.filter((result)=>{ return result.ARTICLE_ID == articlenumber })
  
-  this.setState({
-    articles:target[0],
-    page:1
-  })
+    this.setState({
+      articles:target[0],
+      page:1
+    })
 
 
-        }
+}
 
     removeCard(){
 
@@ -61,7 +69,7 @@ export default class DetailPanel extends React.Component {
       console.log(this.state);
    return (
 
-  <div>
+  <div className="detail-panel">
 
       <Card title={this.state.articles.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
 <div class="leftside" onClick={this.NavLeft.bind(this)}>
