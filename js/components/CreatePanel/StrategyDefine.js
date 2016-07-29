@@ -1,5 +1,5 @@
 import React from "react";
-import { Button,Card,Icon,Form,Input,Checkbox } from "antd";
+import { Button,Card,Icon,Form,Input,Checkbox,Popover } from "antd";
 
 import { connect } from "react-redux";
 
@@ -11,6 +11,9 @@ import ArchivingForm from "./ArchivingForm";
 
 const FormItem=Form.Item;
 const CheckboxGroup = Checkbox.Group;
+
+//back 
+import BackButton from "./BackButton";
 
 @connect((store)=>{    
     return {
@@ -67,8 +70,12 @@ console.log(this.state);
         	<h1> Strategy </h1>
         	<div class="margin-top10">
         	<div class="aligncenter margin-bottom10">
-         <CheckboxGroup options={DVMmethod} onChange={this.onChange.bind(this)}/>
-         </div>
+          <Popover content="75% of our customers choose Archiving">
+          <div>
+          <CheckboxGroup options={DVMmethod} onChange={this.onChange.bind(this)}/>
+          </div>
+         </Popover>
+           </div>
           {
           	displaypart
           }
@@ -84,7 +91,10 @@ console.log(this.state);
 
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
 
+
       <Button type="primary" >Save</Button>
+      
+      <BackButton></BackButton>
         </FormItem>
       </Form>
 </div>

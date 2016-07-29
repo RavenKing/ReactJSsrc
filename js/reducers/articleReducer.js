@@ -62,6 +62,16 @@ export default function reducer(state={
             return {...state,newArticle:newArticle}
         }
 
+        case "BACT_ONE_STEP":
+         {
+                const { newArticle } = state;
+                newArticle.currentstep = newArticle.currentstep - 1 ; 
+         return {...state,newArticle:newArticle}
+
+
+
+         }
+
 
 
     }

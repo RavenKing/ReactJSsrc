@@ -34,7 +34,7 @@ export default class DataItem extends React.Component {
    
         return (
             <div className="data-item" data-type="ITEM" data-id={this.props.uniquekey}>
-              <Button type="dashed" onClick={this.AddOneCard.bind(this)}>
+              <Button type="dashed" >
               {    this.props.title       }    
               </Button>
             </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-
+import FunctionItem from "./FunctionItem";
 import { ShowMainPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
 
 
@@ -29,12 +29,12 @@ ShowMain(){
 
 
         return (
-       <div class = "function-panel ">
-         <Button type="ghost" onClick ={ this.CreatePanel.bind(this)}>Create</Button>
-         <Button type="ghost">Edit</Button>
-         <Button type="ghost">Delete</Button>
-         <Button type="ghost" onClick = {this.ShowMain.bind(this) }>Show Main</Button>
-  </div>
+       <div className = "function-panel ">
+         <FunctionItem text="Create" id="1"/>
+         <FunctionItem text="Edit" id="2"/>
+         <FunctionItem text="Delete" id="3"/>
+         <FunctionItem text="Show Main" id="4"/>
+        </div>
       );
   }
 }

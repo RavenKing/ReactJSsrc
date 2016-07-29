@@ -1,5 +1,5 @@
 import React from "react";
-import { Button,Card,Icon,Form,Input,Checkbox,InputNumber } from "antd";
+import { Button,Card,Icon,Form,Input,Checkbox,InputNumber,Popover } from "antd";
 
 import { connect } from "react-redux";
 
@@ -34,7 +34,11 @@ export default class ArchivingForm extends React.Component {
           {...formItemLayout}
           label="Retention Time"
         >
-         <InputNumber min={12} max={999} defaultValue={3}  /> <p className="ant-form-text" >Month</p>
+        <Popover content="AVG:12Month" placement="right">
+        <div>
+         <InputNumber min={12} max={999} defaultValue={12}  /> <p className="ant-form-text" >Month</p>
+        </div>
+        </Popover>
         </FormItem>
         <FormItem
           {...formItemLayout}
