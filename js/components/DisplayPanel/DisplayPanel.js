@@ -8,8 +8,8 @@ import CreatePanel from "../CreatePanel/CreatePanel";
 import { setAreaDropable } from "../../interactScript";
 
 import { AddCard }  from "../../Actions/KnowledgeAction";
-import { ShowMainPanel } from "../../Actions/KnowledgeAction";
 
+import { ShowMainPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
 import { connect } from "react-redux";
 
 @connect((store)=>{    
@@ -34,7 +34,7 @@ export default class DisplayPanel extends React.Component {
       this.interactable = setAreaDropable({
 
           element: ReactDOM.findDOMNode(this),
-          accept: '.data-item, .data-block',
+          accept: '.data-item, .data-block,.func-item',
           ondrop: function(event) {
               let draggableElement = event.relatedTarget;
               console.log("draggableElement",draggableElement);
@@ -51,11 +51,16 @@ export default class DisplayPanel extends React.Component {
                   props.dispatch(ShowMainPanel());
                   break;
               }
-              case "MENU":
+              case "FUNC":
               {
-                  //alert("menu alert");
-                  props.dispatch(AddCard( draggableElement.getAttribute('data-id')));
-                  break;            
+                  var data_id = draggableElement.getAttribute('data-id');
+                  if(data_id == "1"){
+                      props.dispatch(ShowCreatePanel());
+                  }
+                  else if(data_id == "4"){
+                      props.dispatch(ShowMainPanel());
+                  }
+                  break;
               }
               default:
                   ;

@@ -105,7 +105,11 @@ export function ForwardStep(){
   }
 }
 
+export function BackwardStep(){
 
+ return dispatch=>dispatch({type:"BACT_ONE_STEP"})
+
+}
 
 
 

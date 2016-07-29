@@ -1,11 +1,13 @@
 import React from "react";
-import { Button,Card,Icon,Form,Input , Collapse} from "antd";
+import { Button,Card,Icon,Form,Input , Collapse,Rate,Popover} from "antd";
 
 import { connect } from "react-redux";
 
 import { ForwardStep } from "../../Actions/KnowledgeAction";
 const FormItem = Form.Item;
 const Panel = Collapse.Panel;
+
+import BackButton from "./BackButton"
 
 @connect((store)=>{    
     return {
@@ -26,6 +28,10 @@ this.props.dispatch(ForwardStep());
         	<div>
  <Collapse defaultActiveKey={['1']} accordion >
     <Panel header="Archiving Object MM_MATEBEL" key="1">
+    
+<Popover content="Popular Object In Our Database">
+    <div>Rank:<Rate disabled defaultValue={3} /></div>
+    </Popover>
       <p>Business Content of the Archiving Object</p>
     </Panel>
    </Collapse>
@@ -77,8 +83,10 @@ this.props.dispatch(ForwardStep());
 
       </Form>
 
-
-        <Button class="margin-top10" type="primary" onClick={this.GoToStepFour.bind(this)}>Next</Button>
+ <FormItem>
+        <Button type="primary" onClick={this.GoToStepFour.bind(this)}>Next</Button>
+        <BackButton></BackButton>
+        </FormItem>
 </div>
         </div>
 

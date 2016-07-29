@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 
 import { ForwardStep } from "../../Actions/KnowledgeAction";
 
+//back
+import BackButton from "./BackButton";
 
 const FormItem = Form.Item;
 
@@ -69,17 +71,17 @@ handleCancel(){
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
         
           <Button type="primary" onClick={this.showMessage.bind(this)}>Check</Button>
+        
+          <BackButton></BackButton>
         </FormItem>
+
       </Form>
-
-
-
 
 
     <Modal title="Notification" visible={this.state.visible}
           onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}
         >
-         The corresponding  archiving object is MM_MATBEL. Please also fill in the top 5 largest Tables.
+         This table belongs to archiving object is MM_MATBEL. Please also fill in the top 3 largest Tables.
         </Modal>
 
         </div>
