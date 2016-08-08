@@ -89,12 +89,19 @@ export default class CreatePanel extends React.Component {
             break;
           }
           case 2 :{ 
-            displaystep= <BasicInfo></BasicInfo>; 
-            break
+            if(newArticle.ARCHOBJ && newArticle.TABLES){
+              displaystep= <BasicInfo obj={newArticle.ARCHOBJ} tables={newArticle.TABLES}></BasicInfo>; 
+              break;
+            }
+            else{
+              break;
+            }
+            
           }
           case 3 :{
 
             displaystep =<StrategyDefine></StrategyDefine>
+            break;
 
           }
 

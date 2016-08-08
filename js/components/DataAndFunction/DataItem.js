@@ -29,8 +29,6 @@ export default class DataItem extends React.Component {
       this.interactable = null;
   }
     render() {
-
-        console.log("item's uniquekey:",this.props.uniquekey);
    
         return (
             <div className="data-item" data-type="ITEM" data-id={this.props.uniquekey}>

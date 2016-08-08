@@ -7,37 +7,38 @@ import BestPanel from "./BestPanel";
 export default class DvmPanel extends React.Component {
     
     render() {
-		const { Page } = this.props;
-		const { Article} = this.props;
- 		var displaydata ;
- 		console.log( Article );
- 		if(Page == 1)
- 		{
-			displaydata =  <TableCharts Article={Article}></TableCharts>
- 		}
- 		else if(Page ==2)
- 		{
+    const { Page } = this.props;
+    const { Article} = this.props;
+    var displaydata ;
+    console.log( Article );
+    if(Page == 1)
+    {
+      displaydata =  <TableCharts Article={Article}></TableCharts>
+    }
+    else if(Page ==2)
+    {
 
-			displaydata =  <StrategyPanel Strategy = { Article }> </StrategyPanel>
+      displaydata =  <StrategyPanel Strategy = { Article }> </StrategyPanel>
 
-		}
-		else if(Page ==3)
- 		{
-          displaydata = <BestPanel archobj={Article.ARCHOBJ}></BestPanel>
+    }
+    else if(Page ==3)
+    {
+          displaydata = <BestPanel archobj={Article.ARCHOBJ} articleid={Article.ARTICLE_ID} customerid={Article.CUSTOMER_ID} bestpractice={Article.bestpractice}></BestPanel>
     
- 		}
+    }
 
         return (
-  			<div>
-  			  	
-  			  	<h1>Article Name: {Article.ARTICLE_NAM}</h1>   			  	
-  			  	<hr/>
-  			  	<br/>
+        <div>
+            
+            <h1>Article Name: {Article.ARTICLE_NAM}</h1>            
+            <hr/>
+            <br/>
 
-  				
+          
 
-				{displaydata}
-  			</div>
+        {displaydata}
+        </div>
       );
   }
 }
+

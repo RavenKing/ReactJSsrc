@@ -15,12 +15,14 @@ export default class StrategyPanel extends React.Component {
       console.log("Startegy is:",Strategy);
       var columns = [{
         title: 'Strategy Method',
+        width:"140px",
         dataIndex: 'name',
         render: function(text) {
           return <a href="javascript:;">{text}</a>;
         }}, 
         {
           title: 'Retention Time',
+          width:'140px',
           dataIndex: 'Retention'
         }, 
         {

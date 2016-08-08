@@ -111,6 +111,115 @@ export function BackwardStep(){
 
 }
 
+export function GetBestPractice(data){
+
+  var customerid = data.customerid;
+  
+  var archobj = data.archobj;
+  
+  var articleid = data.articleid;
+  
+        
+        
+
+ return dispatch=>{
+  
+
+  /* axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SMCUST?$filter=CUSTOMER_ID eq "+customerid,{
+            headers:{
+              'X-My-Custom-Header': 'Header-Value',
+              'content-type':'application/json'
+        },
+        async:false,
+            auth: {
+                username: 'zengheng',
+                password: 'Sap12345'
+            }
+        }).then(function (response,err) {
+            var industry = response.data.d.results[0].INDUSTRY;
+            console.log("the industry is:",industry);
+
+            axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=" + industry,{
+                headers:{
+                  'X-My-Custom-Header': 'Header-Value',
+                  'Content-Type': 'application/json'
+                },
+                async:false,
+                auth: {
+                  username:'zengheng',
+                  password: 'Sap12345'
+                }
+            }).then(function(response,err){
+              
+              var data = response.data.results[0];
+              data.articleid = articleid;
+              console.log("data is",data);
+              dispatch({type:"GET_BEST_PRACTICE",payload:data});
+
+            }).catch(function(err){
+              console.log(err);
+            })
+
+            
+         }).catch(function(err){
+          console.log(err);
+        })*/
+
+
+          axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=AUTO" ,{
+                headers:{
+                  'X-My-Custom-Header': 'Header-Value',
+                  'Content-Type': 'application/json'
+                },
+               
+                auth: {
+                  username:'zengheng',
+                  password: 'Sap12345'
+                }
+            }).then(function(response,err){
+              
+              var data = response.data.results[0];
+              data.articleid = articleid;
+              console.log("data is",data);
+              dispatch({type:"GET_BEST_PRACTICE",payload:data});
+
+            }).catch(function(err){
+              console.log(err);
+            })
+
+  
+    }
+}
+
+export function GetTop5Tables(attr_nam){
+
+  return dispatch=>{
+
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/Createarticle_test.xsjs?attr_nam="+attr_nam,{
+      headers:{
+        'X-My-Custom-Header':'Header-Value',
+        'content-type':'application/json'
+      },
+      auth:{
+        username:'zengheng',
+        password:'Sap12345'
+      }
+      
+    }).then(function(response,err){
+      var data = response.data.results;
+      console.log(data);
+      dispatch({type:"GET_TOP5_TABLES",payload:data});
+     
+    }).catch(function(err){
+      console.log(err);
+    })
+
+  }
+
+    
+
+
+}
 
 
 

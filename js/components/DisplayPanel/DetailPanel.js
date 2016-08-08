@@ -4,7 +4,7 @@ import { Button,Card,Icon} from "antd";
 import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
-import { RemoveCard } from "../../Actions/KnowledgeAction";
+import { RemoveCard,GetBestPractice} from "../../Actions/KnowledgeAction";
 import { setCardDragable } from "../../interactScript";
 
 @connect((store)=>{
@@ -14,7 +14,12 @@ import { setCardDragable } from "../../interactScript";
     
 })
 export default class DetailPanel extends React.Component { 
+constructor(props)
+{
+super(props)
 
+
+}
 
 
   NavLeft(){
@@ -48,7 +53,17 @@ export default class DetailPanel extends React.Component {
     const { articles } = this.props;
     const { results } = articles.articles;
     const target = results.filter((result)=>{ return result.ARTICLE_ID == articlenumber })
- 
+
+    
+    var parms = { 
+     customerid:32326,
+     articleid : target[0].ARTICLE_ID,
+     archobj:target[0].ARCHOBJ
+    }
+
+      this.props.dispatch(GetBestPractice(parms))
+  
+
     this.setState({
       articles:target[0],
       page:1
@@ -87,3 +102,4 @@ export default class DetailPanel extends React.Component {
       );
   }
 }
+
