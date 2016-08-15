@@ -14,30 +14,41 @@ import { setCardDragable } from "../../interactScript";
     
 })
 export default class DetailPanel extends React.Component { 
-constructor(props)
-{
-super(props)
-
-
-}
+  constructor(props)
+  {
+    super(props)
+  }
 
 
   NavLeft(){
 
     var data = this.state.articles;
-    var pagenumber = this.state.page -1 ;
-    this.setState({articles:data,
-          page:pagenumber
-    })
+    if(this.state.page > 1){
+      
+      var pagenumber = this.state.page -1 ;
+
+      this.setState({
+        articles:data,
+        page:pagenumber
+      })
+
+    }
+    
   }
 
   NavRight(){
  
     var data = this.state.articles;
-    var pagenumber = this.state.page + 1;
-    this.setState({articles:data,
-          page:pagenumber
+    if(this.state.page < 3){
+
+      var pagenumber = this.state.page + 1;
+      
+      this.setState({
+        articles:data,
+        page:pagenumber
     })
+    }
+    
 
   }
 
@@ -87,10 +98,10 @@ super(props)
   <div className="detail-panel">
 
       <Card title={this.state.articles.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
-<div class="leftside" onClick={this.NavLeft.bind(this)}>
-  <Icon type="left" />
-</div>
- <div class="middlecontainer">  
+      <div className="leftside" onClick={this.NavLeft.bind(this)}>
+      <Icon type="left" />
+      </div>
+      <div className="middlecontainer">  
 
   <DvmPanel Page={this.state.page} Article={this.state.articles}> </DvmPanel>
   </div>

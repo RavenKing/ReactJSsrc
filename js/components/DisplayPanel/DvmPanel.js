@@ -28,15 +28,8 @@ export default class DvmPanel extends React.Component {
     }
 
         return (
-        <div>
-            
-            <h1>Article Name: {Article.ARTICLE_NAM}</h1>            
-            <hr/>
-            <br/>
-
-          
-
-        {displaydata}
+        <div> 
+          {displaydata}
         </div>
       );
   }

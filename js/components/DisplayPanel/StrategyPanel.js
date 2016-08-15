@@ -21,8 +21,8 @@ export default class StrategyPanel extends React.Component {
           return <a href="javascript:;">{text}</a>;
         }}, 
         {
-          title: 'Retention Time',
-          width:'140px',
+          title: 'Retention Time(Month)',
+          width:'150px',
           dataIndex: 'Retention'
         }, 
         {
@@ -50,61 +50,66 @@ export default class StrategyPanel extends React.Component {
             text:null
            
         },
+        credits: {
+          enabled: false
+        },
         yAxis: {
-            gridLineWidth: 0,
-            labels:{  
-                       enabled:false  
-                     }          
+            min: 0,
+            title: {
+                text: 'Total Size'
+            }      
         },
         xAxis: {
-                      gridLineWidth: 0,
+            gridLineWidth: 0,
             categories:  [Strategy.ARCHOBJ] 
         },
         series: 
         [{
-            name:'Savings',
+            name:'Estimated Saving Size(GB)',
             data: [parseInt(Strategy.SAVING_EST)] 
         },
         {
-            name:'Remaining Size',
+            name:'Estimated Remaining Size(GB)',
             data:[parseInt(Strategy.TOTAL_SIZE)-parseInt(Strategy.SAVING_EST)]
 
         }]
+        
+
 
       }
     
 
 
         return (
-
-        <div>
         <div>
 
-          <div class="margin-bottom10 strategychart">
-              <ReactHighCharts config={config}> </ReactHighCharts>
-       
-          </div>
-          <div class="strategychartcircle">
-           Saving Percent:&nbsp;&nbsp;&nbsp;
-              <Progress type="circle" percent={parseInt(Strategy.SAVING_EST_P)} />
-          </div>
-                    
-          </div>
-              <h2>Archiving Obeject:{Strategy.ARCHOBJ}|Total Size:{Strategy.TOTAL_SIZE}</h2>
+          <div>
 
-            
-              <Table columns={columns} dataSource={data} pagination={false} />
-
-              
-            
+            <h2>Archiving Obeject:&nbsp;{Strategy.ARCHOBJ}&nbsp;|&nbsp;Total Size:{Strategy.TOTAL_SIZE}GB</h2>
             <br/>
-
-            <h2>Comments:</h2>
-            <h3>{Strategy.COMMENT}</h3>
+            <Table columns={columns} dataSource={data} pagination={false} />
             
+          </div>
 
+          <div>
+            <div className="strategyPanelLeft">
 
-        </div>
+              <Progress type="circle" percent={parseInt(Strategy.SAVING_EST_P)} />
+                <br/>
+                <br/>
+                <p>Estimated Saving Percent&nbsp;&nbsp;&nbsp;</p>
+                <br/>
+              <h2>Comments:</h2>
+              <h4>{Strategy.COMMENT}</h4>
+              </div>
+              <div className="strategyPanelRight">
+                <br/>
+                <ReactHighCharts config={config}> </ReactHighCharts>
+              </div>
+
+          </div>
+
+          </div>
 
   
       );

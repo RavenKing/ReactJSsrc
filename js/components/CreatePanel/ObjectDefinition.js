@@ -4,7 +4,7 @@ import { Form, Input, Button, Checkbox, Radio, Tooltip, Icon,Modal  } from "antd
 
 import { connect } from "react-redux";
 
-import { ForwardStep,GetTop5Tables } from "../../Actions/KnowledgeAction";
+import { ForwardStep,GetTop5Tables,SetArticleNamAndDsc } from "../../Actions/KnowledgeAction";
 
 //back
 import BackButton from "./BackButton";
@@ -26,6 +26,8 @@ export default class ObjectDefinition extends React.Component {
         this.state={ 
 
           visible:false,
+          article_nam:"",
+          article_dsc:"",
           obj:""
 
         }
@@ -34,21 +36,51 @@ export default class ObjectDefinition extends React.Component {
 
     GoToStepThree()
     {
+        //users do not input the archiving object or table 
+        if(this.state.obj == ""){
+          alert("please input the object or table");
+        }
+        else{
+          this.props.dispatch(GetTop5Tables(this.state.obj));
+          const { newArticle } = this.props.articles;
+          //the input is not exist
+          if(newArticle.TABLES == undefined)
+          {
+            alert("the input is not exist!");
+          }
+          else{
+            this.props.dispatch(SetArticleNamAndDsc(this.state));  
 
-        this.props.dispatch(ForwardStep());
-
-    }
-
-    showMessage(){
-
-        this.props.dispatch(GetTop5Tables(this.state.obj));  
-
-        this.GoToStepThree();
+            this.props.dispatch(ForwardStep());
+          }
+          
+        }
         
+
     }
+
+   
     handleChange(e){
         console.log(e.target.value);
-        this.setState({obj:e.target.value});
+        switch(e.target.name ){
+          case "article_nam":
+          {
+
+              this.setState({article_nam:e.target.value});
+              break;
+          }
+          case "article_dsc":
+          {
+              this.setState({article_dsc:e.target.value});
+              break;
+          }
+          case "obj":
+          {
+              this.setState({obj:e.target.value});
+              break;
+          }
+        }
+        
 
     }
 
@@ -75,16 +107,30 @@ export default class ObjectDefinition extends React.Component {
                   <p className="ant-form-text" id="typeName" name="typeName">DVM</p>                  
                 </FormItem>
 
+                 <FormItem
+                  {...formItemLayout}
+                  label="Article Name:"
+                >
+                  <Input name="article_nam" type="text"  placeholder="Type in an article name" onChange={this.handleChange.bind(this)}/>
+                </FormItem>
+
+                 <FormItem
+                  {...formItemLayout}
+                  label="Article Description:"
+                >
+                  <Input name="article_dsc" type="text"  placeholder="Type in a description of the article" onChange={this.handleChange.bind(this)}/>
+                </FormItem>
+
                 <FormItem
                   {...formItemLayout}
                   label="What object do you want to record"
                 >
-                  <Input type="text"  placeholder="Type in a table name or archiving object" onChange={this.handleChange.bind(this)}/>
+                  <Input name="obj" type="text"  placeholder="Type in a table name or archiving object" onChange={this.handleChange.bind(this)}/>
                 </FormItem>
 
                 <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
         
-                  <Button type="primary" onClick={this.showMessage.bind(this)}>Check</Button>
+                  <Button type="primary" onClick={this.GoToStepThree.bind(this)}>Check</Button>
         
                   <BackButton/>
                 </FormItem>
