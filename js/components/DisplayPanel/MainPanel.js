@@ -89,7 +89,7 @@ export default class MainPanel extends React.Component {
           dataIndex: 'archobj'
         },
         {
-          title: 'Total Size',
+          title: 'Total Size (GB)',
           width:150,
           dataIndex: 'total_size'
         }];

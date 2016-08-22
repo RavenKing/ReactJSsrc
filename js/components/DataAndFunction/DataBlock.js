@@ -17,14 +17,19 @@ export default class DataBlock extends React.Component {
     }
 
     render() { 
+
         const { articles } =this.props;
+      console.log(articles);
         var  DataItems;
       if(articles.fetched === true)
       {
        
       const  { results } = articles.articles;
+      const topfive = results.concat();
 
-         DataItems = results.map((item)=><DataItem title = {item.ARTICLE_NAM} key = {item.ARTICLE_ID} uniquekey={item.ARTICLE_ID} />);
+
+      const topfive1 = topfive.splice(0,5);
+         DataItems = topfive1.map((item)=><DataItem title = {item.ARTICLE_NAM} key = {item.ARTICLE_ID} uniquekey={item.ARTICLE_ID} />);
       
        }
        else
@@ -35,9 +40,9 @@ export default class DataBlock extends React.Component {
 
         return (
   <div className="data-block" data-type="TITLE"> 
-
+<div class="data-title" >
             <span> DVM </span>
-
+</div>
             { DataItems }
   </div>
       );

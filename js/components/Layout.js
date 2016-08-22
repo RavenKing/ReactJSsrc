@@ -30,8 +30,18 @@ import DisplayPanel from "./DisplayPanel/DisplayPanel"
 export default class Layout extends React.Component {
   constructor(props){
   super(props)
-  this.props.dispatch(fetchArticles())
+   
+this.props.dispatch(fetchArticles())
+}
+
+
+  componentWillMount()
+  {
+this.props.dispatch(fetchArticles())
+
   }
+
+
       render() {
       var DisplayView,DataView;
        const {  articles } = this.props;
@@ -45,6 +55,7 @@ export default class Layout extends React.Component {
        {
         DisplayView = <h1>Good</h1>
        }
+
 
       
         

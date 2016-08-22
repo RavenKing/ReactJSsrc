@@ -112,15 +112,30 @@ li {
   z-index: 0;
 }
 .main-panel{
-  width:500px;
-  height:300px;
+  width:700px;
+ 
 
 }
 .detail-panel {
-  width:800px;
-  height:250px;
+  width:750px;
+ 
 }
-
+.tableChart{
+  width:700px;
+  
+}
+.bscInfo{
+  margin-left: 25px;
+}
+.strategyPanelLeft{
+  margin:auto;
+  width:70%;
+  display: inline-block;
+}
+.strategyPanelRight{
+  width:30%;
+  display: inline-block;
+}
 .help-bg {
   background-image: url(../img/help-bg.svg);
   background-repeat: no-repeat;
