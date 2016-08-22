@@ -56,7 +56,7 @@ export default class StrategyPanel extends React.Component {
         yAxis: {
             min: 0,
             title: {
-                text: 'Total Size'
+                text: 'Total Size (GB)'
             }      
         },
         xAxis: {
@@ -93,14 +93,13 @@ export default class StrategyPanel extends React.Component {
 
           <div>
             <div className="strategyPanelLeft">
-
-              <Progress type="circle" percent={parseInt(Strategy.SAVING_EST_P)} />
+              <div class="textcenter">
+              <Progress type="circle" percent={parseInt(Strategy.SAVING_EST_P)} width="200"/>
                 <br/>
                 <br/>
                 <p>Estimated Saving Percent&nbsp;&nbsp;&nbsp;</p>
                 <br/>
-              <h2>Comments:</h2>
-              <h4>{Strategy.COMMENT}</h4>
+               </div>
               </div>
               <div className="strategyPanelRight">
                 <br/>
@@ -109,6 +108,10 @@ export default class StrategyPanel extends React.Component {
 
           </div>
 
+            <div>
+              <h2>Comments:</h2>
+              <h4>{Strategy.COMMENT}</h4>
+              </div>
           </div>
 
   

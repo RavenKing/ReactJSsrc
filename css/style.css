@@ -129,11 +129,11 @@ li {
 }
 .strategyPanelLeft{
   margin:auto;
-  width:70%;
+  width:60%;
   display: inline-block;
 }
 .strategyPanelRight{
-  width:30%;
+  width:40%;
   display: inline-block;
 }
 .help-bg {
@@ -375,7 +375,6 @@ li {
 .mainstep{
  margin-top:10px;
 
-
 }
 .custom-size{
     text-align: center;
@@ -432,4 +431,16 @@ margin-bottom: 10px;
 
 }
 /* end of create Panel */
+
+
+/*Display panel*/
+
+
+
+.textcenter{
+
+text-align: center
+
+}
+
 

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Button,Card,Icon,Table } from "antd";
+import { Button,Card,Icon,Table,Input } from "antd";
 
 import ArticleMenuTile from "./ArticleMenuTile";
 import { AddCard }  from "../../Actions/KnowledgeAction";
@@ -21,8 +21,20 @@ export default class MainPanel extends React.Component {
     constructor(props) {
 
         super(props);
-        this.state={ 
+     
+      const { results } = this.props;
+  var data = results.map((result)=>{
+          return {
+            key:result.ARTICLE_ID,
+            article_nam:result.ARTICLE_NAM,
+            article_dsc:result.ARTICLE_DSC,
+            archobj:result.ARCHOBJ,
+            total_size:result.TOTAL_SIZE
+          }
+      });
 
+        this.state={ 
+          tabledata: data,
           selectedRowKeys: [],  // 这里配置默认勾选列
           loading: false,
 
@@ -52,17 +64,36 @@ export default class MainPanel extends React.Component {
       
     }
 
-    render() {
-      const { results } = this.props;
-      const { selectedRowKeys } = this.state;
-      const rowSelection = {
-        selectedRowKeys,
-        onChange: this.onSelectChange.bind(this),
-      };
 
-      const DisplayMain= results.map((result)=><ArticleMenuTile article_id={result.ARTICLE_ID} archobj={result.ARCHOBJ} 
-        article_nam={result.ARTICLE_NAM} article_dsc={result.ARTICLE_DSC} total_size={result.TOTAL_SIZE}/>);
-      var data = results.map((result)=>{
+
+
+   addnewCard(e)
+   {
+
+ console.log(e.target.rel)
+ this.props.dispatch(AddCard(e.target.rel));
+   }
+
+filterSearch(e){
+  
+   const { results } = this.props;
+   const searcharray = results.concat();
+   var data = searcharray.filter((one)=>{
+
+    if(one.ARTICLE_NAM.indexOf(e.target.value)!=-1)
+    {
+        return one;     
+    }
+    else if(one.ARTICLE_DSC.indexOf(e.target.value)!=-1)
+    {
+      return one;
+
+    }
+
+   });
+
+
+  var tabledata = data.map((result)=>{
           return {
             key:result.ARTICLE_ID,
             article_nam:result.ARTICLE_NAM,
@@ -71,12 +102,31 @@ export default class MainPanel extends React.Component {
             total_size:result.TOTAL_SIZE
           }
       });
+    this.setState({
+        "tabledata": tabledata
+      }
+      );
+
+}
+
+    render() {
+
+
+ console.log(this.state);
+      const { selectedRowKeys } = this.state;
+      const rowSelection = {
+        selectedRowKeys,
+        onChange: this.onSelectChange.bind(this),
+      };
+
+      
         
     	var columns = [        
         {
           title: 'Article Name',
           width:150,
-          dataIndex: 'article_nam'
+          dataIndex: 'article_nam',
+          render:(text,record)=><a href='#' onClick={this.addnewCard.bind(this)} rel={record.key}>{text}</a>
         },
         {
           title: 'Article Description',
@@ -98,7 +148,10 @@ export default class MainPanel extends React.Component {
         return (
         	<div className="main-panel">
            <Card title="DVM Articles" extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />}  >
-        	<Table columns={columns} dataSource={data} rowSelection={rowSelection} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
+        	<div class="margin-bottom10">
+          <Input placeholder="Search help" size="small" onChange={this.filterSearch.bind(this)}/>
+          </div>
+          <Table columns={columns} dataSource={this.state.tabledata}  pagination={{ pageSize: 10 }} scroll={{ y: 240 }} />
           </Card>
         </div>
 

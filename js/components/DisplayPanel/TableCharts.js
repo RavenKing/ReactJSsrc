@@ -9,9 +9,20 @@ export default class TableCharts extends React.Component {
     render() {
 
       const {Article} = this.props;
-            
+
+      const  bararry = Article.TABLES.concat();
+            bararry.sort(function (a, b) {
+  if (a.TBL_SIZE > b.TBL_SIZE) {
+    return -1;
+  }
+  if (a.TBL_SIZE < b.TBL_SIZE) {
+    return 1;
+  }
+  // a 必须等于 b
+  return 0;
+});
       const config={
-        chart:{type:"column"},
+        chart:{type:"bar"},
         title:{text:""},
         credits: {
           enabled: false
@@ -27,7 +38,7 @@ export default class TableCharts extends React.Component {
         },
         series: [{
             name:"Table",
-            data: Article.TABLES.map((table)=>{return parseInt(table.TBL_SIZE) })
+            data: bararry.map((table)=>{return parseInt(table.TBL_SIZE) })
         }],
         tooltip: {
             pointFormat: 'Table Size: <b>{point.y:.1f} GB</b>'
@@ -38,13 +49,11 @@ export default class TableCharts extends React.Component {
       return (
           <div>
             <div >
-              <h2 >Basic Information</h2>
+              <h2 >Basic Information: {Article.ARCHOBJ}</h2>
               <br/>  
               <hr/>        
               <br/>
               <h4 className="bscInfo">Customer Id: &nbsp;&nbsp;{Article.CUSTOMER_ID}</h4>
-              <h4 className="bscInfo">Modified By: &nbsp;&nbsp;</h4>
-              <h4 className="bscInfo">Modified On: &nbsp;&nbsp;</h4>
               <h4 className="bscInfo">Created By:  &nbsp;&nbsp;{Article.CREATE_BY}</h4>
               <h4 className="bscInfo">Created On:  &nbsp;&nbsp;{Article.CREATE_ON}</h4>
               <br/>
@@ -52,6 +61,7 @@ export default class TableCharts extends React.Component {
 
             <div className="tableChart">
               <h3>Related Tables</h3>  
+              <h4>Data Capture Date : {Article.CREATE_ON} </h4>
               <br/>
               <ReactHighCharts config={config}/>  
             </div>

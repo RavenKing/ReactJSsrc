@@ -53,7 +53,6 @@ this.props.dispatch(fetchArticles())
        }
        else
        {
-        DisplayView = <h1>Good</h1>
        }
 
 
