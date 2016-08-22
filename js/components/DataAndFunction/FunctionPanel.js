@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 import FunctionItem from "./FunctionItem";
-import { ShowMainPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
+import { ShowMainPanel,ShowEditPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
 
 
 import { connect } from "react-redux";
@@ -19,11 +19,14 @@ export default class FunctionPanel extends React.Component {
   {
      this.props.dispatch(ShowCreatePanel());
   }
-ShowMain(){
+  EditPanel(){
+      this.props.dispatch(ShowEditPanel());
+  }
+  ShowMain(){
 
-  this.props.dispatch(ShowMainPanel());
+      this.props.dispatch(ShowMainPanel());
 
-}
+  }
 
     render() {
 

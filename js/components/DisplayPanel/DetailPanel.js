@@ -4,8 +4,8 @@ import { Button,Card,Icon} from "antd";
 import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
-import { RemoveCard,GetBestPractice} from "../../Actions/KnowledgeAction";
-import { setCardDragable } from "../../interactScript";
+import { RemoveCard,GetBestPractice,ShowEditPanel} from "../../Actions/KnowledgeAction";
+import { setCardDragable,setAreaDropable } from "../../interactScript";
 
 @connect((store)=>{
     return {
@@ -54,6 +54,30 @@ export default class DetailPanel extends React.Component {
 
   componentDidMount() {
     setCardDragable(ReactDOM.findDOMNode(this));
+    
+    const props = this.props;
+    this.interactable = setAreaDropable({
+
+        element: ReactDOM.findDOMNode(this),
+        accept: '.func-item',
+        ondrop: function(event) {
+            let draggableElement = event.relatedTarget,             
+                dropzoneElement = event.target;
+
+            console.log("dropzoneElement:",dropzoneElement);
+
+            if(draggableElement.getAttribute('data-type') == "FUNC"){
+              
+                var drag_id = draggableElement.getAttribute('data-id');
+                if(drag_id == "2"){
+                    var drop_id = dropzoneElement.getAttribute('data-id');
+                    props.dispatch(ShowEditPanel(drop_id));
+                }
+                
+            }
+        }
+  
+    });
   }
 
   componentWillMount(){
@@ -72,7 +96,7 @@ export default class DetailPanel extends React.Component {
      archobj:target[0].ARCHOBJ
     }
 
-      this.props.dispatch(GetBestPractice(parms))
+    this.props.dispatch(GetBestPractice(parms))
   
 
     this.setState({
@@ -81,35 +105,34 @@ export default class DetailPanel extends React.Component {
     })
 
 
-}
+  }
 
     removeCard(){
 
-
- this.props.dispatch(RemoveCard(this.props.articlenumber));      
+      this.props.dispatch(RemoveCard(this.props.articlenumber));      
      
     }
 
     render() {  
 
-      console.log(this.state);
-   return (
+      console.log("detail panel's property:",this.props);
+      return (
 
-  <div className="detail-panel">
+        <div className="detail-panel" data-id={this.props.articlenumber}>
 
-      <Card title={this.state.articles.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
-      <div className="leftside" onClick={this.NavLeft.bind(this)}>
-      <Icon type="left" />
-      </div>
-      <div className="middlecontainer">  
+        <Card title={this.state.articles.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
+          <div className="leftside" onClick={this.NavLeft.bind(this)}>
+          <Icon type="left" />
+          </div>
+          <div className="middlecontainer">  
 
-  <DvmPanel Page={this.state.page} Article={this.state.articles}> </DvmPanel>
-  </div>
-  <div class="rightside" onClick={this.NavRight.bind(this)}>
-  <Icon type="right"/>
-  </div>
-   </Card>
-   </div>
+          <DvmPanel Page={this.state.page} Article={this.state.articles}> </DvmPanel>
+          </div>
+          <div className="rightside" onClick={this.NavRight.bind(this)}>
+          <Icon type="right"/>
+          </div>
+        </Card>
+        </div>
       );
   }
 }

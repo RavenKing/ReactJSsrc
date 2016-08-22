@@ -29,11 +29,20 @@ export function fetchArticles(){
 
 export function ShowMainPanel()
 {
-return dispatch=>{
+  return dispatch=>{
 
-   dispatch({type:"SHOW_ARTICLE_MAIN"}) 
+    dispatch({type:"SHOW_ARTICLE_MAIN"}) 
+  }
 }
-
+export function ShowEditPanel(data){
+    return dispatch=>{
+      dispatch({type:"SHOW_EDIT_PANEL",payload:data})
+    }
+}
+export function CloseEditPanel(data){
+    return dispatch=>{
+      dispatch({type:"CLOSE_EDIT_PANEL",payload:data})
+    }
 }
 export function CloseMainPanel()
 {
