@@ -6,12 +6,14 @@ import MainPanel from "./MainPanel";
 import DetailPanel from "./DetailPanel";
 import CreatePanel from "../CreatePanel/CreatePanel";
 import EditPanel from "../EditPanel/EditPanel";
+
 import { setAreaDropable } from "../../interactScript";
 
 import { AddCard }  from "../../Actions/KnowledgeAction";
 
 import { ShowMainPanel,ShowEditPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
 import { connect } from "react-redux";
+
 
 @connect((store)=>{    
     return {
@@ -42,13 +44,13 @@ export default class DisplayPanel extends React.Component {
               switch(draggableElement.getAttribute('data-type')){
               case "ITEM":
               {
-                  //alert("item drag");
+        
                   props.dispatch(AddCard(draggableElement.getAttribute('data-id')));
                   break;
               }
               case "TITLE":
               {
-                  //alert("title alert");
+                  
                   props.dispatch(ShowMainPanel());
                   break;
               }
@@ -107,26 +109,24 @@ export default class DisplayPanel extends React.Component {
          createpanel = <div></div>
       }
       //whether open edit panel
-      const { editPanel } = articles;
-      const { results } = articles.articles;
-      var editPanels = [<div></div>];
-
-      for(var i = 0; i < editPanel.length; i++){
-          if(editPanel[i].visible == true){
-            for(var j = 0;j < results.length;j++){
-              if(editPanel[i].article_id == results[j].ARTICLE_ID){
-                  editPanels.push(<EditPanel article_id={results[j].ARTICLE_ID} article_nam={results[j].ARTICLE_NAM} 
-                  article_dsc={results[j].ARTICLE_DSC} archobj={results[j].ARCHOBJ} saving_est={results[j].SAVING_EST} 
-                  saving_est_p={results[j].SAVING_EST_P} saving_act="5" saving_act_p="89" comment={results[j].COMMENT}/>);
-                break;
-              }
-            }
+      const { showEdit } = articles;
+      var editPanels;
+      if( showEdit == true){
+        const { updateArticle } = articles;
+        const { results } = articles.articles;
+        editPanels = results.map((result)=>{
+          if(updateArticle.article_id == result.ARTICLE_ID){
+            return <EditPanel article={result} />
           }
+        });
       }
-
-
-
+      else{
+        editPanels = <div></div>;
+      }
       
+
+
+     
       // show or close Detail Panels 
       const { displayPanel } = articles ;
       var detaildisplay;
@@ -149,6 +149,7 @@ export default class DisplayPanel extends React.Component {
     { detaildisplay }
     { createpanel  }
     { editPanels }
+    
     </div>
       );
   }

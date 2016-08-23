@@ -4,7 +4,8 @@ export default function reducer(state={
     fetched:false,
     showMain:false,
     showCreate:false,
-    editPanel:[],
+    showEdit:false,
+    updateArticle:null,
     newArticle:null,
     displayPanel:[],
     error:null
@@ -25,24 +26,21 @@ export default function reducer(state={
         }
         case "SHOW_EDIT_PANEL":
         {
-            const { editPanel } = state;
-            editPanel.push({article_id:action.payload,visible:true});
-            return {...state,editPanel:editPanel}
+            var { updateArticle } = state;
+
+            updateArticle = {};
+            updateArticle.article_id = action.payload;
+            return {...state,showEdit:true,updateArticle:updateArticle}
         }
         case "CLOSE_EDIT_PANEL":
-        {
-            const { editPanel } = state;
-            editPanel.map((one)=>{
-                if(action.payload == one.article_id){
-                    one.visible = false;
-                }
-            });
-            return {...state,editPanel:editPanel}
+        {            
+            return {...state,updateArticle:null,showEdit:false}
         }
         case  "CLOSE_ARTICLE_MAIN":
         { 
             return {...state,showMain:false}
         }  
+       
         case "ADD_ARTICLE_VIEW":
         {
             const  { displayPanel } = state;
@@ -228,7 +226,12 @@ export default function reducer(state={
             newArticle.currentstep = 0 ; 
             return {...state,newArticle:newArticle}
 
-        }   
+        }  
+        case "DELETE_ARTICLE":{
+            
+            return {...state,articles:action.payload}
+
+        } 
            
 
 

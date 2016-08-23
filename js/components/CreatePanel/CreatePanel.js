@@ -120,7 +120,7 @@ export default class CreatePanel extends React.Component {
     <Step title="Strategy Definition" description="Do you have exsiting Strategy" />
   </Steps>
      </div>
-  <div class="mainstep">
+  <div className="mainstep">
     
   {displaystep}
 

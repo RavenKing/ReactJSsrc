@@ -117,50 +117,12 @@ export default class ArchivingForm extends React.Component {
         </div>
         </Popover>
         </FormItem>
-        
-        
-        
-         <FormItem
-          {...formItemLayout}
-          label="Estimated Saving Time:"
-          >
-         
-          <Input name="saving_est" type="text" onChange={this.handleChange.bind(this)} /> 
-         
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Estimated Saving Time Percent:"
-        >
-      
-         <Input name="saving_est_p" type="text" onChange={this.handleChange.bind(this)}/>
-        
-        </FormItem>
-      
-        <FormItem
-          {...formItemLayout}
-          label="Actual Saving Time："
-        >
-        
-        <Input name="saving_act" type="text" onChange={this.handleChange.bind(this)}/>
-        
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Actual Saving Time Percent："
-        >
-      
-        <Input name="saving_act_p" type="text" onChange={this.handleChange.bind(this)}/>
-       
-        </FormItem>
        
         <FormItem
           {...formItemLayout}
           label="Archiving"
         >
-          <Input name="archiving" type="textarea"  placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)} />
+          <Input name="archiving" type="textarea" value={this.props.value} placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)} />
         </FormItem>
 
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>

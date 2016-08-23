@@ -43,7 +43,7 @@ export default class SummarizationForm extends React.Component {
           {...formItemLayout}
           label="Summarization"
         >
-          <Input type="textarea"  placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)}/>
+          <Input type="textarea"  value={this.props.value} placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)}/>
         </FormItem>
 
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
