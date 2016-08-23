@@ -43,7 +43,6 @@ export default class StrategyDefine extends React.Component {
 	         DVM:checked,
         })
 
-        console.log(this.state);
     }
 
     handleChange(e){
@@ -83,19 +82,19 @@ export default class StrategyDefine extends React.Component {
           switch(item){
             case "Archiving":
             {
-              return <ArchivingForm/>
+              return <ArchivingForm value=""/>
             }
             case "Avoidance":
             {
-              return <AvoidanceForm/>
+              return <AvoidanceForm value=""/>
             }
             case "Summarization":
             {
-              return <SummarizationForm/>
+              return <SummarizationForm value=""/>
             }
             case "Deletion":
             {
-              return <DeletionForm/>
+              return <DeletionForm value=""/>
             }
             default:{
               return ;
@@ -108,7 +107,54 @@ export default class StrategyDefine extends React.Component {
 
     	return (
         <div>
+          <h1>Saving Potential</h1>
+              <hr />
+              <br />
+              <Form horizontal>
+                <FormItem
+                  id="control-sav_est"
+                  label="Estimated Saving Potential(GB):"
+                  labelCol={{ span: 7 }}
+                  wrapperCol={{ span: 10 }}
+              >
+                <Input id="control-sav_est" value={this.props.saving_est} />
+              </FormItem>
+
+              <FormItem
+                  id="control-sav_est_p"
+                  label="Estimated Saving Potential(%):"
+                  labelCol={{ span: 7 }}
+                  wrapperCol={{ span: 10 }}
+              >
+                <Input id="control-sav_est_p" value={this.props.saving_est_p}/>
+              </FormItem>
+
+                <FormItem
+                  id="control-sav_act"
+                  label="Actual Saving Potential(GB):"
+                  labelCol={{ span: 7 }}
+                  wrapperCol={{ span: 10 }}
+              >
+                <Input id="control-sav_act" value={this.props.saving_act} />
+              </FormItem>
+
+              <FormItem
+                  id="control-sav_act_p"
+                  label="Actual Saving Potential(%):"
+                  labelCol={{ span: 7 }}
+                  wrapperCol={{ span: 10 }}
+              >
+                <Input id="control-sav_act_p" value={this.props.saving_act_p} />
+              </FormItem>               
+
+              </Form>
+
+
+
+
+
         	<h1> Strategy </h1>
+          <hr />
         	<div className="margin-top10">
             <div className="aligncenter margin-bottom10">
               <Popover content="75% of our customers choose Archiving">

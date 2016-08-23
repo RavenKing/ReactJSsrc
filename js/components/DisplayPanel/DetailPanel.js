@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Button,Card,Icon} from "antd";
+import { Modal,Button,Card,Icon} from "antd";
 import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
-import { RemoveCard,GetBestPractice,ShowEditPanel} from "../../Actions/KnowledgeAction";
+import { RemoveCard,GetBestPractice,ShowEditPanel,DeleteArticle} from "../../Actions/KnowledgeAction";
 import { setCardDragable,setAreaDropable } from "../../interactScript";
 
+const confirm = Modal.confirm;
+const success= Modal.success;
 @connect((store)=>{
     return {
         articles:store.articles
@@ -69,9 +71,29 @@ export default class DetailPanel extends React.Component {
             if(draggableElement.getAttribute('data-type') == "FUNC"){
               
                 var drag_id = draggableElement.getAttribute('data-id');
+                var drop_id = dropzoneElement.getAttribute('data-id');
+                //edit
                 if(drag_id == "2"){
-                    var drop_id = dropzoneElement.getAttribute('data-id');
+                    
                     props.dispatch(ShowEditPanel(drop_id));
+                }
+                //delete
+                else if(drag_id == "3"){    
+
+                  confirm({
+                    title: 'Do you want to delete this article?',
+                    content: 'This article will not appear after your deletion',
+                    onOk() {
+                      props.dispatch(DeleteArticle(drop_id));
+                      return new Promise((resolve) => {
+                        setTimeout(resolve, 100);
+                      });
+                    },
+        
+                    onCancel() {}
+                    });
+                    
+  
                 }
                 
             }

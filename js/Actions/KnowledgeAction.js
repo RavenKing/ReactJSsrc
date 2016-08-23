@@ -44,6 +44,7 @@ export function CloseEditPanel(data){
       dispatch({type:"CLOSE_EDIT_PANEL",payload:data})
     }
 }
+
 export function CloseMainPanel()
 {
 
@@ -382,6 +383,28 @@ export function PostArticle(data){
     }).catch(function(err){
       console.log(err);
     })
+  }
+}
+export function DeleteArticle(article_id){
+  return dispatch=>{
+    axios.post("http://10.97.144.117:8000/SmartOperations/services/DeleteArticle.xsjs?article_id="+article_id,{
+    headers:{
+      'X-My-Custom-Header':'Header-Value',
+      'content-type':'application/json'
+    },
+    auth:{
+        username:'zengheng',
+        password:'Sap12345'
+    }
+  }).then(function(response){
+
+      var data = response.results;
+      dispatch({type:"DELETE_ARTICLE",payload:data});
+      
+  }).catch(function(err){
+      console.log(err);
+  })
+  
   }
 }
 

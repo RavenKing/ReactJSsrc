@@ -23,7 +23,7 @@ export default class ArchivingForm extends React.Component {
     	
     	return (
         
-        <div class="margin-top10 ">
+        <div className="margin-top10 ">
 
           <Button type="primary">Reset</Button>
           <Button type="primary">Previous</Button>

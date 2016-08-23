@@ -93,7 +93,7 @@ export default class StrategyPanel extends React.Component {
 
           <div>
             <div className="strategyPanelLeft">
-              <div class="textcenter">
+              <div className="textcenter">
               <Progress type="circle" percent={parseInt(Strategy.SAVING_EST_P)} width="200"/>
                 <br/>
                 <br/>
