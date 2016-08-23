@@ -5,7 +5,7 @@ export default function reducer(state={
     showMain:false,
     showCreate:false,
     editPanel:[],
-    newArticle:null,
+    newArticle:{currentstep:0},
     displayPanel:[],
     error:null
     },action){

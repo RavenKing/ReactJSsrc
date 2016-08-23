@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Form, Input, Button, Checkbox, Radio, Tooltip, Icon,Modal  } from "antd";
-
+import { Form, Input, Button, Checkbox, Radio, Tooltip, Icon,Moda } from "antd";
+const ButtonGroup = Button.Group;
 import { connect } from "react-redux";
 
 import { ForwardStep,GetTop5Tables,SetArticleNamAndDsc } from "../../Actions/KnowledgeAction";
@@ -24,7 +24,8 @@ export default class ObjectDefinition extends React.Component {
 
         super(props);
         this.state={ 
-
+          objectstatus:"",
+          objecthelp:"",
           visible:false,
           article_nam:"",
           article_dsc:"",
@@ -38,27 +39,44 @@ export default class ObjectDefinition extends React.Component {
     {
         //users do not input the archiving object or table 
         if(this.state.obj == ""){
-          alert("please input the object or table");
+
+          this.setState({
+            objectstatus:"error",
+            objecthelp:"please input an object or table!"
+          })
         }
         else{
-          this.props.dispatch(GetTop5Tables(this.state.obj));
-          const { newArticle } = this.props.articles;
-          //the input is not exist
+          this.setState({
+            objectstatus:"validating",
+            objecthelp:"validating"
+          });
+            this.props.dispatch(GetTop5Tables(this.state.obj));
+     
+ const { newArticle } = this.props.articles;
+
+        setTimeout(function(){this.CheckExist(newArticle)}.bind(this),1000)
+        }
+        
+
+    }
+      CheckExist(newArticle)
+      {
           if(newArticle.TABLES == undefined)
-          {
-            alert("the input is not exist!");
+          { 
+
+          this.setState({
+            objectstatus:"error",
+            objecthelp:"please input an correct object or table!"
+          })
+
           }
           else{
             this.props.dispatch(SetArticleNamAndDsc(this.state));  
 
             this.props.dispatch(ForwardStep());
           }
-          
-        }
-        
 
-    }
-
+      }
    
     handleChange(e){
         console.log(e.target.value);
@@ -124,15 +142,24 @@ export default class ObjectDefinition extends React.Component {
                 <FormItem
                   {...formItemLayout}
                   label="What object do you want to record"
+                  validateStatus={this.state.objectstatus}
+                  help={this.state.objecthelp}
                 >
                   <Input name="obj" type="text"  placeholder="Type in a table name or archiving object" onChange={this.handleChange.bind(this)}/>
                 </FormItem>
 
                 <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
+              
+
+      <ButtonGroup>
+      <BackButton/>
+      <Button type="primary" onClick={this.GoToStepThree.bind(this)}>
+        Go forward <Icon type="right" />
+      </Button>
+    </ButtonGroup>
+
+
         
-                  <Button type="primary" onClick={this.GoToStepThree.bind(this)}>Check</Button>
-        
-                  <BackButton/>
                 </FormItem>
 
               </Form>

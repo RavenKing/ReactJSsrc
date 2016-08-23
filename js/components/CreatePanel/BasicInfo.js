@@ -1,5 +1,6 @@
 import React from "react";
 import { Button,Card,Icon,Form,Input,Row,Col,Collapse,Rate,Popover} from "antd";
+const ButtonGroup = Button.Group;
 
 import { connect } from "react-redux";
 
@@ -95,11 +96,14 @@ export default class BasicInfo extends React.Component {
     }
 
     render() {
-      console.log(this.state);
       var header = "Archiving Object "+this.props.obj;
       var tables = this.props.tables;
       var that = this;
      
+const formItemLayout = {
+          labelCol: { span: 14},
+          wrapperCol: { span: 10 },
+        };
 
         return (
         	<div>
@@ -117,32 +121,40 @@ export default class BasicInfo extends React.Component {
           <div className="margin-top10">
          
 
+                <Form inline horizontal >
             {
               tables.map(function(table,idx){
                 
                 var sizeInputName = "size"+idx;
                 var dscInputName = "dsc"+idx;
                return ( 
-                <Form inline key={idx} >
-                  <FormItem label={table}>
+                <div>
+                  <FormItem 
+                   {...formItemLayout}
+                   label={table}>
 
                     <Input name={sizeInputName} placeholder="input Table Size" onChange={that.handleSizeChange.bind(that)}/>
                   </FormItem>
-                  <FormItem  label="Desicription">
+                  <FormItem   {...formItemLayout} label="Desicription">
                     <Input name={dscInputName} placeholder="input desicription" onChange={that.handleDscChange.bind(that)} />
                   </FormItem>
-                </Form>
+                  </div>
                 )
             })
             }
           
-              
+                   </Form>
             
 
-            <FormItem>
-              <Button type="primary" onClick={this.GoToStepFour.bind(this)}>Next</Button>
-              <BackButton></BackButton>
-            </FormItem>
+                     
+
+      <ButtonGroup>
+      <BackButton/>
+      <Button type="primary" onClick={this.GoToStepFour.bind(this)}>
+        Go forward <Icon type="right" />
+      </Button>
+    </ButtonGroup>
+
           </div>
         </div>
 

@@ -9,16 +9,18 @@ import DisplayPanel from "./components/DisplayPanel/DisplayPanel";
 
 import DetailPanel from "./components/DisplayPanel/DetailPanel";
 
+import Login from "./components/Login/login"
 
-
+import requireAuth from "./requireAuth";
 
 
 const app = document.getElementById('app');
 ReactDOM.render(
     <Provider store = {store}>
     <Router history={hashHistory}>
+    <Route path="/login" component ={Login}> </Route>
     <Route path="/" component={Layout}>
-	<Route path="/overview/" component = {DisplayPanel}>
+		<Route path="/overview/" component = {DisplayPanel}>
     	</Route>
     </Route>
   </Router>

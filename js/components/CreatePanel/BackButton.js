@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "antd";
+import { Button,Icon } from "antd";
 
 import { connect } from "react-redux";
 
@@ -23,10 +23,9 @@ Goback(){
 
     render() {	    	
     	return (
-        <div class="BackButton">
-          <Button type="primary" onClick={this.Goback.bind(this)}>Back</Button>
-          <Button type="primary" >Reset</Button>
-        </div>
+          <Button type="primary" onClick={this.Goback.bind(this)}>
+          <Icon type="left" />Go back</Button>
+
       );
   }
 }

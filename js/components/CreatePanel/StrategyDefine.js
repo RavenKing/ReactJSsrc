@@ -1,6 +1,6 @@
 import React from "react";
 import { Button,Card,Icon,Form,Input,Checkbox,Popover } from "antd";
-
+const ButtonGroup = Button.Group;
 import { connect } from "react-redux";
 
 import { NewArticleStepOne,SetComment,PostArticle } from "../../Actions/KnowledgeAction";
@@ -132,9 +132,13 @@ export default class StrategyDefine extends React.Component {
 
                 <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
 
-                <Button type="primary" onClick={this.handleClick.bind(this)}>Save</Button>
-      
-                <BackButton></BackButton>
+      <ButtonGroup>
+      <BackButton/>
+      <Button type="primary" onClick={this.handleClick.bind(this)}>
+  Save <Icon type="right" />
+      </Button>
+    </ButtonGroup>
+
                 </FormItem>
               </Form>
             </div>

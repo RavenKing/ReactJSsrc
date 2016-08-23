@@ -12,10 +12,10 @@ export default class TableCharts extends React.Component {
 
       const  bararry = Article.TABLES.concat();
             bararry.sort(function (a, b) {
-  if (a.TBL_SIZE > b.TBL_SIZE) {
+  if (parseInt(a.TBL_SIZE) > parseInt(b.TBL_SIZE) ){
     return -1;
   }
-  if (a.TBL_SIZE < b.TBL_SIZE) {
+  if (parseInt(a.TBL_SIZE) < parseInt(b.TBL_SIZE)) {
     return 1;
   }
   // a 必须等于 b

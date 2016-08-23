@@ -38,7 +38,7 @@ var newArticle = {
         </div>
     <div className="custom-card">
       <h3>Data Volume Management</h3>
-      <p>blablabla</p>
+      <p>Tables and objects</p>
     </div>
   </Card>
     <Card class="margin10" style={{ width: 240 }}>
@@ -46,8 +46,8 @@ var newArticle = {
         Coming Soon
         </div>
     <div className="custom-card">
-      <h3>Business</h3>
-      <p>blablabla</p>
+      <h3>Capacity Management</h3>
+      <p>Performance </p>
     </div>
   </Card>
     <Card class="margin10" style={{ width: 240 }}>
@@ -56,7 +56,7 @@ var newArticle = {
         </div>
     <div className="custom-card">
       <h3>Others</h3>
-      <p>blablabla</p>
+      <p>Business API</p>
     </div>
   </Card> 
           </div>
