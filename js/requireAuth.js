@@ -14,12 +14,13 @@ export default function requireAuth(Component)
   	}
 
   	componentWillReceiveProps(nextProps){
- 	this.checkCredentials(nextProps.authToken);
+   	this.checkCredentials(nextProps.authToken);
   	}
 
   checkCredentials (authToken) {
       if (!authToken) {
         const storageToken = window.localStorage.getItem('authToken')
+        console.log(storageToken)
         if (!storageToken) {
           this.redirectToLogin()
         } else {
@@ -29,8 +30,7 @@ export default function requireAuth(Component)
     }
 
     redirectToLogin (){
-    
-    this.props.history.pushState(null,'/login')
+     this.props.history.push("/login")
     }
 
 
@@ -48,7 +48,7 @@ export default function requireAuth(Component)
 
 
  const mapStateToProps = (state) => ({
-    authToken: state.auth.token
+    authToken: state.auth.token.user
   })
   const mapDispatchToProps = (dispatch) => {
     return {

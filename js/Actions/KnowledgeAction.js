@@ -128,54 +128,30 @@ export function GetBestPractice(data){
   var archobj = data.archobj;
   
   var articleid = data.articleid;
-  
-        
-        
+ var bestpracticedata;
 
- return dispatch=>{
-  
-
-  /* axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SMCUST?$filter=CUSTOMER_ID eq "+customerid,{
-            headers:{
-              'X-My-Custom-Header': 'Header-Value',
-              'content-type':'application/json'
-        },
-        async:false,
-            auth: {
-                username: 'zengheng',
-                password: 'Sap12345'
-            }
-        }).then(function (response,err) {
-            var industry = response.data.d.results[0].INDUSTRY;
-            console.log("the industry is:",industry);
-
-            axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=" + industry,{
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/DVMBPRACTICE?$filter=archobj eq '" + archobj + "'" ,{
                 headers:{
                   'X-My-Custom-Header': 'Header-Value',
                   'Content-Type': 'application/json'
                 },
-                async:false,
+               
                 auth: {
                   username:'zengheng',
                   password: 'Sap12345'
                 }
             }).then(function(response,err){
-              
-              var data = response.data.results[0];
-              data.articleid = articleid;
-              console.log("data is",data);
-              dispatch({type:"GET_BEST_PRACTICE",payload:data});
-
+              console.log(response);
+            bestpracticedata  = response.data;
+          
             }).catch(function(err){
               console.log(err);
             })
 
-            
-         }).catch(function(err){
-          console.log(err);
-        })*/
 
 
+
+ return dispatch=>{
           axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=AUTO" ,{
                 headers:{
                   'X-My-Custom-Header': 'Header-Value',
@@ -190,6 +166,7 @@ export function GetBestPractice(data){
               
               var data = response.data.results[0];
               data.articleid = articleid;
+              data.best=bestpracticedata;
               console.log("data is",data);
               dispatch({type:"GET_BEST_PRACTICE",payload:data});
 
