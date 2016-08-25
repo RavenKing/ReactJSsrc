@@ -20,23 +20,34 @@ export default class BasicInfo extends React.Component {
      constructor(props) {
 
         super(props);
+        const { newArticle } = this.props.articles;       
+        var size = [];
+        var dsc = [];
+
+        if(newArticle.SIZE){          
+
+          size = newArticle.SIZE;
+        }
+        if(newArticle.TABLESDSC){
+          dsc = newArticle.TABLESDSC;
+        }
+        
         this.state={ 
 
-          size:[],
-          dsc:[]
+          size:size,
+          dsc:dsc
 
         }
     }
 
     GoToStepFour()
     {
-        //var size = [1.1,1.2,1.3];
         var {size} = this.state;
         var {dsc} = this.state;
         var validInput = true;
         for(var i = 0;i < this.props.tables.length;i++){
           if(size[i] == undefined){
-            size[i] = 0
+            size[i] = ""
           }
           if(isNaN(size[i])){
               validInput = false;
@@ -100,7 +111,7 @@ export default class BasicInfo extends React.Component {
       var tables = this.props.tables;
       var that = this;
      
-const formItemLayout = {
+      const formItemLayout = {
           labelCol: { span: 14},
           wrapperCol: { span: 10 },
         };
@@ -133,10 +144,10 @@ const formItemLayout = {
                    {...formItemLayout}
                    label={table}>
 
-                    <Input name={sizeInputName} placeholder="input Table Size" onChange={that.handleSizeChange.bind(that)}/>
+                    <Input name={sizeInputName} defaultValue={that.state.size[idx]} placeholder="input Table Size" onChange={that.handleSizeChange.bind(that)}/>
                   </FormItem>
                   <FormItem   {...formItemLayout} label="Desicription">
-                    <Input name={dscInputName} placeholder="input desicription" onChange={that.handleDscChange.bind(that)} />
+                    <Input name={dscInputName} defaultValue={that.state.dsc[idx]} placeholder="input desicription" onChange={that.handleDscChange.bind(that)} />
                   </FormItem>
                   </div>
                 )
@@ -148,12 +159,12 @@ const formItemLayout = {
 
                      
 
-      <ButtonGroup>
-      <BackButton/>
-      <Button type="primary" onClick={this.GoToStepFour.bind(this)}>
-        Go forward <Icon type="right" />
-      </Button>
-    </ButtonGroup>
+            <ButtonGroup>
+              <BackButton/>
+              <Button type="primary" onClick={this.GoToStepFour.bind(this)}>
+                Go forward <Icon type="right" />
+              </Button>
+            </ButtonGroup>
 
           </div>
         </div>

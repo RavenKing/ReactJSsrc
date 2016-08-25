@@ -171,35 +171,7 @@ export default function reducer(state={
 
             newArticle.RETENTION = action.payload;
             return {...state,newArticle:newArticle}
-        }
-        case "SET_SAV_EST":
-        {
-            const { newArticle } = state;
-
-            newArticle.SAVING_EST = action.payload;
-            return {...state,newArticle:newArticle}
-        }
-        case "SET_SAV_EST_P":
-        {
-            const { newArticle } = state;
-
-            newArticle.SAVING_EST_P = action.payload;
-            return {...state,newArticle:newArticle}
-        }
-        case "SET_SAV_ACT":
-        {
-            const { newArticle } = state;
-
-            newArticle.SAVING_ACT = action.payload;
-            return {...state,newArticle:newArticle}
-        }
-        case "SET_SAV_ACT_P":
-        {
-            const { newArticle } = state;
-
-            newArticle.SAVING_ACT_P = action.payload;
-            return {...state,newArticle:newArticle}
-        }
+        }       
         case "SET_AVOID":
         {
             const { newArticle } = state;
