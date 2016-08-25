@@ -3,7 +3,7 @@ import { Button,Card,Icon,Form,Input,Checkbox,Popover } from "antd";
 const ButtonGroup = Button.Group;
 import { connect } from "react-redux";
 
-import { NewArticleStepOne,SetSaving,PostArticle } from "../../Actions/KnowledgeAction";
+import { NewArticleStepOne,SetSaving,PostArticle,CloseCreatePanel } from "../../Actions/KnowledgeAction";
 
 //Forms
 import ArchivingForm from "./ArchivingForm";
@@ -28,15 +28,35 @@ export default class StrategyDefine extends React.Component {
     constructor(props)
     {
  	      super(props)
-
+        const { newArticle } = this.props.articles;
+        var saving_est = "";
+        var saving_est_p = "";
+        var saving_act = "";
+        var saving_act_p = "";
+        var comment = "";
+        if( newArticle.SAVING_EST != undefined){
+          saving_est = newArticle.SAVING_EST;
+        }
+        if(newArticle.SAVING_EST_P != undefined){
+          saving_est_p = newArticle.SAVING_EST_P;
+        }
+        if(newArticle.SAVING_ACT != undefined){
+          saving_act = newArticle.SAVING_ACT;
+        }
+        if(newArticle.SAVING_ACT_P != undefined){
+          saving_act_p = newArticle.SAVING_ACT_P;
+        }
+        if(newArticle.COMMENT){
+          comment = newArticle.COMMENT;
+        }
  	      this.state={
             
             DVM:[],
-            saving_est:0,
-            saving_est_p:0,
-            saving_act:0,
-            saving_act_p:0,
-            comment:""
+            saving_est:saving_est,
+            saving_est_p:saving_est_p,
+            saving_act:saving_act,
+            saving_act_p:saving_act_p,
+            comment:comment
  	      
         }
     }
@@ -86,14 +106,15 @@ export default class StrategyDefine extends React.Component {
         
 
       }
+      this.props.dispatch(SetSaving(this.state));
         
     }
 
     handleClick(){
-        this.props.dispatch(SetSaving(this.state));
+        
         const { newArticle } = this.props.articles;
         this.props.dispatch(PostArticle(newArticle));
-
+        this.props.dispatch(CloseCreatePanel());
     }
 
     render() {	
@@ -155,7 +176,7 @@ export default class StrategyDefine extends React.Component {
                   labelCol={{ span: 7 }}
                   wrapperCol={{ span: 10 }}
               >
-                <Input id="control-sav_est" onChange={this.handleChange.bind(this)}/>
+                <Input id="control-sav_est" defaultValue={this.state.saving_est} onChange={this.handleChange.bind(this)}/>
               </FormItem>
 
               <FormItem
@@ -164,7 +185,7 @@ export default class StrategyDefine extends React.Component {
                   labelCol={{ span: 7 }}
                   wrapperCol={{ span: 10 }}
               >
-                <Input id="control-sav_est_p" onChange={this.handleChange.bind(this)}/>
+                <Input id="control-sav_est_p" defaultValue={this.state.saving_est_p} onChange={this.handleChange.bind(this)}/>
               </FormItem>
 
                 <FormItem
@@ -173,7 +194,7 @@ export default class StrategyDefine extends React.Component {
                   labelCol={{ span: 7 }}
                   wrapperCol={{ span: 10 }}
               >
-                <Input id="control-sav_act"  onChange={this.handleChange.bind(this)}/>
+                <Input id="control-sav_act"  defaultValue={this.state.saving_act} onChange={this.handleChange.bind(this)}/>
               </FormItem>
 
               <FormItem
@@ -182,7 +203,7 @@ export default class StrategyDefine extends React.Component {
                   labelCol={{ span: 7 }}
                   wrapperCol={{ span: 10 }}
               >
-                <Input id="control-sav_act_p"  onChange={this.handleChange.bind(this)}/>
+                <Input id="control-sav_act_p"  defaultValue={this.state.saving_act_p} onChange={this.handleChange.bind(this)}/>
               </FormItem>               
 
               </Form>
@@ -212,7 +233,7 @@ export default class StrategyDefine extends React.Component {
                   {...formItemLayout}
                   label="Overview Comments"
                 >
-                <Input id="control-comm" type="textarea"  placeholder="Current Strategy Of your System"  onChange={this.handleChange.bind(this)}/>
+                <Input id="control-comm" type="textarea"  defaultValue={this.state.comment} placeholder="Current Strategy Of your System"  onChange={this.handleChange.bind(this)}/>
                 </FormItem>
 
                 <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>

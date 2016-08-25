@@ -23,13 +23,26 @@ export default class ObjectDefinition extends React.Component {
     constructor(props) {
 
         super(props);
+        const { newArticle } = this.props.articles;
+        var article_nam = "";
+        var article_dsc = "";
+        var obj = "";
+        if(newArticle.ARTICLE_NAM){
+            article_nam = newArticle.ARTICLE_NAM;
+        }
+        if(newArticle.ARTICLE_DSC){
+           article_dsc = newArticle.ARTICLE_DSC;
+        }
+        if(newArticle.ARCHOBJ){
+          obj = newArticle.ARCHOBJ;
+        }
         this.state={ 
           objectstatus:"",
           objecthelp:"",
           visible:false,
-          article_nam:"",
-          article_dsc:"",
-          obj:""
+          article_nam:article_nam,
+          article_dsc:article_dsc,
+          obj:obj
 
         }
     }
@@ -50,15 +63,14 @@ export default class ObjectDefinition extends React.Component {
             objectstatus:"validating",
             objecthelp:"validating"
           });
-            this.props.dispatch(GetTop5Tables(this.state.obj));
-     
- const { newArticle } = this.props.articles;
+          this.props.dispatch(GetTop5Tables(this.state.obj));     
+          const { newArticle } = this.props.articles;
 
-        setTimeout(function(){this.CheckExist(newArticle)}.bind(this),1000)
+          setTimeout(function(){this.CheckExist(newArticle)}.bind(this),1000)
         }
         
 
-    }
+      }
       CheckExist(newArticle)
       {
           if(newArticle.TABLES == undefined)
@@ -129,14 +141,14 @@ export default class ObjectDefinition extends React.Component {
                   {...formItemLayout}
                   label="Article Name:"
                 >
-                  <Input name="article_nam" type="text"  placeholder="Type in an article name" onChange={this.handleChange.bind(this)}/>
+                  <Input name="article_nam" type="text"  defaultValue={this.state.article_nam} placeholder="Type in an article name" onChange={this.handleChange.bind(this)}/>
                 </FormItem>
 
                  <FormItem
                   {...formItemLayout}
                   label="Article Description:"
                 >
-                  <Input name="article_dsc" type="text"  placeholder="Type in a description of the article" onChange={this.handleChange.bind(this)}/>
+                  <Input name="article_dsc" type="text"  defaultValue={this.state.article_dsc} placeholder="Type in a description of the article" onChange={this.handleChange.bind(this)}/>
                 </FormItem>
 
                 <FormItem
@@ -145,7 +157,7 @@ export default class ObjectDefinition extends React.Component {
                   validateStatus={this.state.objectstatus}
                   help={this.state.objecthelp}
                 >
-                  <Input name="obj" type="text"  placeholder="Type in a table name or archiving object" onChange={this.handleChange.bind(this)}/>
+                  <Input name="obj" type="text"  defaultValue={this.state.obj} placeholder="Type in a table name or archiving object" onChange={this.handleChange.bind(this)}/>
                 </FormItem>
 
                 <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>

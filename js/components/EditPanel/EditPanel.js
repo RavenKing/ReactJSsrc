@@ -62,23 +62,22 @@ export default class EditPanel extends React.Component{
       //if 'Avoidance' field has been set
       if(this.props.article.AVOIDANCE){
         defaultValues.push("Avoidance");
-        defaultStrategyTextAreas.push(< AvoidanceForm />);
 
       }
       //if 'Summarization' field has been set
       if(this.props.article.SUMMARIZATION){
         defaultValues.push("Summarization");
-        defaultStrategyTextAreas.push(< SummarizationForm />);
+        
       }
       //if 'Deletion' field has been set
       if(this.props.article.DELETION){
         defaultValues.push("Deletion");
-        defaultStrategyTextAreas.push(< DeletionForm />);
+        
       }
       //if 'ARCHIVING' field has been set
       if(this.props.article.ARCHIVING){
         defaultValues.push("Archiving");
-        defaultStrategyTextAreas.push(< ArchivingForm />);
+        
       }
 
       this.setState({
@@ -179,6 +178,55 @@ export default class EditPanel extends React.Component{
   }
   handleClick(){
     console.log(this.state.updateFields);
+    const { DVM } =  this.state;
+    var { updateFields } = this.state;
+
+    
+    var checked = false;
+    //avoidance
+    for(var i = 0;i < DVM.length;i++){
+      if("avoidance"== DVM[i]){
+        checked = true;
+        break;        
+      }
+    }
+    if(checked == false){
+        updateFields.avoidance=""
+    }
+    checked = false;
+    //summarization
+    for(var i = 0;i < DVM.length;i++){
+      if("summarization"== DVM[i]){
+        checked = true;
+        break;        
+      }
+    }
+    if(checked == false){
+        updateFields.summarization=""
+    }
+    checked = false;
+    for(var i = 0;i < DVM.length;i++){
+      if("archiving"== DVM[i]){
+        checked = true;
+        break;        
+      }
+    }
+    if(checked == false){
+        updateFields.archiving=""
+    }
+    checked = false;
+    for(var i = 0;i < DVM.length;i++){
+      if("deletion"== DVM[i]){
+        checked = true;
+        break;        
+      }
+    }
+    if(checked == false){
+        updateFields.deletion=""
+    }
+    this.setState({
+      updateFields:updateFields
+    });
     this.props.dispatch(UpdateArticle(this.state.updateFields));
     this.closeEdit();
   }
