@@ -1,4 +1,5 @@
-import axios from "axios"
+import axios from "axios";
+import { Modal } from 'antd';
 
 export function fetchArticles(){
   
@@ -152,7 +153,8 @@ export function GetBestPractice(data){
 
 
  return dispatch=>{
-          axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=AUTO" ,{
+        
+               axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=AUTO" ,{
                 headers:{
                   'X-My-Custom-Header': 'Header-Value',
                   'Content-Type': 'application/json'
@@ -232,26 +234,7 @@ export function SetRetention(data){
     dispatch({type:"SET_RETENTION",payload:data})
   }
 }
-export function SetSav_Est(data){
-  return dispatch=>{
-    dispatch({type:"SET_SAV_EST",payload:data})
-  }
-}
-export function SetSav_Est_P(data){
-  return dispatch=>{
-    dispatch({type:"SET_SAV_EST_P",payload:data})
-  }
-}
-export function SetSav_Act(data){
-  return dispatch=>{
-    dispatch({type:"SET_SAV_ACT",payload:data})
-  }
-}
-export function SetSav_Act_P(data){
-  return dispatch=>{
-    dispatch({type:"SET_SAV_ACT_P",payload:data})
-  }
-}
+
 export function SetArchiving(data){
   return dispatch=>{
     dispatch({type:"SET_ARCH",payload:data})
@@ -267,32 +250,24 @@ export function SetDeletion(data){
     dispatch({type:"SET_DEL",payload:data})
   }
 }
-export function SetComment(data){
+export function SetSaving(data){
   return dispatch=>{
-    dispatch({type:"SET_COMMENT",payload:data})
+    dispatch({type:"SET_SAVING",payload:data})
   }
 }
 export function PostArticle(data){
+  var article_id;
   //fields in table "KMBSC"
   var tables = data.TABLES;
   var size = data.SIZE;
   var tablesDsc = data.TABLESDSC;
 
   //fields in table "KMHDR"
-  var customer_id = 32326;
+  var customer_id = "32326";
   var archobj = data.ARCHOBJ;
   var article_nam = data.ARTICLE_NAM;
   var article_dsc = data.ARTICLE_DSC;
   var create_by = "CassieLiu";
-
-  var myDate = new Date();
-  
-  var year = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
-  var month = myDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
-  var date = myDate.getDate();        //获取当前日(1-31)
-
-  var create_on = year+"-"+month+"-"+date;
-  console.log(create_on);
   var product = "ERP";
 
   //fields in table "KMDVM"
@@ -323,64 +298,259 @@ export function PostArticle(data){
   if(retention == undefined){
     retention = 12;
   }
-  if(saving_est == undefined){
-    saving_est = 0;
+  if(saving_est == ""){
+    saving_est = null;
   }
-  if(saving_est_p == undefined){
-    saving_est_p = 0
+  if(saving_est_p == ""){
+    saving_est_p = null;
   }
-  if(saving_act == undefined){
-    saving_act = 0;
+  if(saving_act == ""){
+    saving_act = null;
   }
-  if(saving_act_p == undefined){
-    saving_act_p = 0;
+  if(saving_act_p == ""){
+    saving_act_p = null;
   }
-  if(comment == undefined){
-    comment = "";
+  for(var i = 0; i < size.length;i++){
+    if(size[i] == ""){
+      size[i] = null;
+    }
   }
- 
-  return dispatch=>{
-    axios.post("http://10.97.144.117:8000/SmartOperations/services/Createarticle_test.xsjs?customer_id="+ customer_id +"&tables="+ tables +"&size="
-      + size + "&dsc="+ tablesDsc + "&archobj="+ archobj +"&article_nam="+ article_nam +"&article_dsc="+ article_dsc +"&create_on="+ create_on 
-      +"&create_by="+ create_by + "&product="+ product +"&archiving="+ archiving +"&deletion="+ deletion +"&summarization="+ summarization +"&avoidance="
-      + avoidance +"&retention="+ retention +"&saving_est="+ saving_est +"&saving_est_p="+ saving_est_p + "&saving_act="+ saving_act +"&saving_act_p="
-      + saving_act_p +"&comment="+ comment,{
-      headers:{
+  var config = {
+    headers:{
         'X-My-Custom-Header':'Header-Value',
         'content-type':'application/json'
-      },
-      auth:{
-        username:'zengheng',
-        password:'Sap12345'
-      }
-    }).then(function(response){
-      console.log("post successfully:"+response);
-      dispatch({type:"POST_ARTICLE"});
-      alert("Article created successfully");
-    }).catch(function(err){
-      console.log(err);
+        },
+        auth:{
+          username:'zengheng',
+          password:'Sap12345'
+        }
+  };
+  return dispatch=>{
+    
+    //fetch article id for creation
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC?$orderby=ARTILE_ID desc&$top=1",
+      config
+      ).then(function(response){
+        article_id = Number(response.data.d.results[0].ARTILE_ID) + 1;
+        article_id = article_id.toString();
+        //creation for KMBSC
+        for(var i = 0; i < tables.length && i < size.length && i < tablesDsc.length;i++){
+          var attr_id = i+1;
+          var tableSize;
+          if(size[i] != null){
+            tableSize = size[i].toString();
+          }
+          else{
+            tableSize = null;
+          }
+          
+          axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC",{
+            ARTILE_ID:article_id,
+            ATTR_ID:attr_id,
+            ATTR_TYP:"TBL",
+            ATTR_NAM:tables[i],
+            ATTR_DSC:tablesDsc[i],
+            TBL_SIZE:tableSize
+            },
+            config
+          ).catch(function(response){
+            console.log(response);
+          });
+        }
+        //fetch factor_guid
+        axios.get("http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$filter=FACTOR_NAME eq '"+archobj+"'",
+          config
+          ).then(function(response){
+              var factor_guid = response.data.d.results[0].FACTOR_GUID;
+              //creation for KMHDR
+              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
+      
+                ARTICLE_ID:article_id,
+                FACTOR_GUID:factor_guid,
+                CUSTOMER_ID:customer_id,
+                FACTOR_CAT:"B",
+                FACTOR_TYP:"DVM",        
+                ARTICLE_NAM:article_nam,
+                ARTICLE_DSC:article_dsc,
+                CREATE_ON:"\/Date(1427760000000)\/",
+                CREATE_BY:create_by,
+                UPDATE_ON:null,
+                UPDATE_BY:null
+              },config);
+
+
+          }).catch(function(response){
+            console.log(response);
+          })
+        
+        //creation for KMDVM
+        var total_size = 0;
+        size.map((one)=>{
+            if(one != null){
+              total_size = Number(total_size + one);
+            }
+            
+        });
+        total_size = total_size.toString();
+        console.log(total_size);
+        axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM",{
+      
+          ARTICLE_ID:article_id,    
+          TOTAL_SIZE:total_size,
+          ARCHIVING:archiving,    
+          DELETION:deletion,
+          SUMMARIZATION:summarization,
+          AVOIDANCE:avoidance,
+          RETENTION:retention,
+          SAVING_EST:saving_est,
+          SAVING_EST_P:saving_est_p,
+          SAVING_ACT:saving_act,
+          SAVING_ACT_P:saving_act_p, 
+          COMMENT:comment,  
+          ARCHOBJ:archobj
+
+        },
+        config).then(function(response){
+
+          const modal = Modal.success({
+            title: 'Successfully create! ',
+            content: 'The article is created done',
+            });
+
+        }).catch(function(response){
+          console.log(response);
+        })
+
+
+      }).catch(function(response){
+        console.log(response);
+      })
+  
+  }
+
+  
+  
+}
+export function UpdateArticle(data){
+  var config = {
+    headers:{
+        'X-My-Custom-Header':'Header-Value',
+        'content-type':'application/json'
+        },
+        auth:{
+          username:'zengheng',
+          password:'Sap12345'
+        }
+  };
+  return dispatch=>{
+    data.tables.map((table,idx)=>{
+      idx = idx+1;
+      axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+data.article_id+",ATTR_ID="+idx+")",{
+        ARTILE_ID:data.article_id,
+        ATTR_ID:idx,
+        ATTR_TYP:"TBL",
+        ATTR_NAM:table.ATTR_NAM,
+        ATTR_DSC:table.ATTR_DSC,
+        TBL_SIZE:table.TBL_SIZE
+    },config);
+    });
+    
+    axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+data.article_id+")", {
+        
+        ARTICLE_ID:data.article_id,
+        FACTOR_GUID:data.factor_guid,
+        CUSTOMER_ID:data.customer_id,
+        FACTOR_CAT:"B",
+        FACTOR_TYP:"DVM",        
+        ARTICLE_NAM:data.article_nam,
+        ARTICLE_DSC:data.article_dsc,
+        CREATE_ON:"\/Date(1427760000000)\/",
+        CREATE_BY:"CassieLiu",
+        UPDATE_ON:"\/Date(1427760000000)\/",
+        UPDATE_BY:"CASSIE"
+        
+
+    },config
+    ).then(function (response) {
+        axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+data.article_id+")",{
+          
+          ARTICLE_ID:data.article_id,    
+          TOTAL_SIZE:"1",
+          ARCHIVING:data.archiving,    
+          DELETION:data.deletion,
+          SUMMARIZATION:data.summarization,
+          AVOIDANCE:data.avoidance,
+          RETENTION:12,
+          SAVING_EST:data.saving_est,
+          SAVING_EST_P:data.saving_est_p,
+          SAVING_ACT:data.saving_act,
+          SAVING_ACT_P:data.saving_act_p, 
+          COMMENT:data.comment,  
+          ARCHOBJ:data.archobj
+        },
+        config)
+        .then(function(response){
+            const modal = Modal.success({
+            title: 'Successfully update! ',
+            content: 'The article is updated done',
+            });
+            
+        })
+        .catch(function(response){
+          console.log(response);
+        })
     })
+    .catch(function (response) {
+        console.log(response);
+    });
+    
   }
 }
-export function DeleteArticle(article_id){
-  return dispatch=>{
-    axios.post("http://10.97.144.117:8000/SmartOperations/services/DeleteArticle.xsjs?article_id="+article_id,{
+export function DeleteArticle(data){
+  var article_id = data.ARTICLE_ID;
+  var tables = data.TABLES;
+  var config = {
     headers:{
-      'X-My-Custom-Header':'Header-Value',
-      'content-type':'application/json'
-    },
-    auth:{
-        username:'zengheng',
-        password:'Sap12345'
-    }
-  }).then(function(response){
+            'X-My-Custom-Header':'Header-Value',
+            'content-type':'application/json'
+          },
+          auth:{
+            username:'zengheng',
+            password:'Sap12345'
+          }
+    };
+  return dispatch=>{
 
-      var data = response.results;
-      dispatch({type:"DELETE_ARTICLE",payload:data});
-      
-  }).catch(function(err){
-      console.log(err);
-  })
+    //KMBSC
+    tables.map((table,idx)=>{
+      idx = idx+1;
+       axios.delete("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+article_id+",ATTR_ID="+idx+")",
+        config).then(function(response){
+
+      })
+      .catch(function(response){
+        console.log(response);
+      })
+    });
+
+    //KMDVM
+    axios.delete("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+article_id+")",config)
+      .then(function(response){
+        axios.delete("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+article_id+")",config)
+      .then(function(response){
+          const modal = Modal.success({
+            title: 'Successfully delete! ',
+            content: 'The article is deleted done',
+            });
+          })
+      .catch(function(response){
+        console.log(response);
+      })
+        
+      })
+      .catch(function(response){
+        console.log(response);
+      })
   
   }
 }
