@@ -214,11 +214,14 @@ export default function reducer(state={
             newArticle.DELETION = action.payload;
             return {...state,newArticle:newArticle}
         }
-        case "SET_COMMENT":
+        case "SET_SAVING":
         {
             const { newArticle } = state;
-
-            newArticle.COMMENT= action.payload;
+            newArticle.SAVING_EST = action.payload.saving_est;
+            newArticle.SAVING_EST_P = action.payload.saving_est_p;
+            newArticle.SAVING_ACT = action.payload.saving_act;
+            newArticle.SAVING_ACT_P = action.payload.saving_act_p;
+            newArticle.COMMENT= action.payload.comment;
             return {...state,newArticle:newArticle}
         }
 
@@ -228,12 +231,8 @@ export default function reducer(state={
             newArticle.currentstep = 0 ; 
             return {...state,newArticle:newArticle}
 
-        }  
-        case "DELETE_ARTICLE":{
-            
-            return {...state,articles:action.payload}
-
         } 
+
            
 
 

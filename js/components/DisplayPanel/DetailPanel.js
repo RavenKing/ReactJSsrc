@@ -4,7 +4,7 @@ import { Modal,Button,Card,Icon} from "antd";
 import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
-import { RemoveCard,GetBestPractice,ShowEditPanel,DeleteArticle} from "../../Actions/KnowledgeAction";
+import { RemoveCard,GetBestPractice,ShowEditPanel,DeleteArticle,fetchArticles} from "../../Actions/KnowledgeAction";
 import { setCardDragable,setAreaDropable } from "../../interactScript";
 
 const confirm = Modal.confirm;
@@ -55,6 +55,7 @@ export default class DetailPanel extends React.Component {
   }
 
   componentDidMount() {
+    var that = this;
     setCardDragable(ReactDOM.findDOMNode(this));
     
     const props = this.props;
@@ -84,7 +85,17 @@ export default class DetailPanel extends React.Component {
                     title: 'Do you want to delete this article?',
                     content: 'This article will not appear after your deletion',
                     onOk() {
-                      props.dispatch(DeleteArticle(drop_id));
+                      var articles = props.articles.articles.results;
+                      for(var i = 0;i < articles.length;i++){
+                        if(articles[i].ARTICLE_ID == drop_id){
+
+                            props.dispatch(DeleteArticle(articles[i]));
+                            props.dispatch(fetchArticles());
+                            that.removeCard();
+                            break;
+                        }
+                      }
+                      
                       return new Promise((resolve) => {
                         setTimeout(resolve, 100);
                       });

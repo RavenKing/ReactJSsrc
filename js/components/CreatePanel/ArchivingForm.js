@@ -122,7 +122,7 @@ export default class ArchivingForm extends React.Component {
           {...formItemLayout}
           label="Archiving"
         >
-          <Input name="archiving" type="textarea" value={this.props.value} placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)} />
+          <Input name="archiving" type="textarea" placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)} />
         </FormItem>
 
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
