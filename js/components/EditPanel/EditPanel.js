@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Form,Button,Card,Checkbox,Icon,Input} from "antd";
+import { Form,Button,Card,Checkbox,Icon,Input,Modal} from "antd";
 import { connect } from "react-redux";
 import { CloseEditPanel,UpdateArticle,fetchArticles } from "../../Actions/KnowledgeAction";
 import { setCardDragable } from "../../interactScript";
@@ -50,8 +50,9 @@ export default class EditPanel extends React.Component{
   }
 
 	closeEdit(){
+
 		  this.props.dispatch(CloseEditPanel(this.props.article.ARTICLE_ID));
-      this.props.dispatch(fetchArticles());
+      
 	}
   componentWillMount(){
       
@@ -180,55 +181,100 @@ export default class EditPanel extends React.Component{
     console.log(this.state.updateFields);
     const { DVM } =  this.state;
     var { updateFields } = this.state;
+    var validInput = true;
+    for(var i = 0; i < updateFields.tables.length;i++){
+      if(isNaN(updateFields.tables[i].TBL_SIZE)){
+        validInput = false;
+         const modal = Modal.warning({
+            title: 'Warning! ',
+            content: 'Please input the correct number'
+          });
+          
+        break;
+      }
+    }
 
-    
-    var checked = false;
-    //avoidance
-    for(var i = 0;i < DVM.length;i++){
-      if("avoidance"== DVM[i]){
-        checked = true;
-        break;        
-      }
+    if(isNaN(updateFields.saving_est)){
+      validInput = false;
+         const modal = Modal.warning({
+            title: 'Warning! ',
+            content: 'Please input the correct number'
+          });
     }
-    if(checked == false){
+    if(isNaN(updateFields.saving_est_p)){
+      validInput = false;
+      const modal = Modal.warning({
+            title: 'Warning! ',
+            content: 'Please input the correct number'
+          });
+    }
+    if(isNaN(updateFields.saving_act)){
+      validInput = false;
+      const modal = Modal.warning({
+            title: 'Warning! ',
+            content: 'Please input the correct number'
+          });
+    }
+    if(isNaN(updateFields.saving_act_p)){
+      validInput = false;
+      const modal = Modal.warning({
+            title: 'Warning! ',
+            content: 'Please input the correct number'
+          });
+    }
+    //input valid
+    if(validInput){
+
+      var checked = false;
+      //avoidance
+      for(var i = 0;i < DVM.length;i++){
+        if("Avoidance"== DVM[i]){
+          checked = true;
+          break;        
+        }
+      }
+      if(checked == false){
         updateFields.avoidance=""
-    }
-    checked = false;
-    //summarization
-    for(var i = 0;i < DVM.length;i++){
-      if("summarization"== DVM[i]){
-        checked = true;
-        break;        
       }
-    }
-    if(checked == false){
+      checked = false;
+      //summarization
+      for(var i = 0;i < DVM.length;i++){
+        if("Summarization"== DVM[i]){
+          checked = true;
+          break;        
+        }
+      }
+      if(checked == false){
         updateFields.summarization=""
-    }
-    checked = false;
-    for(var i = 0;i < DVM.length;i++){
-      if("archiving"== DVM[i]){
-        checked = true;
-        break;        
       }
-    }
-    if(checked == false){
+      checked = false;
+      for(var i = 0;i < DVM.length;i++){
+        if("Archiving"== DVM[i]){
+          checked = true;
+          break;        
+        }
+      }
+      if(checked == false){
         updateFields.archiving=""
-    }
-    checked = false;
-    for(var i = 0;i < DVM.length;i++){
-      if("deletion"== DVM[i]){
-        checked = true;
-        break;        
       }
-    }
-    if(checked == false){
+      checked = false;
+      for(var i = 0;i < DVM.length;i++){
+        if("Deletion"== DVM[i]){
+          checked = true;
+          break;        
+        }
+      }
+      if(checked == false){
         updateFields.deletion=""
+      }
+      this.setState({
+        updateFields:updateFields
+      });
+      this.props.dispatch(UpdateArticle(this.state.updateFields));
+      this.closeEdit();
+
     }
-    this.setState({
-      updateFields:updateFields
-    });
-    this.props.dispatch(UpdateArticle(this.state.updateFields));
-    this.closeEdit();
+    
   }
   onChange(checkedValues){
     this.setState({

@@ -1,5 +1,8 @@
 import React from "react";
-import { Button,Card,Icon,Form,Input,Row,Col,Collapse,Rate,Popover} from "antd";
+import { 
+          Button,Card,Icon,Form,Input,Row,Col,
+          Collapse,Rate,Popover,Modal
+        } from "antd";
 const ButtonGroup = Button.Group;
 
 import { connect } from "react-redux";
@@ -69,7 +72,10 @@ export default class BasicInfo extends React.Component {
             this.props.dispatch(ForwardStep());
         }
         else{
-          alert("Please enter a valid number");
+          const modal = Modal.warning({
+            title: 'Warning! ',
+            content: 'Please input the correct number'
+          });
         }
         
 
