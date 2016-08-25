@@ -18,8 +18,8 @@ const app = document.getElementById('app');
 ReactDOM.render(
     <Provider store = {store}>
     <Router history={hashHistory}>
-    <Route path="/login" component ={Login}> </Route>
-    <Route path="/" component={Layout}>
+    <Route path="/login" component ={Login}> </Route>	
+    <Route path="/" component={requireAuth(Layout)}>
 		<Route path="/overview/" component = {DisplayPanel}>
     	</Route>
     </Route>

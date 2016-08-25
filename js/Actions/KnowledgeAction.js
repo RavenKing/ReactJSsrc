@@ -12,10 +12,10 @@ export function fetchArticles(){
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
         },
-	  auth: {
+    auth: {
     username: 'zengheng',
     password: 'Sap12345'
- 		 }
+     }
     })
     .then(function (response,err) {
         var data = response.data;
@@ -534,6 +534,4 @@ export function DeleteArticle(data){
   
   }
 }
-
-
 
