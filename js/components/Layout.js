@@ -47,13 +47,10 @@ this.props.dispatch(fetchArticles())
        const {  articles } = this.props;
        if(articles.fetched == true)
        {
-        DataView = <DataPanel articles={this.props.articles}> </DataPanel>  
-        DisplayView = <DisplayPanel articles = {this.props.articles}> </DisplayPanel>
-
+          DataView = <DataPanel articles={this.props.articles}> </DataPanel>  
+          DisplayView = <DisplayPanel articles = {this.props.articles}> </DisplayPanel>
        }
-       else
-       {
-       }
+      
 
 
       
@@ -61,11 +58,11 @@ this.props.dispatch(fetchArticles())
     return (
          <div>
 
-         <DataPanel articles={this.props.articles}> </DataPanel>
-         <DisplayPanel articles = {this.props.articles}> </DisplayPanel>
+          <DataPanel articles={this.props.articles}> </DataPanel>
+          <DisplayPanel articles = {this.props.articles}> </DisplayPanel>
       
-     <FunctionPanel> 
-    </FunctionPanel>
+          <FunctionPanel> 
+          </FunctionPanel>
 
         </div>
         
