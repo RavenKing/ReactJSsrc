@@ -18,23 +18,11 @@ import { connect } from "react-redux";
     
 })
 export default class MainPanel extends React.Component {
-    constructor(props) {
-
-        super(props);
-     
-      const { results } = this.props;
-  var data = results.map((result)=>{
-          return {
-            key:result.ARTICLE_ID,
-            article_nam:result.ARTICLE_NAM,
-            article_dsc:result.ARTICLE_DSC,
-            archobj:result.ARCHOBJ,
-            total_size:result.TOTAL_SIZE
-          }
-      });
+   constructor(props) {
+   super(props)    
+   //   const { results } = this.props;
 
         this.state={ 
-          tabledata: data,
           selectedRowKeys: [],  // 这里配置默认勾选列
           loading: false,
 
@@ -70,7 +58,6 @@ export default class MainPanel extends React.Component {
    addnewCard(e)
    {
 
- console.log(e.target.rel)
  this.props.dispatch(AddCard(e.target.rel));
    }
 
@@ -112,7 +99,21 @@ filterSearch(e){
     render() {
 
 
- console.log(this.state);
+    const { articles} = this.props;
+    const results = articles.articles.results;
+
+
+  var data = results.map((result)=>{
+          return {
+            key:result.ARTICLE_ID,
+            article_nam:result.ARTICLE_NAM,
+            article_dsc:result.ARTICLE_DSC,
+            archobj:result.ARCHOBJ,
+            total_size:result.TOTAL_SIZE
+          }
+      });
+
+
       const { selectedRowKeys } = this.state;
       const rowSelection = {
         selectedRowKeys,
@@ -151,7 +152,7 @@ filterSearch(e){
         	<div class="margin-bottom10">
           <Input placeholder="Search help" size="small" onChange={this.filterSearch.bind(this)}/>
           </div>
-          <Table columns={columns} dataSource={this.state.tabledata}  pagination={{ pageSize: 10 }} scroll={{ y: 240 }} />
+          <Table columns={columns} dataSource={data}  pagination={{ pageSize: 10 }} scroll={{ y: 240 }} />
           </Card>
         </div>
 

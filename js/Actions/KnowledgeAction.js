@@ -453,7 +453,6 @@ export function UpdateArticle(data){
     },config
     ).then(function (response) {
         axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+data.article_id+")",{
-          
           ARTICLE_ID:data.article_id,    
           TOTAL_SIZE:"1",
           ARCHIVING:data.archiving,    
