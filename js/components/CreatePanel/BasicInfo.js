@@ -138,29 +138,54 @@ export default class BasicInfo extends React.Component {
           <div className="margin-top10">
          
 
-                <Form inline horizontal >
+            <Form horizontal className="ant-advanced-search-form" >
+            <Row gutter={16}>
+            <Col sm={12}>
             {
               tables.map(function(table,idx){
                 
                 var sizeInputName = "size"+idx;
-                var dscInputName = "dsc"+idx;
+                
                return ( 
-                <div>
-                  <FormItem 
-                   {...formItemLayout}
-                   label={table}>
-
-                    <Input name={sizeInputName} defaultValue={that.state.size[idx]} placeholder="input Table Size" onChange={that.handleSizeChange.bind(that)}/>
-                  </FormItem>
-                  <FormItem   {...formItemLayout} label="Desicription">
-                    <Input name={dscInputName} defaultValue={that.state.dsc[idx]} placeholder="input desicription" onChange={that.handleDscChange.bind(that)} />
-                  </FormItem>
-                  </div>
-                )
-            })
+                  
+                  
+                    <FormItem 
+                      labelCol={{ span: 8 }}
+                      wrapperCol={{ span: 16 }}
+                      label={table}
+                    >
+                      <Col span="15">
+                        <Input name={sizeInputName} defaultValue={that.state.size[idx]} size="default" placeholder="input Table Size" onChange={that.handleSizeChange.bind(that)}/>
+                      </Col>
+                      <Col span="3">
+                        <p className="ant-form-split">GB</p>
+                      </Col>
+                    </FormItem>
+                    )
+             })
             }
-          
-                   </Form>
+              </Col>
+              <Col sm={12}>
+              {
+                tables.map(function(table,idx){
+                  var dscInputName = "dsc"+idx;
+                  return (
+
+                      <FormItem   
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 12 }}
+                        label="Desicription"
+                      >
+                        <Input name={dscInputName} defaultValue={that.state.dsc[idx]} size="default" placeholder="input desicription" onChange={that.handleDscChange.bind(that)} />
+                      </FormItem>
+
+                    )
+                })
+              }
+              </Col>        
+                  
+             </Row>
+            </Form>
             
 
                      
