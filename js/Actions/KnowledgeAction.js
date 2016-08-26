@@ -12,10 +12,10 @@ export function fetchArticles(){
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
         },
-	  auth: {
+    auth: {
     username: 'zengheng',
     password: 'Sap12345'
- 		 }
+     }
     })
     .then(function (response,err) {
         var data = response.data;
@@ -129,25 +129,6 @@ export function GetBestPractice(data){
   var archobj = data.archobj;
   
   var articleid = data.articleid;
- var bestpracticedata;
-
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/DVMBPRACTICE?$filter=archobj eq '" + archobj + "'" ,{
-                headers:{
-                  'X-My-Custom-Header': 'Header-Value',
-                  'Content-Type': 'application/json'
-                },
-               
-                auth: {
-                  username:'zengheng',
-                  password: 'Sap12345'
-                }
-            }).then(function(response,err){
-              console.log(response);
-            bestpracticedata  = response.data;
-          
-            }).catch(function(err){
-              console.log(err);
-            })
 
 
 
@@ -155,7 +136,9 @@ export function GetBestPractice(data){
  return dispatch=>{
         
                axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=AUTO" ,{
-                headers:{
+      
+        
+              headers:{
                   'X-My-Custom-Header': 'Header-Value',
                   'Content-Type': 'application/json'
                 },
@@ -168,7 +151,6 @@ export function GetBestPractice(data){
               
               var data = response.data.results[0];
               data.articleid = articleid;
-              data.best=bestpracticedata;
               console.log("data is",data);
               dispatch({type:"GET_BEST_PRACTICE",payload:data});
 
@@ -197,7 +179,7 @@ export function GetTop5Tables(attr_nam){
       
     }).then(function(response,err){
       var data = response.data.results;
-      console.log(data);
+
       dispatch({type:"GET_TOP5_TABLES",payload:data});
      
     }).catch(function(err){
@@ -380,7 +362,6 @@ export function PostArticle(data){
 
 
           }).catch(function(response){
-            console.log(response);
           })
         
         //creation for KMDVM
@@ -392,7 +373,6 @@ export function PostArticle(data){
             
         });
         total_size = total_size.toString();
-        console.log(total_size);
         axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM",{
       
           ARTICLE_ID:article_id,    
@@ -411,7 +391,7 @@ export function PostArticle(data){
 
         },
         config).then(function(response){
-
+            dispatch({type:"POST_ARTICLE",payload:{refresh:true}})
           const modal = Modal.success({
             title: 'Successfully create! ',
             content: 'The article is created done',
@@ -490,6 +470,8 @@ export function UpdateArticle(data){
         },
         config)
         .then(function(response){
+
+          dispatch({type:"UPDATE_ARTICLE"});
             const modal = Modal.success({
             title: 'Successfully update! ',
             content: 'The article is updated done',
@@ -554,6 +536,4 @@ export function DeleteArticle(data){
   
   }
 }
-
-
 

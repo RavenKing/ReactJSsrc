@@ -4,7 +4,7 @@ export default function reducer(state={
     fetched:false,
     showMain:false,
     showCreate:false,
-
+    refresh:false,
     newArticle:{currentstep:0},
     showEdit:false,
     updateArticle:null,
@@ -16,10 +16,11 @@ export default function reducer(state={
     switch(action.type)
     {
         
+
         case "FETCH_ARTICLE_FULFILLED":
         {
                     
-            return {...state,fetching:false,fetched:true,articles:action.payload,}
+            return {...state,fetching:false,fetched:true,articles:action.payload,refresh:false}
         }
         case "SHOW_ARTICLE_MAIN":
         {
@@ -60,7 +61,7 @@ export default function reducer(state={
                       
             })
 
-            return {...state,displayPanel:newdata}
+            return {...state,displayPanel:newdata,,refresh:true}
 
         }
         case "SHOW_CREATE_PANEL":
@@ -201,10 +202,13 @@ export default function reducer(state={
         {
             const newArticle = [];
             newArticle.currentstep = 0 ; 
-            return {...state,newArticle:newArticle}
+            return {...state,newArticle:newArticle,refresh:true}
 
         } 
-
+        case "UPDATE_ARTICLE":
+        {  
+              return {...state,refresh:true}
+        }
            
 
 
@@ -212,5 +216,6 @@ export default function reducer(state={
     }
     
         return state;
+        }
 }
 

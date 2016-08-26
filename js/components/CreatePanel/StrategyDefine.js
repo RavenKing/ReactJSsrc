@@ -1,9 +1,13 @@
 import React from "react";
-import { Button,Card,Icon,Form,Input,Checkbox,Popover } from "antd";
+import { Button,Card,Icon,Form,Input,Checkbox,Popover,Modal } from "antd";
 const ButtonGroup = Button.Group;
 import { connect } from "react-redux";
 
-import { NewArticleStepOne,SetSaving,PostArticle,CloseCreatePanel } from "../../Actions/KnowledgeAction";
+import { 
+          NewArticleStepOne,SetSaving,
+          PostArticle,CloseCreatePanel,
+          fetchArticles 
+        } from "../../Actions/KnowledgeAction";
 
 //Forms
 import ArchivingForm from "./ArchivingForm";
@@ -27,7 +31,7 @@ export default class StrategyDefine extends React.Component {
   
     constructor(props)
     {
- 	      super(props)
+ 	      super(props);
         const { newArticle } = this.props.articles;
         var saving_est = "";
         var saving_est_p = "";
@@ -111,10 +115,36 @@ export default class StrategyDefine extends React.Component {
     }
 
     handleClick(){
+        var validInput = true;
+        if(isNaN(this.state.saving_est)){
+          validInput = false;
+          
+        }
+        if(isNaN(this.state.saving_est_p)){
+          validInput = false;
+          
+        }
+        if(isNaN(this.state.saving_act)){
+          validInput = false;
+          
+        }
+        if(isNaN(this.state.saving_act_p)){
+          validInput = false;          
+        }
+        if(validInput == true){
+          const { newArticle } = this.props.articles;
+          this.props.dispatch(PostArticle(newArticle));
+          this.props.dispatch(CloseCreatePanel());
+          this.props.dispatch(fetchArticles());
+        }
+        else{
+          const modal = Modal.warning({
+            title: 'Warning! ',
+            content: 'Please input the correct number'
+          });
+        }
         
-        const { newArticle } = this.props.articles;
-        this.props.dispatch(PostArticle(newArticle));
-        this.props.dispatch(CloseCreatePanel());
+        
     }
 
     render() {	

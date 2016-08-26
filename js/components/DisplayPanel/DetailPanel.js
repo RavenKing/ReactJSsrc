@@ -90,7 +90,6 @@ export default class DetailPanel extends React.Component {
                         if(articles[i].ARTICLE_ID == drop_id){
 
                             props.dispatch(DeleteArticle(articles[i]));
-                            props.dispatch(fetchArticles());
                             that.removeCard();
                             break;
                         }

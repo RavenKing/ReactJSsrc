@@ -19,7 +19,8 @@ export default class DataBlock extends React.Component {
     render() { 
 
       const { articles } =this.props;
-      console.log(articles);
+      console.log("data block")
+      console.log( articles )
       var  DataItems;
       if(articles.fetched === true)
       {

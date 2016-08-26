@@ -28,32 +28,43 @@ import DisplayPanel from "./DisplayPanel/DisplayPanel"
     
 })
 export default class Layout extends React.Component {
-  constructor(props){
-  super(props)
-   
-this.props.dispatch(fetchArticles())
-}
+
+
+  shouldComponentUpdate(nextProps,nextState)
+  { 
+    const {articles} =nextProps;
+    console.log(articles);
+    console.log("update"+articles.refresh)
+    if(articles.refresh == true || articles.fetched == true )
+    {
+
+      return true;
+    }
+
+
+  }
+
+  componentWillUpdate(nextProps,nextState){
+    const {articles} = nextProps;
+    if(articles.refresh ==true)
+    {
+
+     this.props.dispatch(fetchArticles())
+
+    }
+
+  }
 
 
   componentWillMount()
   {
+    alert("fetch Article from layout")
 this.props.dispatch(fetchArticles())
 
   }
 
 
       render() {
-      var DisplayView,DataView;
-       const {  articles } = this.props;
-       if(articles.fetched == true)
-       {
-          DataView = <DataPanel articles={this.props.articles}> </DataPanel>  
-          DisplayView = <DisplayPanel articles = {this.props.articles}> </DisplayPanel>
-       }
-      
-
-
-      
         
     return (
          <div>
