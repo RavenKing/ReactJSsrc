@@ -61,7 +61,7 @@ export default function reducer(state={
                       
             })
 
-            return {...state,displayPanel:newdata,,refresh:true}
+            return {...state,displayPanel:newdata,refresh:true}
 
         }
         case "SHOW_CREATE_PANEL":
@@ -205,10 +205,9 @@ export default function reducer(state={
             return {...state,newArticle:newArticle,refresh:true}
 
         } 
-        case "UPDATE_ARTICLE":
-        {  
-              return {...state,refresh:true}
-        }
+        case "UPDATE_ARTICLE":{ 
+
+        return {...state,refresh:true}}
            
 
 
@@ -217,5 +216,5 @@ export default function reducer(state={
     
         return state;
         }
-}
+
 
