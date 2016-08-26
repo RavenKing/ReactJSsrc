@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Form,Button,Card,Checkbox,Icon,Input,Modal} from "antd";
+import { 
+          Form,Button,Card,Checkbox,
+          Icon,Input,Modal,Row,Col
+        } from "antd";
 import { connect } from "react-redux";
 import { CloseEditPanel,UpdateArticle,fetchArticles } from "../../Actions/KnowledgeAction";
 import { setCardDragable } from "../../interactScript";
@@ -367,37 +370,6 @@ export default class EditPanel extends React.Component{
       }
     }); 
 
-    var Tables = this.props.article.TABLES.map((table,idx)=>{
-      
-      return (
-        <Form inline>
-              <FormItem
-                  id="control-tbl"
-                  label={table.ATTR_NAM}
-                  labelCol={{ span: 10 }}
-                  wrapperCol={{ span: 10 }}
-              >
-                <Input id="control-tbl" data-id={idx} defaultValue={table.TBL_SIZE} onChange={this.handleChange.bind(this)} />
-              </FormItem>
-              <FormItem
-                  id="control-tbl_dsc"
-                  label="Description:"
-                  labelCol={{ span: 10 }}
-                  wrapperCol={{ span: 10 }}
-              >
-                <Input id="control-tbl_dsc" data-id={idx} defaultValue={table.ATTR_DSC} onChange={this.handleChange.bind(this)} />
-
-              </FormItem>
-          </Form>
-
-
-      )
-    })
-    
-
-
-
-
 		return (
 			<div>
 				<Card title={"Edit Article"} extra={<Icon type="cross"  onClick={this.closeEdit.bind(this)}/>}>
@@ -436,8 +408,52 @@ export default class EditPanel extends React.Component{
             <p>Tables</p>
             <hr />
             <br />
+            <Form horizontal className="ant-advanced-search-form">
+              <Row gutter={16}>
+                <Col sm={12}>
+                {
+                  this.props.article.TABLES.map((table,idx)=>{
+      
+                    return (
+       
+                      <FormItem
+                        id="control-tbl"
+                        label={table.ATTR_NAM}
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 10 }}
+                      >
+                        <Col span="15">
+                          <Input id="control-tbl" data-id={idx} defaultValue={table.TBL_SIZE} onChange={that.handleChange.bind(that)} />
+                        </Col>
+                        <Col span="3">
+                          <p className="ant-form-split">GB</p>
+                        </Col>
+                      </FormItem>
+                      )
+                    })
+                  }
+                  </Col>
+                  <Col sm={12}>
+                  {
+                    this.props.article.TABLES.map((table,idx)=>{
+                      return (
+                        <FormItem
+                          id="control-tbl_dsc"
+                          label="Description:"
+                          labelCol={{ span: 6 }}
+                          wrapperCol={{ span: 16 }}
+                        >
+                          <Input id="control-tbl_dsc" data-id={idx} defaultValue={table.ATTR_DSC} onChange={that.handleChange.bind(that)} />
 
-            { Tables }
+                        </FormItem>
+                      )
+                    })
+                  }
+                  </Col>
+              </Row>
+            </Form>
+
+           
 
     				<p>Dvm Methods</p>
       			<hr />
