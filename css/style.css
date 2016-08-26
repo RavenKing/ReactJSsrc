@@ -370,7 +370,31 @@ li {
   }
 }
 
+/*login panel*/
+.login{
+  padding-top:200px;
+}
 
+#km-title{
+  color:#364b54;
+  font-family: Comic Sans MS;
+  font-size:30px;
+  margin-left:36%;
+  margin-bottom: 50px;
+}
+.login-label1{
+  color:white;
+  font-family: Tahoma;;
+  font-size:20px;
+}
+.login-label2{
+  color:white;
+  font-family: Lucida Console;
+  font-size:12px;
+}
+#login-btn{
+  width:260px;
+}
 /*create Panel */
 .mainstep{
  margin-top:10px;
