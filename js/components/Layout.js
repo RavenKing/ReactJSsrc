@@ -31,7 +31,7 @@ export default class Layout extends React.Component {
 
 
   shouldComponentUpdate(nextProps,nextState)
-  { 
+  {   
     const {articles} =nextProps;
     console.log(articles);
     console.log("update"+articles.refresh)
@@ -58,7 +58,6 @@ export default class Layout extends React.Component {
 
   componentWillMount()
   {
-    alert("fetch Article from layout")
 this.props.dispatch(fetchArticles())
 
   }
