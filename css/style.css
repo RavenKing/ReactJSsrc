@@ -372,17 +372,20 @@ li {
 
 /*login panel*/
 .login{
-  padding-top:200px;
+  padding-top:80px;
   margin:auto;
   width:35%;
 }
 
 #km-title{
-  color:#364b54;
+  color:white;
   font-family: Comic Sans MS;
   font-size:30px;
-  margin-left:25%;
+  margin-left:21%;
   margin-bottom: 40px;
+}
+.ant-tabs{
+  color:white;
 }
 #login-form{
   margin-left: 25%;
