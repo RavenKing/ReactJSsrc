@@ -246,7 +246,7 @@ export default class Login extends React.Component {
               </TabPane>
 
               <TabPane tab="register" key="2">
-                <Form horizontal>
+                <Form id="reg-form" horizontal>
 
                   <FormItem
                     label="Customer ID:"
