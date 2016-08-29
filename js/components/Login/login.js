@@ -2,13 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { History,Router } from "react-router";
 
-import { Form, Input, Button, Checkbox,Col } from 'antd';
+import { Form, Input, Button, Checkbox,Col,Tabs } from 'antd';
 import md5 from "md5-js"
 
-import { setAuthToken} from "../../Actions/authAction"
+import { setAuthToken,UserRegister,regCheck} from "../../Actions/authAction"
 
 const FormItem = Form.Item;
-
+const TabPane = Tabs.TabPane;
 @connect((store)=>{
     
     return {
@@ -21,6 +21,21 @@ export default class Login extends React.Component {
     constructor(props){
       
         super(props);
+        this.state={
+          
+          registerData:{
+
+            customer_id:"",
+            customer_name:"",
+            username:"",
+            pwd1:"",
+            pwd2:"",
+            role:"",
+            industry:"",
+            country:""
+
+        }
+      }
     }   
 
 
@@ -29,7 +44,9 @@ export default class Login extends React.Component {
 
         
     }// native funtion , update store 
-    
+    callback(key) {
+      console.log(key);
+    }
     setAuth(){
 
         this.props.dispatch(setAuthToken(this.state));
@@ -53,7 +70,107 @@ export default class Login extends React.Component {
           username: e.target.value
         })
     }
-
+    handleChange(e){
+      var value = e.target.value;
+      var name = e.target.name;
+      var { registerData } = this.state;
+      switch(name){
+        case "customer_id":{
+          registerData.customer_id = value;          
+          break;
+        }
+        case "customer_name":{
+          registerData.customer_name = value;
+          break;
+        }
+        case "username":{
+          registerData.username = value;
+          break;
+        }
+        case "role":{
+          registerData.role = value;
+          break;
+        }
+        case "pwd1":{
+          registerData.pwd1 = md5(value);
+          break;
+        }
+        case "pwd2":{
+          registerData.pwd2 = md5(value);
+          break;
+        }
+        case "industry":{
+          registerData.industry = value;
+          break;
+        }
+        case "country":{
+          registerData.country = value;
+          break;
+        }
+      }
+      this.setState({
+        registerData:registerData
+      });
+    }
+    handleClick(){
+      var token;
+      //check customer id whether equal to ""
+      if(this.state.registerData.customer_id == ""){
+        token={
+          authorized:false,
+          error:"reg_cus",
+          user:null,
+          hint:"input the customer id"
+        }
+        this.props.dispatch(regCheck(token));
+      }
+      //check user name whether equal to ""
+      else if(this.state.registerData.username == ""){
+        token={
+          authorized:false,
+          error:"reg_username",
+          user:null,
+          hint:"input the user name"
+        }
+        this.props.dispatch(regCheck(token));
+      }
+      //check password whether equal to ""
+      else if(this.state.registerData.pwd1 == ""){
+        token={
+          authorized:false,
+          error:"reg_pwd1",
+          user:null,
+          hint:"input the password"
+        }
+        this.props.dispatch(regCheck(token));
+      }
+      //check confirmed password whether equal to ""
+      else if(this.state.registerData.pwd2 == ""){
+        token={
+          authorized:false,
+          error:"reg_pwd2",
+          user:null,
+          hint:"input the confirmed password"
+        }
+        this.props.dispatch(regCheck(token));
+       
+      }
+      //check password whether equal to confirmed password
+      else if(this.state.registerData.pwd1 != this.state.registerData.pwd2){
+        token={
+          authorized:false,
+          error:"reg_pwd2",
+          user:null,
+          hint:"confirmed password is not equal to password"
+        }
+        this.props.dispatch(regCheck(token));
+        
+      }
+      //all correct
+      else{
+        this.props.dispatch(UserRegister(this.state.registerData));
+      }
+    }
     PasswordChange(e){
 
         this.setState({
@@ -74,43 +191,26 @@ export default class Login extends React.Component {
       
       
           <div className="login">
-
-            
             <p id="km-title">Knowledge Management</p>
-             
-           
+
+            <Tabs defaultActiveKey="1" onChange={this.callback.bind(this)}>
+              <TabPane tab="login" key="1">           
 
             {token.error=="password"?"error":""}
 
-            <Form horizontal>
+            <Form horizontal id="login-form">
 
               <FormItem
-                label="  "
-                labelCol={{ span: 9 }}
-                wrapperCol={{ span: 8 }}
-              >
-                <Col span='4' offset="2">
-                  <p className="login-label1">login</p>
-                </Col>
-                <Col span="4">
-                  <p className="login-label1">register</p>
-                </Col>
-              </FormItem>
-
-              <FormItem
-                label="  "
-                labelCol={{ span: 9 }}
-                wrapperCol={{ span: 4 }}
+                wrapperCol={{ span: 16 }}
                 validateStatus={token.error=="username"?"error":""}
                 help={token.error=="username"?token.hint:""}
               >
                 <Input placeholder="UserName" onChange={this.UserChange.bind(this)}/>
               </FormItem>
               
-              <FormItem
-                label="  "
-                labelCol={{ span: 9 }}
-                wrapperCol={{ span: 4 }}
+              <FormItem                
+    
+                wrapperCol={{ span: 16 }}
                 validateStatus={token.error=="password"?"error":""}
                 help={token.error=="password"?token.hint:""}
               >
@@ -120,9 +220,8 @@ export default class Login extends React.Component {
               </FormItem>
         
               <FormItem
-                label="  "
-                labelCol={{ span:9 }}
-                wrapperCol={{ span:10 }}
+                
+                wrapperCol={{ span:16 }}
               >
 
               <Button type="primary" id="login-btn" onClick={this.setAuth.bind(this)}>login</Button>
@@ -131,23 +230,116 @@ export default class Login extends React.Component {
               </FormItem>
               
               <FormItem
-                label="  "
-                labelCol={{ span:9 }}
-                wrapperCol={{ span:10 }}
+                
+                wrapperCol={{ span:24 }}
               >
-              <Col span="6">
+              <Col span="9">
                 <Checkbox className="login-label2">remember me</Checkbox>
               </Col>
-              <Col span="4">
+              <Col span="9">
                 <p className="login-label2">Can not login?</p>
               </Col>
               
-              </FormItem>
-              
-
-
+              </FormItem>             
 
             </Form>
+              </TabPane>
+
+              <TabPane tab="register" key="2">
+                <Form id="reg-form" horizontal>
+
+                  <FormItem
+                    label="Customer ID:"
+                    labelCol={{ span: 7 }}
+                    wrapperCol={{ span: 12 }}
+                    validateStatus={token.error=="reg_cus"?"error":""}
+                    help={token.error=="reg_cus"?token.hint:""}
+
+                    
+                  >
+                  <Input  name="customer_id" onChange={this.handleChange.bind(this)}/>
+                  </FormItem>
+
+                   <FormItem
+                    label="Cusomer Name:"
+                    labelCol={{ span: 7 }}
+                    wrapperCol={{ span: 12 }}
+                    
+                  >
+                  <Input name="customer_name" onChange={this.handleChange.bind(this)}/>
+                  </FormItem>
+
+                   <FormItem
+                    label="Role:"
+                    labelCol={{ span: 7 }}
+                    wrapperCol={{ span: 12 }}
+                    
+                  >
+                  <Input name="role" onChange={this.handleChange.bind(this)}/>
+                  </FormItem>
+
+                   <FormItem
+                    label="User Name:"
+                    labelCol={{ span: 7 }}
+                    wrapperCol={{ span: 12 }}
+                    validateStatus={token.error=="reg_username"?"error":""}
+                    help={token.error=="reg_username"?token.hint:""}
+                    
+                  >
+                  <Input  name="username" onChange={this.handleChange.bind(this)}/>
+                  </FormItem>
+
+                   <FormItem
+                    label="Password:"
+                    labelCol={{ span: 7 }}
+                    wrapperCol={{ span: 12 }}
+                    validateStatus={token.error=="reg_pwd1"?"error":""}
+                    help={token.error=="reg_pwd1"?token.hint:""}
+                    
+                  >
+                  <Input type="password" name="pwd1" onChange={this.handleChange.bind(this)}/>
+                  </FormItem>
+
+                  <FormItem
+                    label="Confirm Password:"
+                    labelCol={{ span: 7 }}
+                    wrapperCol={{ span: 12 }}
+                    validateStatus={token.error=="reg_pwd2"?"error":""}
+                    help={token.error=="reg_pwd2"?token.hint:""}
+                    
+                  >
+                  <Input type="password" name="pwd2" onChange={this.handleChange.bind(this)}/>
+                  </FormItem>
+
+                   <FormItem
+                    label="Industry:"
+                    labelCol={{ span: 7 }}
+                    wrapperCol={{ span: 12 }}
+                    
+                  >
+                  <Input  name="industry" onChange={this.handleChange.bind(this)}/>
+                  </FormItem>
+
+                   <FormItem
+                    label="Country:"
+                    labelCol={{ span: 7 }}
+                    wrapperCol={{ span: 12 }}
+                    
+                  >
+                  <Input  name="country" onChange={this.handleChange.bind(this)}/>
+                  </FormItem>
+
+                  
+                   
+                  <Button type="primary" id="reg-btn" onClick={this.handleClick.bind(this)}>Register</Button>
+                 
+                 
+                  </Form>
+                  </TabPane>
+              </Tabs>
+
+            
+            
           </div>        	
       );
     }

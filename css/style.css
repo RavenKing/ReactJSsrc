@@ -373,14 +373,19 @@ li {
 /*login panel*/
 .login{
   padding-top:200px;
+  margin:auto;
+  width:35%;
 }
 
 #km-title{
   color:#364b54;
   font-family: Comic Sans MS;
   font-size:30px;
-  margin-left:36%;
-  margin-bottom: 50px;
+  margin-left:25%;
+  margin-bottom: 40px;
+}
+#login-form{
+  margin-left: 25%;
 }
 .login-label1{
   color:white;
@@ -393,8 +398,17 @@ li {
   font-size:12px;
 }
 #login-btn{
-  width:260px;
+  width:280px;
 }
+/*register*/
+#reg-form .ant-form-item-label label{
+  color:white;
+}
+#reg-btn{
+  width:270px;
+  margin-left: 30%;
+}
+
 /*create Panel */
 .mainstep{
  margin-top:10px;
