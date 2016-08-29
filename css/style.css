@@ -497,4 +497,9 @@ text-align: center
 
 }
 
+.help-bg-km {
+  background-image: url(../img/help-bg-km.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
 
