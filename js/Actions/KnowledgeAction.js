@@ -26,8 +26,6 @@ export function fetchArticles(){
     
     
 }
-
-
 export function ShowMainPanel()
 {
   return dispatch=>{
@@ -393,9 +391,9 @@ export function PostArticle(data){
         },
         config).then(function(response){
             dispatch({type:"POST_ARTICLE",payload:{refresh:true}})
-          const modal = Modal.success({
-            title: 'Successfully create! ',
-            content: 'The article is created done',
+            const modal = Modal.success({
+              title: 'Successfully create! ',
+              content: 'The article is created done',
             });
 
         }).catch(function(response){
