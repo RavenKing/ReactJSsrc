@@ -101,23 +101,22 @@ export default function reducer(state={
             console.log("results:",results); 
             var newdata = results.filter((article)=>{ 
                 if(article.ARTICLE_ID == action.payload.articleid){
-
-                    article.bestpractice = {  
-                        'AVGS': action.payload.AVGS,
-                   'Retention':  action.payload.Retention
-                    };
+                    if(article.bestpractice){
+                    article.bestpractice.AVGS = action.payload.AVGS;
+                   article.bestpractice.Retention=action.payload.Retention;}
+                   else{
+                    article.bestpractice={
+                        AVGS:action.payload.AVGS,
+                        Retention:action.payload.Retention
+                    }
+                   }
                 }
                        
                 return  article;
                       
             });
-            
-            console.log("test:");
-            console.log(newdata);
-
             var newArticles = {};
             newArticles.results = newdata;
-
             return {...state,articles:newArticles};
         }
         case "GET_TOP5_TABLES":
@@ -164,6 +163,7 @@ export default function reducer(state={
         {
             const { newArticle } = state;
 
+
             newArticle.ARCHIVING = action.payload;
             return {...state,newArticle:newArticle}
         }
@@ -209,13 +209,40 @@ export default function reducer(state={
 
         return {...state,refresh:true}}
            
+        case "GET_BEST_PRACTICE_STEP2":
+        {
 
+            console.log(action.payload)
+        const { articles  } = state;
+        const { results } = articles;
+        var newdata = results.filter((article)=>{ 
+                if(article.ARTICLE_ID == action.payload.articleid){
+                    if(article.bestpractice)
+                    {article.bestpractice.detail = action.payload.result
+                    }
+                    else
+                    {
+                        article.bestpractice={detail:action.payload.result}
+
+                    }
+                }
+                       
+                return  article;
+                      
+            });
+            var newArticles = {};
+            newArticles.results = newdata;
+            return {...state,articles:newArticles};
+
+        }
 
 
     }
+        
     
         return state;
-        }
+        
+}
 
 
 

@@ -14,7 +14,8 @@ const FormItem = Form.Item;
 
 @connect((store)=>{    
     return {
-        articles:store.articles
+        articles:store.articles,
+        auth:store.auth.token
     };
     
 })
@@ -115,7 +116,9 @@ export default class ObjectDefinition extends React.Component {
     }
 
     render() {
-
+        console.log(this.props);
+        const {auth} = this.props;
+        const {user} = auth;
         const formItemLayout = {
           labelCol: { span: 6 },
           wrapperCol: { span: 14 },
@@ -128,7 +131,7 @@ export default class ObjectDefinition extends React.Component {
                   {...formItemLayout}
                   label="Customer ID"
                 >
-                  <p className="ant-form-text" id="userName" name="userName">32326</p>                  
+                  <p className="ant-form-text" id="userName" name="userName">{user.CUSTOMER_ID}</p>                  
                 </FormItem>
                 <FormItem
                   {...formItemLayout}

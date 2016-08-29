@@ -23,7 +23,8 @@ import DisplayPanel from "./DisplayPanel/DisplayPanel"
 
 @connect((store)=>{    
     return {
-        articles:store.articles
+        articles:store.articles,
+        auth:store.auth
     };
     
 })
@@ -33,7 +34,6 @@ export default class Layout extends React.Component {
   shouldComponentUpdate(nextProps,nextState)
   {   
     const {articles} =nextProps;
-    console.log(articles);
     console.log("update"+articles.refresh)
     if(articles.refresh == true || articles.fetched == true )
     {
@@ -45,11 +45,13 @@ export default class Layout extends React.Component {
   }
 
   componentWillUpdate(nextProps,nextState){
+    const {auth} = this.props;
+const {user} = auth.token ; 
     const {articles} = nextProps;
     if(articles.refresh ==true)
     {
 
-     this.props.dispatch(fetchArticles())
+     this.props.dispatch(fetchArticles(user))
 
     }
 
@@ -58,7 +60,10 @@ export default class Layout extends React.Component {
 
   componentWillMount()
   {
-this.props.dispatch(fetchArticles())
+const {auth} = this.props;
+
+const {user} = auth.token ; 
+this.props.dispatch(fetchArticles(user))
 
   }
 

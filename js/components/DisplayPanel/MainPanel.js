@@ -97,13 +97,14 @@ filterSearch(e){
 }
 
     render() {
-
-
+      var results;
+      var data;
+console.log(this.state.tabledata)
+if(!this.state.tabledata)
+{
     const { articles} = this.props;
-    const results = articles.articles.results;
-
-
-  var data = results.map((result)=>{
+     results = articles.articles.results;
+     data = results.map((result)=>{
           return {
             key:result.ARTICLE_ID,
             article_nam:result.ARTICLE_NAM,
@@ -112,15 +113,12 @@ filterSearch(e){
             total_size:result.TOTAL_SIZE
           }
       });
+}
+else{
+     data= this.state.tabledata
+}
+   
 
-
-      const { selectedRowKeys } = this.state;
-      const rowSelection = {
-        selectedRowKeys,
-        onChange: this.onSelectChange.bind(this),
-      };
-
-      
         
     	var columns = [        
         {

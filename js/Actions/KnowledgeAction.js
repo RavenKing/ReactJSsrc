@@ -1,13 +1,23 @@
 import axios from "axios";
 import { Modal } from 'antd';
 
-export function fetchArticles(){
-  
+export function fetchArticles(user){
 
+
+
+var customerid;
+if(user.ROLE=="ADM")
+{
+    customerid = '32326';
+
+}
+else{
+  customerid = user.CUSTOMER_ID;
+}
 
 //http://10.128.245.87:8004/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'
     return dispatch=>{
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/articleContent.xsjs?customerId=32326",{
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/articleContent.xsjs?customerId="+customerid,{
        headers:{
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
@@ -124,20 +134,11 @@ export function BackwardStep(){
 
 export function GetBestPractice(data){
 
-  var customerid = data.customerid;
-  
+  var customerid = data.customerid;  
   var archobj = data.archobj;
-  
   var articleid = data.articleid;
-
-
-
-
- return dispatch=>{
-        
+return dispatch=>{        
                axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=AUTO" ,{
-      
-        
               headers:{
 
                   'X-My-Custom-Header': 'Header-Value',
@@ -152,15 +153,44 @@ export function GetBestPractice(data){
               
               var data = response.data.results[0];
               data.articleid = articleid;
-              console.log("data is",data);
               dispatch({type:"GET_BEST_PRACTICE",payload:data});
+
 
             }).catch(function(err){
               console.log(err);
             })
 
+      axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",{
+                          headers:{
+                  'X-My-Custom-Header': 'Header-Value',
+                  'Content-Type': 'application/json'
+                },
+               
+                auth: {
+                  username:'zengheng',
+                  password: 'Sap12345'
+                }   
+              }).then(function(response,err){
+                console.log(response.data.d.results[0])
+                var payload = {
+                    articleid:articleid,
+                    result:response.data.d.results[0]
+                }
+
+              dispatch({type:"GET_BEST_PRACTICE_STEP2",payload:payload});
+              }).catch(function(err){console.log(err)})
+
+
   
     }
+}
+export function GetSAPBestPractice(data)
+{
+      var archobj = data.archobj;
+
+
+
+
 }
 
 export function GetTop5Tables(attr_nam){

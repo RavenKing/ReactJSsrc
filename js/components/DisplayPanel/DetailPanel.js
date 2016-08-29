@@ -11,7 +11,8 @@ const confirm = Modal.confirm;
 const success= Modal.success;
 @connect((store)=>{
     return {
-        articles:store.articles
+        articles:store.articles,
+        auth:store.auth.token
     };
     
 })
@@ -120,10 +121,10 @@ export default class DetailPanel extends React.Component {
     const { articles } = this.props;
     const { results } = articles.articles;
     const target = results.filter((result)=>{ return result.ARTICLE_ID == articlenumber })
-
+    const { user } = this.props.auth;
     
     var parms = { 
-     customerid:32326,
+     customerid:user.CUSTOMER_ID,
      articleid : target[0].ARTICLE_ID,
      archobj:target[0].ARCHOBJ
     }
