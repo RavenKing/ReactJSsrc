@@ -401,7 +401,7 @@ li {
   width:280px;
 }
 /*register*/
-.ant-form-item-label label{
+#reg-form .ant-form-item-label label{
   color:white;
 }
 #reg-btn{
