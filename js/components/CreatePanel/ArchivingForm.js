@@ -3,7 +3,7 @@ import { Button,Card,Icon,Form,Input,Checkbox,InputNumber,Popover } from "antd";
 
 import { connect } from "react-redux";
 
-import { SetRetention,SetSav_Est,SetSav_Est_P,SetSav_Act,SetSav_Act_P,SetArchiving } from "../../Actions/KnowledgeAction";
+import { SetRetention,SetArchiving } from "../../Actions/KnowledgeAction";
 
 
 const FormItem=Form.Item;
@@ -23,74 +23,10 @@ export default class ArchivingForm extends React.Component {
     
 
     handleChange(e){
-      var name = e.target.name;
-      var value = e.target.value;
-      switch(name){
-        case "saving_est":
-        {
-            if(value != ""){
-
-              if(isNaN(value)){
-
-                  alert("Please enter a valid number");
-              }
-              else{
-                  this.props.dispatch(SetSav_Est(value));             
-              }
-          }
-            
-          break;
-            
-        }
-        case "saving_est_p":
-        {
-            if(value != ""){
-
-              if(isNaN(value)){
-
-                  alert("Please enter a valid number");
-              }
-              else{
-                this.props.dispatch(SetSav_Est_P(value));
-              }
-            }
-            break;
-        }
-        case "saving_act":
-        {
-            if(value != ""){
-
-              if(isNaN(value)){
-
-                  alert("Please enter a valid number");
-              }
-              else{
-                this.props.dispatch(SetSav_Act(value));
-              }
-            }
-            break;
-        }
-        case "saving_act_p":
-        { 
-            if(value != ""){
-
-              if(isNaN(value)){
-
-                  alert("Please enter a valid number");
-              }
-              else{
-                this.props.dispatch(SetSav_Act_P(value));
-              }
-            }
-            break;
-        }
-        case "archiving":
-        {
-            this.props.dispatch(SetArchiving(value));
-            break;
-        }
-      }
       
+      var value = e.target.value;
+
+      this.props.dispatch(SetArchiving(value));
       
     }
 

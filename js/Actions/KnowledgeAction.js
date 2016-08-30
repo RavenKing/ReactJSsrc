@@ -488,7 +488,7 @@ export function UpdateArticle(data){
           DELETION:data.deletion,
           SUMMARIZATION:data.summarization,
           AVOIDANCE:data.avoidance,
-          RETENTION:12,
+          RETENTION:data.retention,
           SAVING_EST:data.saving_est,
           SAVING_EST_P:data.saving_est_p,
           SAVING_ACT:data.saving_act,
