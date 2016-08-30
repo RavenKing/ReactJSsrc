@@ -15,18 +15,39 @@ export default class StrategyPanel extends React.Component {
       console.log("Startegy is:",Strategy);
       var columns = [{
         title: 'Strategy Method',
-        width:"140px",
+        width:"160px",
         dataIndex: 'name',
         render: function(text) {
           return <a href="javascript:;">{text}</a>;
         }}, 
         {
           title: 'Retention Time(Month)',
-          width:'150px',
-          dataIndex: 'Retention'
+          width:'140px',
+          dataIndex: 'retention'
         }, 
         {
+          title: 'Archiving',
+          width: '150px',
+          dataIndex: 'archiving'
+        },
+        {
+          title: 'Avoidance',
+          width: '150px',
+          dataIndex: 'avoidance'
+        },
+        {
+          title: 'Deletion',
+          width: '150px',
+          dataIndex: 'deletion'
+        },
+        {
+          title: 'Summarization',
+          width: '150px',
+          dataIndex: 'summarization'
+        },
+        {
           title: 'Suggestion',
+          width:'150px',
           dataIndex: 'suggestion'
         }];
   
@@ -34,49 +55,52 @@ export default class StrategyPanel extends React.Component {
           key: '1',
           name: 'Archiving',
           suggestion: Strategy.ARCHIVING,
-          Retention: Strategy.RETENTION
+          retention: Strategy.RETENTION,
+          archiving:Strategy.ARCHIVING,
+          avoidance:Strategy.AVOIDANCE,
+          deletion:Strategy.DELETION,
+          summarization:Strategy.SUMMARIZATION
         }];
 
        
- const config={
-        chart:{type:"column",width:"200",height:"300"},
-        plotOptions: {column: {
+        const config={
+            chart:{type:"column",width:"200",height:"300"},
+            plotOptions: {column: {
                 stacking: 'normal'
             }},
-        legend: {
-            enabled: false
-        },
-       title: {
-            text:null
-           
-        },
-        credits: {
-          enabled: false
-        },
-        yAxis: {
-            min: 0,
+            legend: {
+                enabled: false
+            },
             title: {
-                text: 'Total Size (GB)'
-            }      
-        },
-        xAxis: {
-            gridLineWidth: 0,
-            categories:  [Strategy.ARCHOBJ] 
-        },
-        series: 
-        [{
-            name:'Estimated Saving Size(GB)',
-            data: [parseInt(Strategy.SAVING_EST)] 
-        },
-        {
-            name:'Estimated Remaining Size(GB)',
-            data:[parseInt(Strategy.TOTAL_SIZE)-parseInt(Strategy.SAVING_EST)]
+                text:null
+            },
+            credits: {
+              enabled: false
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total Size (GB)'
+                }      
+            },
+            xAxis: {
+                gridLineWidth: 0,
+                categories:  [Strategy.ARCHOBJ] 
+            },
+            series: 
+            [{
+                name:'Estimated Saving Size(GB)',
+                data: [parseInt(Strategy.SAVING_EST)] 
+            },
+            {
+                name:'Estimated Remaining Size(GB)',
+                data:[parseInt(Strategy.TOTAL_SIZE)-parseInt(Strategy.SAVING_EST)]
 
-        }]
+            }]
         
 
 
-      }
+        }
     
 
 

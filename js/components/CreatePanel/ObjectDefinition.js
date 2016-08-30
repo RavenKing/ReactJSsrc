@@ -25,9 +25,17 @@ export default class ObjectDefinition extends React.Component {
 
         super(props);
         const { newArticle } = this.props.articles;
+        const {auth} = this.props;
+        const {user} = auth;
+
+        var customer_id = "";
         var article_nam = "";
         var article_dsc = "";
         var obj = "";
+
+        if(user.CUSTOMER_ID){
+          customer_id = user.CUSTOMER_ID;
+        }
         if(newArticle.ARTICLE_NAM){
             article_nam = newArticle.ARTICLE_NAM;
         }
@@ -41,6 +49,7 @@ export default class ObjectDefinition extends React.Component {
           objectstatus:"",
           objecthelp:"",
           visible:false,
+          customer_id:customer_id,
           article_nam:article_nam,
           article_dsc:article_dsc,
           obj:obj
@@ -117,8 +126,6 @@ export default class ObjectDefinition extends React.Component {
 
     render() {
         console.log(this.props);
-        const {auth} = this.props;
-        const {user} = auth;
         const formItemLayout = {
           labelCol: { span: 6 },
           wrapperCol: { span: 14 },
@@ -131,7 +138,7 @@ export default class ObjectDefinition extends React.Component {
                   {...formItemLayout}
                   label="Customer ID"
                 >
-                  <p className="ant-form-text" id="userName" name="userName">{user.CUSTOMER_ID}</p>                  
+                  <p className="ant-form-text" id="userName" name="userName">{this.state.customer_id}</p>                  
                 </FormItem>
                 <FormItem
                   {...formItemLayout}

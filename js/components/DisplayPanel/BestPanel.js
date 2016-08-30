@@ -58,7 +58,7 @@ export default class BestPanel extends React.Component {
             <h2 className="margin-top10 margin-bottom10">Industry-Based Statistics {customer.INDUSTRY?"("+customer.INDUSTRY+")":""} </h2>
             <h3>Avg Saving Percent for the first DVM Run:&nbsp;
         
-            <Progress type="circle" percent={parseInt(bestpractice.AVGS).toFixed(2)}/>
+            <Progress type="circle" percent={parseInt(bestpractice.AVGS)}/>
             </h3>   
             <div className="margin-top10 margin-bottom10">
               <Tabs defaultActiveKey="1" >
