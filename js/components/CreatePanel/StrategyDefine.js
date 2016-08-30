@@ -32,35 +32,10 @@ export default class StrategyDefine extends React.Component {
     constructor(props)
     {
  	      super(props);
-        const { newArticle } = this.props.articles;
-        var saving_est = "";
-        var saving_est_p = "";
-        var saving_act = "";
-        var saving_act_p = "";
-        var comment = "";
-        if( newArticle.SAVING_EST != undefined){
-          saving_est = newArticle.SAVING_EST;
-        }
-        if(newArticle.SAVING_EST_P != undefined){
-          saving_est_p = newArticle.SAVING_EST_P;
-        }
-        if(newArticle.SAVING_ACT != undefined){
-          saving_act = newArticle.SAVING_ACT;
-        }
-        if(newArticle.SAVING_ACT_P != undefined){
-          saving_act_p = newArticle.SAVING_ACT_P;
-        }
-        if(newArticle.COMMENT){
-          comment = newArticle.COMMENT;
-        }
+        
  	      this.state={
             
-            DVM:[],
-            saving_est:saving_est,
-            saving_est_p:saving_est_p,
-            saving_act:saving_act,
-            saving_act_p:saving_act_p,
-            comment:comment
+            DVM:[]
  	      
         }
     }
@@ -73,69 +48,42 @@ export default class StrategyDefine extends React.Component {
 
     }
 
-    handleChange(e){
-      var value = e.target.value;
-      var control_id = e.target.id;
-      switch(control_id){
-        case "control-sav_est":{
-          this.setState({
-              saving_est:value
-          });
-          break;
-        }
-        case "control-sav_est_p":{
-          this.setState({
-            saving_est_p:value
-          });
-          break;
-        }
-        case "control-sav_act":{
-          this.setState({
-              saving_act:value
-          });
-          break;
-        }
-        case "control-sav_act_p":{
-          this.setState({
-            saving_act_p:value
-          });
-          break;
-        }
-        case "control-comm":{
-            this.setState({
-              comment:value
-            });
-            break;          
-        }
-        
-
-      }
-      this.props.dispatch(SetSaving(this.state));
-        
-    }
-
     handleClick(){
         var validInput = true;
-        if(isNaN(this.state.saving_est)){
+        var saving_est = this.refs.sav_est.refs.input.value;
+        var saving_est_p = this.refs.sav_est_p.refs.input.value;
+        var saving_act = this.refs.sav_act.refs.input.value;
+        var saving_act_p = this.refs.sav_act_p.refs.input.value;        
+        var comment = this.refs.com.refs.input.value;
+        if(isNaN(saving_est)){
           validInput = false;
           
         }
-        if(isNaN(this.state.saving_est_p)){
+        if(isNaN(saving_est_p)){
           validInput = false;
           
         }
-        if(isNaN(this.state.saving_act)){
+        if(isNaN(saving_act)){
           validInput = false;
           
         }
-        if(isNaN(this.state.saving_act_p)){
+        if(isNaN(saving_act_p)){
           validInput = false;          
         }
         if(validInput == true){
+          var data={
+            saving_est:saving_est,
+            saving_est_p:saving_est_p,
+            saving_act:saving_act,
+            saving_act_p:saving_act_p,
+            comment:comment
+          };
+
+          this.props.dispatch(SetSaving(data));
+
           const { newArticle } = this.props.articles;
           this.props.dispatch(PostArticle(newArticle));
           this.props.dispatch(CloseCreatePanel());
-          this.props.dispatch(fetchArticles());
         }
         else{
           const modal = Modal.warning({
@@ -201,12 +149,11 @@ export default class StrategyDefine extends React.Component {
               <br />
               <Form horizontal>
                 <FormItem
-                  id="control-sav_est"
                   label="Estimated Saving Potential(GB):"
                   labelCol={{ span: 7 }}
                   wrapperCol={{ span: 10 }}
               >
-                <Input id="control-sav_est" defaultValue={this.state.saving_est} onChange={this.handleChange.bind(this)}/>
+                <Input ref="sav_est" defaultValue={this.state.saving_est} />
               </FormItem>
 
               <FormItem
@@ -215,7 +162,7 @@ export default class StrategyDefine extends React.Component {
                   labelCol={{ span: 7 }}
                   wrapperCol={{ span: 10 }}
               >
-                <Input id="control-sav_est_p" defaultValue={this.state.saving_est_p} onChange={this.handleChange.bind(this)}/>
+                <Input  ref="sav_est_p" defaultValue={this.state.saving_est_p} />
               </FormItem>
 
                 <FormItem
@@ -224,7 +171,7 @@ export default class StrategyDefine extends React.Component {
                   labelCol={{ span: 7 }}
                   wrapperCol={{ span: 10 }}
               >
-                <Input id="control-sav_act"  defaultValue={this.state.saving_act} onChange={this.handleChange.bind(this)}/>
+                <Input   ref="sav_act" defaultValue={this.state.saving_act} />
               </FormItem>
 
               <FormItem
@@ -233,7 +180,7 @@ export default class StrategyDefine extends React.Component {
                   labelCol={{ span: 7 }}
                   wrapperCol={{ span: 10 }}
               >
-                <Input id="control-sav_act_p"  defaultValue={this.state.saving_act_p} onChange={this.handleChange.bind(this)}/>
+                <Input  ref="sav_act_p" defaultValue={this.state.saving_act_p} />
               </FormItem>               
 
               </Form>
@@ -263,13 +210,13 @@ export default class StrategyDefine extends React.Component {
                   {...formItemLayout}
                   label="Overview Comments"
                 >
-                <Input id="control-comm" type="textarea"  defaultValue={this.state.comment} placeholder="Current Strategy Of your System"  onChange={this.handleChange.bind(this)}/>
+                <Input ref="com" type="textarea"  defaultValue={this.state.comment} placeholder="Current Strategy Of your System" />
                 </FormItem>
 
                 <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
 
             <ButtonGroup>
-            <BackButton/>
+             <BackButton/>
             <Button type="primary" onClick={this.handleClick.bind(this)}>Save <Icon type="right" />
             </Button>
             </ButtonGroup>

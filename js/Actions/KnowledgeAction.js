@@ -274,7 +274,7 @@ export function PostArticle(data){
   var tablesDsc = data.TABLESDSC;
 
   //fields in table "KMHDR"
-  var customer_id = data.CUSTOMER_ID;
+  var customer_id = data.CUSTOMER_ID.toString();
   var archobj = data.ARCHOBJ;
   var article_nam = data.ARTICLE_NAM;
   var article_dsc = data.ARTICLE_DSC;
