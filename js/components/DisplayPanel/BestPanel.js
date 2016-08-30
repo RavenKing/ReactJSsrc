@@ -16,21 +16,68 @@ const TabPane = Tabs.TabPane;
 })
 
 export default class BestPanel extends React.Component {
- 
+constructor(props)
+{
+ 	super(props)
+     const  { bestpractice } = this.props;
+     var content;
+     var number;
+     const { detail } = bestpractice;
+
+     console.log(detail.BEST_PRACTICE)
+     if(detail.BEST_PRACTICE)
+     {
+     	 number = parseInt(detail.BEST_PRACTICE)/12
+
+     }
+     console.log(number)
+
+     if(detail.RANK == 1)
+     {
+      content= " Less than 10 archiving experience in our database";
+     }
+     else if(detail.RANK==2)
+     {
+ 	content= " Around 30 archiving experience in our database";
+     }
+     else if(detail.RANK==3)
+     {
+	 content= " Around 50 archiving experience in our database";     
+     }
+     else if(detail.RANK ==4 )
+     {
+     	 content= " Less than 80 archiving experience in our database";
+     
+     }
+     else if(detail.RANK ==5 )
+     {
+     	 content= " More than 80 archiving experience in our database";
+     }
+
+        this.state={
+     		saveyear:number,
+     		hintcontent:content
+
+     	}
+
+
+
+} 
 
     render() {  
+    	console.log(this.state);
       const {articles } =this.props;
 
      const  { bestpractice } = this.props;
 
      const { detail } = bestpractice;
 
-     console.log(this.props);
 
      const {customer} = this.props;
-
-
-  const marks = {
+    var currentdate= new Date();
+   var recommendmark = currentdate.getFullYear() - parseInt(this.state.saveyear);
+   var marknumber = 192-parseInt(detail.BEST_PRACTICE);
+  var marks = {
   1: '2000',
   130:{
     style:{
@@ -38,21 +85,26 @@ export default class BestPanel extends React.Component {
     },
     label:<strong>2011</strong>
   },
-  168: {
-    style: {
-      color: 'red',
-    },
-    label: <strong>2013</strong>,
-  },
   192: '2016'
 };
+marks[marknumber] = {
+    style: {     
+     color: 'red',
+    },
+    label: <strong>{recommendmark}</strong>,
+  }
+
+
+
+console.log("helloworld"+marks);
         return (
 
 
           <div className="margin-top10">
             <h2>Overal Rating for {this.props.archobj} in Smart Operation</h2>
             <br/>
-            <div>Rank:<Rate disabled defaultValue={detail.RANK?parseInt(detail.RANK):1} /></div>
+            <Popover placement="top" content={this.state.hintcontent}><div>Rank:<Rate disabled defaultValue={detail.RANK?parseInt(detail.RANK):1} /></div>
+            </Popover>
             <br/>
             <hr />
             <h2 className="margin-top10 margin-bottom10">Industry-Based Statistics {customer.INDUSTRY?"("+customer.INDUSTRY+")":""} </h2>
@@ -65,12 +117,12 @@ export default class BestPanel extends React.Component {
               <TabPane tab="Best Practice For Archiving" key="1" className="margin-left10" disabled={detail.ARCHIVING?false:true}>
               <div className="margin10">
               {detail.ARCHIVING}
-              <Popover placement="right" content="Varify the data in Your Database whether it meet the recommandation">
+              <Popover placement="right" content={"Varify the data in Your Database whether it meet the recommandation(before"+recommendmark+")"}>
               <div>
               <div >
               Average Residence Time in our database:  <Tag closable color="red" closable={false}>{bestpractice.Retention?parseInt(bestpractice.Retention):0}</Tag>Month And the
               Candidate Data for archiving :
-              <Slider marks={marks} min={1} max = {192}  defaultValue={192 - bestpractice.Retention} disabled={true} />
+              <Slider marks={marks} min={1} max = {192}  defaultValue={marknumber} disabled={true}  tipFormatter={null}/>
               </div>
               </div>
               </Popover>
