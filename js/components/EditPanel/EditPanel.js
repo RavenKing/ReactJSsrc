@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { 
           Form,Button,Card,Checkbox,
-          Icon,Input,Modal,Row,Col
+          Icon,Input,Modal,Row,Col,
+          InputNumber,Popover
         } from "antd";
 import { connect } from "react-redux";
 import { CloseEditPanel,UpdateArticle,fetchArticles } from "../../Actions/KnowledgeAction";
@@ -41,6 +42,7 @@ export default class EditPanel extends React.Component{
               avoidance:this.props.article.AVOIDANCE,
               summarization:this.props.article.SUMMARIZATION,
               archiving:this.props.article.ARCHIVING,
+              retention:this.props.article.RETENTION,
               deletion:this.props.article.DELETION,
               saving_est:this.props.article.SAVING_EST,
               saving_est_p:this.props.article.SAVING_EST_P,
@@ -284,6 +286,14 @@ export default class EditPanel extends React.Component{
       DVM:checkedValues
     });
   }
+  onNumberChange(value){
+      console.log(value);
+      var { updateFields } = this.state;
+      updateFields.retention = value;
+      this.setState({
+        updateFields:updateFields
+      });
+  }
 
 	render(){
 
@@ -352,7 +362,18 @@ export default class EditPanel extends React.Component{
         case "Archiving":{
           return (
 
-            <Form horizontal >   
+            <Form horizontal > 
+              <FormItem
+                labelCol={{ span: 7 }}
+                wrapperCol={{ span: 10}} 
+                label="Retention Time"
+              >
+               
+                  <div>
+                    <InputNumber id="control-ret" min={12} max={999} defaultValue={that.props.article.RETENTION}  onChange={that.onNumberChange.bind(that)}/> <p className="ant-form-text" >Month</p>
+                  </div>
+               
+              </FormItem>  
         
               <FormItem
                 id="control-arc"

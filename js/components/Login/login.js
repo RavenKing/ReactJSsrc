@@ -193,8 +193,8 @@ export default class Login extends React.Component {
           <div className="login">
             <p id="km-title">Knowledge Management</p>
 
-            <Tabs defaultActiveKey="1" onChange={this.callback.bind(this)}>
-              <TabPane tab="login" key="1">           
+            <Tabs defaultActiveKey="1" className="login-tab" onChange={this.callback.bind(this)}>
+              <TabPane  tab="login" key="1">           
 
             {token.error=="password"?"error":""}
 
@@ -243,9 +243,9 @@ export default class Login extends React.Component {
               </FormItem>             
 
             </Form>
-              </TabPane>
+              </TabPane >
 
-              <TabPane tab="register" key="2">
+              <TabPane  tab="register" key="2">
                 <Form id="reg-form" horizontal>
 
                   <FormItem
