@@ -137,7 +137,7 @@ export default function reducer(state={
         case "SET_BASIC_INFO":
         {
             const { newArticle } = state;
-        
+            newArticle.TABLES = action.payload.tables;
             newArticle.SIZE = action.payload.size;
             newArticle.TABLESDSC = action.payload.dsc;
 
@@ -146,7 +146,8 @@ export default function reducer(state={
         case "SET_ARTICLE_NAM_DSC":
         {
             const { newArticle } = state;
-        
+            
+            newArticle.CUSTOMER_ID = action.payload.customer_id;
             newArticle.ARTICLE_NAM = action.payload.article_nam;
             newArticle.ARTICLE_DSC = action.payload.article_dsc;
            

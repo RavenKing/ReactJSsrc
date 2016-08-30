@@ -3,15 +3,16 @@ import {
           Button,Card,Icon,Form,Input,Row,Col,
           Collapse,Rate,Popover,Modal
         } from "antd";
-const ButtonGroup = Button.Group;
-
 import { connect } from "react-redux";
 
 import { ForwardStep,SetBasicInfo } from "../../Actions/KnowledgeAction";
+import BackButton from "./BackButton";
+
+
 const FormItem = Form.Item;
 const Panel = Collapse.Panel;
+const ButtonGroup = Button.Group;
 
-import BackButton from "./BackButton"
 
 @connect((store)=>{    
     return {
@@ -23,10 +24,13 @@ export default class BasicInfo extends React.Component {
      constructor(props) {
 
         super(props);
-        const { newArticle } = this.props.articles;       
+        const { newArticle } = this.props.articles;  
+        var tables = [];     
         var size = [];
         var dsc = [];
-
+        if(this.props.tables){
+          tables = this.props.tables;
+        }
         if(newArticle.SIZE){          
 
           size = newArticle.SIZE;
@@ -36,19 +40,21 @@ export default class BasicInfo extends React.Component {
         }
         
         this.state={ 
-
+          tables:tables,
           size:size,
           dsc:dsc
-
+          
         }
     }
 
     GoToStepFour()
     {
-        var {size} = this.state;
-        var {dsc} = this.state;
+        var { tables } = this.state;
+        var { size } = this.state;
+        var { dsc } = this.state;
+
         var validInput = true;
-        for(var i = 0;i < this.props.tables.length;i++){
+        for(var i = 0;i < this.state.tables.length;i++){
           if(size[i] == undefined){
             size[i] = ""
           }
@@ -64,6 +70,7 @@ export default class BasicInfo extends React.Component {
         if(validInput){
 
             this.setState({
+              tables:tables,
               size:size,
               dsc:dsc
             });
@@ -111,12 +118,43 @@ export default class BasicInfo extends React.Component {
       })
      
     }
+    SaveName(){
+      var input = this.refs.tablename.refs.input;
+      var inputValue = input.value;
+      if(inputValue == ""){
+        alert("input the table name");
+      }
+      else{
 
+        var { tables } = this.state;
+        tables.push(inputValue);
+        
+        this.setState({
+          tables:tables
+        });
+      }
+    }
     render() {
       var header = "Archiving Object "+this.props.obj;
       var tables = this.props.tables;
+      const { newTables } = this.state;
       var that = this;
-     
+
+       var newRecord = (
+         <Form horizontal>
+              <Row>
+                  <FormItem   
+                    labelCol={{ span: 6 }}
+                    wrapperCol={{ span: 16 }}
+                    label="Table name:"
+                  >
+                    <Input  ref="tablename" size="default" placeholder="table name"/>
+                 
+                  </FormItem>
+                </Row>
+              </Form>
+        );
+      
       const formItemLayout = {
           labelCol: { span: 14},
           wrapperCol: { span: 10 },
@@ -163,11 +201,12 @@ export default class BasicInfo extends React.Component {
                     </FormItem>
                     )
              })
-            }
+           }
               </Col>
               <Col sm={12}>
               {
                 tables.map(function(table,idx){
+
                   var dscInputName = "dsc"+idx;
                   return (
 
@@ -182,9 +221,13 @@ export default class BasicInfo extends React.Component {
                     )
                 })
               }
+
               </Col>        
                   
              </Row>
+            
+            <Button id="add-btn" type="primary" onClick={that.SaveName.bind(that)}>Add One Row</Button>
+             
             </Form>
             
 
@@ -196,7 +239,11 @@ export default class BasicInfo extends React.Component {
                 Go forward <Icon type="right" />
               </Button>
             </ButtonGroup>
+            { newRecord }
 
+
+
+            
           </div>
         </div>
 

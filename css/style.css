@@ -117,7 +117,7 @@ li {
 
 }
 .detail-panel {
-  width:750px;
+  width:870px;
  
 }
 .tableChart{
@@ -414,6 +414,9 @@ li {
 }
 
 /*create Panel */
+#add-btn{
+  margin-left: 705px;
+}
 .mainstep{
  margin-top:10px;
 
@@ -501,9 +504,4 @@ text-align: center
 
 }
 
-.help-bg-km {
-  background-image: url(../img/help-bg-km.svg);
-  background-repeat: no-repeat;
-  background-size: 100%;
-}
 

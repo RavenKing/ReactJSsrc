@@ -178,8 +178,6 @@ export default class Login extends React.Component {
         })
         console.log(md5(e.target.value));
     }
-
-
     
     render() {
 
