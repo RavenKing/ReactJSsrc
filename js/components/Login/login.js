@@ -70,6 +70,11 @@ export default class Login extends React.Component {
           username: e.target.value
         })
     }
+    CustomerIdChange(e){
+      this.setState({
+        customer_id:e.target.value
+      })
+    }
     handleChange(e){
       var value = e.target.value;
       var name = e.target.name;
@@ -176,7 +181,6 @@ export default class Login extends React.Component {
         this.setState({
             password: md5(e.target.value)
         })
-        console.log(md5(e.target.value));
     }
     
     render() {
@@ -197,6 +201,17 @@ export default class Login extends React.Component {
             {token.error=="password"?"error":""}
 
             <Form horizontal id="login-form">
+              <FormItem               
+    
+                wrapperCol={{ span: 16 }}
+                validateStatus={token.error=="customer_id"?"error":""}
+                help={token.error=="customer_id"?token.hint:""}
+              
+              >
+                
+                <Input placeholder="Customer ID" onChange={this.CustomerIdChange.bind(this)}/>             
+                               
+              </FormItem>
 
               <FormItem
                 wrapperCol={{ span: 16 }}
