@@ -7,8 +7,20 @@ export function setAuthToken (parameter) {
 
 // http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq 'admin'
 return dispatch=>{
-    console.log(parameter.username);
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH?$filter=USERNAME eq '"+parameter.username+"'",{
+    if(!parameter.customer_id){
+      var data = {
+          authorized:false,
+          error:"customer_id",
+          hint:"input customer id",
+          user:null
+      };
+      dispatch({type:"AUTH_SET_TOKEN",payload:data});
+    }
+    else{
+
+
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH?$filter=USERNAME eq '"+parameter.username
+      +"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
       headers:{
         'X-My-Custom-Header':'Header-Value',
         'content-type':'application/json'
@@ -25,7 +37,7 @@ return dispatch=>{
       if(data.length!=0)
       {
 
-      		if(data[0].USERNAME == parameter.username && data[0].PASSWORD == parameter.password)
+      		if(data[0].USERNAME == parameter.username &&data[0].CUSTOMER_ID == parameter.customer_id && data[0].PASSWORD == parameter.password)
       		{
       			data = {
 
@@ -64,6 +76,7 @@ return dispatch=>{
       console.log(err);
     })
 
+  }
   }
 }
 
