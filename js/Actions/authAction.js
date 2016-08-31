@@ -99,7 +99,7 @@ export function UserRegister(data){
     
     var customer_id = data.customer_id;
     var customer_name = data.customer_name;    
-    var role = data.role;
+    var role = "BSC";
     var pwd = data.pwd1;
     var industry = data.industry;
     var country = data.country;

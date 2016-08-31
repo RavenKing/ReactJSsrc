@@ -2,13 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import { History,Router } from "react-router";
 
-import { Form, Input, Button, Checkbox,Col,Tabs } from 'antd';
+import { Form, Input, Button, Checkbox,Col,Tabs,Select } from 'antd';
 import md5 from "md5-js"
 
 import { setAuthToken,UserRegister,regCheck} from "../../Actions/authAction"
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+const Option = Select.Option;
+
 @connect((store)=>{
     
     return {
@@ -22,7 +24,7 @@ export default class Login extends React.Component {
       
         super(props);
         this.state={
-          
+          tab_key:"1",
           registerData:{
 
             customer_id:"",
@@ -45,7 +47,9 @@ export default class Login extends React.Component {
         
     }// native funtion , update store 
     callback(key) {
-      console.log(key);
+      this.setState({
+        tab_key:key
+      });
     }
     setAuth(){
 
@@ -92,20 +96,12 @@ export default class Login extends React.Component {
           registerData.username = value;
           break;
         }
-        case "role":{
-          registerData.role = value;
-          break;
-        }
         case "pwd1":{
           registerData.pwd1 = md5(value);
           break;
         }
         case "pwd2":{
           registerData.pwd2 = md5(value);
-          break;
-        }
-        case "industry":{
-          registerData.industry = value;
           break;
         }
         case "country":{
@@ -118,6 +114,7 @@ export default class Login extends React.Component {
       });
     }
     handleClick(){
+      
       var token;
       //check customer id whether equal to ""
       if(this.state.registerData.customer_id == ""){
@@ -174,6 +171,9 @@ export default class Login extends React.Component {
       //all correct
       else{
         this.props.dispatch(UserRegister(this.state.registerData));
+        this.setState({
+          tab_key:"1"
+        });
       }
     }
     PasswordChange(e){
@@ -181,6 +181,14 @@ export default class Login extends React.Component {
         this.setState({
             password: md5(e.target.value)
         })
+    }
+    IndustryChange(value){
+      console.log(value);
+       var { registerData } = this.state;
+       registerData.industry = value;
+       this.setState({
+        registerData:registerData
+       });
     }
     
     render() {
@@ -195,7 +203,7 @@ export default class Login extends React.Component {
           <div className="login">
             <p id="km-title">Knowledge Management</p>
 
-            <Tabs defaultActiveKey="1" className="login-tab" onChange={this.callback.bind(this)}>
+            <Tabs defaultActiveKey="1"  activeKey={this.state.tab_key} className="login-tab" onChange={this.callback.bind(this)}>
               <TabPane  tab="login" key="1">           
 
             {token.error=="password"?"error":""}
@@ -274,21 +282,12 @@ export default class Login extends React.Component {
                   </FormItem>
 
                    <FormItem
-                    label="Cusomer Name:"
+                    label="Customer Name:"
                     labelCol={{ span: 7 }}
                     wrapperCol={{ span: 12 }}
                     
                   >
                   <Input name="customer_name" onChange={this.handleChange.bind(this)}/>
-                  </FormItem>
-
-                   <FormItem
-                    label="Role:"
-                    labelCol={{ span: 7 }}
-                    wrapperCol={{ span: 12 }}
-                    
-                  >
-                  <Input name="role" onChange={this.handleChange.bind(this)}/>
                   </FormItem>
 
                    <FormItem
@@ -330,7 +329,19 @@ export default class Login extends React.Component {
                     wrapperCol={{ span: 12 }}
                     
                   >
-                  <Input  name="industry" onChange={this.handleChange.bind(this)}/>
+                  <Select showSearch
+                    placeholder="please select industry"                   
+                    onChange={this.IndustryChange.bind(this)}                    
+                    
+                  >
+                    <Option value="AUTO">AUTO</Option>
+                    <Option value="RETAIL">RETAIL</Option>
+                    <Option value="POWER">POWER</Option>
+                    <Option value="MANUFACTORY">MANUFACTORY</Option>
+                    <Option value="HIGH-TECH">HIGH-TECH</Option>
+                    <Option value="UTILITY">UTILITY</Option>
+                    <Option value="BANK">BANK</Option>
+                  </Select>
                   </FormItem>
 
                    <FormItem
