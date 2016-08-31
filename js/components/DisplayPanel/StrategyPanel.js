@@ -15,7 +15,7 @@ export default class StrategyPanel extends React.Component {
       console.log("Startegy is:",Strategy);
       var columns = [{
         title: 'Strategy Method',
-        width:"160px",
+        width:"130px",
         dataIndex: 'name',
         render: function(text) {
           return <a href="javascript:;">{text}</a>;
@@ -25,42 +25,45 @@ export default class StrategyPanel extends React.Component {
           width:'140px',
           dataIndex: 'retention'
         }, 
-        Strategy.ARCHIVING?{
-          title: 'Archiving',
-          width: '150px',
-          dataIndex: 'archiving'
-        }:{}
-        ,
-        Strategy.AVOIDANCE?{
-          title: 'Avoidance',
-          width: '150px',
-          dataIndex: 'avoidance'
-        }:{}
-        ,
-        Strategy.DELETION?{
-          title: 'Deletion',
-          width: '150px',
-          dataIndex: 'deletion'
-        }:{}
-        ,
-        Strategy.SUMMARIZATION?{
-          title: 'Summarization',
-          width: '150px',
-          dataIndex: 'summarization'
-        }:{}
-        
+        {
+          title: 'Suggestion',
+          width:'300px',
+          dataIndex: 'suggestion'
+        }        
        ];
-  
-        var data = [{
-          key: '1',
-          name: 'Archiving',
-          suggestion: Strategy.ARCHIVING,
-          retention: Strategy.RETENTION,
-          archiving:Strategy.ARCHIVING,
-          avoidance:Strategy.AVOIDANCE,
-          deletion:Strategy.DELETION,
-          summarization:Strategy.SUMMARIZATION
-        }];
+        var data = [];
+        if(Strategy.ARCHIVING){
+          data.push({
+            key: '1',
+            name: 'Archiving',
+            retention: Strategy.RETENTION,
+            suggestion: Strategy.ARCHIVING   
+          });
+        }
+        if(Strategy.AVOIDANCE){
+          data.push({
+            key: '2',
+            name: 'Avoidance',
+            retention: '',
+            suggestion: Strategy.AVOIDANCE   
+          });
+        }
+        if(Strategy.DELETION){
+          data.push({
+            key: '3',
+            name: 'Deletion',
+            retention: '',
+            suggestion: Strategy.DELETION  
+          });
+        }
+        if(Strategy.SUMMARIZATION){
+          data.push({
+            key: '4',
+            name: 'Summarization',
+            retention: '',
+            suggestion: Strategy.SUMMARIZATION  
+          });
+        }
 
        
         const config={
