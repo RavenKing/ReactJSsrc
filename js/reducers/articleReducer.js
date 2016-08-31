@@ -207,6 +207,7 @@ export default function reducer(state={
         {
             const newArticle = [];
             newArticle.currentstep = 0 ; 
+
             return {...state,newArticle:newArticle,refresh:true}
 
         } 
@@ -238,6 +239,13 @@ export default function reducer(state={
             var newArticles = {};
             newArticles.results = newdata;
             return {...state,articles:newArticles};
+        }
+        case "GET_CREATE_RANK":
+        {
+            const {newArticle} = state 
+        var createarticle = newArticle;
+        createarticle.bestpractice=action.payload;
+        return {...state,newArticle:createarticle};
 
         }
 

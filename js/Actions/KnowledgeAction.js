@@ -184,9 +184,31 @@ return dispatch=>{
 }
 export function GetSAPBestPractice(data)
 {
+
       var archobj = data.archobj;
+      console.log(archobj)
 
+      return dispatch=>{ 
+        axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",{
+                      headers:{
+                  'X-My-Custom-Header': 'Header-Value',
+                  'Content-Type': 'application/json'
+                },
+               
+                auth: {
+                  username:'zengheng',
+                  password: 'Sap12345'
+                }   
+              }).then(function(response,err){
+                console.log(response.data.d.results[0])
+                var payload = {
+                    result:response.data.d.results[0]
+                }
 
+              dispatch({type:"GET_CREATE_RANK",payload:payload});
+              }).catch(function(err){console.log(err)})
+
+    }       
 
 
 }

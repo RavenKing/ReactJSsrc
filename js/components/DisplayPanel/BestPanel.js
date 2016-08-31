@@ -94,9 +94,6 @@ marks[marknumber] = {
     label: <strong>{recommendmark}</strong>,
   }
 
-
-
-console.log("helloworld"+marks);
         return (
 
 

@@ -5,9 +5,8 @@ import {
         } from "antd";
 import { connect } from "react-redux";
 
-import { ForwardStep,SetBasicInfo } from "../../Actions/KnowledgeAction";
+import { ForwardStep,SetBasicInfo,GetSAPBestPractice} from "../../Actions/KnowledgeAction";
 import BackButton from "./BackButton";
-
 
 const FormItem = Form.Item;
 const Panel = Collapse.Panel;
@@ -16,7 +15,9 @@ const ButtonGroup = Button.Group;
 
 @connect((store)=>{    
     return {
-        articles:store.articles
+        articles:store.articles,
+        auth:store.auth.token
+
     };
     
 })
@@ -24,7 +25,14 @@ export default class BasicInfo extends React.Component {
      constructor(props) {
 
         super(props);
-        const { newArticle } = this.props.articles;  
+        const { newArticle } = this.props.articles; 
+        console.log(newArticle);
+
+        var parms = {archobj:newArticle.ARCHOBJ};
+
+    this.props.dispatch(GetSAPBestPractice(parms))
+
+
         var tables = [];     
         var size = [];
         var dsc = [];
@@ -47,6 +55,22 @@ export default class BasicInfo extends React.Component {
         }
     }
 
+        componentWillMount(){
+       const {newArticle} = this.props.articles;
+       const {bestpractice} = newArticle;
+       var RANK;
+       console.log(bestpractice);
+       if(bestpractice)
+       {
+        RANK= bestpractice.result.RANK;
+       }
+            this.setState({
+
+              Rank:RANK
+
+            })
+
+        }
     GoToStepFour()
     {
         var { tables } = this.state;
@@ -135,10 +159,26 @@ export default class BasicInfo extends React.Component {
       }
     }
     render() {
-      var header = "Archiving Object "+this.props.obj;
+      var header =  "Archiving Object "+this.props.obj;
       var tables = this.props.tables;
       const { newTables } = this.state;
-      var that = this;
+
+       const {newArticle} = this.props.articles;
+       const {bestpractice} = newArticle;
+       console.log(bestpractice);
+
+var ranknumber;
+    if(bestpractice)
+    {
+      ranknumber=parseInt(bestpractice.result.RANK)
+    }
+    else{
+      ranknumber = 3 ;
+    }
+ console.log(ranknumber)
+
+
+     var that = this;
 
        var newRecord = (
          <Form horizontal>
@@ -166,7 +206,7 @@ export default class BasicInfo extends React.Component {
             <Panel header={header} key="1">
     
             <Popover content="Popular Object In Our Database">
-              <div>Rank:<Rate disabled defaultValue={3} /></div>
+              <div>Rank:<Rate disabled  value={ranknumber} /></div>
             </Popover>
             <p>Business Content of the Archiving Object</p>
             </Panel>
