@@ -504,4 +504,12 @@ text-align: center
 
 }
 
+.helpbgkm
+{
+	 background-image: url(../img/help-bg-km.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+	
+}
+
 
