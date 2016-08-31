@@ -8,7 +8,6 @@ export default function reducer(state={
     newArticle:{currentstep:0},
     showEdit:false,
     updateArticle:null,
-    newArticle:null,
     displayPanel:[],
     error:null
     },action){
@@ -70,7 +69,12 @@ export default function reducer(state={
         }
         case "CLOSE_CREATE_PANEL":{
             const { newArticle } = state;
+            if(newArticle.currentstep){
             newArticle.currentstep = 0;
+            }
+            else{
+
+            }   
             return {...state,showCreate:false,newArticle:newArticle}
         }
         case "NEW_ARTICLE_STEP_ONE":{

@@ -143,7 +143,7 @@ export default class DisplayPanel extends React.Component {
 
 
    return (
-     <div className="display-panel">
+     <div className="display-panel helpbgkm">
      
 		{ DisplayMain }
     { detaildisplay }
