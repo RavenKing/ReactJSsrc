@@ -25,31 +25,31 @@ export default class StrategyPanel extends React.Component {
           width:'140px',
           dataIndex: 'retention'
         }, 
-        {
+        Strategy.ARCHIVING?{
           title: 'Archiving',
           width: '150px',
           dataIndex: 'archiving'
-        },
-        {
+        }:{}
+        ,
+        Strategy.AVOIDANCE?{
           title: 'Avoidance',
           width: '150px',
           dataIndex: 'avoidance'
-        },
-        {
+        }:{}
+        ,
+        Strategy.DELETION?{
           title: 'Deletion',
           width: '150px',
           dataIndex: 'deletion'
-        },
-        {
+        }:{}
+        ,
+        Strategy.SUMMARIZATION?{
           title: 'Summarization',
           width: '150px',
           dataIndex: 'summarization'
-        },
-        {
-          title: 'Suggestion',
-          width:'150px',
-          dataIndex: 'suggestion'
-        }];
+        }:{}
+        
+       ];
   
         var data = [{
           key: '1',
