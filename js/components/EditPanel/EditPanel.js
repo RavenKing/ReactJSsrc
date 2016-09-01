@@ -39,6 +39,7 @@ export default class EditPanel extends React.Component{
               article_dsc:this.props.article.ARTICLE_DSC,
               archobj:this.props.article.ARCHOBJ,
               tables:this.props.article.TABLES,
+              create_by:this.props.article.CREATE_BY,
               avoidance:this.props.article.AVOIDANCE,
               summarization:this.props.article.SUMMARIZATION,
               archiving:this.props.article.ARCHIVING,
