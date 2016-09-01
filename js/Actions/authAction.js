@@ -2,6 +2,7 @@ const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN'
 const AUTH_DELETE_TOKEN = 'AUTH_DELETE_TOKEN'
 import axios from "axios"
 import { Modal } from 'antd';
+
 export function setAuthToken (parameter) {
 
 
@@ -19,8 +20,7 @@ return dispatch=>{
     else{
 
 
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH?$filter=USERNAME eq '"+parameter.username
-      +"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
       headers:{
         'X-My-Custom-Header':'Header-Value',
         'content-type':'application/json'
@@ -93,17 +93,71 @@ export function regCheck(data){
     dispatch({type:"REG_CHECK",payload:data})
   }
 }
-export function UserRegister(data){
+export function CusRegister(data){
   return dispatch=>{
-    var username = data.username;
-    
     var customer_id = data.customer_id;
     var customer_name = data.customer_name;    
-    var role = "BSC";
-    var pwd = data.pwd1;
+    var sid = data.sid;
+    var client = data.client;
     var industry = data.industry;
     var country = data.country;
-    var payload={};
+    var city = data.city;
+
+    var config = {
+      headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        },
+      auth: {
+        username: 'zengheng',
+        password: 'Sap12345'
+      }
+    };
+    axios.post("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/CUST",{
+
+        CUSTOMER_ID:customer_id,
+        CUSTOMER_NAME:customer_name,
+        INDUSTRY:industry,
+        COUNTRY:country,
+        CITY:city,
+        SYSTEMID:sid,
+        CLIENT:client
+    },
+    config).then(function(response){
+        var token = {
+              error:"",
+              hint:""
+        };
+        dispatch({type:"REG_CHECK",payload:token});
+        const modal = Modal.success({
+            title: 'Successfully register! ',
+            content: 'You have regitered done',
+        });
+
+    }).catch(function(response){
+      var message = response.data.error.message.value;
+      if(message == "Service exception: [301] unique constraint violated"){
+        var token = {
+            authorized:false,
+            user:null,
+            error:"cus_id",
+            hint:"customer id already exists"
+        }
+        dispatch({type:"REG_CHECK",payload:token});
+      }
+    })
+
+
+  }
+}
+export function UserRegister(data){
+  return dispatch=>{
+
+    var username = data.username;    
+    var customer_id = data.customer_id; 
+    var role = "BSC";
+    var pwd = data.pwd1;
+    var token={};
     //request configuration
     var config = {
       headers:{
@@ -116,18 +170,21 @@ export function UserRegister(data){
       }
     };
 
-    //check user name whether exists
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/CUST?$filter=CUSTOMER_ID eq "+customer_id,
+      config).then(function(response){
+        if(response.data.d.results.length > 0){
+          //check user name whether exists
     axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq '"+username+"'",
       config
       ).then(function(response){
         if(response.data.d.results.length > 0){
-          payload = {
+          token = {
             authorized:false,
             user:null,
-            error:"reg_username",
+            error:"username",
             hint:"username already exists"
           }
-          dispatch({type:"REG_CHECK",payload:payload});
+          dispatch({type:"REG_CHECK",payload:token});
          
         }
         else{
@@ -138,54 +195,28 @@ export function UserRegister(data){
               user_id = Number(user_id + 1);
               user_id = user_id.toString();
 
-              axios.post("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/CUST",{
+              axios.post("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users",{
 
-                      CUSTOMER_ID:customer_id,
-                      CUSTOMER_NAME:customer_name,
-                      INDUSTRY:industry,
-                      COUNTRY:country
-                    },
-                    config).then(function(response){
-
-
-                      axios.post("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users",{
-
-                        USER_ID:user_id,
-                        CUSTOMER_ID:customer_id,
-                        PASSWORD:pwd,
-                        USERNAME:username,
-                        ROLE:role
-                    },
-                    config).then(function(response){             
-                      payload = {
-                  
-                        error:"",
-                        hint:""
-                      }
-                      dispatch({type:"REG_CHECK",payload:payload});
-                      const modal = Modal.success({
+                  USER_ID:user_id,
+                  CUSTOMER_ID:customer_id,
+                  PASSWORD:pwd,
+                  USERNAME:username,
+                  ROLE:role
+              },
+              config).then(function(response){             
+                  token = {
+                      error:"",
+                      hint:""
+                  };
+                  dispatch({type:"REG_CHECK",payload:token});
+                  const modal = Modal.success({
                         title: 'Successfully register! ',
                         content: 'You have regitered done',
-                      });
+                  });
 
-                    }).catch(function(response){
-                        console.log(response);
-                    })
-
-                      
-                    }).catch(function(response){
-                      var message = response.data.error.message.value;
-                      if(message == "Service exception: [301] unique constraint violated"){
-                        payload = {
-                          authorized:false,
-                          user:null,
-                          error:"reg_cus",
-                          hint:"customer id already exists"
-                        }
-                        dispatch({type:"REG_CHECK",payload:payload});
-                      }
-                      
-                    })
+              }).catch(function(response){
+                    console.log(response);
+              })
                 
               
     
@@ -202,6 +233,22 @@ export function UserRegister(data){
         console.log(response);
       })
 
+        }
+        //customer id does not exist
+        else{
+          token = {
+            authorized:false,
+            user:null,
+            error:"usr_cus_id",
+            hint:"customer id does not exists"
+          }
+          dispatch({type:"REG_CHECK",payload:token});
+        }
+      }).catch(function(response){
+        console.log(response);
+      })
+
+    
 
 
 

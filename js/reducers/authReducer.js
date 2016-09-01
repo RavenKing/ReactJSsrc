@@ -1,5 +1,6 @@
 export default function auth (
   state = {
+    customer_id:[],
     token: {
       authorized:false,
       user:null,
