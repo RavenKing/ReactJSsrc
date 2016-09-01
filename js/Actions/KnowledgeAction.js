@@ -504,7 +504,7 @@ export function UpdateArticle(data){
         ARTICLE_NAM:data.article_nam,
         ARTICLE_DSC:data.article_dsc,
         CREATE_ON:"\/Date("+updatedate+")\/",
-        CREATE_BY:create_by,
+        CREATE_BY:data.create_by,
         UPDATE_ON:"\/Date("+updatedate+")\/",
         UPDATE_BY:"CASSIE"
         
