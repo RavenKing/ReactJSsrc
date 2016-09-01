@@ -405,12 +405,11 @@ li {
   width:280px;
 }
 /*register*/
-#reg-form .ant-form-item-label label{
+.reg-form .ant-form-item-label label{
   color:white;
 }
-#reg-btn{
-  width:270px;
-  margin-left: 30%;
+.reg-btn{
+  margin-left: 50%;
 }
 
 /*create Panel */
