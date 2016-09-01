@@ -8,6 +8,7 @@ import store from "./store";
 import DisplayPanel from "./components/DisplayPanel/DisplayPanel";
 
 import DetailPanel from "./components/DisplayPanel/DetailPanel";
+import Maintain from "./components/MaintainBestpractice/Maintain";
 
 import Login from "./components/Login/login"
 
@@ -18,6 +19,7 @@ const app = document.getElementById('app');
 ReactDOM.render(
     <Provider store = {store}>
     <Router history={hashHistory}>
+    <Route path="/maintain" component ={Maintain}> </Route>	
     <Route path="/login" component ={Login}> </Route>	
     <Route path="/" component={requireAuth(Layout)}>
 		<Route path="/overview/" component = {DisplayPanel}>
