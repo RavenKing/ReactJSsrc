@@ -32,6 +32,17 @@ export default class ArchivingForm extends React.Component {
 
     render() {	
 
+
+        const { newArticle } = this.props.articles; 
+        const { bestpractice } = newArticle;
+        var time ; 
+        if(bestpractice)
+        {
+          const {result } =bestpractice;
+          time =  result.BEST_PRACTICE;
+          console.log(result)
+        }
+
       const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 }
@@ -47,9 +58,9 @@ export default class ArchivingForm extends React.Component {
           {...formItemLayout}
           label="Retention Time"
         >
-        <Popover content="AVG:12Month" placement="right">
+        <Popover content={"Average:"+time?time:12+"Month"} placement="right">
         <div>
-         <InputNumber name="retention" min={12} max={999} defaultValue={12}  onChange={this.onChange.bind(this)}/> <p className="ant-form-text" >Month</p>
+         <InputNumber name="retention" min={0} max={999} defaultValue={12}  onChange={this.onChange.bind(this)}/> <p className="ant-form-text" >Month</p>
         </div>
         </Popover>
         </FormItem>

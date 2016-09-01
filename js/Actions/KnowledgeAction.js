@@ -288,7 +288,13 @@ export function SetSaving(data){
     dispatch({type:"SET_SAVING",payload:data})
   }
 }
-export function PostArticle(data){
+export function PostArticle(data1){
+ 
+ // console.log(data1)
+  var data =data1.newArticle;
+  var user=data1.user.USERNAME;
+
+
   var article_id;
   //fields in table "KMBSC"
   var tables = data.TABLES;
@@ -300,8 +306,9 @@ export function PostArticle(data){
   var archobj = data.ARCHOBJ;
   var article_nam = data.ARTICLE_NAM;
   var article_dsc = data.ARTICLE_DSC;
-  var create_by = "CassieLiu";
+  var create_by = user;
   var product = "ERP";
+  var createdate = (new Date()).getTime();
 
   //fields in table "KMDVM"
   var archiving = data.ARCHIVING;
@@ -405,7 +412,7 @@ export function PostArticle(data){
                 FACTOR_TYP:"DVM",        
                 ARTICLE_NAM:article_nam,
                 ARTICLE_DSC:article_dsc,
-                CREATE_ON:"\/Date(1427760000000)\/",
+                CREATE_ON:"\/Date("+createdate+")\/",
                 CREATE_BY:create_by,
                 UPDATE_ON:null,
                 UPDATE_BY:null
@@ -485,6 +492,7 @@ export function UpdateArticle(data){
         TBL_SIZE:table.TBL_SIZE
     },config);
     });
+    var updatedate = (new Date()).getTime();
     
     axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+data.article_id+")", {
         
@@ -495,9 +503,9 @@ export function UpdateArticle(data){
         FACTOR_TYP:"DVM",        
         ARTICLE_NAM:data.article_nam,
         ARTICLE_DSC:data.article_dsc,
-        CREATE_ON:"\/Date(1427760000000)\/",
-        CREATE_BY:"CassieLiu",
-        UPDATE_ON:"\/Date(1427760000000)\/",
+        CREATE_ON:"\/Date("+updatedate+")\/",
+        CREATE_BY:create_by,
+        UPDATE_ON:"\/Date("+updatedate+")\/",
         UPDATE_BY:"CASSIE"
         
 

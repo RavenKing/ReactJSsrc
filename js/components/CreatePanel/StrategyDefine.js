@@ -23,7 +23,8 @@ import BackButton from "./BackButton";
 
 @connect((store)=>{    
     return {
-        articles:store.articles
+        articles:store.articles,
+        auth:store.auth.token
     };
     
 })
@@ -81,8 +82,12 @@ export default class StrategyDefine extends React.Component {
 
           this.props.dispatch(SetSaving(data));
 
+          const { user } = this.props.auth
           const { newArticle } = this.props.articles;
-          this.props.dispatch(PostArticle(newArticle));
+          var data ={ newArticle : newArticle,
+                      user: user
+                    }
+          this.props.dispatch(PostArticle(data));
           this.props.dispatch(CloseCreatePanel());
         }
         else{
@@ -113,7 +118,6 @@ export default class StrategyDefine extends React.Component {
 
     	const { DVM }  = this.state;
     		
-      console.log(DVM);
 
       var displaypart= DVM.map((item)=>{
           switch(item){
