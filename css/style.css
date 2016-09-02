@@ -117,8 +117,13 @@ li {
 
 }
 .detail-panel {
+  position: relative;;
   width:870px;
+  z-index: 1;
  
+}
+.ant-card:hover{
+  box-shadow: 1px 2px 20px #25333a;
 }
 .tableChart{
   width:700px;
