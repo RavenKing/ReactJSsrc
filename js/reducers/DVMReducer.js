@@ -1,5 +1,6 @@
 export default function reducer(state={
-    DVM:null
+    DVM:{},
+    refresh:true
     },action){
     
     switch(action.type)
@@ -9,11 +10,28 @@ export default function reducer(state={
         case "FETCHDVM":
         {
                     
-            return {...state,DVM:action.payload}
+            return {...state,DVM:action.payload,refresh:false}
         }
-        case "SHOW_ARTICLE_MAIN":
+        case "UPDATESUCCESS":
         {
-            return  {...state,showMain:true}
+            const {DVM} = state;
+            var newdata = DVM.results.map((dvm)=>{
+                if(dvm.FACTOR_GUID == action.payload.FACTOR_GUID)
+                {
+                    console.log("payload added");
+                        dvm = action.payload;
+                    return action.payload;
+                }
+                else
+                {
+                    return dvm
+                }
+
+
+            })
+
+            console.log("new data ",newdata )
+            return  {...state,refresh:true,DVM:{results:newdata}}
 
         }
         case "SHOW_EDIT_PANEL":

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Form, Input, Button, Table, Icon,Moda,InputNumber,Card} from "antd";
 const ButtonGroup = Button.Group;
 import { connect } from "react-redux";
-import {GetAlltheDVM} from "../../Actions/dvmpracticeAction";
+import {GetAlltheDVM,updateDVM} from "../../Actions/dvmpracticeAction";
 
 import { ForwardStep,GetTop5Tables,SetArticleNamAndDsc } from "../../Actions/KnowledgeAction";
 
@@ -15,6 +15,8 @@ let Demo = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
     console.log('收到表单值：', this.props.form.getFieldsValue());
+       this.props.dispatch(updateDVM(this.props.form.getFieldsValue()));
+
   },
 
   render() {
@@ -23,6 +25,10 @@ let Demo = React.createClass({
           wrapperCol: { span: 14 },
         };
     const { getFieldProps } = this.props.form;
+    const {setFieldsInitialValue} = this.props.form;
+    const {data } = this.props;
+
+    console.log(this.props)
     return (
       <Form horizontal onSubmit={this.handleSubmit}>
         <FormItem
@@ -30,15 +36,16 @@ let Demo = React.createClass({
           label="Factor Guid"
         >
           <Input placeholder="Factor Id"
-            {...getFieldProps('FACTOR_GUID')}
-          />
+            {...getFieldProps('FACTOR_GUID',{initialValue:data.FACTOR_GUID})}
+          
+           ></Input>
         </FormItem>
           <FormItem
                   {...formItemLayout}
           label="Archiving object"
         >
           <Input placeholder="Archiving object"
-            {...getFieldProps('ARCHOBJ')}
+            {...getFieldProps('ARCHOBJ', {initialValue:data.ARCHOBJ})}
           />
         </FormItem>
          <FormItem
@@ -46,7 +53,7 @@ let Demo = React.createClass({
           label="Business Content"
         >
           <Input placeholder="Archiving object"
-            {...getFieldProps('BUSINESSCONTENT')}
+            {...getFieldProps('BUSINESSCONTENT', {initialValue:data.BUSINESSCONTENT})}
           />
         </FormItem>
                 <FormItem
@@ -54,15 +61,25 @@ let Demo = React.createClass({
           label="SAP Best Avoidance"
         >
           <Input placeholder="avoidance" type="textarea"
-            {...getFieldProps('AVOIDANCE')}
+            {...getFieldProps('AVOIDANCE', {initialValue:data.AVOIDANCE})}
+          />
+
+
+        </FormItem>
+                         <FormItem
+                  {...formItemLayout}
+          label="SAP Application Name"
+        >
+          <Input  placeholder="APPLICATIONNAME"
+            {...getFieldProps('APPLICATIONNAME', {initialValue:data.APPLICATIONNAME})}
           />
         </FormItem>            
          <FormItem
                   {...formItemLayout}
-          label="SAP Best SUMMERIZATION"
+          label="SAP Best SUMMARIZATION"
         >
-          <Input placeholder="SUMMERIZATION" type="textarea"
-            {...getFieldProps('SUMMERIZATION')}
+          <Input placeholder="SUMMARIZATION" type="textarea"
+            {...getFieldProps('SUMMARIZATION', {initialValue:data.SUMMARIZATION})}
           />
         </FormItem>
 
@@ -70,8 +87,8 @@ let Demo = React.createClass({
                   {...formItemLayout}
           label="SAP Best Deletion"
         >
-          <Input placeholder="DELETIOn" type="textarea"
-            {...getFieldProps('DELETION')}
+          <Input placeholder="DELETION" type="textarea"
+            {...getFieldProps('DELETION', {initialValue:data.DELETION})}
           />
         </FormItem>
 
@@ -80,7 +97,7 @@ let Demo = React.createClass({
           label="SAP Best ARCHIVING"
         >
           <Input placeholder="ARCHIVING" type="textarea"
-            {...getFieldProps('ARCHIVING')}
+            {...getFieldProps('ARCHIVING', {initialValue:data.ARCHIVING})}
           />
         </FormItem>
          <FormItem
@@ -88,7 +105,15 @@ let Demo = React.createClass({
           label="SAP Best Retention"
         >
           <InputNumber  placeholder="Retention"
-            {...getFieldProps('BEST_PRACTICE')}
+            {...getFieldProps('BEST_PRACTICE', {initialValue:data.BEST_PRACTICE})}
+          />
+        </FormItem>
+                 <FormItem
+                  {...formItemLayout}
+          label="SAP Best RANK"
+        >
+          <InputNumber  placeholder="RANK"
+            {...getFieldProps('RANK', {initialValue:data.RANK})}
           />
         </FormItem>
 
@@ -110,7 +135,7 @@ Demo = Form.create()(Demo);
     return {
         articles:store.articles,
         auth:store.auth.token,
-        DVMPRACTICE:store.DVM
+        DVMPRACTICE:store.dvm
     };
     
 
@@ -129,22 +154,29 @@ export default class Maintain extends React.Component {
               FACTOR_GUID:null,
               ARCHOBJ:null,
               AVOIDANCE:null,
-              SUMMERIZATION:null,
+              SUMMARIZATION:null,
               DELETION:null,
               ARCHIVING:null
           }
         }
     }
 
-    SaveIt(){
-
-    }
+    
     componentWillMount(){
 
         this.props.dispatch(GetAlltheDVM());
 
     }
 
+    onClick(data){
+
+    this.setState({
+
+        targetone :  data
+
+
+    })
+    }
     handleChange(){
 
     }
@@ -157,12 +189,34 @@ export default class Maintain extends React.Component {
         };
 
 
-console.log(this.props.DVMPRACTICE);
 
 
 //table 
 
-var data = [];
+const {DVM} =this.props.DVMPRACTICE;
+var data;
+if(DVM)
+{
+data =DVM.results;
+console.log("do this")
+ 
+ }
+else{
+
+data = [];
+
+}
+
+
+var that = this ;
+const rowselection = {  
+
+  onSelect(record, selected, selectedRows) {
+    that.onClick(record)
+  }
+}
+
+
   var columns = [{
         title: 'FACTOR_GUID',
         width:"130px",
@@ -178,12 +232,12 @@ var data = [];
         {
           title: 'Avoidance',
           width:'300px',
-          dataIndex: 'AVODANCE'
+          dataIndex: 'AVOIDANCE'
         }  ,      
              {
-          title: 'SUMMERIZATION',
+          title: 'SUMMARIZATION',
           width:'300px',
-          dataIndex: 'SUMMERIZATION'
+          dataIndex: 'SUMMARIZATION'
         } ,      
              {
           title: 'Deletion',
@@ -206,9 +260,20 @@ var data = [];
           dataIndex: 'BUSINESSCONTENT'
         }        
        ];
+
       
 
-//table 
+var displaydemo 
+
+if(this.state.targetone)
+ { 
+  displaydemo= <Demo data = {this.state.targetone} dispatch={this.props.dispatch}/>
+  }
+  else
+  {
+    displaydemo = <h1>hehe</h1>
+  }
+
 
         return (
           <div>
@@ -218,8 +283,8 @@ var data = [];
   <Card>
 
 
-              <Table columns={columns} dataSource={data} pagination={false} />
-              <Demo />
+              <Table columns={columns} dataSource={data}  rowSelection={rowselection} />
+             { displaydemo}
 </Card>
           </div>
 
