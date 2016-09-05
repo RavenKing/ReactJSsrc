@@ -133,7 +133,7 @@ export default class DisplayPanel extends React.Component {
       detaildisplay = displayPanel.map((displayone)=>{  
       if(displayone.visible==true)
       {
-        return <DetailPanel articlenumber={displayone.article}></DetailPanel>
+        return <h1><DetailPanel articlenumber={displayone.article}></DetailPanel></h1> 
       }
       else { return <div></div>}
       } )

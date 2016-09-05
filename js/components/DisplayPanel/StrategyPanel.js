@@ -22,7 +22,7 @@ export default class StrategyPanel extends React.Component {
         }}, 
         {
           title: 'Retention Time(Month)',
-          width: '140px',
+          width:'140px',
           dataIndex: 'retention'
         }, 
         {

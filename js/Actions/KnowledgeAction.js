@@ -147,7 +147,7 @@ return dispatch=>{
                   username:'zengheng',
                   password: 'Sap12345'
                 }
-            }).then(function(response){
+            }).then(function(response,err){
               
               var data = response.data.results[0];
               data.articleid = articleid;
@@ -218,7 +218,7 @@ export function GetTop5Tables(attr_nam){
  
   return dispatch=>{
 
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/KM.xsodata/KMOBJ_TBL1?$filter=ARCHOBJ eq '"+attr_nam +"'",{
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/Createarticle_test.xsjs?attr_nam="+attr_nam,{
       headers:{
         'X-My-Custom-Header':'Header-Value',
         'content-type':'application/json'
@@ -229,7 +229,7 @@ export function GetTop5Tables(attr_nam){
       }
       
     }).then(function(response,err){
-      var data = response.data.d.results;
+      var data = response.data.results;
 
       dispatch({type:"GET_TOP5_TABLES",payload:data});
      

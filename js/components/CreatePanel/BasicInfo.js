@@ -26,7 +26,7 @@ export default class BasicInfo extends React.Component {
 
         super(props);
         const { newArticle } = this.props.articles; 
-
+        console.log(newArticle);
 
         var parms = {archobj:newArticle.ARCHOBJ};
 
@@ -165,7 +165,7 @@ export default class BasicInfo extends React.Component {
 
        const {newArticle} = this.props.articles;
        const {bestpractice} = newArticle;
-
+       console.log(bestpractice);
 
 var ranknumber;
     if(bestpractice)
@@ -175,6 +175,7 @@ var ranknumber;
     else{
       ranknumber = 3 ;
     }
+ console.log(ranknumber)
 
 
      var that = this;

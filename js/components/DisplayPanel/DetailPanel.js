@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
 import { RemoveCard,GetBestPractice,ShowEditPanel,DeleteArticle,fetchArticles} from "../../Actions/KnowledgeAction";
-import { setCardDragable,setAreaDropable,handleFocus } from "../../interactScript";
+import { setCardDragable,setAreaDropable } from "../../interactScript";
 
 const confirm = Modal.confirm;
 const success= Modal.success;
@@ -54,12 +54,11 @@ export default class DetailPanel extends React.Component {
     
 
   }
-  
 
   componentDidMount() {
     var that = this;
     setCardDragable(ReactDOM.findDOMNode(this));
-    handleFocus(ReactDOM.findDOMNode(this));
+    
     const props = this.props;
     this.interactable = setAreaDropable({
 
@@ -130,7 +129,7 @@ export default class DetailPanel extends React.Component {
      archobj:target[0].ARCHOBJ
     }
 
-    //this.props.dispatch(GetBestPractice(parms))
+    this.props.dispatch(GetBestPractice(parms))
   
 
     this.setState({
@@ -152,8 +151,8 @@ export default class DetailPanel extends React.Component {
       console.log("detail panel's property:",this.props);
       return (
 
-        
         <div className="detail-panel" data-id={this.props.articlenumber}>
+
         <Card title={this.state.articles.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
           <div className="leftside" onClick={this.NavLeft.bind(this)}>
           <Icon type="left" />
@@ -167,8 +166,6 @@ export default class DetailPanel extends React.Component {
           </div>
         </Card>
         </div>
-        
-       
       );
   }
 }
