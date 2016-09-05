@@ -102,9 +102,10 @@ li {
 }
 
 .display-panel {
+  margin-top:10px;
   margin-left: 240px;
   margin-right: 130px;
-  width: 1000px;
+  width: auto;
   height: 2960px;
   font-size: 20px;
   -webkit-transition: background .3s, opacity .3s, filter .3s, -webkit-filter .3s;
