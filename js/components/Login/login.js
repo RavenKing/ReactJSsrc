@@ -40,7 +40,7 @@ export default class Login extends React.Component {
       });
     }
     setAuth(){
-
+      
         this.props.dispatch(setAuthToken(this.state));
         setTimeout(function(){
           const {auth} = this.props;
@@ -52,7 +52,7 @@ export default class Login extends React.Component {
               this.props.history.push("/")
           }
 
-        }.bind(this),500);
+        }.bind(this),1000);
 
     }
  
@@ -220,7 +220,7 @@ export default class Login extends React.Component {
       
       
           <div className="login">
-            <p id="km-title">Knowledge Management</p>
+            <p id="km-title">Smart Operation</p>
 
             <Tabs defaultActiveKey="1"  activeKey={this.state.tab_key} className="login-tab" onChange={this.callback.bind(this)}>
               <TabPane  tab="login" key="1">           

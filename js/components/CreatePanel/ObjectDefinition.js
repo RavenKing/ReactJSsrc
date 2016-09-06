@@ -64,8 +64,14 @@ export default class ObjectDefinition extends React.Component {
         if(this.state.obj == ""){
 
           this.setState({
-            objectstatus:"error",
+            objectstatus:"obj",
             objecthelp:"please input an object or table!"
+          })
+        }
+        else if(this.state.article_nam == ""){
+          this.setState({
+            objectstatus:"article_nam",
+            objecthelp:"please input article name"
           })
         }
         else{
@@ -87,7 +93,7 @@ export default class ObjectDefinition extends React.Component {
           { 
 
           this.setState({
-            objectstatus:"error",
+            objectstatus:"obj",
             objecthelp:"please input an correct object or table!"
           })
 
@@ -101,22 +107,21 @@ export default class ObjectDefinition extends React.Component {
       }
    
     handleChange(e){
-        console.log(e.target.value);
+        var value = e.target.value;
         switch(e.target.name ){
           case "article_nam":
           {
-
-              this.setState({article_nam:e.target.value});
+              this.setState({article_nam:value});
               break;
           }
           case "article_dsc":
           {
-              this.setState({article_dsc:e.target.value});
+              this.setState({article_dsc:value});
               break;
           }
           case "obj":
           {
-              this.setState({obj:e.target.value});
+              this.setState({obj:value.toUpperCase()});
               break;
           }
         }
@@ -150,6 +155,8 @@ export default class ObjectDefinition extends React.Component {
                  <FormItem
                   {...formItemLayout}
                   label="Article Name:"
+                  validateStatus={this.state.objectstatus=="article_nam"?"error":""}
+                  help={this.state.objectstatus=="article_nam"?this.state.objecthelp:""}
                 >
                   <Input name="article_nam" type="text"  defaultValue={this.state.article_nam} placeholder="Type in an article name" onChange={this.handleChange.bind(this)}/>
                 </FormItem>
@@ -164,8 +171,8 @@ export default class ObjectDefinition extends React.Component {
                 <FormItem
                   {...formItemLayout}
                   label="What object do you want to record"
-                  validateStatus={this.state.objectstatus}
-                  help={this.state.objecthelp}
+                  validateStatus={this.state.objectstatus=="obj"?"error":""}
+                  help={this.state.objectstatus=="obj"?this.state.objecthelp:""}
                 >
                   <Input name="obj" type="text"  defaultValue={this.state.obj} placeholder="Type in a table name or archiving object" onChange={this.handleChange.bind(this)}/>
                 </FormItem>

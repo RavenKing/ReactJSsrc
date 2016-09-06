@@ -47,7 +47,11 @@ export default function reducer(state={
         {
             const  { displayPanel } = state;
 
-            displayPanel.push({article:action.payload , visible:true});
+            displayPanel.push({
+                article:action.payload.data_id,
+                x:action.payload.x,
+                y:action.payload.y,
+                visible:true});
             return{...state,displayPanel:displayPanel}
         }
         case "REMOVE_ARTICLE_VIEW":
@@ -102,7 +106,6 @@ export default function reducer(state={
             const { articles  } = state;
             
             const { results } = articles;
-            console.log("results:",results); 
             var newdata = results.filter((article)=>{ 
                 if(article.ARTICLE_ID == action.payload.articleid){
                     if(article.bestpractice){

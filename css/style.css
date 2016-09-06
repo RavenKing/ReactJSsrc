@@ -102,7 +102,7 @@ li {
 }
 
 .display-panel {
-  margin-top:10px;
+ 
   margin-left: 240px;
   margin-right: 130px;
   width: auto;
@@ -113,12 +113,13 @@ li {
   z-index: 0;
 }
 .main-panel{
+  position: absolute;
+  z-index: 1;
   width:700px;
- 
 
 }
 .detail-panel {
-  position: relative;;
+  position: absolute;
   width:870px;
   z-index: 1;
  
@@ -271,7 +272,7 @@ li {
   width: auto;
   cursor: pointer;
 }
-
+/*data block*/
 .data-block {
   margin: 5px auto;
   padding: 5px 10px;
@@ -387,7 +388,7 @@ li {
   color:white;
   font-family: Comic Sans MS;
   font-size:30px;
-  margin-left:21%;
+  margin-left:27%;
   margin-bottom: 40px;
 }
 
@@ -419,9 +420,21 @@ li {
 }
 
 /*create Panel */
-#add-btn{
-  margin-left: 705px;
+
+
+.create-panel{
+  width:900px;
 }
+
+
+
+/*edit panel*/
+.edit-panel{
+  position: absolute;
+  width:900px;
+  z-index: 1;
+}
+
 .mainstep{
  margin-top:10px;
 
@@ -511,9 +524,10 @@ text-align: center
 
 .helpbgkm
 {
-	 background-image: url(../img/help-bg-km.svg);
+	background-image: url(../img/help-bg-km.svg);
   background-repeat: no-repeat;
   background-size: 100%;
+  background-position: 0px 50px;
 	
 }
 

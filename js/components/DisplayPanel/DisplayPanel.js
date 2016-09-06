@@ -33,19 +33,27 @@ export default class DisplayPanel extends React.Component {
    componentDidMount() {
 
       const props = this.props;
-      console.log("display panel did mount,and props is:",props);
+      const that = this;
       this.interactable = setAreaDropable({
 
           element: ReactDOM.findDOMNode(this),
           accept: '.data-item, .data-block,.func-item',
           ondrop: function(event) {
               let draggableElement = event.relatedTarget;
-              console.log("draggableElement",draggableElement);
+              var x = event.dragEvent.clientX + window.scrollX;
+              var y = event.dragEvent.clientY + window.scrollY;
+              var data_id = draggableElement.getAttribute('data-id');
+              
               switch(draggableElement.getAttribute('data-type')){
               case "ITEM":
-              {
-        
-                  props.dispatch(AddCard(draggableElement.getAttribute('data-id')));
+              { 
+
+                  var data ={
+                    x:x,
+                    y:y,
+                    data_id:data_id
+                  };
+                  props.dispatch(AddCard(data));
                   break;
               }
               case "TITLE":
@@ -56,7 +64,7 @@ export default class DisplayPanel extends React.Component {
               }
               case "FUNC":
               {
-                  var data_id = draggableElement.getAttribute('data-id');
+                  
                   if(data_id == "1"){
                       props.dispatch(ShowCreatePanel());
                   }
@@ -69,7 +77,6 @@ export default class DisplayPanel extends React.Component {
                   ;
               }
               
-              //props.dispatch(AddCard( props.uniquekey ));
           }
       });
   }
@@ -85,9 +92,9 @@ export default class DisplayPanel extends React.Component {
 
 
       // show or close Main Panel
-    	const { articles } = this.props;
-    	 var DisplayMain;
-       var test;
+    	const { articles }  = this.props;
+    	var DisplayMain;
+      var test;
     	test = articles;
     	if(test.showMain === true){ 
 
@@ -129,14 +136,21 @@ export default class DisplayPanel extends React.Component {
      
       // show or close Detail Panels 
       const { displayPanel } = articles ;
-      var detaildisplay;
-      detaildisplay = displayPanel.map((displayone)=>{  
-      if(displayone.visible==true)
-      {
-        return <h1><DetailPanel articlenumber={displayone.article}></DetailPanel></h1> 
+      const { results } = articles.articles;
+      var detaildisplay = [];
+      for(var i = 0; i < displayPanel.length;i++){
+        if(displayPanel[i].visible == true){
+          for(var j = 0; j < results.length;j++){
+            if(displayPanel[i].article == results[j].ARTICLE_ID){
+              detaildisplay.push(<DetailPanel article={results[j]} display={displayPanel[i]} />)
+            }
+          }
+        }
       }
-      else { return <div></div>}
-      } )
+      
+      if(detaildisplay.length == 0){
+        detaildisplay.push(<div></div>);
+      }
  
 
     

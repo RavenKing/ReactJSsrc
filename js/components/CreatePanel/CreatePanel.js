@@ -29,7 +29,7 @@ export default class CreatePanel extends React.Component {
     componentWillMount(){
 
         const { articles } =this.props;
-        console.log(articles);
+        
         const { newArticle } = articles;
         if(newArticle == null )
         {
@@ -38,8 +38,6 @@ export default class CreatePanel extends React.Component {
         
         }
         else{
-
-          console.log(newArticle.currentstep)
           this.setState({currentstep:newArticle.currentstep})
 
         }
