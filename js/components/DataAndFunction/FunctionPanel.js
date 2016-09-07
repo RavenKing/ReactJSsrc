@@ -23,6 +23,7 @@ export default class FunctionPanel extends React.Component {
       this.props.dispatch(ShowEditPanel());
   }
   ShowMain(){
+
       this.props.dispatch(ShowMainPanel());
 
   }
@@ -35,7 +36,7 @@ export default class FunctionPanel extends React.Component {
          <FunctionItem text="Create" id="1"/>
          <FunctionItem text="Edit" id="2"/>
          <FunctionItem text="Delete" id="3"/>
-         <FunctionItem text="Trend Anaylsis" id="4"/>
+         <FunctionItem text="Show Main" id="4"/>
         </div>
       );
   }
