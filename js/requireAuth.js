@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from 'react-redux';
-import { History } from 'react-router';
+import { browserHistory } from 'react-router';
 
 export default function requireAuth(Component)
 {
@@ -30,7 +30,7 @@ export default function requireAuth(Component)
     }
 
     redirectToLogin (){
-     this.props.history.push("/login")
+     browserHistory.push("/login")
     }
 
 
