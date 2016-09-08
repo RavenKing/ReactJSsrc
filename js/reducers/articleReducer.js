@@ -156,10 +156,6 @@ export default function reducer(state={
             newArticle.AVGS = action.payload.AVGS;
             newArticle.Retention = action.payload.Retention;
             newArticle.BEST_PRACTICE = action.payload.BEST_PRACTICE;
-            newArticle.ARCHIVING = action.payload.ARCHIVING;
-            newArticle.AVOIDANCE = action.payload.AVOIDANCE;
-            newArticle.SUMMARIZATION = action.payload.SUMMARIZATION;
-            newArticle.DELETION = action.payload.DELETION;
             return {...state,newArticle:newArticle}
         }
         case "GET_TOP5_TABLES":
