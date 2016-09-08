@@ -231,6 +231,7 @@ return dispatch=>{
               
           var data = response.data.results[0];              
 
+          console.log(data);
           axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",
               config).then(function(response,err){
                   var detail = response.data.d.results[0];
