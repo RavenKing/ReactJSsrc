@@ -4,7 +4,7 @@ import { Form, Input, Button, Checkbox, Radio, Tooltip, Icon,Moda } from "antd";
 const ButtonGroup = Button.Group;
 import { connect } from "react-redux";
 
-import { ForwardStep,GetTop5Tables,SetArticleNamAndDsc } from "../../Actions/KnowledgeAction";
+import { ForwardStep,GetTop5Tables,SetArticleNamAndDsc,GetPractices } from "../../Actions/KnowledgeAction";
 
 //back
 import BackButton from "./BackButton";
@@ -100,7 +100,7 @@ export default class ObjectDefinition extends React.Component {
           }
           else{
             this.props.dispatch(SetArticleNamAndDsc(this.state));  
-
+            this.props.dispatch(GetPractices(this.state.obj));
             this.props.dispatch(ForwardStep());
           }
 

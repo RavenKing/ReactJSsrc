@@ -8,6 +8,24 @@ li {
   list-style: none;
 }
 
+.leftside{
+  position:absolute;
+  left:0;
+  vertical-align: middle;
+  top:50%;
+ cursor:pointer;
+}
+
+.rightside{
+  cursor:pointer;
+  position:absolute;
+  right:0;
+  vertical-align: middle;
+  top:50%;
+
+
+}
+
 #content {
   height: 3000px;
   background: #649173;
@@ -69,6 +87,7 @@ li {
   padding: 10px;
   font-size: 20px;
   z-index: 9999;
+  color:white!important;
 }
 
 .function-panel {
@@ -83,6 +102,7 @@ li {
 }
 
 .display-panel {
+ 
   margin-left: 240px;
   margin-right: 130px;
   width: auto;
@@ -92,7 +112,37 @@ li {
   transition: background .3s, opacity .3s, filter .3s, -webkit-filter .3s;
   z-index: 0;
 }
+.main-panel{
+  position: absolute;
+  z-index: 1;
+  width:700px;
 
+}
+.detail-panel {
+  position: absolute;
+  width:870px;
+  z-index: 1;
+ 
+}
+.ant-card:hover{
+  box-shadow: 1px 2px 20px #25333a;
+}
+.tableChart{
+  width:700px;
+  
+}
+.bscInfo{
+  margin-left: 25px;
+}
+.strategyPanelLeft{
+  margin:auto;
+  width:60%;
+  display: inline-block;
+}
+.strategyPanelRight{
+  width:40%;
+  display: inline-block;
+}
 .help-bg {
   background-image: url(../img/help-bg.svg);
   background-repeat: no-repeat;
@@ -113,10 +163,6 @@ li {
   margin: 10px auto;
   width: 100%;
   cursor: pointer;
-}
-
-.config-button {
-  color: #fff;
 }
 
 .switch-button {
@@ -219,14 +265,14 @@ li {
   margin-left: 10px;
 }
 
-.tile {
+.menu-tile {
   display: inline-block;
   margin: 5px 10px;
   min-width: 150px;
   width: auto;
   cursor: pointer;
 }
-
+/*data block*/
 .data-block {
   margin: 5px auto;
   padding: 5px 10px;
@@ -259,8 +305,8 @@ li {
 }
 
 .ant-btn {
-  border-color: #fff;
-  color: #fff;
+  border-color: #fff!important;
+  color: #fff!important;
   text-shadow: 0 0 3px #666;
   box-shadow: 0 0 1px #666;
 }
@@ -276,10 +322,6 @@ li {
 
 .anticon-cross[disabled] {
   cursor: not-allowed;
-}
-
-.ant-table-row:hover {
-  cursor: pointer;
 }
 
 #loadingOverlay > .spinner {
@@ -334,3 +376,159 @@ li {
     -webkit-transform: scaleY(1.0);
   }
 }
+
+/*login panel*/
+.login{
+  padding-top:80px;
+  margin:auto;
+  width:35%;
+}
+
+#km-title{
+  color:white;
+  font-family: Comic Sans MS;
+  font-size:30px;
+  margin-left:27%;
+  margin-bottom: 40px;
+}
+
+.login-tab{
+  color:white;
+}
+#login-form{
+  margin-left: 25%;
+}
+.login-label1{
+  color:white;
+  font-family: Tahoma;;
+  font-size:20px;
+}
+.login-label2{
+  color:white;
+  font-family: Lucida Console;
+  font-size:12px;
+}
+#login-btn{
+  width:280px;
+}
+/*register*/
+.reg-form .ant-form-item-label label{
+  color:white;
+}
+.reg-btn{
+  margin-left: 50%;
+}
+
+/*create Panel */
+
+
+.create-panel{
+  width:1000px;
+}
+
+
+
+/*edit panel*/
+.edit-panel{
+  position: absolute;
+  width:900px;
+  z-index: 1;
+}
+
+.mainstep{
+ margin-top:10px;
+
+}
+.custom-size{
+    text-align: center;
+    height: 200px;
+    line-height: 200px;
+    font-size:30px;
+}
+.templatecontainer{
+display: block;
+margin-bottom: 10px;
+
+
+
+}
+.margin10{
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+
+}
+.margin-top10{
+  margin-top:10px;
+}
+.margin-bottom10:{
+  margin-bottom:10px;
+
+}
+.margin-left10:{
+  margin-left:30px;
+
+}
+.aligncenter{
+  text-align: center;
+}
+
+.BackButton{
+  display:inline;
+}
+.strategychart{
+  margin-right:30px;
+    display: inline-block;
+    height:200px;
+}
+.strategychartcircle{
+
+  display:inline;
+  float:right;
+  margin-top:100px;
+  margin-right: 50px;
+}
+.progressbar{
+  width:500px;  
+  margin-right:20px;
+
+}
+.ant-advanced-search-form {
+  padding: 16px 8px;
+  background: #f8f8f8;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+}
+
+/* 由于输入标签长度不确定，所以需要微调使之看上去居中 */
+.ant-advanced-search-form > .ant-row {
+  position: relative;
+  left: -6px;
+}
+
+.ant-advanced-search-form .ant-btn + .ant-btn {
+  margin-left: 8px;
+}
+/* end of create Panel */
+
+
+/*Display panel*/
+
+
+
+.textcenter{
+
+text-align: center
+
+}
+
+.helpbgkm
+{
+	background-image: url(../img/help-bg-km.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: 0px 50px;
+	
+}
+
+

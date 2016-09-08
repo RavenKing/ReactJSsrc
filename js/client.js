@@ -24,9 +24,9 @@ const app = document.getElementById('app');
 ReactDOM.render(
     <Provider store = {store}>
     <Router history={browserHistory}>
-    <Route path="/maintain" component ={Maintain}> </Route>	
+    <Route path="/maintain" component ={Maintain}> </Route> 
     
-     <Route path="/login" component ={Login}> </Route>	
+     <Route path="/login" component ={Login}> </Route>  
      <Route path="/" component ={requireAuth(First)}> 
         <Route path="/trend" component={First}>   </Route>  
       </Route>
