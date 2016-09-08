@@ -214,7 +214,6 @@ export function GetSAPBestPractice(data)
 }
 //get best practice & industry practice
 export function GetPractices(obj){
-  var archobj = obj;
   var config = {
       headers:{
           'X-My-Custom-Header': 'Header-Value',
@@ -226,11 +225,11 @@ export function GetPractices(obj){
       }
   };
 return dispatch=>{        
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=AUTO",
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + obj + "&industry=AUTO",
       config).then(function(response,err){
               
           var data = response.data.results[0];              
-
+          var archobj = data.ARCHOBJ;
           axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",
               config).then(function(response,err){
                   var detail = response.data.d.results[0];
