@@ -191,6 +191,28 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
     }
   });
 
+  var ConfigButtonItemUpload = React.createClass({
+    displayName: 'ConfigButtonItemUpload',
+
+    componentDidMount: function componentDidMount() {
+      this.interactDrag = global.setNodeDragable(this.getDOMNode());
+    },
+    componentWillUnmount: function componentWillUnmount() {
+      this.interactDrag.unset();
+      this.interactDrag = null;
+    },
+    render: function render() {
+      var type = 'dashed';
+      return React.createElement(
+        Button,
+        { className: 'config-upload-button draggable', size: 'small',
+          type: type, 'data-info': this.props.item.info, 'data-type': this.props.item.info },
+        this.props.item.name
+      );
+    }
+  });
+
+
   var ConfigButton = React.createClass({
     displayName: 'ConfigButton',
 
@@ -198,6 +220,11 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
     render: function render() {
 
       var options = [];
+      var items2 = [{
+        name: "UPLOAD FILE",
+        info: "UPLOAD"
+      }];
+
       var items1 = [{
         name: "EDIT OBJECT",
         info: "EDIT"
@@ -232,6 +259,17 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
             'span',
             null,
             React.createElement(ConfigButtonItem, { item: item })
+          )
+        ));
+      });
+      items2.forEach(function (item) {
+        options.push(React.createElement(
+          'li',
+          null,
+          React.createElement(
+            'span',
+            null,
+            React.createElement(ConfigButtonItemUpload, { item: item })
           )
         ));
       });

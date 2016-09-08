@@ -13,6 +13,36 @@
       content: []
     }],
 
+
+    uploadConfirm: function(dataInfo) {
+    var flag = false;
+    var url = "http://10.97.144.117:8000/SmartOperations/services/uploadConfirm.xsjs";
+      $.ajax({
+            url: url,
+            method: 'POST',
+            data: dataInfo,
+            async: false,
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function(resp) {
+            
+      flag = true;
+          }).fail(function() {
+            console.error('upload error:');
+            console.error(arguments);
+      flag = false;
+          });
+      
+    return flag;
+    
+  },
+
     pinObject: function pinObject(factorId, setPin) {
       var flag = false;
       var url = "http://10.97.144.117:8000/SmartOperations/services/pinObject.xsjs?factorId=" + factorId + "&pin=" + setPin;
@@ -100,6 +130,18 @@
       var that = this;
 
       switch (data.type) {
+        case 'UPLOAD':
+
+
+            $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                item.content.push(data);
+                that.trigger(item.content);
+              }
+            });
+          
+
+          break;
 
         case 'EDIT':
 
