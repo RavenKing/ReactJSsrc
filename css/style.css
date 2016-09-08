@@ -334,3 +334,158 @@ li {
     -webkit-transform: scaleY(1.0);
   }
 }
+
+/*login panel*/
+.login{
+  padding-top:80px;
+  margin:auto;
+  width:35%;
+}
+
+#km-title{
+  color:white;
+  font-family: Comic Sans MS;
+  font-size:30px;
+  margin-left:27%;
+  margin-bottom: 40px;
+}
+
+.login-tab{
+  color:white;
+}
+#login-form{
+  margin-left: 25%;
+}
+.login-label1{
+  color:white;
+  font-family: Tahoma;;
+  font-size:20px;
+}
+.login-label2{
+  color:white;
+  font-family: Lucida Console;
+  font-size:12px;
+}
+#login-btn{
+  width:280px;
+}
+/*register*/
+.reg-form .ant-form-item-label label{
+  color:white;
+}
+.reg-btn{
+  margin-left: 50%;
+}
+
+/*create Panel */
+
+
+.create-panel{
+  width:1000px;
+}
+
+
+
+/*edit panel*/
+.edit-panel{
+  position: absolute;
+  width:900px;
+  z-index: 1;
+}
+
+.mainstep{
+ margin-top:10px;
+
+}
+.custom-size{
+    text-align: center;
+    height: 200px;
+    line-height: 200px;
+    font-size:30px;
+}
+.templatecontainer{
+display: block;
+margin-bottom: 10px;
+
+
+
+}
+.margin10{
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+
+}
+.margin-top10{
+  margin-top:10px;
+}
+.margin-bottom10:{
+  margin-bottom:10px;
+
+}
+.margin-left10:{
+  margin-left:30px;
+
+}
+.aligncenter{
+  text-align: center;
+}
+
+.BackButton{
+  display:inline;
+}
+.strategychart{
+  margin-right:30px;
+    display: inline-block;
+    height:200px;
+}
+.strategychartcircle{
+
+  display:inline;
+  float:right;
+  margin-top:100px;
+  margin-right: 50px;
+}
+.progressbar{
+  width:500px;  
+  margin-right:20px;
+
+}
+.ant-advanced-search-form {
+  padding: 16px 8px;
+  background: #f8f8f8;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+}
+
+/* 由于输入标签长度不确定，所以需要微调使之看上去居中 */
+.ant-advanced-search-form > .ant-row {
+  position: relative;
+  left: -6px;
+}
+
+.ant-advanced-search-form .ant-btn + .ant-btn {
+  margin-left: 8px;
+}
+/* end of create Panel */
+
+
+/*Display panel*/
+
+
+
+.textcenter{
+
+text-align: center
+
+}
+
+.helpbgkm
+{
+	background-image: url(../img/help-bg-km.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: 0px 50px;
+	
+}
+
