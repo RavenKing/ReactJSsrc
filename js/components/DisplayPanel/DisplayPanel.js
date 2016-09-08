@@ -13,6 +13,7 @@ import { AddCard }  from "../../Actions/KnowledgeAction";
 
 import { ShowMainPanel,ShowEditPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
 import { connect } from "react-redux";
+import { browserHistory } from "react-router"
 
 
 @connect((store)=>{    
@@ -69,7 +70,7 @@ export default class DisplayPanel extends React.Component {
                       props.dispatch(ShowCreatePanel());
                   }
                   else if(data_id == "4"){
-                      props.dispatch(ShowMainPanel());
+                    browserHistory.push("/trend")
                   }
                   break;
               }
