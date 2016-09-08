@@ -65,6 +65,7 @@ export default class ObjectDefinition extends React.Component {
 
           this.setState({
             objectstatus:"obj",
+            objecttype:"error",
             objecthelp:"please input an object or table!"
           })
         }
@@ -76,7 +77,8 @@ export default class ObjectDefinition extends React.Component {
         }
         else{
           this.setState({
-            objectstatus:"validating",
+            objectstatus:"obj",
+            objecttype:"validating",
             objecthelp:"validating"
           });
           this.props.dispatch(GetTop5Tables(this.state.obj));     
@@ -94,6 +96,7 @@ export default class ObjectDefinition extends React.Component {
 
           this.setState({
             objectstatus:"obj",
+            objecttype:"error",
             objecthelp:"please input an correct object or table!"
           })
 
@@ -101,7 +104,7 @@ export default class ObjectDefinition extends React.Component {
           else{
             this.props.dispatch(SetArticleNamAndDsc(this.state));  
             this.props.dispatch(GetPractices(this.state.obj));
-           setTimeout(function() {this.props.dispatch(ForwardStep())}.bind(this),1000);
+            setTimeout(function(){this.props.dispatch(ForwardStep())}.bind(this),1000);
           }
 
       }
@@ -171,7 +174,7 @@ export default class ObjectDefinition extends React.Component {
                 <FormItem
                   {...formItemLayout}
                   label="What object do you want to record"
-                  validateStatus={this.state.objectstatus=="obj"?"error":""}
+                  validateStatus={this.state.objectstatus=="obj"?this.state.objecttype:""}
                   help={this.state.objectstatus=="obj"?this.state.objecthelp:""}
                 >
                   <Input name="obj" type="text"  defaultValue={this.state.obj} placeholder="Type in a table name or archiving object" onChange={this.handleChange.bind(this)}/>

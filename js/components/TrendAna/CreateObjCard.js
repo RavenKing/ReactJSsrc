@@ -1,7 +1,10 @@
 import React from "react"
 import {Icon,Card,Form,Button,Select,Radio,Steps,message} from "antd"
 
-
+import CreateCardStep0 from "./createCard/CreateCardStep0";
+import CreateCardStep1 from "./createCard/CreateCardStep1";
+import CreateCardStep2 from "./createCard/CreateCardStep2";
+import CreateCardStep3 from "./createCard/CreateCardStep3";
 var global =window ; 
 var pageStatusDataStore = window.pageStatusDataStore;
 var displayAreaChangeActions=window.displayAreaChangeActions;
