@@ -101,7 +101,7 @@ export default class ObjectDefinition extends React.Component {
           else{
             this.props.dispatch(SetArticleNamAndDsc(this.state));  
             this.props.dispatch(GetPractices(this.state.obj));
-            this.props.dispatch(ForwardStep());
+           setTimeout(function() {this.props.dispatch(ForwardStep())}.bind(this),1000);
           }
 
       }
