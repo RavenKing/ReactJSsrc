@@ -78,9 +78,8 @@
     return interactable;
   };
   export function handleFocus(ele) {
-    console.log(ele);
     $(ele).click(function() {
-      $(ele).css("zIndex",1);
+      $(ele).css("zIndex",2);
       $(ele).siblings().css("zIndex", 0);
     });
   };
