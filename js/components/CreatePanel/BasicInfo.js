@@ -71,7 +71,7 @@ export default class BasicInfo extends React.Component {
             })
 
         }
-    GoToStepFive()
+    GoToStepFour()
     {
         var { tables } = this.state;
         var { size } = this.state;
@@ -275,7 +275,7 @@ var ranknumber;
 
             <ButtonGroup>
               <BackButton/>
-              <Button type="primary" onClick={this.GoToStepFive.bind(this)}>
+              <Button type="primary" onClick={this.GoToStepFour.bind(this)}>
                 Go forward <Icon type="right" />
               </Button>
             </ButtonGroup>

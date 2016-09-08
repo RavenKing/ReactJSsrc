@@ -10,6 +10,8 @@ import EditPanel from "../EditPanel/EditPanel";
 import { setAreaDropable } from "../../interactScript";
 
 import { AddCard }  from "../../Actions/KnowledgeAction";
+import { browserHistory,Router } from "react-router";
+
 
 import { ShowMainPanel,ShowEditPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
 import { connect } from "react-redux";
@@ -69,7 +71,8 @@ export default class DisplayPanel extends React.Component {
                       props.dispatch(ShowCreatePanel());
                   }
                   else if(data_id == "4"){
-                      props.dispatch(ShowMainPanel());
+browserHistory.push("/trend")
+
                   }
                   break;
               }
@@ -89,7 +92,7 @@ export default class DisplayPanel extends React.Component {
 
 
     render() {
-
+      console.log(this.history)
 
       // show or close Main Panel
     	const { articles }  = this.props;

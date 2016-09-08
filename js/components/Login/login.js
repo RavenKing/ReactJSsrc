@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { History,Router } from "react-router";
+import { browserHistory,Router } from "react-router";
 
 import { Form, Input, Button, Checkbox,Col,Tabs,Select } from 'antd';
 import md5 from "md5-js"
@@ -49,7 +49,7 @@ export default class Login extends React.Component {
           console.log(token.authorized)
           if(token.authorized == true)
           {
-              this.props.history.push("/")
+             browserHistory.push("/trend")
           }
 
         }.bind(this),1000);

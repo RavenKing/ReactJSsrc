@@ -12,6 +12,7 @@ export default class StrategyPanel extends React.Component {
 
 
       const {Strategy } =this.props;
+      console.log("Startegy is:",Strategy);
       var columns = [{
         title: 'Strategy Method',
         width:"130px",
