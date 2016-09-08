@@ -27,6 +27,8 @@ export default class Test extends React.Component {
             <DataPanel> </DataPanel>
             <DisplayPanel></DisplayPanel>
             <FunctionPanel></FunctionPanel>
+
+            <Link to="/km"> to Km </Link>
             </div>
 
   

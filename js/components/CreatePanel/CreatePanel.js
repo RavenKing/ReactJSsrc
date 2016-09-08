@@ -5,10 +5,13 @@ import { CloseCreatePanel } from "../../Actions/KnowledgeAction";
 
 import TemplateSelect from "./TemplateSelect";
 import ObjectDefinition from "./ObjectDefinition";
+import PracticeAnalysis from "./PracticeAnalysis";
+import SavingCharts from "./SavingCharts";
 import BasicInfo from "./BasicInfo";
 
+
 import { connect } from "react-redux";
-import { setCardDragable } from "../../interactScript";
+import { setCardDragable,handleFocus } from "../../interactScript";
 
 import StrategyDefine from "./StrategyDefine";
 
@@ -24,6 +27,7 @@ export default class CreatePanel extends React.Component {
 
     componentDidMount() {
       setCardDragable(ReactDOM.findDOMNode(this));
+      handleFocus(ReactDOM.findDOMNode(this));
     }
 
     componentWillMount(){
@@ -79,14 +83,18 @@ export default class CreatePanel extends React.Component {
       switch(parseInt(currentstep))
       {
           case 0 :{
-            displaystep = <TemplateSelect></TemplateSelect> ; 
+            displaystep = <TemplateSelect/> ; 
              break;
           } 
           case 1 : {
-            displaystep = <ObjectDefinition></ObjectDefinition> ; 
+            displaystep = <ObjectDefinition/> ; 
             break;
           }
-          case 2 :{ 
+          case 2: {
+            displaystep = <PracticeAnalysis/>;
+            break;
+          }
+          case 3 :{ 
             if(newArticle.ARCHOBJ && newArticle.TABLES){
               displaystep= <BasicInfo obj={newArticle.ARCHOBJ} tables={newArticle.TABLES}></BasicInfo>; 
               break;
@@ -96,12 +104,16 @@ export default class CreatePanel extends React.Component {
             }
             
           }
-          case 3 :{
+          case 4 :{
 
-            displaystep =<StrategyDefine></StrategyDefine>
+            displaystep =<StrategyDefine/>;
             break;
 
           }
+          /*case 5:{
+            displaystep = <SavingCharts/>;
+            break;
+          }*/
 
       }
 
@@ -111,12 +123,14 @@ export default class CreatePanel extends React.Component {
 
    <Card title="Create New Article" extra={<Icon type="cross" onClick = {this.CloseCreatePanel.bind(this)}/>}>
     <div>
-    <Steps current={currentstep}>
-    <Step title="Template Selection" description="Currenct template in System" />
-    <Step title="Object Definition" description="What do you want to record" />
-    <Step title="Basic Info" description="Type in more info " />
-    <Step title="Strategy Definition" description="Do you have exsiting Strategy" />
-  </Steps>
+      <Steps current={currentstep}>
+        <Step title="Template Selection" description="Currenct template in System" />
+        <Step title="Object Definition" description="What do you want to record" />
+        <Step title="Practice Analysis" description="Best Practice vs Industry Practice"/>
+        <Step title="Basic Info" description="Type in more info " />
+        <Step title="Strategy Definition" description="Do you have exsiting Strategy" />
+        
+      </Steps>
      </div>
   <div className="mainstep">
     
