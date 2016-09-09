@@ -96,7 +96,7 @@ export default class StrategyPanel extends React.Component {
             },
             {
                 name:'Estimated Remaining Size(GB)',
-                data:[parseInt(Strategy.TOTAL_SIZE)-parseInt(Strategy.SAVING_EST)]
+                data:[parseInt(Strategy.TOTAL_SIZE)-parseInt(Strategy.SAVING_EST==null?0:Strategy.SAVING_EST)]
 
             }]
         

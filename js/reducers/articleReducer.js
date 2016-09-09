@@ -153,13 +153,13 @@ export default function reducer(state={
         case "GET_PRACTICES":
         {
             var {newArticle} = state;
-            newArticle.AVGS = action.payload.AVGS;
-            newArticle.Retention = action.payload.Retention;
-            newArticle.BEST_PRACTICE = action.payload.BEST_PRACTICE;
-            newArticle.ARCHIVING = action.payload.ARCHIVING;
-            newArticle.AVOIDANCE = action.payload.AVOIDANCE;
-            newArticle.SUMMARIZATION = action.payload.SUMMARIZATION;
-            newArticle.DELETION = action.payload.DELETION;
+            newArticle.D_AVGS = action.payload.D_AVGS;
+            newArticle.D_Retention = action.payload.D_Retention;
+            newArticle.D_BEST_PRACTICE = action.payload.D_BEST_PRACTICE;
+            newArticle.D_ARCHIVING = action.payload.D_ARCHIVING;
+            newArticle.D_AVOIDANCE = action.payload.D_AVOIDANCE;
+            newArticle.D_SUMMARIZATION = action.payload.D_SUMMARIZATION;
+            newArticle.D_DELETION = action.payload.D_DELETION;
             return {...state,newArticle:newArticle}
         }
         case "GET_TOP5_TABLES":

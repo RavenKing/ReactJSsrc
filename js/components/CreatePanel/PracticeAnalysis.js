@@ -43,21 +43,21 @@ export default class PracticeAnalysis extends React.Component {
           <br />
           <h3>Avg Saving Percent for the first DVM Run:&nbsp;
           
-          <Progress type="circle" percent={parseInt(newArticle.AVGS).toFixed(2)}/>
+          <Progress type="circle" percent={parseInt(newArticle.D_AVGS).toFixed(2)}/>
           </h3>
           <br />
           <h3>Average Residence Time in our database: 
-            <Tag closable color="red" closable={false}>{newArticle.Retention?parseInt(newArticle.Retention):0}</Tag>
+            <Tag closable color="red" closable={false}>{newArticle.D_Retention?parseInt(newArticle.D_Retention):0}</Tag>
             Month &nbsp;&nbsp;&nbsp;
           VS &nbsp;&nbsp;&nbsp;Residence Time of Best Practice is:
-          <Tag closable color="green" closable={false}>{newArticle.BEST_PRACTICE?parseInt(newArticle.BEST_PRACTICE):0}</Tag>
+          <Tag closable color="green" closable={false}>{newArticle.D_BEST_PRACTICE?parseInt(newArticle.D_BEST_PRACTICE):0}</Tag>
             Month
           </h3>
           <Tabs>
-            <TabPane tab="Best Practice for Archiving" key="1" disabled={newArticle.ARCHIVING?false:true}>{newArticle.ARCHIVING}</TabPane>
-            <TabPane tab="Best Practice for Deletion" key="2" disabled={newArticle.DELETION?false:true}>{newArticle.DELETION}</TabPane>
-            <TabPane tab="Best Practice for Summarization" key="3" disabled={newArticle.SUMMARIZATION?false:true}>{newArticle.SUMMARIZATION}</TabPane>
-            <TabPane tab="Best Practice for Avoidance" key="4" disabled={newArticle.AVOIDANCE?false:true}>{newArticle.AVOIDANCE}</TabPane>
+            <TabPane tab="Best Practice for Archiving" key="1" disabled={newArticle.D_ARCHIVING?false:true}>{newArticle.D_ARCHIVING}</TabPane>
+            <TabPane tab="Best Practice for Deletion" key="2" disabled={newArticle.D_DELETION?false:true}>{newArticle.D_DELETION}</TabPane>
+            <TabPane tab="Best Practice for Summarization" key="3" disabled={newArticle.D_SUMMARIZATION?false:true}>{newArticle.D_SUMMARIZATION}</TabPane>
+            <TabPane tab="Best Practice for Avoidance" key="4" disabled={newArticle.D_AVOIDANCE?false:true}>{newArticle.D_AVOIDANCE}</TabPane>
           </Tabs>
           <ButtonGroup>
             <BackButton/>

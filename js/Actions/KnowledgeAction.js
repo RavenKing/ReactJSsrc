@@ -234,13 +234,13 @@ return dispatch=>{
               config).then(function(response,err){
                   var detail = response.data.d.results[0];
                   var payload = {
-                    AVGS:data.AVGS,
-                    Retention:data.Retention,
-                    BEST_PRACTICE:detail.BEST_PRACTICE,
-                    ARCHIVING:detail.ARCHIVING,
-                    AVOIDANCE:detail.AVOIDANCE,
-                    SUMMARIZATION:detail.SUMMARIZATION,
-                    DELETION:detail.DELETION
+                    D_AVGS:data.AVGS,
+                    D_Retention:data.Retention,
+                    D_BEST_PRACTICE:detail.BEST_PRACTICE,
+                    D_ARCHIVING:detail.ARCHIVING,
+                    D_AVOIDANCE:detail.AVOIDANCE,
+                    D_SUMMARIZATION:detail.SUMMARIZATION,
+                    D_DELETION:detail.DELETION
                   }
 
                   dispatch({type:"GET_PRACTICES",payload:payload});
@@ -524,9 +524,14 @@ export function UpdateArticle(data){
           password:'Sap12345'
         }
   };
+  var total_size = 0;
   return dispatch=>{
     data.tables.map((table,idx)=>{
       idx = idx+1;
+      if(table.TBL_SIZE != null){
+        total_size += Number(table.TBL_SIZE);
+      }
+      
       axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+data.article_id+",ATTR_ID="+idx+")",{
         ARTILE_ID:data.article_id,
         ATTR_ID:idx,
@@ -555,9 +560,13 @@ export function UpdateArticle(data){
 
     },config
     ).then(function (response) {
+
+
+
+
         axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+data.article_id+")",{
           ARTICLE_ID:data.article_id,    
-          TOTAL_SIZE:"1",
+          TOTAL_SIZE:total_size.toString(),
           ARCHIVING:data.archiving,    
           DELETION:data.deletion,
           SUMMARIZATION:data.summarization,
