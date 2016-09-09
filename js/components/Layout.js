@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 //Knowledge Action
 
-import { fetchArticles } from "../Actions/KnowledgeAction";
+import { fetchArticles,ShowMainPanel} from "../Actions/KnowledgeAction";
 
 //Antd
 import 'antd/dist/antd.css';
@@ -29,6 +29,29 @@ import DisplayPanel from "./DisplayPanel/DisplayPanel"
     
 })
 export default class Layout extends React.Component {
+  constructor(props)
+  {
+super(props)
+
+
+const {auth} = this.props;
+
+const {user} = auth.token ; 
+this.props.dispatch(fetchArticles(user))
+console.log(this.props)
+const {location} = this.props;
+const {query} = location;
+if(query)
+{
+
+setTimeout(function(){
+this.props.dispatch(ShowMainPanel(query));
+}.bind(this),500)
+
+
+}
+
+  }
 
 
   shouldComponentUpdate(nextProps,nextState)

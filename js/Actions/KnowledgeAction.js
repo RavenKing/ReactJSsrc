@@ -36,11 +36,11 @@ else{
     
     
 }
-export function ShowMainPanel()
+export function ShowMainPanel(query)
 {
   return dispatch=>{
 
-    dispatch({type:"SHOW_ARTICLE_MAIN"}) 
+    dispatch({type:"SHOW_ARTICLE_MAIN",payload:query}) 
   }
 }
 export function ShowEditPanel(data){

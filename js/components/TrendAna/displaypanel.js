@@ -85,7 +85,7 @@ if (!rc) {
               break;
 
             case 'NOTE':
-              browserHistory.push("/km")
+              browserHistory.push("/km?object=BKPF")
               break;
             case 'UPLOAD':
               data.title = 'Upload Statistics File';

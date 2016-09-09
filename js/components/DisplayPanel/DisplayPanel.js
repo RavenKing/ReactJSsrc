@@ -97,11 +97,13 @@ export default class DisplayPanel extends React.Component {
     	var DisplayMain;
       var test;
     	test = articles;
-    	if(test.showMain === true){ 
+    	if(test.showMain.show === true){ 
 
       	var array = test.articles;
       	const { results } = array;
-    		DisplayMain = <MainPanel results={ results } ></MainPanel>
+
+
+    		DisplayMain = <MainPanel results={ results } query={test.showMain.query?test.showMain.query:""}></MainPanel>
       }
     	else
     	{

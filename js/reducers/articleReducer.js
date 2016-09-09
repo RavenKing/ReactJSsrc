@@ -2,7 +2,7 @@ export default function reducer(state={
     articles:[],
     fetching:false,
     fetched:false,
-    showMain:false,
+    showMain:{show:false,query:null},
     showCreate:false,
     refresh:false,
     newArticle:{currentstep:0},
@@ -23,9 +23,15 @@ export default function reducer(state={
         }
         case "SHOW_ARTICLE_MAIN":
         {
-            return  {...state,showMain:true}
+
+            return  {...state,showMain:{show:true,query:action.payload}}
 
         }
+
+         case  "CLOSE_ARTICLE_MAIN":
+        { 
+            return {...state,showMain:{show:false,query:null}}
+        }  
         case "SHOW_EDIT_PANEL":
         {
             var { updateArticle } = state;
@@ -38,15 +44,11 @@ export default function reducer(state={
         {            
             return {...state,updateArticle:null,showEdit:false}
         }
-        case  "CLOSE_ARTICLE_MAIN":
-        { 
-            return {...state,showMain:false}
-        }  
+
        
         case "ADD_ARTICLE_VIEW":
         {
             const  { displayPanel } = state;
-
             displayPanel.push({
                 article:action.payload.data_id,
                 x:action.payload.x,

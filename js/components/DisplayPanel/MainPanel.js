@@ -20,12 +20,24 @@ export default class MainPanel extends React.Component {
    constructor(props) {
    super(props)    
    //   const { results } = this.props;
+   const {query } =this.props;
+   var tabledata ;
+        if(query!="")
+        {
+   tabledata = this.setNewData(query.object);
+        }
+        console.log(this.props);
+
 
         this.state={ 
           selectedRowKeys: [],  // 这里配置默认勾选列
           loading: false,
-
+          query:query.object,
+          tabledata:tabledata
         }
+
+
+
     }
 
 
@@ -58,20 +70,23 @@ export default class MainPanel extends React.Component {
    addnewCard(e)
    {
 
-      this.props.dispatch(AddCard(e.target.rel));
+    console.log(e.target.rel)
+      this.props.dispatch(AddCard({data_id:e.target.rel}));
    }
 
-  filterSearch(e){
-  
-   const { results } = this.props;
+
+   setNewData(filterdata)
+   {
+
+    const { results } = this.props;
    const searcharray = results.concat();
    var data = searcharray.filter((one)=>{
 
-    if(one.ARTICLE_NAM.indexOf(e.target.value)!=-1)
+    if(one.ARTICLE_NAM.indexOf(filterdata)!=-1)
     {
         return one;     
     }
-    else if(one.ARTICLE_DSC.indexOf(e.target.value)!=-1)
+    else if(one.ARTICLE_DSC.indexOf(filterdata)!=-1)
     {
       return one;
 
@@ -89,16 +104,22 @@ export default class MainPanel extends React.Component {
             total_size:result.TOTAL_SIZE
           }
       });
-      this.setState({
-        "tabledata": tabledata
-      });
+   return tabledata;
+   }
+
+  filterSearch(e){
+  var tabledata = this.setNewData(e.target.value);
+    this.setState({
+      "tabledata" : tabledata
+
+    })
 
   }
+
 
     render() {
       var results;
       var data;
-
       if(!this.state.tabledata)
       {
         const { articles} = this.props;
@@ -119,7 +140,7 @@ export default class MainPanel extends React.Component {
    
 
         
-    	var columns = [        
+      var columns = [        
         {
           title: 'Article Name',
           width:150,
@@ -144,10 +165,10 @@ export default class MainPanel extends React.Component {
                
 
         return (
-        	<div className="main-panel">
+          <div className="main-panel">
            <Card title="DVM Articles" extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />}  >
-        	<div class="margin-bottom10">
-          <Input placeholder="Search help" size="small" onChange={this.filterSearch.bind(this)}/>
+          <div class="margin-bottom10">
+          <Input placeholder="Search help" size="small" onChange={this.filterSearch.bind(this)} defaultValue={this.state.query?this.state.query:""}/>
           </div>
           <Table columns={columns} dataSource={data}  pagination={{ pageSize: 10 }} scroll={{ y: 240 }} />
           </Card>
