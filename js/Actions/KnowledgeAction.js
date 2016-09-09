@@ -474,7 +474,6 @@ export function PostArticle(data1){
             }
             
         });
-        console.log(total_size);
         total_size = total_size.toString();
         axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM",{
       
@@ -530,7 +529,7 @@ export function UpdateArticle(data){
     data.tables.map((table,idx)=>{
       idx = idx+1;
       if(table.TBL_SIZE != null){
-        total_size += Number(table.TBL_SIZE);
+        total_size += parseInt(table.TBL_SIZE);
       }
       
       axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+data.article_id+",ATTR_ID="+idx+")",{
