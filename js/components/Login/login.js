@@ -271,13 +271,13 @@ export default class Login extends React.Component {
               
               <FormItem
                 
-                wrapperCol={{ span:24 }}
+                wrapperCol={{ span:16 }}
               >
-              <Col span="9">
+              <Col span="12">
                 <Checkbox className="login-label2">remember me</Checkbox>
               </Col>
-              <Col span="9">
-                <p className="login-label2">Can not login?</p>
+              <Col span="12">
+                <p className="login-label3">Can not login?</p>
               </Col>
               
               </FormItem>             
@@ -286,7 +286,7 @@ export default class Login extends React.Component {
               </TabPane >
 
               <TabPane  tab="register" key="2">
-                <h2>Customer Information</h2>
+                <h3>Customer Information</h3>
                 <hr />
                 <br />
                 <Form horizontal className="reg-form">
@@ -374,7 +374,7 @@ export default class Login extends React.Component {
 
                   <Button type="primary" className="reg-btn" onClick={this.saveCusInfo.bind(this)}>Register</Button>
                    
-                  <h2>User Information</h2>
+                  <h3>User Information</h3>
                   <hr />
                   <br />
                   <Form horizontal className="reg-form">

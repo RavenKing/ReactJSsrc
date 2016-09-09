@@ -119,9 +119,9 @@ export default class CreatePanel extends React.Component {
 
 
   return (
-  <div className="create-panel">
+  <div >
 
-   <Card title="Create New Article" extra={<Icon type="cross" onClick = {this.CloseCreatePanel.bind(this)}/>}>
+   <Card className="create-panel" title="Create New Article" extra={<Icon type="cross" onClick = {this.CloseCreatePanel.bind(this)}/>}>
     <div>
       <Steps current={currentstep}>
         <Step title="Template Selection" description="Currenct template in System" />
