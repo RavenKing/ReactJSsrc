@@ -3,6 +3,7 @@ import DataCard from "./DataCard";
 import LineChartCard from "./LineChartCard";
 import PieChartCard from "./PieChartCard";
 import CreateObjCard from "./CreateObjCard";
+import UploadCard from "./uploadCard";
 import { History,Router,browserHistory } from "react-router";
 
 var interact = window.interact;
@@ -58,7 +59,7 @@ if (!rc) {
       var that = this;
       this.interactable = global.setAreaDropable({
         element: this.getDOMNode(),
-        accept: '.data-item, .data-block, .tile, .config-create-button, .function-button-nav',
+        accept: '.data-item, .data-block, .tile, .config-create-button, .function-button-nav, .config-upload-button',
         ondrop: function ondrop(event) {
           var draggableElement = event.relatedTarget,
               dropzoneElement = event.target;
@@ -83,8 +84,12 @@ if (!rc) {
               data.editObj = 0;
               break;
 
-              case 'NOTE':
+            case 'NOTE':
               browserHistory.push("/km")
+              break;
+            case 'UPLOAD':
+              data.title = 'Upload Statistics File';
+      
               break;
             default:
               ;
@@ -131,6 +136,9 @@ if (!rc) {
           } else if (item.type == 'EDIT') {
 
             return React.createElement(CreateObjCard, { key: item.id + "EditObjCard", card: item });
+          }
+          else if(item.type == 'UPLOAD'){
+            return React.createElement(UploadCard, { key: item.id + "UploadCard", card: item });
           }
         })
       );

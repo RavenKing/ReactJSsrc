@@ -470,10 +470,11 @@ export function PostArticle(data1){
         var total_size = 0;
         size.map((one)=>{
             if(one != null){
-              total_size = Number(total_size + one);
+              total_size = parseInt(total_size) + parseInt(one);
             }
             
         });
+        console.log(total_size);
         total_size = total_size.toString();
         axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM",{
       
