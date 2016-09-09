@@ -20,6 +20,11 @@ import First from "./components/TrendAna/First";
 
 window.react=React;
 window.Highcharts =  ReactHighCharts;
+
+
+
+
+
 const app = document.getElementById('app');
 ReactDOM.render(
     <Provider store = {store}>
