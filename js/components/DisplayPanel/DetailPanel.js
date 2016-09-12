@@ -156,9 +156,9 @@ export default class DetailPanel extends React.Component {
      
       return (
 
-        <div className="detail-panel" data-id={this.state.article.ARTICLE_ID} style={pos}>
+        
 
-        <Card  title={this.state.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
+        <Card className="detail-panel" data-id={this.state.article.ARTICLE_ID} style={pos} title={this.state.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
           <div className="leftside" onClick={this.NavLeft.bind(this)}>
           <Icon type="left" />
           </div>
@@ -170,7 +170,7 @@ export default class DetailPanel extends React.Component {
           <Icon type="right"/>
           </div>
         </Card>
-        </div>
+        
       );
   }
 }
