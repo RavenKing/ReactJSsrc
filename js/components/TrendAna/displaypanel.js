@@ -47,13 +47,15 @@ if (!rc) {
       });
     },
 
-    componentDidUpdate: function componentDidUpdate() {
+    /*componentDidUpdate: function componentDidUpdate() {
       if (!this.state.cards.length) {
+        console.log('length of card');
+        console.log(this.state.cards.length);
         this.getDOMNode().classList.add('help-bg');
       } else {
         this.getDOMNode().classList.remove('help-bg');
       }
-    },
+    },*/
 
     componentDidMount: function componentDidMount() {
       var that = this;
@@ -119,9 +121,10 @@ if (!rc) {
     // },
 
     render: function render() {
+
       return React.createElement(
         'div',
-        { className: 'display-panel help-bg' },
+        { className: (!this.state.cards.length) ? 'display-panel help-bg' : 'display-panel' },
         this.state.cards.map(function (item) {
           if (item.type == 'TITLE') {
             return React.createElement(DataCard, { key: item.id + "DataCard", card: item });
