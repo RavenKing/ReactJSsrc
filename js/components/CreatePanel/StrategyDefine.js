@@ -88,7 +88,6 @@ export default class StrategyDefine extends React.Component {
                       user: user
                     }
           this.props.dispatch(PostArticle(data));
-          this.props.dispatch(CloseCreatePanel());
         }
         else{
           const modal = Modal.warning({
@@ -98,6 +97,9 @@ export default class StrategyDefine extends React.Component {
         }
         
         
+    }
+    GoToStepSix(){
+      this.props.dispatch(ForwardStep());
     }
 
     render() {	
@@ -222,7 +224,7 @@ export default class StrategyDefine extends React.Component {
             <ButtonGroup>
              <BackButton/>
             <Button type="primary" onClick={this.handleClick.bind(this)}>Save</Button>
-            
+            <Button type="primary" onClick={this.GoToStepSix.bind(this)}>Next<Icon type="right"/></Button>
             </ButtonGroup>
 
             </FormItem>

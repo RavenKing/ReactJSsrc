@@ -6,8 +6,8 @@ import { CloseCreatePanel } from "../../Actions/KnowledgeAction";
 import TemplateSelect from "./TemplateSelect";
 import ObjectDefinition from "./ObjectDefinition";
 import PracticeAnalysis from "./PracticeAnalysis";
-import SavingCharts from "./SavingCharts";
 import BasicInfo from "./BasicInfo";
+import PredictAnalysis from "./PredictAnalysis";
 
 
 import { connect } from "react-redux";
@@ -110,10 +110,10 @@ export default class CreatePanel extends React.Component {
             break;
 
           }
-          /*case 5:{
-            displaystep = <SavingCharts/>;
+          case 5:{
+            displaystep = <PredictAnalysis/>;
             break;
-          }*/
+          }
 
       }
 
@@ -129,6 +129,7 @@ export default class CreatePanel extends React.Component {
         <Step title="Practice Analysis" description="Best Practice vs Industry Practice"/>
         <Step title="Basic Info" description="Type in more info " />
         <Step title="Strategy Definition" description="Do you have exsiting Strategy" />
+        <Step title="Predict Analysis" description="Predict Analysis"/>
         
       </Steps>
      </div>
