@@ -135,14 +135,16 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
         return React.createElement(
           Button,
           { className: 'function-button-nav draggable', size: 'large',
-            type: type, 'data-info': this.props.fun.info, 'data-type': this.props.fun.type },
+            type: type, 'data-info': this.props.fun.info, 'data-type': this.props.fun.type, icon: 'hdd' },
+            
           this.props.fun.name
         );
       } else {
         return React.createElement(
           Button,
           { className: 'function-button draggable', size: 'large',
-            type: type, 'data-info': this.props.fun.info, 'data-type': this.props.fun.type },
+            type: type, 'data-info': this.props.fun.info, 'data-type': this.props.fun.type, icon: 'search'  },
+            
           this.props.fun.name
         );
       }
@@ -304,12 +306,27 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
     displayName: 'FunctionList',
 
     render: function render() {
-      var buttons = [];
-      this.props.funs.forEach(function (fun) {
-        buttons.push(React.createElement(FunctionButton, { fun: fun }));
-      });
-      buttons.push(React.createElement(ConfigButton, null));
-      buttons.push(React.createElement(SwitchButton, null));
+
+      if(pageStatusDataStore.getCurrentStatus() == "INIT"){
+        var buttons = [];
+        this.props.funs.forEach(function (fun) {
+          buttons.push(React.createElement(FunctionButton, { fun: fun }));
+        });
+        buttons.push(React.createElement(ConfigButton, null));
+        buttons.push(React.createElement(SwitchButton, null));
+
+
+      }
+      else{
+        var buttons = [];
+        this.props.funs.forEach(function (fun) {
+          buttons.push(React.createElement(FunctionButton, { fun: fun }));
+        });
+        buttons.push(React.createElement(SwitchButton, null));
+
+
+      }
+
       return React.createElement(
         'div',
         { className: 'function-list' },
