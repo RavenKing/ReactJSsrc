@@ -255,7 +255,7 @@ export default class Login extends React.Component {
                 help={token.error=="password"?token.hint:""}
               >
                 
-                <Input type="password" placeholder="Password" onChange= { this.PasswordChange.bind(this)}/>             
+                <Input type="password" placeholder="Password" onChange= { this.PasswordChange.bind(this)}  onPressEnter={this.setAuth.bind(this)}/>             
                                
               </FormItem>
         
@@ -264,7 +264,7 @@ export default class Login extends React.Component {
                 wrapperCol={{ span:16 }}
               >
 
-              <Button type="primary" id="login-btn" onClick={this.setAuth.bind(this)}>login</Button>
+              <Button type="primary" id="login-btn" icon="poweroff" onClick={this.setAuth.bind(this)}>Login</Button>
               
              
               </FormItem>
@@ -420,7 +420,7 @@ export default class Login extends React.Component {
                     help={token.error=="pwd2"?token.hint:""}
                     
                   >
-                  <Input type="password" ref="pwd2"/>
+                  <Input type="password" ref="pwd2" />
                   </FormItem>
 
                   <Button type="primary" className="reg-btn" onClick={this.saveUsrInfo.bind(this)}>Register</Button>

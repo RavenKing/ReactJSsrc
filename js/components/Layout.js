@@ -41,7 +41,8 @@ this.props.dispatch(fetchArticles(user))
 console.log(this.props)
 const {location} = this.props;
 const {query} = location;
-if(query)
+console.log(query);
+if(query.object)
 {
 
 setTimeout(function(){
