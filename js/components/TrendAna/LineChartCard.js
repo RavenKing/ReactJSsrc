@@ -3,6 +3,8 @@ import React from "react"
 import { Slider , Modal, message,Card,Icon	} from "antd"
 import LineChart from  "./LineChart"
 import PredictLineChart from "./PredictLineChart"
+import {browserHistory } from "react-router"
+
 var global =window
 
 var displayAreaDataStore= window.displayAreaDataStore
@@ -124,7 +126,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			this.interactDrag = global.setCardDragable(this.getDOMNode(), this.props.card.id);
 			this.interactDrop = global.setAreaDropable({
 				element: this.getDOMNode(),
-				accept: '.function-button, .data-item, .config-button',
+				accept: '.function-button, .data-item, .config-button, .function-button-nav',
 				ondrop: function ondrop(event) {
 					var draggableElement = event.relatedTarget,
 					    dropzoneElement = event.target;
@@ -246,7 +248,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 						//   break;
 
 						case "NOTE":
-							console.log('NOTE');
+							console.log('NOTE -factor name = ');
+							console.log(that.props.card.FACTOR_NAME);
+							browserHistory.push("/km?object=" + that.props.card.FACTOR_NAME[0]);
 
 							break;
 
