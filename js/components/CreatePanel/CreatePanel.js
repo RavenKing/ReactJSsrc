@@ -7,7 +7,7 @@ import TemplateSelect from "./TemplateSelect";
 import ObjectDefinition from "./ObjectDefinition";
 import PracticeAnalysis from "./PracticeAnalysis";
 import BasicInfo from "./BasicInfo";
-import PredictPanel from "../DisplayPanel/PredictPanel";
+import PredictAnalysis from "./PredictAnalysis";
 
 
 import { connect } from "react-redux";
@@ -111,7 +111,7 @@ export default class CreatePanel extends React.Component {
 
           }
           case 5:{
-            displaystep = <PredictPanel/>;
+            displaystep = <PredictAnalysis/>;
             break;
           }
 
