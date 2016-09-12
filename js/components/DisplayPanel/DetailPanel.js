@@ -42,7 +42,7 @@ export default class DetailPanel extends React.Component {
   NavRight(){
  
    
-    if(this.state.page < 3){
+    if(this.state.page < 4){
 
       var pagenumber = this.state.page + 1;
       

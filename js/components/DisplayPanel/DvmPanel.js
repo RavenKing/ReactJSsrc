@@ -2,6 +2,7 @@ import React from "react";
 
 import TableCharts from "./TableCharts";
 import StrategyPanel from "./StrategyPanel";
+import PredictPanel from "./PredictPanel";
 
 import BestPanel from "./BestPanel";
 export default class DvmPanel extends React.Component {
@@ -15,16 +16,19 @@ export default class DvmPanel extends React.Component {
     {
       displaydata =  <TableCharts Article={Article}></TableCharts>
     }
-    else if(Page ==2)
+    else if(Page == 2)
     {
 
       displaydata =  <StrategyPanel Strategy = { Article }> </StrategyPanel>
 
     }
-    else if(Page ==3)
+    else if(Page == 3)
     {
           displaydata = <BestPanel archobj={Article.ARCHOBJ} articleid={Article.ARTICLE_ID} customerid={Article.CUSTOMER_ID} bestpractice={Article.bestpractice}></BestPanel>
     
+    }
+    else if(Page == 4){
+        displaydata = <PredictPanel/>
     }
 
         return (
