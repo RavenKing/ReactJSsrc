@@ -28,15 +28,22 @@ export default class PredictPanel extends React.Component{
         credits: {
           enabled: false
         },
-  			series: [{
-  				name:"size1",
-    			data: [29.9, 71.5, 106.4, 129.2, 144.0,176.0,135.6,148.5, 216.4, 194.1, 295.6, 454.4]
-          
-    			
+  			series: [
+        { 
+          name:"History Value",
+          data:[29.9, 71.5, 106.4, 129.2, 144.0,176]
+
+
+        },
+        {
+  				name:"Simulated(SAP Best Practice)",
+    			data: [176,211,253,304,365.438],
+          pointStart:5,
+          color:"red"
   			},
         {
-          name:"size2",
-          data:[176,170,180.1,260.1,270.3,385.2,543.9],
+          name:"Simulated(Current Strategy)",
+          data:[176,228,297.1,386,502],
           color:'black',
           pointStart: 5
           
