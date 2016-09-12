@@ -34,7 +34,7 @@ export default class DataBlock extends React.Component {
        }
        else
        {
-          DataItems = <h1> No Data Found</h1>
+          DataItems = <h1></h1>
 
        }
 
