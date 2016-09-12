@@ -35,7 +35,7 @@ export default class FunctionPanel extends React.Component {
          <FunctionItem text="Create" id="1"/>
          <FunctionItem text="Edit" id="2"/>
          <FunctionItem text="Delete" id="3"/>
-         <FunctionItem text="Trend Analysis" id="4"/>
+         <FunctionItem text="Trend" id="4"/>
         </div>
       );
   }

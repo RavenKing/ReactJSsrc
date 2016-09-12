@@ -61,6 +61,9 @@ import HighCharts from "highcharts"
 				title: {
 					text: ''
 				},
+				credits: {
+				    enabled: false
+				},
 				xAxis: {
 					id: 'xAxis',
 					categories: axisArr,

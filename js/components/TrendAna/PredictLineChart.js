@@ -59,6 +59,9 @@ var PredictLineChart = React.createClass({
 				title: {
 					text: ''
 				},
+				credits: {
+				    enabled: false
+				},
 				xAxis: {
 					id: 'xAxis',
 					categories: axisArr,

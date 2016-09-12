@@ -206,7 +206,7 @@ var UploadCard = React.createClass({
 						displayTable = React.createElement(
 							"div",
 							{ style: { marginTop: 16, height: 300 } },
-							React.createElement(Table, { columns: this.state.tableHeader, scroll: { y: 260 }, dataSource: this.state.tableData, size: "small", pagination: false, title: "Please double check the sample entries from your file." })
+							React.createElement(Table, { columns: this.state.tableHeader, scroll: { y: 260 }, dataSource: this.state.tableData, size: "small", pagination: false })
 						);
 						break;
 					}

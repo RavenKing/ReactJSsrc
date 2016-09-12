@@ -88,6 +88,23 @@ export default class DisplayPanel extends React.Component {
       
   }
 
+  componentDidUpdate() {
+    const {articles} = this.props;
+    console.log("good")
+    console.log(articles);
+
+    const {displayPanel} = articles;
+    if(articles.showCreate==false && articles.showEdit == false && articles.showMain== false && displayPanel.length==0)
+    {
+
+      ReactDOM.findDOMNode(this).classList.add('helpbgkm');
+
+    }else{
+
+      ReactDOM.findDOMNode(this).classList.remove('helpbgkm');
+    }
+  }
+
 
     render() {
 

@@ -16,6 +16,9 @@ import Highcharts from "highcharts";
 				title: {
 					text: ''
 				},
+				credits: {
+				    enabled: false
+				},
 				plotOptions: {
 					pie: {
 						allowPointSelect: true,
