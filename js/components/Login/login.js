@@ -264,7 +264,7 @@ export default class Login extends React.Component {
                 wrapperCol={{ span:16 }}
               >
 
-              <Button type="primary" id="login-btn" onClick={this.setAuth.bind(this)}>login</Button>
+              <Button type="primary" id="login-btn" icon="poweroff" onClick={this.setAuth.bind(this)}>Login</Button>
               
              
               </FormItem>
