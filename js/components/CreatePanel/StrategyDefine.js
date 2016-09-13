@@ -6,7 +6,10 @@ import { connect } from "react-redux";
 import { 
           NewArticleStepOne,SetSaving,
           PostArticle,CloseCreatePanel,
-          fetchArticles,ForwardStep
+          fetchArticles,ForwardStep,
+          SetAvoidance,SetDeletion,
+          SetSummarization,SetArchiving,
+          SetRetention
         } from "../../Actions/KnowledgeAction";
 
 //Forms
@@ -80,14 +83,24 @@ export default class StrategyDefine extends React.Component {
         }
     }
 
-    onChange(checked){
+    onChange(checkedValues){
 
         this.setState({
-	         DVM:checked,
+	         DVM:checkedValues,
         })
 
     }
-    
+    ifChecked(method){
+      const { DVM } = this.state;
+      for(var i = 0; i < DVM.length;i++){
+          if(DVM[i] == method){
+            return true;
+          }
+      }
+     
+      return false;
+      
+    }
     GoToStepSix(){
         var validInput = true;
         var saving_est = this.refs.sav_est.refs.input.value;
@@ -120,6 +133,19 @@ export default class StrategyDefine extends React.Component {
           };
 
           this.props.dispatch(SetSaving(data));
+          if(!this.ifChecked("Avoidance")){
+            this.props.dispatch(SetAvoidance(""));
+          }
+          if(!this.ifChecked("Deletion")){
+            this.props.dispatch(SetDeletion(""));
+          }
+          if(!this.ifChecked("Summarization")){
+            this.props.dispatch(SetSummarization(""));
+          }
+          if(!this.ifChecked("Archiving")){
+            this.props.dispatch(SetArchiving(""));
+            this.props.dispatch(SetRetention(12));
+          }
           this.props.dispatch(ForwardStep());
          
         }
