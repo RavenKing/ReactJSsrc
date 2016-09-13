@@ -28,6 +28,8 @@ export default class AvoidanceForm extends React.Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
+    const { newArticle } = this.props.articles;
+    const Avoidance = newArticle.AVOIDANCE;
 
     	
     	return (
@@ -41,7 +43,7 @@ export default class AvoidanceForm extends React.Component {
           {...formItemLayout}
           label="Avoidance"
         >
-          <Input type="textarea"  placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)} />
+          <Input type="textarea"  defaultValue={Avoidance?Avoidance:""} placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)} />
         </FormItem>
 
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
