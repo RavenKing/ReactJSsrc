@@ -22,7 +22,7 @@ const ButtonGroup = Button.Group;
     
 })
 export default class BasicInfo extends React.Component {
-     constructor(props) {
+    constructor(props) {
 
         super(props);
         const { newArticle } = this.props.articles; 
@@ -30,7 +30,7 @@ export default class BasicInfo extends React.Component {
 
         var parms = {archobj:newArticle.ARCHOBJ};
 
-    this.props.dispatch(GetSAPBestPractice(parms))
+        this.props.dispatch(GetSAPBestPractice(parms));
 
 
         var tables = [];     
@@ -55,22 +55,22 @@ export default class BasicInfo extends React.Component {
         }
     }
 
-        componentWillMount(){
-       const {newArticle} = this.props.articles;
-       const {bestpractice} = newArticle;
-       var RANK;
-       console.log(bestpractice);
-       if(bestpractice)
-       {
-        RANK= bestpractice.result.RANK;
-       }
-            this.setState({
-
-              Rank:RANK
-
-            })
-
+    componentWillMount(){
+        const {newArticle} = this.props.articles;
+        const {bestpractice} = newArticle;
+        var RANK;
+      
+        if(bestpractice)
+        {
+          RANK= bestpractice.result.RANK;
         }
+        this.setState({
+
+            Rank:RANK
+
+        });
+
+    }
     GoToStepFive()
     {
         var { tables } = this.state;
@@ -146,7 +146,10 @@ export default class BasicInfo extends React.Component {
       var input = this.refs.tablename.refs.input;
       var inputValue = input.value;
       if(inputValue == ""){
-        alert("input the table name");
+        const modal = Modal.warning({
+            title: 'Warning! ',
+            content: 'Please input the table name'
+          });
       }
       else{
 
@@ -163,29 +166,27 @@ export default class BasicInfo extends React.Component {
       var tables = this.props.tables;
       const { newTables } = this.state;
 
-       const {newArticle} = this.props.articles;
-       const {bestpractice} = newArticle;
-       console.log(bestpractice);
+      const {newArticle} = this.props.articles;
+      const {bestpractice} = newArticle;
+     
 
-var ranknumber;
-    if(bestpractice)
-    {
-      ranknumber=parseInt(bestpractice.result.RANK)
-    }
-    else{
-      ranknumber = 3 ;
-    }
- console.log(ranknumber)
-
-
-     var that = this;
+      var ranknumber;
+      if(bestpractice)
+      {
+        ranknumber=parseInt(bestpractice.result.RANK)
+      }
+      else{
+        ranknumber = 3 ;
+      }
+ 
+      var that = this;
       
       const formItemLayout = {
           labelCol: { span: 14},
           wrapperCol: { span: 10 },
-        };
+      };
 
-        return (
+      return (
         	<div>
             <Collapse defaultActiveKey={['1']} accordion >
             <Panel header={header} key="1">
@@ -198,7 +199,7 @@ var ranknumber;
             </Collapse>
 
 
-          <div className="margin-top10">
+            <div className="margin-top10">
          
 
             <Form horizontal className="ant-advanced-search-form" >
@@ -209,7 +210,7 @@ var ranknumber;
                 
                 var sizeInputName = "size"+idx;
                 
-               return ( 
+                return ( 
                   
                   
                     <FormItem 
@@ -224,12 +225,13 @@ var ranknumber;
                         <p className="ant-form-split">GB</p>
                       </Col>
                     </FormItem>
-                    )
+                )
              })
-           }
-              </Col>
-              <Col sm={12}>
-              {
+            }
+            </Col>
+              
+            <Col sm={12}>
+            {
                 tables.map(function(table,idx){
 
                   var dscInputName = "dsc"+idx;
@@ -243,15 +245,15 @@ var ranknumber;
                         <Input name={dscInputName} defaultValue={that.state.dsc[idx]} size="default" placeholder="input desicription" onChange={that.handleDscChange.bind(that)} />
                       </FormItem>
 
-                    )
+                  )
                 })
-              }
+            }
 
-              </Col>        
+            </Col>        
               
-              </Row>
+            </Row>
               
-              <Row gutter={16}>
+            <Row gutter={16}>
                 <Col sm={16}>
                   <FormItem   
                     labelCol={{ span: 8 }}

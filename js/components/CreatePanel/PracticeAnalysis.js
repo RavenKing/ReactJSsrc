@@ -46,6 +46,7 @@ export default class PracticeAnalysis extends React.Component {
           <Progress type="circle" percent={parseInt(newArticle.D_AVGS).toFixed(2)}/>
           </h3>
           <br />
+
           <h3>Average Residence Time in our database: 
             <Tag closable color="red" closable={false}>{newArticle.D_Retention?parseInt(newArticle.D_Retention):0}</Tag>
             Month &nbsp;&nbsp;&nbsp;
@@ -53,12 +54,15 @@ export default class PracticeAnalysis extends React.Component {
           <Tag closable color="green" closable={false}>{newArticle.D_BEST_PRACTICE?parseInt(newArticle.D_BEST_PRACTICE):0}</Tag>
             Month
           </h3>
+          <br />
           <Tabs>
             <TabPane tab="Best Practice for Archiving" key="1" disabled={newArticle.D_ARCHIVING?false:true}>{newArticle.D_ARCHIVING}</TabPane>
             <TabPane tab="Best Practice for Deletion" key="2" disabled={newArticle.D_DELETION?false:true}>{newArticle.D_DELETION}</TabPane>
             <TabPane tab="Best Practice for Summarization" key="3" disabled={newArticle.D_SUMMARIZATION?false:true}>{newArticle.D_SUMMARIZATION}</TabPane>
             <TabPane tab="Best Practice for Avoidance" key="4" disabled={newArticle.D_AVOIDANCE?false:true}>{newArticle.D_AVOIDANCE}</TabPane>
           </Tabs>
+          <br />
+         
           <ButtonGroup>
             <BackButton/>
             <Button type="primary" onClick={this.GoToStepFour.bind(this)}>Next<Icon type="right" /></Button>
