@@ -70,7 +70,6 @@ if (!rc) {
           data.style.left = event.dragEvent.clientX + window.scrollX;
           data.style.top = event.dragEvent.clientY + window.scrollY;
           data.type = draggableElement.getAttribute('data-type');
-        console.log(data)
           switch (data.type) {
             case 'TITLE':
               data.title = draggableElement.getAttribute('data-category');
