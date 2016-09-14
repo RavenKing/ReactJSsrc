@@ -295,60 +295,68 @@ var dataPanelDataStore = window.dataPanelDataStore
 		componentWillUpdate: function componentWillUpdate() {
 			global.resetPosition(this.getDOMNode());
 		},
-		render: function render() {
-			var title = "",
-			    lineNameArr = [];
-			if (this.props.card.type === "ITEM") {
-				lineNameArr = this.props.card.FACTOR_NAME[0];
-				title = "Trend Analysis " + lineNameArr;
-			} else if (this.props.card.type === "WHAT_IF") {
-				lineNameArr = this.props.card.lineNameArr;
-				title = "Predict Analysis " + this.props.card.FACTOR_NAME[0];
+	   render: function() {
+        var title = "",
+          lineNameArr = [];
+        if (this.props.card.type === "ITEM") {
+          lineNameArr = this.props.card.FACTOR_NAME[0];
+          title = "Trend Analysis " + lineNameArr;
+        } else if (this.props.card.type === "WHAT_IF") {
+          lineNameArr = this.props.card.lineNameArr;
+          title = "Predict Analysis " + this.props.card.FACTOR_NAME[0];
+        }
+		
+		////////////////
+		if(this.props.card.type === "ITEM"){
+			var arrLen = this.props.card.FACTOR_NAME.length;
+			var subLineChart = [];
+			
+			for (var i=0; i<arrLen; i++){
+				
+				subLineChart[i] = <LineChart 
+						   chartAxisArr={this.props.card.lineChartAxis[i]}
+						   chartValueArr={this.props.card.lineChartValue[i]}
+						   lineNameArr={this.props.card.FACTOR_NAME[i]}
+						   axisMin={this.state.rangeMin}
+						   axisMax={this.state.rangeMax}
+						   factorCate={this.props.card.category[i]}
+						   showLabel={(i===0)?true:false}
+						   
+						   />;
+				
 			}
-
-			////////////////
-			if (this.props.card.type === "ITEM") {
-				var arrLen = this.props.card.FACTOR_NAME.length;
-				var subLineChart = [];
-
-				for (var i = 0; i < arrLen; i++) {
-
-					subLineChart[i] = React.createElement(LineChart, {
-						chartAxisArr: this.props.card.lineChartAxis[i],
-						chartValueArr: this.props.card.lineChartValue[i],
-						lineNameArr: this.props.card.FACTOR_NAME[i],
-						axisMin: this.state.rangeMin,
-						axisMax: this.state.rangeMax,
-						factorCate: this.props.card.category[i],
-						showLabel: i === 0 ? true : false
-
-					});
-				}
-			} else if (this.props.card.type === "WHAT_IF") {
-				var subLineChart = React.createElement(PredictLineChart, { chartAxisArr: this.props.card.lineChartAxis,
-					chartValueArr: this.props.card.lineChartValue,
-					lineNameArr: lineNameArr,
-					axisMin: this.state.rangeMin,
-					axisMax: this.state.rangeMax,
-					factorCate: this.props.card.category[0]
-				});
-			}
-
-			////////////////
-
-			return React.createElement(
-				Card,
-				{ className: "line-card",
-					title: title,
-					style: this.props.card.style,
-					extra: React.createElement(Icon, { type: "cross", onClick: this.removeCard().bind(this) }),
-					bodyStyle: {
-						padding: 0
-					} },
-				subLineChart,
-				React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })
-			);
 		}
-	});
+		else if (this.props.card.type === "WHAT_IF") {
+			var subLineChart = <PredictLineChart chartAxisArr={this.props.card.lineChartAxis}
+                       chartValueArr={this.props.card.lineChartValue}
+                       lineNameArr={lineNameArr}
+					   axisMin={this.state.rangeMin}
+					   axisMax={this.state.rangeMax}
+					   factorCate={this.props.card.category[0]}
+					   />
+				
+		}
+		
+		////////////////
+		
+        return (
+		
+          <Card className="line-card"
+                title={title}
+                style={this.props.card.style}
+                extra={<Icon type="cross" onClick={this.removeCard().bind(this)} />
+        }
+        bodyStyle = {
+            {
+              padding: 0
+            }
+          } >
+		    {subLineChart}
+			<Slider min={1} max={this.state.rangeLimit} range defaultValue={[this.state.rangeMin, this.state.rangeMax]} onChange={this.onChange.bind(this)} />
+
+		  < /Card>
+	  );
+    }
+  });
 
 export default LineChartCard;

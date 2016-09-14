@@ -128,7 +128,6 @@ if (!rc) {
           if (item.type == 'TITLE') {
             return React.createElement(DataCard, { key: item.id + "DataCard", card: item });
           } else if (item.type == 'ITEM' || item.type == 'WHAT_IF') {
-            console.log("LineChart")
             return React.createElement(LineChartCard, { key: item.id + "LineChartCard", card: item });
           } else if (item.type == 'PIE') {
             return React.createElement(PieChartCard, { key: item.id + "PIEChartCard", card: item });
