@@ -420,7 +420,39 @@ var dataPanelDataStore = window.dataPanelDataStore
 				subLineChart,
 				React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })
 			);
+
 		}
-	});
+		else if (this.props.card.type === "WHAT_IF") {
+			var subLineChart = <PredictLineChart chartAxisArr={this.props.card.lineChartAxis}
+                       chartValueArr={this.props.card.lineChartValue}
+                       lineNameArr={lineNameArr}
+					   axisMin={this.state.rangeMin}
+					   axisMax={this.state.rangeMax}
+					   factorCate={this.props.card.category[0]}
+					   />
+				
+		}
+		
+		////////////////
+		
+        return (
+		
+          <Card className="line-card"
+                title={title}
+                style={this.props.card.style}
+                extra={<Icon type="cross" onClick={this.removeCard().bind(this)} />
+        }
+        bodyStyle = {
+            {
+              padding: 0
+            }
+          } >
+		    {subLineChart}
+			<Slider min={1} max={this.state.rangeLimit} range defaultValue={[this.state.rangeMin, this.state.rangeMax]} onChange={this.onChange.bind(this)} />
+
+		  < /Card>
+	  );
+    }
+  });
 
 export default LineChartCard;

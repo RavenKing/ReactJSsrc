@@ -6,7 +6,10 @@ import { connect } from "react-redux";
 import { 
           NewArticleStepOne,SetSaving,
           PostArticle,CloseCreatePanel,
-          fetchArticles,ForwardStep
+          fetchArticles,ForwardStep,
+          SetAvoidance,SetDeletion,
+          SetSummarization,SetArchiving,
+          SetRetention
         } from "../../Actions/KnowledgeAction";
 
 //Forms
@@ -33,23 +36,72 @@ export default class StrategyDefine extends React.Component {
     constructor(props)
     {
  	      super(props);
-        
+        const { newArticle } = this.props.articles;
+        var saving_est = "";
+        var saving_est_p = "";
+        var saving_act = "";
+        var saving_act_p = "";
+        var comment = "";
+        var DVM = [];
+        if(newArticle.SAVING_EST){
+
+          saving_est = newArticle.SAVING_EST;
+
+        }
+        if(newArticle.SAVING_EST_P){
+          saving_est_p = newArticle.SAVING_EST_P;
+        }
+        if(newArticle.SAVING_ACT){
+          saving_act = newArticle.SAVING_ACT;          
+        }
+        if(newArticle.SAVING_ACT_P){
+          saving_act_p = newArticle.SAVING_ACT_P;
+        }
+        if(newArticle.COMMENT){
+          comment = newArticle.COMMENT;
+        }
+        if(newArticle.AVOIDANCE){
+          DVM.push("Avoidance");
+        }
+        if(newArticle.DELETION){
+          DVM.push("Deletion");
+        }
+        if(newArticle.ARCHIVING){
+          DVM.push("Archiving");
+        }
+        if(newArticle.SUMMARIZATION){
+          DVM.push("Summarization");
+        }
  	      this.state={
             
-            DVM:[]
- 	      
+            DVM:DVM,
+ 	          saving_est:saving_est,
+            saving_est_p:saving_est_p,
+            saving_act:saving_act,
+            saving_act_p:saving_act_p,
+            comment:comment
         }
     }
 
-    onChange(checked){
+    onChange(checkedValues){
 
         this.setState({
-	         DVM:checked,
+	         DVM:checkedValues,
         })
 
     }
-    
-    handleClick(){
+    ifChecked(method){
+      const { DVM } = this.state;
+      for(var i = 0; i < DVM.length;i++){
+          if(DVM[i] == method){
+            return true;
+          }
+      }
+     
+      return false;
+      
+    }
+    GoToStepSix(){
         var validInput = true;
         var saving_est = this.refs.sav_est.refs.input.value;
         var saving_est_p = this.refs.sav_est_p.refs.input.value;
@@ -81,13 +133,21 @@ export default class StrategyDefine extends React.Component {
           };
 
           this.props.dispatch(SetSaving(data));
-
-          const { user } = this.props.auth
-          const { newArticle } = this.props.articles;
-          var data ={ newArticle : newArticle,
-                      user: user
-                    }
-          this.props.dispatch(PostArticle(data));
+          if(!this.ifChecked("Avoidance")){
+            this.props.dispatch(SetAvoidance(""));
+          }
+          if(!this.ifChecked("Deletion")){
+            this.props.dispatch(SetDeletion(""));
+          }
+          if(!this.ifChecked("Summarization")){
+            this.props.dispatch(SetSummarization(""));
+          }
+          if(!this.ifChecked("Archiving")){
+            this.props.dispatch(SetArchiving(""));
+            this.props.dispatch(SetRetention(12));
+          }
+          this.props.dispatch(ForwardStep());
+         
         }
         else{
           const modal = Modal.warning({
@@ -96,10 +156,7 @@ export default class StrategyDefine extends React.Component {
           });
         }
         
-        
-    }
-    GoToStepSix(){
-      this.props.dispatch(ForwardStep());
+      
     }
 
     render() {	
@@ -109,13 +166,13 @@ export default class StrategyDefine extends React.Component {
         labelCol: { span: 6 },
         wrapperCol: { span: 14 },
       };
-
+      const { newArticle } = this.props.articles;
     	const DVMmethod = [
     	   
-          {label:"Avoidance",value:"Avoidance",checked:true},
-          {label:"Summarization",value:"Summarization",checked:false},
-          {label:"Deletion",value:"Deletion",checked:false},
-          {label:"Archiving",value:"Archiving",checked:true}
+          {label:"Avoidance",value:"Avoidance"},
+          {label:"Summarization",value:"Summarization"},
+          {label:"Deletion",value:"Deletion"},
+          {label:"Archiving",value:"Archiving"}
     	]
 
     	const { DVM }  = this.state;
@@ -201,7 +258,7 @@ export default class StrategyDefine extends React.Component {
             <div className="aligncenter margin-bottom10">
               <Popover content="75% of our customers choose Archiving">
               <div>
-              <CheckboxGroup options={DVMmethod} onChange={this.onChange.bind(this)}/>
+              <CheckboxGroup defaultValue={this.state.DVM} options={DVMmethod} onChange={this.onChange.bind(this)}/>
               </div>
               </Popover>
             </div>
@@ -223,7 +280,6 @@ export default class StrategyDefine extends React.Component {
 
             <ButtonGroup>
              <BackButton/>
-            <Button type="primary" onClick={this.handleClick.bind(this)}>Save</Button>
             <Button type="primary" onClick={this.GoToStepSix.bind(this)}>Next<Icon type="right"/></Button>
             </ButtonGroup>
 

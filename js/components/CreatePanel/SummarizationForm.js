@@ -30,6 +30,8 @@ export default class SummarizationForm extends React.Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
+    const { newArticle } = this.props.articles;
+    const Summarization = newArticle.SUMMARIZATION;
 
     	
     	return (
@@ -43,7 +45,7 @@ export default class SummarizationForm extends React.Component {
           {...formItemLayout}
           label="Summarization"
         >
-          <Input type="textarea"   placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)}/>
+          <Input type="textarea"   defaultValue={Summarization?Summarization:""} placeholder="Current Strategy Of your System" onChange={this.handleChange.bind(this)}/>
         </FormItem>
 
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>

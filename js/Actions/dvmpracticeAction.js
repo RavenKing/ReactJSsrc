@@ -17,7 +17,6 @@ export function GetAlltheDVM(user){
     })
     .then(function (response,err) {
         var data = response.data.d;
-        console.log(data);
         dispatch({type:"FETCHDVM",payload:data})    
   })
   
