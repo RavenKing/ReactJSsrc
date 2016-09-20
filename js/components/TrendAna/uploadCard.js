@@ -1,6 +1,6 @@
 import React from "react"
 
-import {Card,message,Button,Cascader,Icon,Table,Upload,Row,Col} from "antd"
+import {Card,message,Button,Cascader,Icon,Table,Upload,Row,Col,Form} from "antd"
 var global = window
 
 var displayAreaDataStore= window.displayAreaDataStore
@@ -52,7 +52,8 @@ var UploadCard = React.createClass({
 				tableHeader: [],
 				tableData: [],
 				isDisabled: false,
-				kmType: []
+				kmType: [],
+				tableLen: 550
 			};
 		},
 
@@ -79,7 +80,8 @@ var UploadCard = React.createClass({
 				tableHeader: [],
 				tableData: [],
 				isEnabled: false,
-				kmType: []
+				kmType: [],
+				tableLen: 550
 			});
 		},
 		onChange: function onChange(value) {
@@ -164,7 +166,8 @@ var UploadCard = React.createClass({
 						for (var i = 0; i < info.fileList[0].response.fileHeader.length; i++) {
 							var headerItem = {
 								title: info.fileList[0].response.fileHeader[i],
-								dataIndex: 'column_' + i.toString()
+								dataIndex: 'column_' + i.toString(),
+								width: 150
 							};
 							jsonKey[i] = 'column_' + i.toString();
 							columns.push(headerItem);
@@ -191,7 +194,8 @@ var UploadCard = React.createClass({
 							echoData: true,
 							tableHeader: columns,
 							tableData: data,
-							isEnabled: true
+							isEnabled: true,
+							tableLen: ( columns.length  > 4 ) ? columns.length * 150 : 550
 						});
 					} else if (info.file.status === 'error') {
 						message.error(info.file.name + ' upload failed.', 3.5);
@@ -206,7 +210,7 @@ var UploadCard = React.createClass({
 						displayTable = React.createElement(
 							"div",
 							{ style: { marginTop: 16, height: 300 } },
-							React.createElement(Table, { columns: this.state.tableHeader, scroll: { y: 260 }, dataSource: this.state.tableData, size: "small", pagination: false })
+							React.createElement(Table, { columns: this.state.tableHeader, scroll: { x: this.state.tableLen , y: 260 }, dataSource: this.state.tableData, size: "small", pagination: false })
 						);
 						break;
 					}
@@ -308,6 +312,7 @@ var UploadCard = React.createClass({
 							)
 						);
 						break;
+						
 					}
 
 				default:

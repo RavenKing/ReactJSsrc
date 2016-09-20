@@ -128,7 +128,8 @@
     onDisplayAreaAddCardAction: function onDisplayAreaAddCardAction(pageStatus, data) {
       data.id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
       var that = this;
-
+      console.log('add card action');
+      console.log(data);
       switch (data.type) {
         case 'UPLOAD':
 
@@ -273,6 +274,7 @@
 
           break;
         case 'ITEM':
+        case 'ITEM-ANA':
           var url = "http://10.97.144.117:8000/SmartOperations/services/statData.xsodata/STATISDATA?$format=json&$filter=FACTOR_GUID eq " + data.guidArr[0];
           $.ajax({
             url: url,
@@ -423,7 +425,7 @@
       });
     },
     onDisplayAreaAddPageAction: function onDisplayAreaAddPageAction(pageStatus, cardId) {
-      var tmpObj = {};
+      /*var tmpObj = {};
       $.each(this.displayAreaData, function (idx, item) {
         if (item.pageStatus === "INIT") {
           $.each(item.content, function (idx1, item1) {
@@ -431,7 +433,9 @@
               //tmpObj = item1;
               //console.log(item1);
               tmpObj = item1;
-
+              
+              console.log('tmpObj=');
+              console.log(tmpObj);
               return false;
             }
           });
@@ -442,6 +446,11 @@
       this.displayAreaData.push({
         pageStatus: pageStatus,
         content: [tmpObj]
+      });*/
+
+      this.displayAreaData.push({
+        pageStatus: pageStatus,
+        content: []
       });
     },
     onDisplayAreaRemovePageAction: function onDisplayAreaRemovePageAction(pageStatus) {

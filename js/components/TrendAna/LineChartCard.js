@@ -139,30 +139,87 @@ var dataPanelDataStore = window.dataPanelDataStore
 					switch (data.info) {
 						case "ANALYSIS":
 							console.log('case ANALYSIS');
+							console.log(that.props.card);
+							//edit for analysis DVM
+							var factorCate = that.props.card.category[0];
+
 							var factorName = that.props.card.FACTOR_NAME[0];
-							var nextStatus = "ANALYSIS " + factorName;
-							if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
-								var sIntervalCallId;
 
-								(function () {
-									var addStatus = function addStatus() {
-										if (displayAreaDataStore.isStatusExisted(nextStatus) && dataPanelDataStore.isStatusExisted(nextStatus) && functionPanelDataStore.isStatusExisted(nextStatus)) {
-											clearInterval(sIntervalCallId);
-											pageStatusChangeActions.pageStatusAddAction(nextStatus);
-										}
-									};
+							if(factorCate == "S"){
+								var nextStatus = "ANALYSIS_RCA_" + factorName;
 
-									displayAreaChangeActions.displayAreaAddPageAction(nextStatus, cardId);
-									dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
-									functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
+								if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
+									var sIntervalCallId;
 
-									sIntervalCallId = setInterval(function () {
-										addStatus();
-									}, 100);
-									;
-								})();
-							} else {
-								pageStatusChangeActions.pageStatusChangeAction(nextStatus);
+									(function () {
+										var addStatus = function addStatus() {
+											if (displayAreaDataStore.isStatusExisted(nextStatus) && dataPanelDataStore.isStatusExisted(nextStatus) && functionPanelDataStore.isStatusExisted(nextStatus)) {
+												clearInterval(sIntervalCallId);
+												pageStatusChangeActions.pageStatusAddAction(nextStatus);
+											}
+										};
+
+										var nextData = {};
+
+										nextData.style = that.props.card.style;
+										nextData.type = "ITEM-ANA";
+										nextData.guidArr = that.props.card.guidArr;
+										nextData.FACTOR_NAME = that.props.card.FACTOR_NAME;
+										nextData.category = that.props.card.category;
+
+
+										displayAreaChangeActions.displayAreaAddPageAction(nextStatus, cardId);
+										dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
+										functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
+										displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
+
+										sIntervalCallId = setInterval(function () {
+											addStatus();
+										}, 100);
+										;
+									})();
+								} else {
+									pageStatusChangeActions.pageStatusChangeAction(nextStatus);
+								}
+							}
+							else if (factorCate == "B"){
+
+								var nextStatus = "ANALYSIS_DVM_" + factorName;
+
+								if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
+									var sIntervalCallId;
+
+									(function () {
+										var addStatus = function addStatus() {
+											if (displayAreaDataStore.isStatusExisted(nextStatus) && dataPanelDataStore.isStatusExisted(nextStatus) && functionPanelDataStore.isStatusExisted(nextStatus)) {
+												clearInterval(sIntervalCallId);
+												pageStatusChangeActions.pageStatusAddAction(nextStatus);
+											}
+										};
+
+										var nextData = {};
+
+										nextData.style = that.props.card.style;
+										nextData.type = "ITEM-ANA";
+										nextData.guidArr = that.props.card.guidArr;
+										nextData.FACTOR_NAME = that.props.card.FACTOR_NAME;
+										nextData.category = that.props.card.category;
+
+										displayAreaChangeActions.displayAreaAddPageAction(nextStatus, cardId);
+										dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
+										functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
+										displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
+
+										sIntervalCallId = setInterval(function () {
+											addStatus();
+										}, 100);
+										;
+									})();
+								} else {
+									pageStatusChangeActions.pageStatusChangeAction(nextStatus);
+								}
+
+
 							}
 
 							break;
@@ -233,7 +290,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 							break;
 						case currentStatus + "-ITEM":
 							console.log('case ' + currentStatus + '-ITEM');
-							if (currentStatus != "INIT" && that.props.card.type != "WHAT_IF") {
+							if (currentStatus != "INIT" && that.props.card.type === "ITEM-ANA") {
 
 								data.guid = draggableElement.getAttribute('data-factor_guid');
 								data.FACTOR_NAME_S = draggableElement.getAttribute('data-factor_name');
@@ -298,7 +355,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 		render: function render() {
 			var title = "",
 			    lineNameArr = [];
-			if (this.props.card.type === "ITEM") {
+			if (this.props.card.type === "ITEM" || this.props.card.type === "ITEM-ANA") {
 				lineNameArr = this.props.card.FACTOR_NAME[0];
 				title = "Trend Analysis " + lineNameArr;
 			} else if (this.props.card.type === "WHAT_IF") {
@@ -307,7 +364,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			}
 
 			////////////////
-			if (this.props.card.type === "ITEM") {
+			if (this.props.card.type === "ITEM-ANA") {
 				var arrLen = this.props.card.FACTOR_NAME.length;
 				var subLineChart = [];
 
@@ -332,6 +389,21 @@ var dataPanelDataStore = window.dataPanelDataStore
 					axisMax: this.state.rangeMax,
 					factorCate: this.props.card.category[0]
 				});
+			} else if(this.props.card.type === "ITEM") {
+				
+				var subLineChart = React.createElement(LineChart, {
+						chartAxisArr: this.props.card.lineChartAxis[0],
+						chartValueArr: this.props.card.lineChartValue[0],
+						lineNameArr: this.props.card.FACTOR_NAME[0],
+						axisMin: this.state.rangeMin,
+						axisMax: this.state.rangeMax,
+						factorCate: this.props.card.category[0],
+						showLabel: true
+
+					});
+				
+
+
 			}
 
 			////////////////

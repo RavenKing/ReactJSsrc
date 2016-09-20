@@ -70,7 +70,7 @@ if (!rc) {
           data.style.left = event.dragEvent.clientX + window.scrollX;
           data.style.top = event.dragEvent.clientY + window.scrollY;
           data.type = draggableElement.getAttribute('data-type');
-        console.log(data)
+        
           switch (data.type) {
             case 'TITLE':
               data.title = draggableElement.getAttribute('data-category');
@@ -96,6 +96,7 @@ if (!rc) {
             default:
               ;
           }
+          console.log(data)
           displayAreaChangeActions.displayAreaAddCardAction(pageStatusDataStore.getCurrentStatus(), data);
         }
       });
@@ -128,7 +129,7 @@ if (!rc) {
         this.state.cards.map(function (item) {
           if (item.type == 'TITLE') {
             return React.createElement(DataCard, { key: item.id + "DataCard", card: item });
-          } else if (item.type == 'ITEM' || item.type == 'WHAT_IF') {
+          } else if (item.type == 'ITEM' || item.type == 'WHAT_IF' || item.type == 'ITEM-ANA') {
             console.log("LineChart")
             return React.createElement(LineChartCard, { key: item.id + "LineChartCard", card: item });
           } else if (item.type == 'PIE') {

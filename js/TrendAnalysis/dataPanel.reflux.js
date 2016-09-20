@@ -21,22 +21,50 @@
       });
     },
     onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus) {
-      this.dataPanelData.push({
-        pageStatus: pageStatus,
-        content: [{
-          title: "Performance",
-          objList: []
-        }, {
-          title: "Service",
-          objList: []
-        }, {
-          title: "Business",
-          objList: []
-        }, {
-          title: "Resource",
-          objList: []
-        }]
-      });
+
+      var anaType = pageStatus.substr(9,3);
+
+      if(anaType == "RCA"){
+        this.dataPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            title: "Performance",
+            objList: []
+          }, {
+            title: "Service",
+            objList: []
+          }, {
+            title: "Business",
+            objList: []
+          }, {
+            title: "Resource",
+            objList: []
+          }]
+        });
+
+      }
+      else if(anaType == "DVM"){
+        this.dataPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            title: "Arch Obj",
+            objList: []
+          }, {
+            title: "Tables",
+            objList: []
+          }, {
+            title: "Strategy",
+            objList: []
+          }, {
+            title: "Retention",
+            objList: []
+          }]
+        });
+
+
+      }
+
+      
     },
     onDataPanelRemovePageAction: function onDataPanelRemovePageAction(pageStatus) {
       var that = this;

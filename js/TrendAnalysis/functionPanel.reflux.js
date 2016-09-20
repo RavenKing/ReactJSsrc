@@ -19,18 +19,46 @@
       }]
     }],
     onFunctionPanelAddPageAction: function onFunctionPanelAddPageAction(pageStatus) {
-      this.functionPanelData.push({
-        pageStatus: pageStatus,
-        content: [{
-          name: "Root-Cause",
-          info: "RCA",
-          type: "RCA"
-        }, {
-          name: "Simulate",
-          info: "WHAT_IF",
-          type: "WHAT_IF"
-        }]
-      });
+
+      var anaType = pageStatus.substr(9,3);
+
+      if(anaType == "RCA"){
+        this.functionPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            name: "Root Cause",
+            info: "RCA",
+            type: "RCA"
+          }, {
+            name: "Simulate",
+            info: "WHAT_IF",
+            type: "WHAT_IF"
+          }]
+        });
+
+      }
+      else if(anaType == "DVM"){
+        this.functionPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            name: "Data Strategy",
+            info: "DVM_ANA",
+            type: "DVM_ANA"
+          }, {
+            name: "Simulate",
+            info: "DVM_SIM",
+            type: "DVM_SIM"
+          },{
+            name: "Knowledge",
+            info: "SAVE_KM",
+            type: "SAVE_KM"
+          }]
+        });
+
+
+      }
+
+      
     },
     onFunctionPanelRemovePageAction: function onFunctionPanelRemovePageAction(pageStatus) {
       var that = this;
