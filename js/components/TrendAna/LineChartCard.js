@@ -16,7 +16,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 	var componentMixin = {
 		removeCard: function removeCard() {
 			var that = this;
-			return function () {
+			return function () { 
 				// if (that.interactable) {
 				//   that.interactable.unset();
 				//   that.interactable = null;
@@ -222,6 +222,10 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 							}
 
+							break;
+						case "DVM_ANA":
+							var factorName = that.props.card.FACTOR_NAME[0];
+							dataPanelItemChangeActions.dataPanelDVMAddItemAction(currentStatus, factorName);
 							break;
 						case "RCA":
 							console.log('case RCA');

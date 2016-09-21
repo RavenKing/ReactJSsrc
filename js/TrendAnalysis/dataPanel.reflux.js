@@ -2,7 +2,8 @@
 
 (function (Reflux, $, global) {
 
-  global.dataPanelItemChangeActions = Reflux.createActions(['dataPanelItemAddAction', 'dataPanelRCAAddItemAction', 'dataPanelAddPageAction', 'dataPanelRemovePageAction']);
+  global.dataPanelItemChangeActions = Reflux.createActions(['dataPanelItemAddAction', 'dataPanelRCAAddItemAction', 
+    'dataPanelAddPageAction', 'dataPanelRemovePageAction','dataPanelDVMAddItemAction']);
 
   global.dataPanelDataStore = Reflux.createStore({
     listenables: [global.dataPanelItemChangeActions],
@@ -132,6 +133,139 @@
           }
         }
       });
+    },
+    onDataPanelDVMAddItemAction:function onDataPanelDVMAddItemAction(pageStatus, factorName){
+        var that = this;
+        $.each(this.dataPanelData, function (idx, item) {
+          if (pageStatus === item.pageStatus) {
+            var len = 0;
+            $.each(item.content, function (idx1, item1) {
+              len += item1.objList.length;
+            });
+            if(!len){
+              var archobj;
+              //fetch tables and archiving object
+              var url1 = "http://10.97.144.117:8000/SmartOperations/services/Createarticle_test.xsjs?attr_nam="+factorName;
+              $.ajax({
+                url: url1,
+                method: 'get',
+                dataType: 'json',
+                async:false,
+                headers: {
+                  //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                  'X-Requested-With': 'XMLHttpRequest',
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'DataServiceVersion': '2.0',
+                  'X-CSRF-Token': 'Fetch'
+                }
+              }).done(function(response){
+                var data = response.results;
+                archobj = data[0].ARCHOBJ;
+                data.forEach(function (d) {
+                  var table = {
+                    FACTOR_NAME:d.TABLENAME
+                  };
+                  var obj = {
+                    FACTOR_NAME:d.ARCHOBJ
+                  };
+                  $.each(item.content, function (idx1, item1) {
+                    if (item1.title === "Arch Obj" && !item1.objList.length) {
+                      item1.objList.push(obj);
+                      return false;
+                    }  
+                  });
+                
+                  $.each(item.content, function (idx1, item1) {
+                    if (item1.title === "Tables") {
+                      item1.objList.push(table);
+                      return false;
+                    }
+                  });
+
+
+
+
+                });
+
+              }).fail(function(){
+                console.log('error in DVM analysis');
+                console.log(arguments);
+              })
+
+              if(archobj){
+                //fetch strategy and retention
+                var url2 = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'";
+                $.ajax({
+                  url: url2,
+                  method: 'get',
+                  dataType: 'json',
+                  headers: {
+                    //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function(response){
+                  var data = response.d.results[0];
+                  var strategy = [];
+                  if(data.ARCHIVING){
+                    strategy.push({
+                      FACTOR_NAME:"Archiving"
+                    });
+                  }
+                  if(data.AVOIDANCE){
+                    strategy.push({
+                      FACTOR_NAME:"Avoidance"
+                    });
+                  }
+                  if(data.DELETION){
+                    strategy.push({
+                      FACTOR_NAME:"Deletion"
+                    })
+                  }
+                  if(data.SUMMARIZATION){
+                    strategy.push({
+                      FACTOR_NAME:"Summarization"
+                    });
+                  }
+                  var retention = {
+                    FACTOR_NAME:data.BEST_PRACTICE
+                  };
+                  
+                  $.each(item.content, function (idx1, item1) {
+                    if (item1.title === "Strategy") {
+                      item1.objList = strategy;
+                      return false;
+                    }
+                  });
+                  $.each(item.content, function (idx1, item1) {
+                    if(item1.title === "Retention"){
+                      item1.objList.push(retention);
+                      return false;
+                    }
+                  });
+
+                  that.trigger(item.content);
+
+                }).fail(function(){
+                    console.log('error in DVM analysis');
+                    console.log(arguments);
+                })
+              }
+              
+                
+
+            }
+            else{
+              return false;
+            }
+          }
+        });
+        
+          
     },
     getData: function getData(pageStatus) {
       if (pageStatus) {

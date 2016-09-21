@@ -43,7 +43,7 @@ var global = window
 
     render: function render() {
       var currentStatus = pageStatusDataStore.getCurrentStatus();
-      var item = this.props.item;
+      var item = this.props.item; 
       return React.createElement(
         Button,
         { className: "data-item", type: "dashed",
