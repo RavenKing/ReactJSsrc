@@ -1,21 +1,28 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Button,Card,Icon,Form,Input} from "antd";
-
+import { setCardDragable,handleFocus } from "../../interactScript";
 const FormItem=Form.Item;
 
 var displayAreaChangeActions = window.displayAreaChangeActions
 var pageStatusDataStore = window.pageStatusDataStore
 var dataPanelDataStore = window.dataPanelDataStore
-
+global = window;
 
 export default class StrategyForm extends React.Component {
 
     componentWillMount(){
       var item = this.props.card;
       this.setState({
-        objList:item.objList
+        objList:item.objList,
+        id:item.id,
+        style:item.style
       });
 
+    }
+    componentDidMount(){
+
+      setCardDragable(ReactDOM.findDOMNode(this));
     }
     CloseCard(){
       
@@ -33,8 +40,7 @@ export default class StrategyForm extends React.Component {
 
     	
     	return (
-          
-        <Card className="strategyCard aligncenter" title="DVM Strategy" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
+        <Card className="strategyCard aligncenter" style={this.state.style} title="DVM Strategy" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <Form horizontal >
             {
               this.state.objList.map(function(obj){
@@ -52,15 +58,9 @@ export default class StrategyForm extends React.Component {
           </Form>
 
 
-
-
-
-
-
-
           <Button type="primary">Save</Button>
-        </Card>
-         
+       
+         </Card>
       
 
       );

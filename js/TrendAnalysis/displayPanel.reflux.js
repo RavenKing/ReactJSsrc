@@ -422,6 +422,15 @@
           });
 
           break;
+        case "SAVE":
+          $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+          });
+          break;
         default:
           ;
       }

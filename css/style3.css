@@ -606,12 +606,16 @@ text-align: center
 
 .strategyCard{
   width:500px;
+  position: absolute;
 }
 .strategyCard form textarea.ant-input{
   height:111px;
 }
 .strategyCard form .ant-input-number{
   width: :110px;
+}
+.saveCard{
+  width: 700px;
 }
 .tableChart{
   width:700px;

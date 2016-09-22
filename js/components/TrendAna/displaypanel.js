@@ -13,6 +13,7 @@ import RetentionForm from "./RetentionForm";
 import TableForm from "./TableForm";
 import TablesForm from "./TablesForm";
 import ArchobjForm from "./ArchobjForm";
+import SaveArticle from "./SaveArticle";
 import { History,Router,browserHistory } from "react-router";
 
 var interact = window.interact;
@@ -168,6 +169,7 @@ if (!rc) {
           else if(item.type == 'DVM-ITEM' && item.category == 'STA' && item.factor_name == 'Summarization'){
             return <SummarizationForm key={item.id + "DVM-ITEM"} card={item}/>
           }
+          //Retention Panel
           else if(item.type == 'DVM-ITEM' && item.category == 'RET'){
             return <RetentionForm key={item.id + 'DVM-ITEM'} card={item}/>
           }
@@ -182,6 +184,9 @@ if (!rc) {
           }
           else if(item.type == 'DVM-BLOCK' && item.title == 'Tables'){
             return <TablesForm key={item.id + 'DVM-BLOCK'} card={item} />
+          }
+          else if(item.type == 'SAVE'){
+            return <SaveArticle key={item.id + 'SaveArticle'} />
           }
         })
       );

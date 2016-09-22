@@ -165,6 +165,7 @@
                 data.forEach(function (d) {
                   var table = {
                     FACTOR_NAME:d.TABLENAME,
+                    FACTOR_INFO:d.TABLESIZE,
                     FACTOR_CATEGORY:"TBL"
                   };
 

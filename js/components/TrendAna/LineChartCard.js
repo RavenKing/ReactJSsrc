@@ -13,6 +13,7 @@ var displayAreaChangeActions = window.displayAreaChangeActions
 var dataPanelItemChangeActions = window.dataPanelItemChangeActions
 var pageStatusDataStore = window.pageStatusDataStore
 var dataPanelDataStore = window.dataPanelDataStore
+
 	var componentMixin = {
 		removeCard: function removeCard() {
 			var that = this;
@@ -133,7 +134,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 					var currentStatus = pageStatusDataStore.getCurrentStatus();
 					var cardId = that.props.card.id;
 					var data = {};
-
+					data.style = {};
+          			data.style.left = event.dragEvent.clientX + window.scrollX;
+          			data.style.top = event.dragEvent.clientY + window.scrollY;
 					data.info = draggableElement.getAttribute('data-info');
 
 					switch (data.info) {
@@ -292,6 +295,12 @@ var dataPanelDataStore = window.dataPanelDataStore
 							}
 
 							break;
+						case "SAVE":
+							console.log('case Save Article');
+							data.type = "SAVE";
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
+
+							break;
 						case currentStatus + "-ITEM":
 							console.log('case ' + currentStatus + '-ITEM');
 							if (currentStatus != "INIT" && that.props.card.type === "ITEM-ANA") {
@@ -307,7 +316,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 									data.category = draggableElement.getAttribute('data-category');
 									data.type = "DVM-ITEM";
 									displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
-
+									
 								}
 								
 							}

@@ -49,7 +49,7 @@
             info: "DVM_SIM",
             type: "DVM_SIM"
           },{
-            name:"Save as Article",
+            name:"Save Article",
             info:"SAVE",
             type:"SAVE"
           },{
