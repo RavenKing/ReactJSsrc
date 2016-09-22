@@ -159,6 +159,7 @@ if (!rc) {
           //Strategy panel
           else if(item.type == 'DVM-ITEM' && item.category == 'STA' && item.factor_name == 'Archiving'){
             return <ArchivingForm key={item.id + "DVM-ITEM"} card={item}/>
+            
           }
           else if(item.type == 'DVM-ITEM' && item.category == 'STA' && item.factor_name == 'Avoidance'){
             return <AvoidanceForm key={item.id + "DVM-ITEM"} card={item}/>
@@ -186,7 +187,7 @@ if (!rc) {
             return <TablesForm key={item.id + 'DVM-BLOCK'} card={item} />
           }
           else if(item.type == 'SAVE'){
-            return <SaveArticle key={item.id + 'SaveArticle'} />
+            return <SaveArticle key={item.id + 'SaveArticle'} card={item} />
           }
         })
       );

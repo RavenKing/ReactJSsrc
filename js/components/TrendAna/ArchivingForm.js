@@ -1,6 +1,7 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Button,Card,Icon,Form,Input} from "antd";
-
+import { setCardDragable,handleFocus } from "../../interactScript";
 const FormItem=Form.Item;
 
 var displayAreaChangeActions = window.displayAreaChangeActions
@@ -14,6 +15,11 @@ export default class ArchivingForm extends React.Component {
       this.setState({
         text:item.factor_info
       });
+    }
+    componentDidMount() {
+
+      setCardDragable(ReactDOM.findDOMNode(this));     
+      handleFocus(ReactDOM.findDOMNode(this));   
     }
     CloseCard(){
       
@@ -32,7 +38,7 @@ export default class ArchivingForm extends React.Component {
     	
     	return (
           
-        <Card className="strategyCard aligncenter" title="DVM Strategy -- Archiving" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
+        <Card style={this.props.card.style} className="strategyCard aligncenter" title="DVM Strategy -- Archiving" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <Form horizontal >
 
             <FormItem

@@ -20,9 +20,10 @@ export default class StrategyForm extends React.Component {
       });
 
     }
-    componentDidMount(){
+    componentDidMount() {
 
-      setCardDragable(ReactDOM.findDOMNode(this));
+      setCardDragable(ReactDOM.findDOMNode(this));     
+      handleFocus(ReactDOM.findDOMNode(this));   
     }
     CloseCard(){
       

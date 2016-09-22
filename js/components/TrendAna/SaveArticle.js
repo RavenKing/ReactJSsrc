@@ -1,6 +1,7 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Button,Card,Icon,Form,Input,Row,Col,InputNumber} from "antd";
-
+import { setCardDragable,handleFocus } from "../../interactScript";
 const FormItem=Form.Item;
 
 var displayAreaChangeActions = window.displayAreaChangeActions
@@ -11,10 +12,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 export default class SaveArticle extends React.Component {
 
     componentWillMount(){
-      /*var item = this.props.card;
-      this.setState({
-        objList:item.objList
-      });*/
+     
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       var objList = dataPanelDataStore.getBlockObjList(currentStatus,"Arch Obj");
       var tablesList = dataPanelDataStore.getBlockObjList(currentStatus,"Tables");
@@ -27,6 +25,11 @@ export default class SaveArticle extends React.Component {
         retentionList:retentionList
       });
 
+    }
+    componentDidMount() {
+
+      setCardDragable(ReactDOM.findDOMNode(this));     
+      handleFocus(ReactDOM.findDOMNode(this));   
     }
     CloseCard(){
       
@@ -45,7 +48,7 @@ export default class SaveArticle extends React.Component {
     	
     	return (
           
-        <Card className="saveCard aligncenter" title="Save as Article" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
+        <Card style={this.props.card.style} className="saveCard aligncenter" title="Save as Article" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <p>Basic Information</p>
           <hr />
           <br />
@@ -63,13 +66,19 @@ export default class SaveArticle extends React.Component {
             >
             <Input placeholder="Article Description"/>
             </FormItem>
-
-            <FormItem
-            {...formItemLayout}
-            label="Article Name"
-            >
-            <Input placeholder="Archiving Object"/>
-            </FormItem>
+            {
+              this.state.objList.map((obj)=>{
+                return (
+                  <FormItem
+                  {...formItemLayout}
+                  label="Archiving Object"
+                  >
+                  <Input defaultValue={obj.FACTOR_NAME} placeholder="Archiving Object"/>
+                  </FormItem>
+                )
+              })
+            }
+            
           </Form>
 
           <p>Tables</p>
@@ -87,7 +96,7 @@ export default class SaveArticle extends React.Component {
                     label={table.FACTOR_NAME}
                     >
                     <Col span="15">
-                      <Input defaultValue={table.FACTOR_INFO}/>
+                      <Input />
                     </Col>
                     <Col span="3">
                       <p className="ant-form-split">GB</p>
@@ -114,21 +123,26 @@ export default class SaveArticle extends React.Component {
             </Col>
             </Row>
           </Form>
-          
+
           <br />
           <p>Strategy</p>
           <hr />
           <br />
           <Form horizontal>
-            <FormItem
-            {...formItemLayout}
-            label="Retention Time"
-            >
-            <div>
-              <InputNumber min={12} max={999} defaultValue={this.state.retentionList[0].FACTOR_NAME}/> <p className="ant-form-text" >Month</p>
-            </div>
-            </FormItem>
-
+          {
+            this.state.retentionList.map((ret)=>{
+              return (
+                <FormItem
+                {...formItemLayout}
+                label="Retention Time"
+                >
+                <div>
+                  <InputNumber min={12} max={999} defaultValue={this.state.retentionList[0].FACTOR_NAME}/> <p className="ant-form-text" >Month</p>
+                </div>
+                </FormItem>
+              )
+            })
+          }
             {
               this.state.strategyList.map(function(strategy){
                 return (

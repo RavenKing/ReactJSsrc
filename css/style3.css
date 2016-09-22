@@ -607,6 +607,7 @@ text-align: center
 .strategyCard{
   width:500px;
   position: absolute;
+  z-index: 101;
 }
 .strategyCard form textarea.ant-input{
   height:111px;
@@ -616,6 +617,8 @@ text-align: center
 }
 .saveCard{
   width: 700px;
+  position: absolute;
+  z-index: 101;
 }
 .tableChart{
   width:700px;

@@ -1,6 +1,7 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Button,Card,Icon,Form,Input} from "antd";
-
+import { setCardDragable,handleFocus } from "../../interactScript";
 const FormItem=Form.Item;
 
 var displayAreaChangeActions = window.displayAreaChangeActions
@@ -14,6 +15,11 @@ export default class TablesForm extends React.Component {
       this.setState({
         tables:item.objList
       });
+    }
+    componentDidMount() {
+
+      setCardDragable(ReactDOM.findDOMNode(this));     
+      handleFocus(ReactDOM.findDOMNode(this));   
     }
     CloseCard(){
       
@@ -32,7 +38,7 @@ export default class TablesForm extends React.Component {
     	
     	return (
           
-        <Card className="strategyCard aligncenter" title="Related Tables" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
+        <Card style={this.props.card.style} className="strategyCard aligncenter" title="Related Tables" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <Form horizontal >
             {
               this.state.tables.map(function(table){
