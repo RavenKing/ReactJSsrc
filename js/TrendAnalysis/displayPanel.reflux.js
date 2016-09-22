@@ -273,6 +273,24 @@
           });
 
           break;
+        case 'DVM-ITEM':
+          $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+          });
+          break;
+        case 'DVM-BLOCK':
+          $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+          });
+          break;
         case 'ITEM':
         case 'ITEM-ANA':
           var url = "http://10.97.144.117:8000/SmartOperations/services/statData.xsodata/STATISDATA?$format=json&$filter=FACTOR_GUID eq " + data.guidArr[0];

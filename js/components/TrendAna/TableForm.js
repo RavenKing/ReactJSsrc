@@ -1,49 +1,50 @@
 import React from "react";
-import {  Card,Button,Form,Input,Icon } from "antd";
-
+import { Button,Card,Icon,Form,Input} from "antd";
 
 const FormItem=Form.Item;
 
 var displayAreaChangeActions = window.displayAreaChangeActions
 var pageStatusDataStore = window.pageStatusDataStore
 
-export default class SummarizationForm extends React.Component { 
 
-    
-     componentWillMount(){
+export default class TableForm extends React.Component {
+
+    componentWillMount(){
       var item = this.props.card;
       this.setState({
-        text:item.factor_info
+        table_name:item.factor_name
       });
     }
     CloseCard(){
+      
         var currentStatus = pageStatusDataStore.getCurrentStatus();
 
         displayAreaChangeActions.displayAreaRemoveCardAction(currentStatus, this.props.card.id);
+       
     }
-    render() {  
+    render() {	
 
-      const formItemLayout = {
-          labelCol: { span: 3 },
-          wrapperCol: { span: 18 }
-      };
-    
-      
-      return (
-        
-       <Card className="strategyCard aligncenter" title="DVM Strategy -- Summarization" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
+        const formItemLayout = {
+            labelCol: { span: 6 },
+            wrapperCol: { span: 16 }
+        };
+
+    	
+    	return (
+          
+        <Card className="strategyCard aligncenter" title={"Table: "+this.state.table_name} extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <Form horizontal >
-
             <FormItem
               {...formItemLayout}
-              label=" "
+              label="Table Name"
             >
-            <Input type="textarea" defaultValue={this.state.text} placeholder="Current Strategy Of your System" />
+              <Input defaultValue={this.state.table_name} placeholder="related table" />
             </FormItem>
-
           </Form>
           <Button type="primary">Save</Button>
         </Card>
+         
+      
 
       );
   }

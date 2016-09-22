@@ -49,6 +49,10 @@
             info: "DVM_SIM",
             type: "DVM_SIM"
           },{
+            name:"Save as Article",
+            info:"SAVE",
+            type:"SAVE"
+          },{
             name: "Knowledge",
             info: "SAVE_KM",
             type: "SAVE_KM"

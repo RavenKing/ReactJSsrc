@@ -5,15 +5,17 @@ const FormItem=Form.Item;
 
 var displayAreaChangeActions = window.displayAreaChangeActions
 var pageStatusDataStore = window.pageStatusDataStore
+var dataPanelDataStore = window.dataPanelDataStore
 
 
-export default class ArchivingForm extends React.Component {
+export default class StrategyForm extends React.Component {
 
     componentWillMount(){
       var item = this.props.card;
       this.setState({
-        text:item.factor_info
+        objList:item.objList
       });
+
     }
     CloseCard(){
       
@@ -25,24 +27,37 @@ export default class ArchivingForm extends React.Component {
     render() {	
 
         const formItemLayout = {
-            labelCol: { span: 3 },
+            labelCol: { span: 5 },
             wrapperCol: { span: 18 }
         };
 
     	
     	return (
           
-        <Card className="strategyCard aligncenter" title="DVM Strategy -- Archiving" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
+        <Card className="strategyCard aligncenter" title="DVM Strategy" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <Form horizontal >
-
-            <FormItem
-              {...formItemLayout}
-              label=" "
-            >
-            <Input type="textarea" defaultValue={this.state.text} placeholder="Current Strategy Of your System" />
-            </FormItem>
+            {
+              this.state.objList.map(function(obj){
+                return (
+                  <FormItem
+                    {...formItemLayout}
+                    label={obj.FACTOR_NAME}
+                  >
+                    <Input type="textarea" defaultValue={obj.FACTOR_INFO} placeholder="Current Strategy Of your System" />
+                  </FormItem>
+                )
+              })
+            }
 
           </Form>
+
+
+
+
+
+
+
+
           <Button type="primary">Save</Button>
         </Card>
          

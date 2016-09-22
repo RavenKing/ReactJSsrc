@@ -51,6 +51,7 @@ var global = window
           "data-info": currentStatus + "-ITEM",
           "data-factor_guid": this.props.item.FACTOR_GUID,
           "data-factor_name": this.props.item.FACTOR_NAME,
+          "data-factor_info": this.props.item.FACTOR_INFO,
           "data-trend": this.props.item.TREND,
           "data-category": this.props.item.FACTOR_CATEGORY },
         React.createElement(
@@ -81,13 +82,18 @@ var global = window
     render: function render() {
       var block = this.props.block;
       var items = [];
+      var currentStatus = pageStatusDataStore.getCurrentStatus();
       for (var ind in block.objList) {
         items.push(React.createElement(DataItem, { key: block.objList[ind].FACTOR_GUID, item: block.objList[ind] }));
       }
 
       return React.createElement(
         "div",
-        { className: "data-block", "data-type": "TITLE", "data-category": block.title },
+        { className: "data-block", 
+          "data-type": "TITLE", 
+          "data-info": currentStatus + "-BLOCK",
+          "data-category": block.title 
+        },
         React.createElement(
           "span",
           { className: "data-title" },

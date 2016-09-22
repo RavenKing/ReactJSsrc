@@ -604,8 +604,15 @@ text-align: center
 
 
 
-
-
+.strategyCard{
+  width:500px;
+}
+.strategyCard form textarea.ant-input{
+  height:111px;
+}
+.strategyCard form .ant-input-number{
+  width: :110px;
+}
 .tableChart{
   width:700px;
   

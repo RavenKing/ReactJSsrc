@@ -164,10 +164,13 @@
                 archobj = data[0].ARCHOBJ;
                 data.forEach(function (d) {
                   var table = {
-                    FACTOR_NAME:d.TABLENAME
+                    FACTOR_NAME:d.TABLENAME,
+                    FACTOR_CATEGORY:"TBL"
                   };
+
                   var obj = {
-                    FACTOR_NAME:d.ARCHOBJ
+                    FACTOR_NAME:d.ARCHOBJ,
+                    FACTOR_CATEGORY:"OBJ"
                   };
                   $.each(item.content, function (idx1, item1) {
                     if (item1.title === "Arch Obj" && !item1.objList.length) {
@@ -213,26 +216,35 @@
                   var strategy = [];
                   if(data.ARCHIVING){
                     strategy.push({
-                      FACTOR_NAME:"Archiving"
+                      FACTOR_NAME:"Archiving",
+                      FACTOR_CATEGORY:"STA",
+                      FACTOR_INFO:data.ARCHIVING
                     });
                   }
                   if(data.AVOIDANCE){
                     strategy.push({
-                      FACTOR_NAME:"Avoidance"
+                      FACTOR_NAME:"Avoidance",
+                      FACTOR_CATEGORY:"STA",
+                      FACTOR_INFO:data.AVOIDANCE
                     });
                   }
                   if(data.DELETION){
                     strategy.push({
-                      FACTOR_NAME:"Deletion"
+                      FACTOR_NAME:"Deletion",
+                      FACTOR_CATEGORY:"STA",
+                      FACTOR_INFO:data.DELETION
                     })
                   }
                   if(data.SUMMARIZATION){
                     strategy.push({
-                      FACTOR_NAME:"Summarization"
+                      FACTOR_NAME:"Summarization",
+                      FACTOR_CATEGORY:"STA",
+                      FACTOR_INFO:data.SUMMARIZATION
                     });
                   }
                   var retention = {
-                    FACTOR_NAME:data.BEST_PRACTICE
+                    FACTOR_NAME:data.BEST_PRACTICE,
+                    FACTOR_CATEGORY:"RET"
                   };
                   
                   $.each(item.content, function (idx1, item1) {
@@ -404,6 +416,22 @@
         }
       });
       return !!flag;
+    },
+    getBlockObjList:function getBlockObjList(pageStatus,title){
+      var objList = [];
+      $.each(this.dataPanelData, function (idx, item) {
+        if (item.pageStatus === pageStatus) {
+          $.each(item.content, function (idx1, item1) {
+            if(item1.title == title){
+              objList = objList.concat(item1.objList);
+              return false;
+            }
+            
+          });
+          
+        }
+      });
+      return objList;
     },
     getObjList: function getObjList(pageStatus) {
       var objList = [];

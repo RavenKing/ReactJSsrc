@@ -4,6 +4,15 @@ import LineChartCard from "./LineChartCard";
 import PieChartCard from "./PieChartCard";
 import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
+import ArchivingForm from "./ArchivingForm";
+import AvoidanceForm from "./AvoidanceForm";
+import DeletionForm from "./DeletionForm";
+import SummarizationForm from "./SummarizationForm";
+import StrategyForm from "./StrategyForm";
+import RetentionForm from "./RetentionForm";
+import TableForm from "./TableForm";
+import TablesForm from "./TablesForm";
+import ArchobjForm from "./ArchobjForm";
 import { History,Router,browserHistory } from "react-router";
 
 var interact = window.interact;
@@ -65,12 +74,12 @@ if (!rc) {
         ondrop: function ondrop(event) {
           var draggableElement = event.relatedTarget,
               dropzoneElement = event.target;
-          var data = {};
+          var currentPageStatus = pageStatusDataStore.getCurrentStatus();
+          var data = {};        
           data.style = {};
           data.style.left = event.dragEvent.clientX + window.scrollX;
           data.style.top = event.dragEvent.clientY + window.scrollY;
           data.type = draggableElement.getAttribute('data-type');
-
           switch (data.type) {
             case 'TITLE':
               data.title = draggableElement.getAttribute('data-category');
@@ -97,7 +106,7 @@ if (!rc) {
               ;
           }
           console.log(data)
-          displayAreaChangeActions.displayAreaAddCardAction(pageStatusDataStore.getCurrentStatus(), data);
+          displayAreaChangeActions.displayAreaAddCardAction(currentPageStatus, data);
         }
       });
       this.unsubscribe = displayAreaDataStore.listen(this.onChange);
@@ -145,6 +154,34 @@ if (!rc) {
           }
           else if(item.type == 'UPLOAD'){
             return React.createElement(UploadCard, { key: item.id + "UploadCard", card: item });
+          }
+          //Strategy panel
+          else if(item.type == 'DVM-ITEM' && item.category == 'STA' && item.factor_name == 'Archiving'){
+            return <ArchivingForm key={item.id + "DVM-ITEM"} card={item}/>
+          }
+          else if(item.type == 'DVM-ITEM' && item.category == 'STA' && item.factor_name == 'Avoidance'){
+            return <AvoidanceForm key={item.id + "DVM-ITEM"} card={item}/>
+          }
+          else if(item.type == 'DVM-ITEM' && item.category == 'STA' && item.factor_name == 'Deletion'){
+            return <DeletionForm key={item.id + "DVM-ITEM"} card={item}/>
+          }
+          else if(item.type == 'DVM-ITEM' && item.category == 'STA' && item.factor_name == 'Summarization'){
+            return <SummarizationForm key={item.id + "DVM-ITEM"} card={item}/>
+          }
+          else if(item.type == 'DVM-ITEM' && item.category == 'RET'){
+            return <RetentionForm key={item.id + 'DVM-ITEM'} card={item}/>
+          }
+          else if(item.type == 'DVM-ITEM' && item.category == 'TBL'){
+            return <TableForm key={item.id + 'DVM-ITEM'} card={item}/>
+          }
+          else if(item.type == 'DVM-ITEM' && item.category == 'OBJ'){
+            return <ArchobjForm key={item.id +'DVM-ITEM'} card={item}/>
+          }
+          else if(item.type == 'DVM-BLOCK' && item.title == 'Strategy'){
+            return <StrategyForm key={item.id + 'DVM-BLOCK'} card={item} />
+          }
+          else if(item.type == 'DVM-BLOCK' && item.title == 'Tables'){
+            return <TablesForm key={item.id + 'DVM-BLOCK'} card={item} />
           }
         })
       );

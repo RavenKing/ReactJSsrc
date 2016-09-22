@@ -1,39 +1,47 @@
 import React from "react";
 import { Button,Card,Icon,Form,Input } from "antd";
 
-
-
 const FormItem=Form.Item;
+
+var displayAreaChangeActions = window.displayAreaChangeActions
+var pageStatusDataStore = window.pageStatusDataStore
 
 export default class AvoidanceForm extends React.Component { 
 
-    
+    componentWillMount(){
+      var item = this.props.card;
+      this.setState({
+        text:item.factor_info
+      });
+    }
+    CloseCard(){
+        var currentStatus = pageStatusDataStore.getCurrentStatus();
+
+        displayAreaChangeActions.displayAreaRemoveCardAction(currentStatus, this.props.card.id);
+    }
     render() {	
 
       const formItemLayout = {
-          labelCol: { span: 6 },
-          wrapperCol: { span: 16 }
+          labelCol: { span: 3 },
+          wrapperCol: { span: 18 }
       };
     
     	
     	return (
         
-        <div className="margin-top10 ">
-          <h3 className="margin-top10 aligncenter"> Avoidance Strategy</h3>
+       <Card className="strategyCard aligncenter" title="DVM Strategy -- Avoidance" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <Form horizontal >
-        
-          <FormItem
-            {...formItemLayout}
-            label="Avoidance"
-          >
-          <Input type="textarea" placeholder="Current Strategy Of your System" />
-          </FormItem>
+
+            <FormItem
+              {...formItemLayout}
+              label=" "
+            >
+            <Input type="textarea"  defaultValue={this.state.text} placeholder="Current Strategy Of your System" />
+            </FormItem>
 
           </Form>
-
-          
-
-        </div>
+          <Button type="primary">Save</Button>
+        </Card>
 
       );
   }

@@ -7,12 +7,12 @@ var displayAreaChangeActions = window.displayAreaChangeActions
 var pageStatusDataStore = window.pageStatusDataStore
 
 
-export default class ArchivingForm extends React.Component {
+export default class TablesForm extends React.Component {
 
     componentWillMount(){
       var item = this.props.card;
       this.setState({
-        text:item.factor_info
+        tables:item.objList
       });
     }
     CloseCard(){
@@ -25,22 +25,28 @@ export default class ArchivingForm extends React.Component {
     render() {	
 
         const formItemLayout = {
-            labelCol: { span: 3 },
-            wrapperCol: { span: 18 }
+            labelCol: { span: 8 },
+            wrapperCol: { span: 10 }
         };
 
     	
     	return (
           
-        <Card className="strategyCard aligncenter" title="DVM Strategy -- Archiving" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
+        <Card className="strategyCard aligncenter" title="Related Tables" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <Form horizontal >
+            {
+              this.state.tables.map(function(table){
+                  return (
+                    <FormItem
+                      {...formItemLayout}
+                      label="Table Name"
+                    >
+                      <Input defaultValue={table.FACTOR_NAME} placeholder="Related tables" />
+                    </FormItem>
+                  )
 
-            <FormItem
-              {...formItemLayout}
-              label=" "
-            >
-            <Input type="textarea" defaultValue={this.state.text} placeholder="Current Strategy Of your System" />
-            </FormItem>
+              })
+            }
 
           </Form>
           <Button type="primary">Save</Button>

@@ -126,7 +126,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			this.interactDrag = global.setCardDragable(this.getDOMNode(), this.props.card.id);
 			this.interactDrop = global.setAreaDropable({
 				element: this.getDOMNode(),
-				accept: '.function-button, .data-item, .config-button, .function-button-nav',
+				accept: '.function-button, .data-item,.data-block,.config-button, .function-button-nav',
 				ondrop: function ondrop(event) {
 					var draggableElement = event.relatedTarget,
 					    dropzoneElement = event.target;
@@ -295,12 +295,32 @@ var dataPanelDataStore = window.dataPanelDataStore
 						case currentStatus + "-ITEM":
 							console.log('case ' + currentStatus + '-ITEM');
 							if (currentStatus != "INIT" && that.props.card.type === "ITEM-ANA") {
+								if(currentStatus.indexOf("ANALYSIS_RCA") > -1){
+									data.guid = draggableElement.getAttribute('data-factor_guid');
+									data.FACTOR_NAME_S = draggableElement.getAttribute('data-factor_name');
+									data.category = draggableElement.getAttribute('data-category');
+									displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId);
+								}
+								else if(currentStatus.indexOf("ANALYSIS_DVM") > -1){
+									data.factor_name = draggableElement.getAttribute('data-factor_name');
+									data.factor_info = draggableElement.getAttribute('data-factor_info');
+									data.category = draggableElement.getAttribute('data-category');
+									data.type = "DVM-ITEM";
+									displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
 
-								data.guid = draggableElement.getAttribute('data-factor_guid');
-								data.FACTOR_NAME_S = draggableElement.getAttribute('data-factor_name');
-								data.category = draggableElement.getAttribute('data-category');
-								displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId);
+								}
+								
 							}
+							break;
+						case currentStatus + "-BLOCK":
+							console.log('case ' + currentStatus + '-BLOCK');
+							var currentStatus = pageStatusDataStore.getCurrentStatus();
+    						
+							data.title = draggableElement.getAttribute('data-category');
+							var objList = dataPanelDataStore. getBlockObjList(currentStatus,data.title);
+							data.objList = objList;
+							data.type = "DVM-BLOCK";
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
 							break;
 						// case "INIT-ITEM":
 						//   data.guid = draggableElement.getAttribute('data-factor_guid');
