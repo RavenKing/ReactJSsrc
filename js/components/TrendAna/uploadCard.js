@@ -53,7 +53,8 @@ var UploadCard = React.createClass({
 				tableData: [],
 				isDisabled: false,
 				kmType: [],
-				tableLen: 550
+				tableLen: 550,
+				checkType: true
 			};
 		},
 
@@ -67,8 +68,12 @@ var UploadCard = React.createClass({
 			global.resetPosition(this.getDOMNode());
 		},
 		onConfirm: function onConfirm() {
+			var uploadData = {
+				tableName: this.state.kmType[1],
+				tableData: this.state.tableData
+			};
 
-			if (displayAreaDataStore.uploadConfirm(this.state.tableData)) {
+			if (displayAreaDataStore.uploadConfirm(uploadData)) {
 				message.success('Local file uploaded to HANA successfully.', 3.5);
 			} else {
 				message.error('Upload failed.', 3.5);
@@ -81,13 +86,15 @@ var UploadCard = React.createClass({
 				tableData: [],
 				isEnabled: false,
 				kmType: [],
-				tableLen: 550
+				tableLen: 550,
+				checkType: true
 			});
 		},
 		onChange: function onChange(value) {
-			console.log(value);
+			console.log('KM type = ',value);
 			this.setState({
-				kmType: value
+				kmType: value,
+				checkType: !!value ? false : true
 			});
 		},
 
@@ -216,40 +223,19 @@ var UploadCard = React.createClass({
 					}
 				case false:
 					{
-						displayTable = React.createElement(
-							"div",
-							{ style: { marginTop: 16, height: 300 } },
-							React.createElement(
-								Upload.Dragger,
-								props,
-								React.createElement(
-									"p",
-									{ className: "ant-upload-drag-icon" },
-									React.createElement(Icon, { type: "upload" })
-								),
-								React.createElement(
-									"p",
-									{ className: "ant-upload-text" },
-									"CLICK or DRAG Local File to This Area to Upload"
-								),
-								React.createElement(
-									"p",
-									{ className: "ant-upload-hint" },
-									"1. Upload and Review the Data"
-								),
-								React.createElement(
-									"p",
-									{ className: "ant-upload-hint" },
-									"2. Click CONFIRM Button to Submit to DB"
-								),
-								React.createElement(
-									"p",
-									{ className: "ant-upload-hint" },
-									"3. Single .CSV File Supported Only"
-								)
-							)
-						);
-						break;
+						displayTable = 
+						<div style={{ marginTop: 16, height: 300 }}>
+						  <Upload.Dragger {...props} disabled={this.state.checkType}>
+							<p className="ant-upload-drag-icon">
+							  <Icon type="upload" />
+							</p>
+							<p className="ant-upload-text">CLICK or DRAG Local File to This Area to Upload</p>
+							<p className="ant-upload-hint">1. Select a KM Type and Time</p>
+							<p className="ant-upload-hint">2. Upload and Review the Data</p>
+							<p className="ant-upload-hint">3. Click CONFIRM Button to Submit to DB</p>
+							<p className="ant-upload-hint">4. Single .CSV File Supported Only</p>
+						  </Upload.Dragger>
+						</div>;
 					}
 
 				default:
@@ -297,7 +283,7 @@ var UploadCard = React.createClass({
 								React.createElement(
 									Col,
 									{ span: 21 },
-									React.createElement(Cascader, { className: "cascade-upload", options: areaData, value: this.state.kmType, placeholder: "Please Select a KM Type", onChange: this.onChange })
+									React.createElement(Cascader, { className: "cascade-upload", options: areaData, value: this.state.kmType, allowClear: false, placeholder: "Please Select a KM Type", onChange: this.onChange })
 								),
 								React.createElement(
 									Col,

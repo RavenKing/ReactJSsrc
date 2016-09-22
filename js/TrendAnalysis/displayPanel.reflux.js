@@ -16,12 +16,13 @@
 
     uploadConfirm: function(dataInfo) {
     var flag = false;
+
     var url = "http://10.97.144.117:8000/SmartOperations/services/uploadConfirm.xsjs";
       $.ajax({
             url: url,
             method: 'POST',
-            data: dataInfo,
-            async: false,
+            data: JSON.stringify(dataInfo),
+            async: false,//changed from false
             headers: {
               //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
@@ -31,12 +32,20 @@
               'X-CSRF-Token': 'Fetch'
             }
           }).done(function(resp) {
+            console.log(resp);
+            if(resp.RespondCode == true){
+              flag = true;
+            }
+            else{
+              flag = false;
+            }
             
-      flag = true;
+
           }).fail(function() {
             console.error('upload error:');
             console.error(arguments);
-      flag = false;
+            flag = false;
+
           });
       
     return flag;
