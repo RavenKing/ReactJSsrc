@@ -14,8 +14,9 @@ const FormItem = Form.Item;
 let Demo = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
+    console.log(this);
     console.log('收到表单值：', this.props.form.getFieldsValue());
-       this.props.dispatch(updateDVM(this.props.form.getFieldsValue()));
+    this.props.dispatch(updateDVM(this.props.form.getFieldsValue()));
 
   },
 

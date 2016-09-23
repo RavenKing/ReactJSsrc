@@ -6,7 +6,7 @@ export function fetchArticles(user){
 
 
 var customerid;
-if(user.ROLE=="ADM")
+if(user.ROLE=="ADM") 
 {
     customerid = '32326';
 
@@ -332,11 +332,11 @@ export function SetSaving(data){
     dispatch({type:"SET_SAVING",payload:data})
   }
 }
-export function PostArticle(data1){
+export function PostArticle(data){
  
  // console.log(data1)
-  var data =data1.newArticle;
-  var user=data1.user.USERNAME;
+ 
+  var user=data.USERNAME;
 
 
   var article_id;

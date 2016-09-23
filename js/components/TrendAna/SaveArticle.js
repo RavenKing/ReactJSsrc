@@ -1,13 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { connect } from "react-redux";
 import { Button,Card,Icon,Form,Input,Row,Col,InputNumber} from "antd";
 import { setCardDragable,handleFocus } from "../../interactScript";
+import { PostArticle } from "../../Actions/KnowledgeAction";
 const FormItem=Form.Item;
 
 var displayAreaChangeActions = window.displayAreaChangeActions
 var pageStatusDataStore = window.pageStatusDataStore
 var dataPanelDataStore = window.dataPanelDataStore
 
+@connect((store)=>{    
+    return {
+        articles:store.articles,
+        auth:store.auth.token
+
+    };
+    
+})
 
 export default class SaveArticle extends React.Component {
 
@@ -31,6 +41,79 @@ export default class SaveArticle extends React.Component {
       setCardDragable(ReactDOM.findDOMNode(this));     
       handleFocus(ReactDOM.findDOMNode(this));   
     }
+    handleSubmit(e) {
+        console.log(this.props);
+        e.preventDefault();
+        //get fields value
+        const { getFieldsValue } = this.props.form;
+
+        console.log('收到表单值：', getFieldsValue());
+        var formValues = getFieldsValue();
+        //to valid the input
+        var valid = true;
+        var tables = [];
+        var size=[];
+        var dsc=[];
+        //check whether input the article name or not
+        if(!formValues["ARTICLE_NAM"]){
+          valid = false;
+          console.log("input article name");
+        }
+        //article description
+        if(formValues["ARTICLE_DSC"] == undefined){
+          formValues["ARTICLE_DSC"] = "";
+        }
+        //table size and table description
+        this.state.tablesList.map((table,idx)=>{
+          var fieldName = "TBL_SIZE"+idx;
+          var fieldName1 = "TBL_DSC"+idx;
+          if(formValues[fieldName1] == undefined){
+            formValues[fieldName1] = "";
+          }
+          if(formValues[fieldName] == undefined){
+            formValues[fieldName] = "";
+          }
+          else if(isNaN(formValues["TBL_SIZE"+idx])){
+            console.log("wrong input");
+            valid = false;
+          }
+          tables.push(table.FACTOR_NAME);
+          size.push(formValues[fieldName]);
+          dsc.push(formValues[fieldName1]);
+        });
+        //saving potential
+        if(formValues["SAV_EST"] == undefined){
+          formValues["SAVING_EST"] = "";
+        }
+        if(formValues["SAV_EST_P"] == undefined){
+          formValues["SAVING_EST_P"] = "";
+        }
+        if(formValues["SAV_ACT"] == undefined){
+          formValues["SAVING_ACT"] = "";
+        }
+        if(formValues["SAV_ACT_P"] == undefined){
+          formValues["SAVING_ACT_P"] = "";
+        }
+        //comment
+        if(formValues["COMMENT"] == undefined){
+          formValues["COMMENT"] = "";
+        }
+        console.log(getFieldsValue());
+        //dispatch post article action
+        if(valid){
+            const {user} = this.props.auth;
+            //add extra field to formValues
+            formValues.CUSTOMER_ID = user.CUSTOMER_ID;
+            formValues.USERNAME = user.USERNAME;
+            formValues.TABLES = tables;
+            formValues.SIZE = size;
+            formValues.TABLESDSC = dsc;
+            
+            //post article
+            this.props.dispatch(PostArticle(formValues))
+        }
+
+    }
     CloseCard(){
       
         var currentStatus = pageStatusDataStore.getCurrentStatus();
@@ -44,7 +127,8 @@ export default class SaveArticle extends React.Component {
             labelCol: { span: 5 },
             wrapperCol: { span: 18 }
         };
-
+        const { getFieldProps } = this.props.form;
+        const {setFieldsInitialValue} = this.props.form;
     	
     	return (
           
@@ -52,19 +136,23 @@ export default class SaveArticle extends React.Component {
           <p>Basic Information</p>
           <hr />
           <br />
-          <Form horizontal >
+          <Form horizontal className="ant-advanced-search-form" onSubmit={this.handleSubmit.bind(this)}>
             <FormItem
             {...formItemLayout}
             label="Article Name"
             >
-            <Input placeholder="Article Name"/>
+            <Input placeholder="Article Name"
+            {...getFieldProps('ARTICLE_NAM')}
+            />
             </FormItem>
 
             <FormItem
             {...formItemLayout}
             label="Article Description"
             >
-            <Input placeholder="Article Description"/>
+            <Input placeholder="Article Description"
+            {...getFieldProps('ARTICLE_DSC')}
+            />
             </FormItem>
             {
               this.state.objList.map((obj)=>{
@@ -73,22 +161,24 @@ export default class SaveArticle extends React.Component {
                   {...formItemLayout}
                   label="Archiving Object"
                   >
-                  <Input defaultValue={obj.FACTOR_NAME} placeholder="Archiving Object"/>
+                  <Input placeholder="Archiving Object"
+                  {...getFieldProps('ARCHOBJ', {initialValue:obj.FACTOR_NAME})}
+                  />
                   </FormItem>
                 )
               })
             }
             
-          </Form>
+          
 
           <p>Tables</p>
           <hr />
           <br />
-          <Form horizontal className="ant-advanced-search-form">
+         
             <Row gutter={16}>
               <Col sm={10}>
               {
-                this.state.tablesList.map((table)=>{
+                this.state.tablesList.map((table,idx)=>{
                   return(
                     <FormItem
                     labelCol={{ span: 8 }}
@@ -96,7 +186,9 @@ export default class SaveArticle extends React.Component {
                     label={table.FACTOR_NAME}
                     >
                     <Col span="15">
-                      <Input />
+                      <Input placeholder="table size"
+                      {...getFieldProps('TBL_SIZE'+idx)}
+                      />
                     </Col>
                     <Col span="3">
                       <p className="ant-form-split">GB</p>
@@ -108,27 +200,28 @@ export default class SaveArticle extends React.Component {
             </Col>
             <Col sm={14}>
             {
-              this.state.tablesList.map((table)=>{
+              this.state.tablesList.map((table,idx)=>{
                   return(
                     <FormItem
                       labelCol={{ span: 6 }}
                       wrapperCol= {{ span: 14 }}
                       label="Description"
                     >
-                      <Input placeholder="Archiving Object"/>
+                      <Input placeholder="table description"
+                      {...getFieldProps('TBL_DSC'+idx)}
+                      />
                     </FormItem>
                   )
                 })
             }
             </Col>
             </Row>
-          </Form>
-
+          
           <br />
           <p>Strategy</p>
           <hr />
           <br />
-          <Form horizontal>
+         
           {
             this.state.retentionList.map((ret)=>{
               return (
@@ -137,7 +230,10 @@ export default class SaveArticle extends React.Component {
                 label="Retention Time"
                 >
                 <div>
-                  <InputNumber min={12} max={999} defaultValue={this.state.retentionList[0].FACTOR_NAME}/> <p className="ant-form-text" >Month</p>
+                  <InputNumber min={12} max={999} 
+                  {...getFieldProps('RETENTION', {initialValue:ret.FACTOR_NAME})}
+                  /> 
+                  <p className="ant-form-text" >Month</p>
                 </div>
                 </FormItem>
               )
@@ -150,23 +246,26 @@ export default class SaveArticle extends React.Component {
                     {...formItemLayout}
                     label={strategy.FACTOR_NAME}
                   >
-                    <Input type="textarea" defaultValue={strategy.FACTOR_INFO} placeholder="Current Strategy Of your System" />
+                    <Input type="textarea" placeholder="Current Strategy Of your System"
+                    {...getFieldProps(strategy.FACTOR_NAME.toUpperCase(), {initialValue:strategy.FACTOR_INFO})} />
                   </FormItem>
                 )
               })
             }
-          </Form>
+         
 
           <p>Saving Potential</p>
           <hr />
           <br />
-          <Form horizontal>
+         
             <FormItem
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 12 }}
             label="Estimated Saving Potential(GB)"
             >
-            <Input placeholder="Estimated Saving Potential" />
+            <Input placeholder="Estimated Saving Potential" 
+            {...getFieldProps('SAVING_EST')}
+            />
             </FormItem>
 
             <FormItem
@@ -174,7 +273,9 @@ export default class SaveArticle extends React.Component {
             wrapperCol={{ span: 12 }}
             label="Estimated Saving Potential(%)"
             >
-            <Input placeholder="Estimated Saving Potential" />
+            <Input placeholder="Estimated Saving Potential" 
+            {...getFieldProps('SAVING_EST_P')}
+            />
             </FormItem>
 
             <FormItem
@@ -182,7 +283,9 @@ export default class SaveArticle extends React.Component {
             wrapperCol={{ span: 12 }}
             label="Actual Saving Potential(GB)"
             >
-            <Input placeholder="Actual Saving Potential" />
+            <Input placeholder="Actual Saving Potential" 
+            {...getFieldProps('SAVING_ACT')}
+            />
             </FormItem>
 
             <FormItem
@@ -190,31 +293,33 @@ export default class SaveArticle extends React.Component {
             wrapperCol={{ span: 12 }}
             label="Actual Saving Potential(%)"
             >
-            <Input placeholder="Actual Saving Potential" />
+            <Input placeholder="Actual Saving Potential" 
+            {...getFieldProps('SAVING_ACT_P')}
+            />
             </FormItem>
-          </Form>
-
-          <p>Comments</p>
-          <hr />
-          <br />
-          <Form horizontal>
+          
+            <p>Comments</p>
+            <hr />
+            <br />
+         
             <FormItem
             {...formItemLayout}
             label="Comment"
             >
-            <Input type="textarea" placeholder="Comments" />
+            <Input type="textarea" placeholder="Comments" 
+            {...getFieldProps('COMMENT')}
+            />
+            </FormItem>
+            
+            <FormItem
+            labelCol={{ span: 7 }}
+            wrapperCol={{ span: 10 }} 
+            label=" "          
+            >
+            <Button type="primary" htmlType="submit">Save</Button>
             </FormItem>
 
           </Form>
-
-
-
-
-
-
-
-
-          <Button type="primary">Save</Button>
         </Card>
          
       
@@ -222,3 +327,4 @@ export default class SaveArticle extends React.Component {
       );
   }
 }
+SaveArticle = Form.create()(SaveArticle);
