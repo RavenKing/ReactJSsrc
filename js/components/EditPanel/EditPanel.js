@@ -442,8 +442,8 @@ export default class EditPanel extends React.Component{
                       <FormItem
                         id="control-tbl"
                         label={table.ATTR_NAM}
-                        labelCol={{ span: 8 }}
-                        wrapperCol={{ span: 10 }}
+                        labelCol={{ span: 10 }}
+                        wrapperCol={{ span: 12 }}
                       >
                         <Col span="15">
                           <Input id="control-tbl" data-id={idx} defaultValue={table.TBL_SIZE} onChange={that.handleChange.bind(that)} />

@@ -21,7 +21,7 @@ const FormItem = Form.Item;
 })
 export default class ObjectDefinition extends React.Component {
 
-    constructor(props) {
+    constructor(props) { 
 
         super(props);
         const { newArticle } = this.props.articles;

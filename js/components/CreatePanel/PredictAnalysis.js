@@ -18,10 +18,8 @@ export default class PredictAnalysis extends React.Component{
   PostArticle(){
       const { user } = this.props.auth;
       const { newArticle } = this.props.articles;
-      var data ={ 
-          newArticle : newArticle,
-          user: user
-      }
+      var data = newArticle;
+      data.USERNAME = user.USERNAME;
       this.props.dispatch(PostArticle(data));
   }
   CloseCreatePanel(){

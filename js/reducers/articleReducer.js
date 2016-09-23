@@ -181,7 +181,7 @@ export default function reducer(state={
             
             return {...state,newArticle:newArticle}
         } 
-        case "SET_BASIC_INFO":
+        case "SET_BASIC_INFO": 
         {
             const { newArticle } = state;
             newArticle.TABLES = action.payload.tables;
