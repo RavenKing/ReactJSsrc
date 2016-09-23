@@ -128,7 +128,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			this.interactDrop = global.setAreaDropable({
 				element: this.getDOMNode(),
 				accept: '.function-button, .data-item,.data-block,.config-button, .function-button-nav',
-				ondrop: function ondrop(event) {
+				ondrop: function ondrop(event) { // card on drop
 					var draggableElement = event.relatedTarget,
 					    dropzoneElement = event.target;
 					var currentStatus = pageStatusDataStore.getCurrentStatus();

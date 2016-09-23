@@ -1,8 +1,25 @@
 import React from "react";
 import  ReactHighCharts  from "react-highcharts";
+import {Collapse,Card,Row,Col, Switch, Icon,Slider, InputNumber,Select} from "antd";
+var Panel= Collapse.Panel;
 
 export default class PredictPanel extends React.Component{
+  constructor(props)
+  {
+    super(props)
 
+
+    this.state={
+
+      inputValue:1
+    }
+  }
+
+ ChangeTime(e)
+{
+  this.setState({inputValue:e.target.value})
+
+}
 	render(){
 		var config = {
   			xAxis: {
@@ -51,12 +68,37 @@ export default class PredictPanel extends React.Component{
         }]
 		};
 		return (
+      <Card>
 			<div>
 				<h2>Prediction for Archiving object</h2>
+        <Collapse defaultActiveKey={['1']} >
+        <Panel header="Control Panel">
+        <Row gutter={16}>
+      <Col className="gutter-row" span={12}>     
+
+      <span>Retention Time:</span>
+      <Slider min={1} max={20} onChange={this.ChangeTime.bind(this)} />
+      </Col>
+      <Col className="gutter-row" span={12}>    
+
+      <span>Predict Time:</span>
+      <Select size="large" defaultValue="lucy" style={{ width: 200 }} >
+      <Option value="jack">Next Three Month</Option>
+      <Option value="lucy">Next Six Month</Option>
+      <Option value="disabled" >Next One Year</Option>
+      </Select>
+      
+      </Col>
+    </Row>
+
+        </Panel>
+  
+
+        </Collapse>
 				<br/>
 				<ReactHighCharts config={config}/>
 			</div>
-
+</Card>
 
 		)
 

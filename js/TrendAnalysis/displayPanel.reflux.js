@@ -276,11 +276,31 @@
         case 'DVM-ITEM':
           $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                
+                var counter=0;
+
+                item.content.filter((one)=>{
+                  if(one.type == "DVM")
+                    {one.dvmanalysis.push(data)                
+                    counter ++;
+                    }
+                });
+                if(counter==0)
+                {
+                  item.content.push({
+                    type:"DVM",
+                    dvmanalysis:[data],
+                    id:data.id
+                  })
+                }
                 that.trigger(item.content);
                 return false;
-              }
-          });
+
+
+
+
+                }
+              });
           break;
         case 'DVM-BLOCK':
           $.each(that.displayAreaData, function (idx, item) {

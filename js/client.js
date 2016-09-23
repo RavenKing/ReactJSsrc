@@ -18,6 +18,8 @@ import  ReactHighCharts  from "react-highcharts";
 
 import First from "./components/TrendAna/First";
 
+import PredictPanel from "./components/DisplayPanel/PredictPanel";
+
 window.react=React;
 window.Highcharts =  ReactHighCharts;
 
@@ -32,6 +34,7 @@ ReactDOM.render(
     <Route path="/maintain" component ={Maintain}> </Route> 
     
      <Route path="/login" component ={Login}> </Route>  
+     <Route path="/predict" component ={PredictPanel}> </Route>  
      <Route path="/" component ={requireAuth(First)}> 
         <Route path="/trend" component={First}>   </Route>  
       </Route>
