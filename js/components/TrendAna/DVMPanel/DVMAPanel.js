@@ -103,60 +103,18 @@ export default class DVMAPanel extends React.Component{
 		//get the object list of datapanel
 		var currentStatus = pageStatusDataStore.getCurrentStatus();
 		var objList = dataPanelDataStore.getBlockObjList(currentStatus,"Arch Obj");
-      	var tablesList = dataPanelDataStore.getBlockObjList(currentStatus,"Tables");
-      	var strategyList = dataPanelDataStore.getBlockObjList(currentStatus,"Strategy");
       	var retentionList = dataPanelDataStore.getBlockObjList(currentStatus,"Retention");
       	//get table names
-      	tablesList.map((table)=>{
-      		tables.push(table.FACTOR_NAME);
-      	});
-      	//get size and description
-      	for(var i = 0; i < tables.length;i++){
-      		var j;
-      		for(j = 0; j < data.TBL.length; j++){
-      			if(tables[i] == data.TBL[j]){
-      				if(formValues['TBL_SIZE'+j] == undefined){
-      					size[i] = "";
-      				}else{
-      					size[i] = formValues['TBL_SIZE'+j];
-      				}
-      				if(formValues['TBL_DSC'+j] == undefined){
-      					dsc[i] = "";
-      				}else{
-      					dsc[i] = formValues['TBL_DSC'+j];
-      				}
-      				break;
-      			}
+      	data.TBL.map((table,idx)=>{
+      		if(formValues['TBL_SIZE'+idx] == undefined){
+      			size[idx] = "";
+      		}else{
+      			size[idx] = formValues['TBL_SIZE'+idx];
       		}
-      		if(j >= data.TBL.length){
-      			size[i] = "";
-      			dsc[i] = "";
-      		}
-
-      	}
-      	//set the default value of strategies
-      	strategyList.map((strategy)=>{
-      		switch(strategy.FACTOR_NAME){
-      			case "Archiving":
-      			{
-      				archiving = strategy.FACTOR_INFO;
-      				break;
-      			}
-      			case "Avoidance":
-      			{
-      				avoidance = strategy.FACTOR_INFO;
-      				break;
-      			}
-      			case "Deletion":
-      			{
-      				deletion = strategy.FACTOR_INFO;
-      				break;
-      			}
-      			case "Summarization":
-      			{
-      				summarization = strategy.FACTOR_INFO;
-      				break;
-      			}
+      		if(formValues['TBL_DSC'+idx] == undefined){
+      			dsc[idx] = "";
+      		}else{
+      			dsc[idx] = formValues['TBL_DSC'+idx];
       		}
       	});
 		
@@ -194,7 +152,7 @@ export default class DVMAPanel extends React.Component{
 		//some fields of new article
 		var values = {
 			ARCHOBJ:objList[0].FACTOR_NAME,
-			TABLES:tables,
+			TABLES:data.TBL,
 			SIZE:size,
 			TABLESDSC:dsc,
 			ARCHIVING:archiving,
