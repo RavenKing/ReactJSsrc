@@ -121,7 +121,7 @@ export default class ArticleTemplate extends React.Component {
         displayAreaChangeActions.displayAreaRemoveCardAction(currentStatus, this.props.card.id);
        
     }
-    render() {	
+    render() {  
 
         const formItemLayout = {
             labelCol: { span: 5 },
@@ -129,8 +129,8 @@ export default class ArticleTemplate extends React.Component {
         };
         const { getFieldProps } = this.props.form;
         const {setFieldsInitialValue} = this.props.form;
-    	
-    	return (
+      
+      return (
           
         <Card style={this.props.card.style} className="saveCard aligncenter" title="Save as Article" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <p>Basic Information</p>

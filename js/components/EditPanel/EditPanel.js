@@ -299,7 +299,7 @@ export default class EditPanel extends React.Component{
 
 	render(){
 
-    const DVM_Methods = [
+      const DVM_Methods = [
          
           {label:"Avoidance",value:"Avoidance"},
           {label:"Summarization",value:"Summarization"},

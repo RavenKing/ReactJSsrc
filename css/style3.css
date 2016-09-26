@@ -620,6 +620,9 @@ text-align: center
   position: absolute;
   z-index: 101;
 }
+.saveCard form textarea.ant-input{
+  height: 111px;
+}
 .tableChart{
   width:700px;
   
