@@ -5,6 +5,7 @@ import PieChartCard from "./PieChartCard";
 import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
 import SaveArticle from "./SaveArticle";
+import ArticleTemplate from "./ArticleTemplate";
 import DVMAPanel from "./DVMPanel/DVMAPanel"
 import { History,Router,browserHistory } from "react-router";
 
@@ -156,6 +157,9 @@ if (!rc) {
           }
           else if(item.type == 'SAVE'){
             return <SaveArticle key={item.id + 'SaveArticle'} card={item} />
+          }
+          else if(item.type == 'ART_TEMP'){
+            return <ArticleTemplate key={item.id + 'ArticleTemplate'} card={item}/>
           }
         })
       );

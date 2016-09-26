@@ -438,11 +438,20 @@
             });
           }).fail(function () {
             console.error('Fetch what-if chart data error:');
-            console.error(arguments);
+            console.error(arguments); 
           });
 
           break;
         case "SAVE":
+          $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+          });
+          break;
+        case "ART_TEMP":
           $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 item.content.push(data);

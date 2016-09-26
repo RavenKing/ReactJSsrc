@@ -295,11 +295,19 @@ var dataPanelDataStore = window.dataPanelDataStore
 							}
 
 							break;
-						case "SAVE":
-							console.log('case Save Article');
-							data.type = "SAVE";
-							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
-
+						case "ART_TEMP":
+							console.log('case Article Template');
+							if(dataPanelDataStore.getObjList(currentStatus).length == 0){
+								const modal = Modal.warning({
+            						title: 'Warning! ',
+            						content: 'Drag \"DVM Strategy\" button first'
+          						});
+							}
+							else{
+								data.type = "ART_TEMP";
+								displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
+							}
+							
 							break;
 						case currentStatus + "-ITEM":
 							console.log('case ' + currentStatus + '-ITEM');

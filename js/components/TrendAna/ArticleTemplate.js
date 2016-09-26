@@ -19,15 +19,29 @@ var dataPanelDataStore = window.dataPanelDataStore
     
 })
 
-export default class SaveArticle extends React.Component {
+export default class ArticleTemplate extends React.Component {
 
+    componentWillMount(){
+     
+      var currentStatus = pageStatusDataStore.getCurrentStatus();
+      var objList = dataPanelDataStore.getBlockObjList(currentStatus,"Arch Obj");
+      var tablesList = dataPanelDataStore.getBlockObjList(currentStatus,"Tables");
+      var strategyList = dataPanelDataStore.getBlockObjList(currentStatus,"Strategy");
+      var retentionList = dataPanelDataStore.getBlockObjList(currentStatus,"Retention");
+      this.setState({
+        objList:objList,
+        tablesList:tablesList,
+        strategyList:strategyList,
+        retentionList:retentionList
+      });
+
+    }
     componentDidMount() {
 
       setCardDragable(ReactDOM.findDOMNode(this));     
       handleFocus(ReactDOM.findDOMNode(this));   
     }
     handleSubmit(e) {
-        const { values } = this.props.card;
         console.log(this.props);
         e.preventDefault();
         //get fields value
@@ -37,7 +51,9 @@ export default class SaveArticle extends React.Component {
         var formValues = getFieldsValue();
         //to valid the input
         var valid = true;
-      
+        var tables = [];
+        var size=[];
+        var dsc=[];
         //check whether input the article name or not
         if(!formValues["ARTICLE_NAM"]){
           valid = false;
@@ -47,17 +63,35 @@ export default class SaveArticle extends React.Component {
         if(formValues["ARTICLE_DSC"] == undefined){
           formValues["ARTICLE_DSC"] = "";
         }
+        //table size and table description
+        this.state.tablesList.map((table,idx)=>{
+          var fieldName = "TBL_SIZE"+idx;
+          var fieldName1 = "TBL_DSC"+idx;
+          if(formValues[fieldName1] == undefined){
+            formValues[fieldName1] = "";
+          }
+          if(formValues[fieldName] == undefined){
+            formValues[fieldName] = "";
+          }
+          else if(isNaN(formValues["TBL_SIZE"+idx])){
+            console.log("wrong input");
+            valid = false;
+          }
+          tables.push(table.FACTOR_NAME);
+          size.push(formValues[fieldName]);
+          dsc.push(formValues[fieldName1]);
+        });
         //saving potential
-        if(formValues["SAVING_EST"] == undefined){
+        if(formValues["SAV_EST"] == undefined){
           formValues["SAVING_EST"] = "";
         }
-        if(formValues["SAVING_EST_P"] == undefined){
+        if(formValues["SAV_EST_P"] == undefined){
           formValues["SAVING_EST_P"] = "";
         }
-        if(formValues["SAVING_ACT"] == undefined){
+        if(formValues["SAV_ACT"] == undefined){
           formValues["SAVING_ACT"] = "";
         }
-        if(formValues["SAVING_ACT_P"] == undefined){
+        if(formValues["SAV_ACT_P"] == undefined){
           formValues["SAVING_ACT_P"] = "";
         }
         //comment
@@ -71,16 +105,9 @@ export default class SaveArticle extends React.Component {
             //add extra field to formValues
             formValues.CUSTOMER_ID = user.CUSTOMER_ID;
             formValues.USERNAME = user.USERNAME;
-            formValues.TABLES = values.TABLES;
-            formValues.SIZE = values.SIZE;
-            formValues.TABLESDSC = values.TABLESDSC;
-            formValues.ARCHIVING = values.ARCHIVING;
-            formValues.AVOIDANCE = values.AVOIDANCE;
-            formValues.DELETION = values.DELETION;
-            formValues.SUMMARIZATION = values.SUMMARIZATION;
-            formValues.ARCHOBJ = values.ARCHOBJ;
-            formValues.RETENTION = values.RETENTION;
-
+            formValues.TABLES = tables;
+            formValues.SIZE = size;
+            formValues.TABLESDSC = dsc;
             
             //post article
             this.props.dispatch(PostArticle(formValues))
@@ -127,6 +154,104 @@ export default class SaveArticle extends React.Component {
             {...getFieldProps('ARTICLE_DSC')}
             />
             </FormItem>
+            {
+              this.state.objList.map((obj)=>{
+                return (
+                  <FormItem
+                  {...formItemLayout}
+                  label="Archiving Object"
+                  >
+                  <Input placeholder="Archiving Object"
+                  {...getFieldProps('ARCHOBJ', {initialValue:obj.FACTOR_NAME})}
+                  />
+                  </FormItem>
+                )
+              })
+            }
+            
+          
+
+          <p>Tables</p>
+          <hr />
+          <br />
+         
+            <Row gutter={16}>
+              <Col sm={10}>
+              {
+                this.state.tablesList.map((table,idx)=>{
+                  return(
+                    <FormItem
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                    label={table.FACTOR_NAME}
+                    >
+                    <Col span="15">
+                      <Input placeholder="table size"
+                      {...getFieldProps('TBL_SIZE'+idx)}
+                      />
+                    </Col>
+                    <Col span="3">
+                      <p className="ant-form-split">GB</p>
+                    </Col>
+                    </FormItem>
+                  )
+                })
+              }
+            </Col>
+            <Col sm={14}>
+            {
+              this.state.tablesList.map((table,idx)=>{
+                  return(
+                    <FormItem
+                      labelCol={{ span: 6 }}
+                      wrapperCol= {{ span: 14 }}
+                      label="Description"
+                    >
+                      <Input placeholder="table description"
+                      {...getFieldProps('TBL_DSC'+idx)}
+                      />
+                    </FormItem>
+                  )
+                })
+            }
+            </Col>
+            </Row>
+          
+          <br />
+          <p>Strategy</p>
+          <hr />
+          <br />
+         
+          {
+            this.state.retentionList.map((ret)=>{
+              return (
+                <FormItem
+                {...formItemLayout}
+                label="Retention Time"
+                >
+                <div>
+                  <InputNumber min={12} max={999} 
+                  {...getFieldProps('RETENTION', {initialValue:ret.FACTOR_NAME})}
+                  /> 
+                  <p className="ant-form-text" >Month</p>
+                </div>
+                </FormItem>
+              )
+            })
+          }
+            {
+              this.state.strategyList.map(function(strategy){
+                return (
+                  <FormItem
+                    {...formItemLayout}
+                    label={strategy.FACTOR_NAME}
+                  >
+                    <Input type="textarea" placeholder="Current Strategy Of your System"
+                    {...getFieldProps(strategy.FACTOR_NAME.toUpperCase(), {initialValue:strategy.FACTOR_INFO})} />
+                  </FormItem>
+                )
+              })
+            }
          
 
           <p>Saving Potential</p>
@@ -202,4 +327,4 @@ export default class SaveArticle extends React.Component {
       );
   }
 }
-SaveArticle = Form.create()(SaveArticle);
+ArticleTemplate = Form.create()(ArticleTemplate);

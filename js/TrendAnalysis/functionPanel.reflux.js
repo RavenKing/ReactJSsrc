@@ -49,6 +49,10 @@
             info: "DVM_SIM",
             type: "DVM_SIM"
           },{
+            name:"Article Template",
+            info:"ART_TEMP",
+            type:"ART_TEMP"
+          },{
             name:"Save Article",
             info:"SAVE",
             type:"SAVE"
