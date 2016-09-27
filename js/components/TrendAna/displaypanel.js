@@ -88,7 +88,7 @@ if (!rc) {
               data.title = 'Create New Object';
               data.editObj = 0;
               break;
-
+              
             case 'NOTE':
               browserHistory.push("/km")
               break;

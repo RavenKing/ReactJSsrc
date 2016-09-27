@@ -45,22 +45,23 @@
             info: "DVM_ANA",
             type: "DVM_ANA"
           }, {
+            name:"Template",
+            info:"ART_TEMP",
+            type:"ART_TEMP"
+          },
+          {
             name: "Simulate",
             info: "DVM_SIM",
             type: "DVM_SIM"
           },{
-            name:"Article Template",
-            info:"ART_TEMP",
-            type:"ART_TEMP"
-          },{
             name:"Save Article",
             info:"SAVE",
             type:"SAVE"
-          },{
+          }/*,{
             name: "Knowledge",
-            info: "SAVE_KM",
-            type: "SAVE_KM"
-          }]
+            info: "NOTE",
+            type: "NOTE"
+          }*/]
         });
 
 
