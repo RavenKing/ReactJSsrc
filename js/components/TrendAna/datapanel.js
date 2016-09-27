@@ -44,26 +44,48 @@ var global = window
     render: function render() {
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       var item = this.props.item;
-      return React.createElement(
-        Tooltip,
-        { className: "ant-tooltip-open", placement: "rightBottom", title: this.props.item.FACTOR_NAME},
+      if(currentStatus == "INIT"){
 
-        React.createElement(
-          Button,
-          { className: "data-item", type: "dashed",
-            "data-type": "ITEM",
-            "data-info": currentStatus + "-ITEM",
-            "data-factor_guid": this.props.item.FACTOR_GUID,
-            "data-factor_name": this.props.item.FACTOR_NAME,
-            "data-trend": this.props.item.TREND,
-            "data-category": this.props.item.FACTOR_CATEGORY },
+        return React.createElement(
+          Tooltip,
+          { className: "ant-tooltip-open", placement: "rightBottom", title: this.props.item.FACTOR_NAME},
+
           React.createElement(
-            Badge,
-            { dot: parseFloat(item.TREND) > 5.0 },
-            item.FACTOR_BUSINESS_NAME
+            Button,
+            { className: "data-item", type: "dashed",
+              "data-type": "ITEM",
+              "data-info": currentStatus + "-ITEM",
+              "data-factor_guid": this.props.item.FACTOR_GUID,
+              "data-factor_name": this.props.item.FACTOR_NAME,
+              "data-trend": this.props.item.TREND,
+              "data-category": this.props.item.FACTOR_CATEGORY },
+            React.createElement(
+              Badge,
+              { dot: parseFloat(item.TREND) > 5.0 },
+              item.FACTOR_BUSINESS_NAME
+            )
           )
-        )
-      );
+        );
+      }
+      else{
+
+        return React.createElement(
+            Button,
+            { className: "data-item", type: "dashed",
+              "data-type": "ITEM",
+              "data-info": currentStatus + "-ITEM",
+              "data-factor_guid": this.props.item.FACTOR_GUID,
+              "data-factor_name": this.props.item.FACTOR_NAME,
+              "data-trend": this.props.item.TREND,
+              "data-category": this.props.item.FACTOR_CATEGORY },
+            React.createElement(
+              Badge,
+              { dot: parseFloat(item.TREND) > 5.0 },
+              item.FACTOR_NAME
+            )
+          );
+
+      }
     }
   });
 //<Tooltip placement="topLeft" title="???? ????" arrowPointAtCenter>
