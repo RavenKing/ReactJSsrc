@@ -1,5 +1,5 @@
 import React from "react";
-import {Button,Badge} from "antd";
+import {Button,Badge,Tooltip} from "antd";
 
 var interact=window.interact
 var dataPanelItemChangeAction = window.dataPanelItemChangeAction
@@ -43,26 +43,53 @@ var global = window
 
     render: function render() {
       var currentStatus = pageStatusDataStore.getCurrentStatus();
-      var item = this.props.item; 
-      return React.createElement(
-        Button,
-        { className: "data-item", type: "dashed",
-          "data-type": "ITEM",
-          "data-info": currentStatus + "-ITEM",
-          "data-factor_guid": this.props.item.FACTOR_GUID,
-          "data-factor_name": this.props.item.FACTOR_NAME,
-          "data-factor_info": this.props.item.FACTOR_INFO,
-          "data-trend": this.props.item.TREND,
-          "data-category": this.props.item.FACTOR_CATEGORY },
-        React.createElement(
-          Badge,
-          { dot: parseFloat(item.TREND) > 5.0 },
-          item.FACTOR_NAME
-        )
-      );
+
+      var item = this.props.item;
+      if(currentStatus == "INIT"){
+
+        return React.createElement(
+          Tooltip,
+          { className: "ant-tooltip-open", placement: "rightBottom", title: this.props.item.FACTOR_NAME},
+
+          React.createElement(
+            Button,
+            { className: "data-item", type: "dashed",
+              "data-type": "ITEM",
+              "data-info": currentStatus + "-ITEM",
+              "data-factor_guid": this.props.item.FACTOR_GUID,
+              "data-factor_name": this.props.item.FACTOR_NAME,
+              "data-trend": this.props.item.TREND,
+              "data-category": this.props.item.FACTOR_CATEGORY },
+            React.createElement(
+              Badge,
+              { dot: parseFloat(item.TREND) > 5.0 },
+              item.FACTOR_BUSINESS_NAME
+            )
+          )
+        );
+      }
+      else{
+
+        return React.createElement(
+            Button,
+            { className: "data-item", type: "dashed",
+              "data-type": "ITEM",
+              "data-info": currentStatus + "-ITEM",
+              "data-factor_guid": this.props.item.FACTOR_GUID,
+              "data-factor_name": this.props.item.FACTOR_NAME,
+              "data-trend": this.props.item.TREND,
+              "data-category": this.props.item.FACTOR_CATEGORY },
+            React.createElement(
+              Badge,
+              { dot: parseFloat(item.TREND) > 5.0 },
+              item.FACTOR_NAME
+            )
+          );
+
+      }
     }
   });
-
+//<Tooltip placement="topLeft" title="???? ????" arrowPointAtCenter>
   var DataBlock = React.createClass({
     displayName: "DataBlock",
 

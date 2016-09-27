@@ -32,12 +32,12 @@ var dataPanelDataStore = window.dataPanelDataStore
 				// }
 				var currentStatus = pageStatusDataStore.getCurrentStatus();
 
-				if (currentStatus === "INIT" || this.props.card.type !== "ITEM" || currentStatus.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
+				if (currentStatus === "INIT" || this.props.card.type !== "ITEM-ANA" || currentStatus.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
 
 					displayAreaChangeActions.displayAreaRemoveCardAction(currentStatus, that.props.card.id);
 				} else {
 
-					message.warning('Can\'t remove object card which is being analyzed.');
+					message.warning('Can\'t remove object card which is being analyzed.', 3.5);
 				}
 			};
 		}

@@ -14,14 +14,52 @@
     }],
 
 
-    uploadConfirm: function(dataInfo) {
+    uploadConfirm: function(dataInfo, getRespond) {
     var flag = false;
+
     var url = "http://10.97.144.117:8000/SmartOperations/services/uploadConfirm.xsjs";
-      $.ajax({
+      /*$.ajax({
             url: url,
             method: 'POST',
-            data: dataInfo,
-            async: false,
+            data: JSON.stringify(dataInfo),
+            async: true,//changed from false
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function(resp) {
+            console.log(resp);
+            if(resp.RespondCode == true){
+              flag = true;
+              console.log('go to if');
+
+              return true;
+            }
+            else{
+              flag = false;
+              console.log('go to else');
+              return false;
+            }
+            
+
+          }).fail(function() {
+            console.error('upload error:');
+            console.error(arguments);
+            flag = false;
+            console.log('go to fail');
+            return false;
+          });*/
+      
+    //rusing callback
+    $.ajax({
+            url: url,
+            method: 'POST',
+            data: JSON.stringify(dataInfo),
+            async: true,//changed from false
             headers: {
               //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
@@ -32,14 +70,14 @@
             }
           }).done(function(resp) {
             
-      flag = true;
+            getRespond(resp.RespondCode);
+
           }).fail(function() {
             console.error('upload error:');
             console.error(arguments);
-      flag = false;
+            
+            return false;
           });
-      
-    return flag;
     
   },
 
