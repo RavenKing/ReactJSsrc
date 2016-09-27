@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
-import { Button,Card,Icon,Form,Input,Row,Col,InputNumber} from "antd";
+import { Button,Card,Icon,Form,Input,Row,Col,InputNumber,Modal} from "antd";
 import { setCardDragable,handleFocus } from "../../interactScript";
 import { PostArticle } from "../../Actions/KnowledgeAction";
 const FormItem=Form.Item;
@@ -55,50 +55,92 @@ export default class ArticleTemplate extends React.Component {
         var size=[];
         var dsc=[];
         //check whether input the article name or not
-        if(!formValues["ARTICLE_NAM"]){
+        if(valid && !formValues["ARTICLE_NAM"]){
           valid = false;
-          console.log("input article name");
+          const modal = Modal.warning({
+              title: 'Warning! ',
+              content: 'The Article Name Should not be Empty!'
+          });
         }
-        //article description
-        if(formValues["ARTICLE_DSC"] == undefined){
+         //article description
+        if(valid && formValues["ARTICLE_DSC"] == undefined){
           formValues["ARTICLE_DSC"] = "";
         }
-        //table size and table description
-        this.state.tablesList.map((table,idx)=>{
-          var fieldName = "TBL_SIZE"+idx;
-          var fieldName1 = "TBL_DSC"+idx;
-          if(formValues[fieldName1] == undefined){
-            formValues[fieldName1] = "";
-          }
-          if(formValues[fieldName] == undefined){
-            formValues[fieldName] = "";
-          }
-          else if(isNaN(formValues["TBL_SIZE"+idx])){
-            console.log("wrong input");
-            valid = false;
-          }
-          tables.push(table.FACTOR_NAME);
-          size.push(formValues[fieldName]);
-          dsc.push(formValues[fieldName1]);
-        });
-        //saving potential
-        if(formValues["SAV_EST"] == undefined){
-          formValues["SAVING_EST"] = "";
+         //table size and table description
+        if(valid){
+            this.state.tablesList.map((table,idx)=>{
+              if(valid){
+                var fieldName = "TBL_SIZE"+idx;
+                var fieldName1 = "TBL_DSC"+idx;
+                if(formValues[fieldName1] == undefined){
+                    formValues[fieldName1] = "";
+                }
+                if(formValues[fieldName] == undefined){
+                    formValues[fieldName] = "";
+                }
+                if(isNaN(formValues["TBL_SIZE"+idx])){
+                    valid = false;
+                    const modal = Modal.warning({
+                        title: 'Warning! ',
+                        content: 'Input the correct number!'
+                    });
+                    
+                }
+                tables.push(table.FACTOR_NAME);
+                size.push(formValues[fieldName]);
+                dsc.push(formValues[fieldName1]);
+              }
+                
+            });
         }
-        if(formValues["SAV_EST_P"] == undefined){
+        
+       
+        //saving potential
+        if(valid && formValues["SAVING_EST"] == undefined){
+            formValues["SAVING_EST"] = "";
+        }
+        if(valid && isNaN(formValues["SAVING_EST"])){
+            valid = false;
+            const modal = Modal.warning({
+              title: 'Warning! ',
+              content: 'Input the Correct Number!'
+            });
+        }
+        if(valid && formValues["SAVING_EST_P"] == undefined){
           formValues["SAVING_EST_P"] = "";
         }
-        if(formValues["SAV_ACT"] == undefined){
+        if(valid && isNaN(formValues["SAVING_EST_P"])){
+          valid = false;
+          const modal = Modal.warning({
+            title:'Warning!',
+            content:'Input the Correct Number!'
+          })
+        }
+        if(valid && formValues["SAVING_ACT"] == undefined){
           formValues["SAVING_ACT"] = "";
         }
-        if(formValues["SAV_ACT_P"] == undefined){
+        if(valid && isNaN(formValues["SAVING_ACT"])){
+          valid = false;
+          const modal = Modal.warning({
+            title:'Warning!',
+            content:'Input the Correct Number!'
+          });
+        }
+        if(valid && formValues["SAVING_ACT_P"] == undefined){
           formValues["SAVING_ACT_P"] = "";
         }
+        if(valid && isNaN(formValues["SAVING_ACT_P"])){
+          valid = false;
+          const modal = Modal.warning({
+            title:'Warning!',
+            content:'Input the Correct Number!'
+          });
+        }
         //comment
-        if(formValues["COMMENT"] == undefined){
+        if(valid && formValues["COMMENT"] == undefined){
           formValues["COMMENT"] = "";
         }
-        console.log(getFieldsValue());
+       
         //dispatch post article action
         if(valid){
             const {user} = this.props.auth;
@@ -161,7 +203,7 @@ export default class ArticleTemplate extends React.Component {
                   {...formItemLayout}
                   label="Archiving Object"
                   >
-                  <Input placeholder="Archiving Object"
+                  <Input placeholder="Archiving Object" disabled="true"
                   {...getFieldProps('ARCHOBJ', {initialValue:obj.FACTOR_NAME})}
                   />
                   </FormItem>

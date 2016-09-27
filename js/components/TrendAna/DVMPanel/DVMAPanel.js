@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Card,Icon,Row,Col,Input,InputNumber,Form,Button} from "antd";
+import {Card,Icon,Row,Col,Input,InputNumber,Form,Button,Modal} from "antd";
 import { setCardDragable,handleFocus } from "../../../interactScript";
 
 
@@ -32,7 +32,7 @@ export default class DVMAPanel extends React.Component{
         //get fields value
         const { getFieldsValue } = this.props.form;
         var formValues = getFieldsValue();
-
+        var valid = true;
 		
 		var retention;
         var tables = [];
@@ -106,20 +106,33 @@ export default class DVMAPanel extends React.Component{
       	var retentionList = dataPanelDataStore.getBlockObjList(currentStatus,"Retention");
       	//get table names
       	data.TBL.map((table,idx)=>{
-      		if(formValues['TBL_SIZE'+idx] == undefined){
-      			size[idx] = "";
-      		}else{
-      			size[idx] = formValues['TBL_SIZE'+idx];
+      		if(valid){
+      			if(formValues['TBL_SIZE'+idx] == undefined){
+      				size[idx] = "";
+      			}else{
+      				if(isNaN(formValues['TBL_SIZE'+idx])){
+      					valid = false;
+      					const modal = Modal.warning({
+              				title: 'Warning! ',
+              				content: 'The Article Name Should not be Empty!'
+          				});
+      				}else{
+      					size[idx] = formValues['TBL_SIZE'+idx];
+      				}
+      			
+      			}
+      			if(formValues['TBL_DSC'+idx] == undefined){
+      				dsc[idx] = "";
+      			}else{
+      				dsc[idx] = formValues['TBL_DSC'+idx];
+      			}
       		}
-      		if(formValues['TBL_DSC'+idx] == undefined){
-      			dsc[idx] = "";
-      		}else{
-      			dsc[idx] = formValues['TBL_DSC'+idx];
-      		}
+      		
       	});
 		
      	//get the new values of strategies
-		data.STA.map((one)=>{
+     	if(valid){
+     		data.STA.map((one)=>{
 			switch(one){
 				case "Archiving":
 				{
@@ -142,26 +155,32 @@ export default class DVMAPanel extends React.Component{
 					break;
 				}
 			}
-		});
-		//get RETENTION field
-		if(formValues["RETENTION"]){
-			retention = formValues["RETENTION"];
-		}else{
-			retention = retentionList[0].FACTOR_NAME;
-		}
-		//some fields of new article
-		var values = {
-			ARCHOBJ:objList[0].FACTOR_NAME,
-			TABLES:data.TBL,
-			SIZE:size,
-			TABLESDSC:dsc,
-			ARCHIVING:archiving,
-			AVOIDANCE:avoidance,
-			DELETION:deletion,
-			SUMMARIZATION:summarization,
-			RETENTION:retention
-		};
-		return values;
+			});
+			//get RETENTION field
+			if(formValues["RETENTION"]){
+				retention = formValues["RETENTION"];
+			}else{
+				retention = retentionList[0].FACTOR_NAME;
+			}
+			//some fields of new article
+			var values = {
+				ARCHOBJ:objList[0].FACTOR_NAME,
+				TABLES:data.TBL,
+				SIZE:size,
+				TABLESDSC:dsc,
+				ARCHIVING:archiving,
+				AVOIDANCE:avoidance,
+				DELETION:deletion,
+				SUMMARIZATION:summarization,
+				RETENTION:retention
+			};
+			return values;
+     	}
+     	else {
+     		return null;
+     	}
+		
+		
         
 
 	}
@@ -181,14 +200,17 @@ export default class DVMAPanel extends React.Component{
 				if(info == "SAVE"){
 					
 					var values = that.getValues();
+					if(values){
+						var data = {};
+						data.type = "SAVE";
+						data.style = {};
+          				data.style.left = event.dragEvent.clientX + window.scrollX;
+          				data.style.top = event.dragEvent.clientY + window.scrollY;
+          				data.values = values; 
+						displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
+					}
 					
-					var data = {};
-					data.type = "SAVE";
-					data.style = {};
-          			data.style.left = event.dragEvent.clientX + window.scrollX;
-          			data.style.top = event.dragEvent.clientY + window.scrollY;
-          			data.values = values; 
-					displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
+					
 				}	
 				
 			}
@@ -278,7 +300,7 @@ export default class DVMAPanel extends React.Component{
             		{...formItemLayout}
             		label="Archiving Object"
             		>
-            		<Input placeholder="archiving object" 
+            		<Input placeholder="archiving object" disabled="true"
             		{...getFieldProps('ARCHOBJ',{initialValue:data.OBJ})}
             		/>
             		</FormItem>

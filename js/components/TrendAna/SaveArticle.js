@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
-import { Button,Card,Icon,Form,Input,Row,Col,InputNumber} from "antd";
+import { Button,Card,Icon,Form,Input,Row,Col,Modal,InputNumber} from "antd";
 import { setCardDragable,handleFocus } from "../../interactScript";
 import { PostArticle } from "../../Actions/KnowledgeAction";
 const FormItem=Form.Item;
@@ -28,43 +28,71 @@ export default class SaveArticle extends React.Component {
     }
     handleSubmit(e) {
         const { values } = this.props.card;
-        console.log(this.props);
         e.preventDefault();
         //get fields value
         const { getFieldsValue } = this.props.form;
 
-        console.log('收到表单值：', getFieldsValue());
         var formValues = getFieldsValue();
         //to valid the input
         var valid = true;
       
         //check whether input the article name or not
-        if(!formValues["ARTICLE_NAM"]){
+        if(valid && !formValues["ARTICLE_NAM"]){
           valid = false;
-          console.log("input article name");
+          const modal = Modal.warning({
+              title: 'Warning! ',
+              content: 'The Article Name Should not be Empty!'
+          });
         }
         //article description
-        if(formValues["ARTICLE_DSC"] == undefined){
+        if(valid && formValues["ARTICLE_DSC"] == undefined){
           formValues["ARTICLE_DSC"] = "";
         }
         //saving potential
-        if(formValues["SAVING_EST"] == undefined){
+        if(valid && formValues["SAVING_EST"] == undefined){
           formValues["SAVING_EST"] = "";
         }
-        if(formValues["SAVING_EST_P"] == undefined){
+        if(valid && isNaN(formValues["SAVING_EST"])){
+            valid = false;
+            const modal = Modal.warning({
+              title: 'Warning! ',
+              content: 'Input the Correct Number!'
+            });
+        }
+        if(valid && formValues["SAVING_EST_P"] == undefined){
           formValues["SAVING_EST_P"] = "";
         }
-        if(formValues["SAVING_ACT"] == undefined){
+        if(valid && isNaN(formValues["SAVING_EST_P"])){
+            valid = false;
+            const modal = Modal.warning({
+              title: 'Warning! ',
+              content: 'Input the Correct Number!'
+            });
+        }
+        if(valid && formValues["SAVING_ACT"] == undefined){
           formValues["SAVING_ACT"] = "";
         }
-        if(formValues["SAVING_ACT_P"] == undefined){
+        if(valid && isNaN(formValues["SAVING_ACT"])){
+            valid = false;
+            const modal = Modal.warning({
+              title: 'Warning! ',
+              content: 'Input the Correct Number!'
+            });
+        }
+        if(valid && formValues["SAVING_ACT_P"] == undefined){
           formValues["SAVING_ACT_P"] = "";
         }
+        if(valid && isNaN(formValues["SAVING_ACT_P"])){
+            valid = false;
+            const modal = Modal.warning({
+              title: 'Warning! ',
+              content: 'Input the Correct Number!'
+            });
+        }
         //comment
-        if(formValues["COMMENT"] == undefined){
+        if(valid && formValues["COMMENT"] == undefined){
           formValues["COMMENT"] = "";
         }
-        console.log(getFieldsValue());
         //dispatch post article action
         if(valid){
             const {user} = this.props.auth;
