@@ -13,6 +13,7 @@ const Option = Select.Option;
 
 @connect((store)=>{
     
+
     return {
       	auth:store.auth
     };
@@ -41,14 +42,14 @@ export default class Login extends React.Component {
     }
     setAuth(){
       
-        this.props.dispatch(setAuthToken(this.state));
+         this.props.dispatch(setAuthToken(this.state));
         setTimeout(function(){
           const {auth} = this.props;
           const { token } = auth;
-
-          console.log(token.authorized)
+          console.log(token);
           if(token.authorized == true)
           {
+
               this.props.history.push("/")
           }
 

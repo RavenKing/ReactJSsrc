@@ -8,7 +8,9 @@ export function setAuthToken (parameter) {
 
 // http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq 'admin'
 return dispatch=>{
+  console.log(parameter);
     if(!parameter.customer_id){
+      console.log("did it?")
       var data = {
           authorized:false,
           error:"customer_id",
@@ -18,9 +20,7 @@ return dispatch=>{
       dispatch({type:"AUTH_SET_TOKEN",payload:data});
     }
     else{
-
-
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
+   axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
       headers:{
         'X-My-Custom-Header':'Header-Value',
         'content-type':'application/json'
