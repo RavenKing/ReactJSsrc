@@ -274,7 +274,7 @@ export default class Login extends React.Component {
                 wrapperCol={{ span:16 }}
               >
               <Col span="12">
-                <Checkbox className="login-label2">remember me</Checkbox>
+                <Checkbox className="login-label2" disabled >remember me</Checkbox>
               </Col>
               <Col span="12">
                 <p className="login-label3">Can not login?</p>
