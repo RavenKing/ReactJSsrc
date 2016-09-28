@@ -6,8 +6,11 @@ import { Modal } from 'antd';
 export function setAuthToken (parameter) {
 
 
+
 // http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq 'admin'
 return dispatch=>{
+
+dispatch({type:"AUTH_VALIDATING"});
   console.log(parameter);
     if(!parameter.customer_id){
       console.log("did it?")

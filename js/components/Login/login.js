@@ -30,9 +30,16 @@ export default class Login extends React.Component {
         } 
     }   
 
-
-    componentWillMount(){
+  componentWillMount(){
        
+      const {auth} = this.props;
+      console.log(auth);
+      if(auth.status=="passed")
+      {
+
+        alert("good");
+      }
+
         
     }// native funtion , update store 
     callback(key) {
@@ -43,7 +50,7 @@ export default class Login extends React.Component {
     setAuth(){
       
          this.props.dispatch(setAuthToken(this.state));
-        setTimeout(function(){
+/*        setTimeout(function(){
           const {auth} = this.props;
           const { token } = auth;
           console.log(token);
@@ -53,7 +60,7 @@ export default class Login extends React.Component {
               this.props.history.push("/")
           }
 
-        }.bind(this),1000);
+        }.bind(this),1000);*/
 
     }
  

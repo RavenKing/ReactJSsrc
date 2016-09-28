@@ -5,13 +5,17 @@ export default function auth (
       authorized:false,
       user:null,
       hint:null
-    }
+    },
+    status:null 
   }, action
 ) {
   switch (action.type) {
+    case "AUTH_VALIDATING":{return Object.assign({},state,{status:"validating"})}
     case "AUTH_SET_TOKEN":{
-      
-      return {...state,token:action.payload}
+      if(action.payload.authorized==true)
+            return Object.assign({},state,{token:action.payload,status:"passed"})
+      else
+        return Object.assign({},state,{token:action.payload,status:"Not Passed"})
     }
     
     case "AUTH_DELETE_TOKEN":{
