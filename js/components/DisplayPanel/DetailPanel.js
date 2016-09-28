@@ -76,6 +76,7 @@ export default class DetailPanel extends React.Component {
                 if(drag_id == "2"){
                     
                     props.dispatch(ShowEditPanel(drop_id));
+                    that.removeCard();
                 }
                 //delete
                 else if(drag_id == "3"){    
