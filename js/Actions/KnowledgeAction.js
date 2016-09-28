@@ -135,8 +135,10 @@ export function GetBestPractice(data){
   var customerid = data.customerid;  
   var archobj = data.archobj;
   var articleid = data.articleid;
+  var industry = data.industry;
+  var country = data.country;
 return dispatch=>{        
-              axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry=AUTO" ,{
+              axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry="+industry ,{
               headers:{
 
                   'X-My-Custom-Header': 'Header-Value',

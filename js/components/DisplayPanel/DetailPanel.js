@@ -122,7 +122,9 @@ export default class DetailPanel extends React.Component {
     var parms = { 
      customerid:user.CUSTOMER_ID,
      articleid : article.ARTICLE_ID,
-     archobj:article.ARCHOBJ
+     archobj:article.ARCHOBJ,
+     industry:user.INDUSTRY,
+     country:user.COUNTRY
     }
    
     this.props.dispatch(GetBestPractice(parms));
