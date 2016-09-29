@@ -328,7 +328,8 @@
                   item.content.push({
                     type:"DVM",
                     dvmanalysis:[data],
-                    id:data.id
+                    id:data.id,
+                    style:data.style
                   })
                 }
                 that.trigger(item.content);

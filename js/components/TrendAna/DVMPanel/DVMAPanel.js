@@ -8,18 +8,9 @@ const FormItem=Form.Item;
 var displayAreaChangeActions = window.displayAreaChangeActions
 var pageStatusDataStore = window.pageStatusDataStore
 var dataPanelDataStore = window.dataPanelDataStore
+var global = window
 
 export default class DVMAPanel extends React.Component{
-
-	constructor() { 
-		super();
-        this.state={
-        	OBJ:"",
-        	TBL:[],
-        	STA:[],
-        	RET:""
-        }
-    }
 
 	CloseCard(){
 
@@ -226,6 +217,7 @@ export default class DVMAPanel extends React.Component{
 
 
 		const {card} = this.props;
+		const {style} = card;
 		//去重
 		var data ={
 			OBJ:"",
@@ -325,11 +317,11 @@ export default class DVMAPanel extends React.Component{
           			<Form horizontal className="ant-advanced-search-form">
 						
 						<Row gutter={16}>
-              			<Col sm={10}>
+              			<Col sm={11}>
               		
                     		<FormItem
-                    		labelCol={{ span: 8 }}
-                    		wrapperCol={{ span: 16 }}
+                    		labelCol={{ span: 10 }}
+                    		wrapperCol={{ span: 14 }}
                     		label={one.factor_name}
                     		>
                     		<Col span="15">
@@ -343,11 +335,11 @@ export default class DVMAPanel extends React.Component{
                     		</FormItem>
                   
             			</Col>
-            			<Col sm={14}>
+            			<Col sm={13}>
            
                     		<FormItem
-                      		labelCol={{ span: 6 }}
-                      		wrapperCol= {{ span: 14 }}
+                      		labelCol={{ span: 8 }}
+                      		wrapperCol= {{ span: 16 }}
                       		label="Description"
                     		>
                       		<Input placeholder="table description"
@@ -421,8 +413,8 @@ export default class DVMAPanel extends React.Component{
       	
    
     	return (
-        
-       		<Card  className="strategyCard aligncenter"  title="DVM Strategy " extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)} />}>
+        	<div className="strategyCard aligncenter" style={style}>
+       		<Card   title="DVM Strategy " extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)} />}>
        			
        			{objView}
        			{tblView}
@@ -430,6 +422,7 @@ export default class DVMAPanel extends React.Component{
        			{retView}
     			
         	</Card>
+        	</div>
 
       	);
 
