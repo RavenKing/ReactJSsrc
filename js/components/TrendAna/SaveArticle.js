@@ -132,12 +132,12 @@ export default class SaveArticle extends React.Component {
         const {setFieldsInitialValue} = this.props.form;
     	
     	return (
-          
-        <Card style={this.props.card.style} className="saveCard aligncenter" title="Save as Article" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
-          <p>Basic Information</p>
-          <hr />
-          <br />
-          <Form horizontal className="ant-advanced-search-form" onSubmit={this.handleSubmit.bind(this)}>
+            <div style={this.props.card.style} className="saveCard aligncenter">
+            <Card  title="Save as Article" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
+            <p>Basic Information</p>
+            <hr />
+            <br />
+            <Form horizontal className="ant-advanced-search-form" onSubmit={this.handleSubmit.bind(this)}>
             <FormItem
             {...formItemLayout}
             label="Article Name"
@@ -157,9 +157,9 @@ export default class SaveArticle extends React.Component {
             </FormItem>
          
 
-          <p>Saving Potential</p>
-          <hr />
-          <br />
+            <p>Saving Potential</p>
+            <hr />
+            <br />
          
             <FormItem
             labelCol={{ span: 8 }}
@@ -224,6 +224,7 @@ export default class SaveArticle extends React.Component {
 
           </Form>
         </Card>
+        </div>
          
       
 

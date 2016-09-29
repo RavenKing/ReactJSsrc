@@ -173,8 +173,8 @@ export default class ArticleTemplate extends React.Component {
         const {setFieldsInitialValue} = this.props.form;
       
       return (
-          
-        <Card style={this.props.card.style} className="saveCard aligncenter" title="Save as Article" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
+          <div style={this.props.card.style} className="saveCard aligncenter">
+          <Card  title="Save as Article" extra={<Icon type="cross" onClick = {this.CloseCard.bind(this)}/>}>
           <p>Basic Information</p>
           <hr />
           <br />
@@ -363,6 +363,7 @@ export default class ArticleTemplate extends React.Component {
 
           </Form>
         </Card>
+        </div>
          
       
 
