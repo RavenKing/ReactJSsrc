@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { History,Router } from "react-router";
+import { History,Router,browserHistory } from "react-router";
 
 import { Form, Input, Button, Checkbox,Col,Tabs,Select } from 'antd';
 import md5 from "md5-js"
@@ -31,15 +31,7 @@ export default class Login extends React.Component {
     }   
 
   componentWillMount(){
-       
-      const {auth} = this.props;
-      console.log(auth);
-      if(auth.status=="passed")
-      {
-
-        alert("good");
-      }
-
+      
         
     }// native funtion , update store 
     callback(key) {
@@ -223,6 +215,10 @@ export default class Login extends React.Component {
 
       const {auth} =this.props;
       const {token } = auth;
+      if(auth.status=="passed")
+      {
+browserHistory.push('/')
+      }
       
       return  (
       
