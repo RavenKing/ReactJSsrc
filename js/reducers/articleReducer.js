@@ -2,12 +2,8 @@ export default function reducer(state={
     articles:[],
     fetching:false,
     fetched:false,
-    showMain:{show:false,query:null},
-    showCreate:false,
     refresh:false,
     newArticle:{currentstep:0},
-    showEdit:false,
-    updateArticle:null,
     displayPanel:[],
     error:null
     },action){
@@ -20,68 +16,64 @@ export default function reducer(state={
         {
                     
             return {...state,fetching:false,fetched:true,articles:action.payload,refresh:false}
-        }
-        case "SHOW_ARTICLE_MAIN":
-        {
-
-            return  {...state,showMain:{show:true,query:action.payload}}
-
-        }
-
-         case  "CLOSE_ARTICLE_MAIN":
-        { 
-            return {...state,showMain:{show:false,query:null}}
-        }  
-        case "SHOW_EDIT_PANEL":
-        {
-            var { updateArticle } = state;
-
-            updateArticle = {};
-            updateArticle.article_id = action.payload;
-            return {...state,showEdit:true,updateArticle:updateArticle}
-        }
-        case "CLOSE_EDIT_PANEL":
-        {            
-            return {...state,updateArticle:null,showEdit:false}
-        }
-
-       
+        }        
         case "ADD_ARTICLE_VIEW":
         {
             const  { displayPanel } = state;
-            displayPanel.push({
-                article:action.payload.data_id,
-                x:action.payload.x,
-                y:action.payload.y,
+            var payload = action.payload;
+            if(payload.type == "detail"){
+                displayPanel.push({
+                type:payload.type,
+                article:payload.data_id,
+                x:payload.x,
+                y:payload.y,
                 visible:true});
+            }
+            else if(payload.type == "edit"){
+                displayPanel.push({
+                    type:payload.type,
+                    article:payload.data_id,
+                    x:payload.x,
+                    y:payload.y,
+                    visible:true
+                });
+            }
+            else if(payload.type == "main"){
+                displayPanel.push({
+                    type:payload.type,
+                    query:payload.query,
+                    x:payload.x,
+                    y:payload.y,
+                    visible:true
+                });
+            }
+            else{
+                displayPanel.push({
+                type:payload.type,
+                x:payload.x,
+                y:payload.y,
+                visible:true});
+            }
+            
             return{...state,displayPanel:displayPanel}
         }
         case "REMOVE_ARTICLE_VIEW":
         {
             const { displayPanel } = state;
-
+            var payload = action.payload;
             var newdata = displayPanel.filter((displayone)=>{ 
                        
-                return  displayone.article != action.payload
+                return  displayone.article != payload.data_id || displayone.type != payload.type
                       
             })
-
-            return {...state,displayPanel:newdata,refresh:true}
-
-        }
-        case "SHOW_CREATE_PANEL":
-        {
-            return {...state,showCreate:true}
-        }
-        case "CLOSE_CREATE_PANEL":{
-            const { newArticle } = state;
-            if(newArticle.currentstep){
-            newArticle.currentstep = 0;
+            
+            if(payload.type == "create"){
+                return {...state,displayPanel:newdata,newArticle:{currentstep:0}}
             }
             else{
-
-            }   
-            return {...state,showCreate:false,newArticle:newArticle}
+                return {...state,displayPanel:newdata,refresh:true}
+            }
+            
         }
         case "NEW_ARTICLE_STEP_ONE":{
 

@@ -3,9 +3,7 @@ import ReactDOM from "react-dom";
 import { Button,Card,Icon,Table,Input } from "antd";
 
 import ArticleMenuTile from "./ArticleMenuTile";
-import { AddCard }  from "../../Actions/KnowledgeAction";
-
-import { CloseMainPanel } from "../../Actions/KnowledgeAction";
+import { RemoveCard,AddCard }  from "../../Actions/KnowledgeAction";
 import { setCardDragable,handleFocus,setAreaDropable } from "../../interactScript";
 import { connect } from "react-redux";
 
@@ -18,23 +16,23 @@ import { connect } from "react-redux";
 })
 export default class MainPanel extends React.Component {
    constructor(props) {
-   super(props)    
-   //   const { results } = this.props;
-   const {query } =this.props;
-   var tabledata ;
-        if(query!="")
-        {
-   tabledata = this.setNewData(query.object);
-        }
-        console.log(this.props);
+      super(props)    
+      //   const { results } = this.props;
+      const {query } =this.props;
+      var tabledata ;
+      if(query!="")
+      {
+        tabledata = this.setNewData(query.object);
+      }
+      console.log(this.props);
 
 
-        this.state={ 
+      this.state={ 
           selectedRowKeys: [],  // 这里配置默认勾选列
           loading: false,
           query:query.object,
           tabledata:tabledata
-        }
+      }
 
 
 
@@ -42,8 +40,10 @@ export default class MainPanel extends React.Component {
 
 
     CloseMainCardPanel(){
-
-      this.props.dispatch(CloseMainPanel());
+      var data = {
+        type:"main"
+      };
+      this.props.dispatch(RemoveCard(data));
 
     }
 
@@ -67,35 +67,39 @@ export default class MainPanel extends React.Component {
 
 
 
-   addnewCard(e)
-   {
-
-    console.log(e.target.rel)
-      this.props.dispatch(AddCard({data_id:e.target.rel}));
-   }
-
-
-   setNewData(filterdata)
-   {
-
-    const { results } = this.props;
-   const searcharray = results.concat();
-   var data = searcharray.filter((one)=>{
-
-    if(one.ARTICLE_NAM.indexOf(filterdata)!=-1)
+    addnewCard(e)
     {
+
+      console.log(e.target.rel)
+      var data = {
+        data_id:e.target.rel,
+        type:"detail"
+      };
+      this.props.dispatch(AddCard(data));
+    }
+
+
+    setNewData(filterdata)
+    {
+
+      const { results } = this.props;
+      const searcharray = results.concat();
+      var data = searcharray.filter((one)=>{
+
+      if(one.ARTICLE_NAM.indexOf(filterdata)!=-1)
+      {
         return one;     
-    }
-    else if(one.ARTICLE_DSC.indexOf(filterdata)!=-1)
-    {
-      return one;
+      }
+      else if(one.ARTICLE_DSC.indexOf(filterdata)!=-1)
+      {
+        return one;
 
-    }
+      }
 
-   });
+    });
 
 
-  var tabledata = data.map((result)=>{
+    var tabledata = data.map((result)=>{
           return {
             key:result.ARTICLE_ID,
             article_nam:result.ARTICLE_NAM,
@@ -104,17 +108,17 @@ export default class MainPanel extends React.Component {
             total_size:result.TOTAL_SIZE
           }
       });
-   return tabledata;
-   }
+      return tabledata;
+    }
 
-  filterSearch(e){
-  var tabledata = this.setNewData(e.target.value);
-    this.setState({
-      "tabledata" : tabledata
+    filterSearch(e){
+      var tabledata = this.setNewData(e.target.value);
+      this.setState({
+        "tabledata" : tabledata
 
-    })
+      })
 
-  }
+    }
 
 
     render() {
@@ -132,11 +136,11 @@ export default class MainPanel extends React.Component {
             archobj:result.ARCHOBJ,
             total_size:result.TOTAL_SIZE
           }
-      });
-    }
-    else{
-      data= this.state.tabledata
-    }
+        });
+      }
+      else{
+        data= this.state.tabledata
+      }
    
 
         

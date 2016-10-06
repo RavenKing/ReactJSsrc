@@ -57,7 +57,7 @@
             title: "Strategy",
             objList: []
           }, {
-            title: "Retention",
+            title: "Residence Time",
             objList: []
           }]
         });
@@ -254,7 +254,7 @@
                     }
                   });
                   $.each(item.content, function (idx1, item1) {
-                    if(item1.title === "Retention"){
+                    if(item1.title === "Residence Time"){
                       item1.objList.push(retention);
                       return false;
                     }

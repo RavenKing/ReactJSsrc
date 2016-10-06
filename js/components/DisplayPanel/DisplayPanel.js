@@ -11,7 +11,6 @@ import { setAreaDropable } from "../../interactScript";
 
 import { AddCard }  from "../../Actions/KnowledgeAction";
 
-import { ShowMainPanel,ShowEditPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
 import { connect } from "react-redux";
 import { browserHistory } from "react-router"
 
@@ -24,12 +23,6 @@ import { browserHistory } from "react-router"
 })
 export default class DisplayPanel extends React.Component {   
    
-
-   CloseMainCard(){
-
-      this.props.dispatch(ShowMainPanel());
-
-   }
 
    componentDidMount() {
 
@@ -44,34 +37,38 @@ export default class DisplayPanel extends React.Component {
               var x = event.dragEvent.clientX + window.scrollX;
               var y = event.dragEvent.clientY + window.scrollY;
               var data_id = draggableElement.getAttribute('data-id');
-              
+              var data = {
+                x:x,
+                y:y
+              }
               switch(draggableElement.getAttribute('data-type')){
               case "ITEM":
               { 
 
-                  var data ={
-                    x:x,
-                    y:y,
-                    data_id:data_id
-                  };
+                  data.type = "detail";
+                  data.data_id = data_id;
+               
                   props.dispatch(AddCard(data));
                   break;
               }
               case "TITLE":
               {
-                  
-                  props.dispatch(ShowMainPanel());
+                  data.type = "main";
+
+                  props.dispatch(AddCard(data));
                   break;
               }
               case "FUNC":
               {
                   
                   if(data_id == "1"){
-                      props.dispatch(ShowCreatePanel());
+                      data.type = "create";
+                      props.dispatch(AddCard(data));
                   }
                   else if(data_id == "4"){
                     browserHistory.push("/trend")
                   }
+
                   break;
               }
               default:
@@ -90,12 +87,8 @@ export default class DisplayPanel extends React.Component {
 
   componentDidUpdate() {
     const {articles} = this.props;
-    console.log("good")
-    console.log(articles);
-
     const {displayPanel} = articles;
-    console.log(articles)
-    if(articles.showCreate==false && articles.showEdit == false && articles.showMain.show == false && displayPanel.length==0)
+    if(displayPanel.length==0)
     {
 
       ReactDOM.findDOMNode(this).classList.add('helpbgkm');
@@ -112,80 +105,42 @@ export default class DisplayPanel extends React.Component {
 
       // show or close Main Panel
     	const { articles }  = this.props;
-    	var DisplayMain;
-      var test;
-    	test = articles;
-    	if(test.showMain.show === true){ 
 
-      	var array = test.articles;
-      	const { results } = array;
-
-
-    		DisplayMain = <MainPanel results={ results } query={test.showMain.query?test.showMain.query:""}></MainPanel>
-      }
-    	else
-    	{
-    		DisplayMain = <div></div>
-      }
-
-      var createpanel;
-      if(test.showCreate == true){
-
-          createpanel = <CreatePanel/>
-      }
-      else{
-         createpanel = <div></div>
-      }
-      //whether open edit panel
-      const { showEdit } = articles;
-      var editPanels;
-      if( showEdit == true){
-        const { updateArticle } = articles;
-        const { results } = articles.articles;
-        editPanels = results.map((result)=>{
-          if(updateArticle.article_id == result.ARTICLE_ID){
-            return <EditPanel article={result} />
-          }
-        });
-      }
-      else{
-        editPanels = <div></div>;
-      }
-      
-
-
-     
       // show or close Detail Panels 
       const { displayPanel } = articles ;
       const { results } = articles.articles;
-      var detaildisplay = [];
-      for(var i = 0; i < displayPanel.length;i++){
-        if(displayPanel[i].visible == true){
-          for(var j = 0; j < results.length;j++){
-            if(displayPanel[i].article == results[j].ARTICLE_ID){
-              detaildisplay.push(<DetailPanel article={results[j]} display={displayPanel[i]} />)
+      
+      var displayArea = displayPanel.map((one)=>{
+        if(one.type == "detail"){
+          for(var i = 0; i < results.length;i++){
+            if(results[i].ARTICLE_ID ==  one.article){
+              return <DetailPanel article={results[i]} display={one} />
             }
           }
         }
-      }
-      
-      if(detaildisplay.length == 0){
-        detaildisplay.push(<div></div>);
-      }
- 
+        else if(one.type == "edit"){
+          for(var i = 0; i < results.length;i++){
+            if(results[i].ARTICLE_ID ==  one.article){
+              return <EditPanel article={results[i]} display={one} />
+            }
+          }
+        }
+        else if(one.type == "create"){
+          return <CreatePanel/>
+        }
+        else if(one.type == "main"){
+          return <MainPanel results={ results } query={one.query?one.query:""}></MainPanel>
+        }
+      })
 
-    
 
 
    return (
-     <div className="display-panel helpbgkm">
+      <div className="display-panel helpbgkm">
      
-		{ DisplayMain }
-    { detaildisplay }
-    { createpanel  }
-    { editPanels }
-    
-    </div>
+		  { displayArea }
+
+      </div>
       );
   }
 }

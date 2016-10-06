@@ -1,6 +1,6 @@
 import React from "react";
 import PredictPanel from "../DisplayPanel/PredictPanel";
-import { CloseCreatePanel,PostArticle } from "../../Actions/KnowledgeAction";
+import { RemoveCard,PostArticle } from "../../Actions/KnowledgeAction";
 import {Button} from "antd";
 import BackButton from "./BackButton";
 const ButtonGroup = Button.Group;
@@ -23,7 +23,10 @@ export default class PredictAnalysis extends React.Component{
       this.props.dispatch(PostArticle(data));
   }
   CloseCreatePanel(){
-    this.props.dispatch(CloseCreatePanel());
+    var data = {
+      type:"create"
+    };
+    this.props.dispatch(RemoveCard(data));
   }
 	render(){
 		

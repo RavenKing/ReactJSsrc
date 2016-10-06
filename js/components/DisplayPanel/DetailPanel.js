@@ -4,7 +4,7 @@ import { Modal,Button,Card,Icon} from "antd";
 import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
-import { RemoveCard,GetBestPractice,ShowEditPanel,DeleteArticle,fetchArticles} from "../../Actions/KnowledgeAction";
+import { AddCard,RemoveCard,GetBestPractice,ShowEditPanel,DeleteArticle,fetchArticles} from "../../Actions/KnowledgeAction";
 import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
 const confirm = Modal.confirm;
@@ -72,10 +72,19 @@ export default class DetailPanel extends React.Component {
               
                 var drag_id = draggableElement.getAttribute('data-id');
                 var drop_id = dropzoneElement.getAttribute('data-id');
+                var x = event.dragEvent.clientX + window.scrollX;
+                var y = event.dragEvent.clientY + window.scrollY;
                 //edit
                 if(drag_id == "2"){
                     
-                    props.dispatch(ShowEditPanel(drop_id));
+                    //props.dispatch(ShowEditPanel(drop_id));
+                    var data = {
+                      data_id:drop_id,
+                      x:x,
+                      y:y,
+                      type:"edit"
+                    };
+                    props.dispatch(AddCard(data))
                     that.removeCard();
                 }
                 //delete
@@ -142,8 +151,11 @@ export default class DetailPanel extends React.Component {
   }
 
     removeCard(){
-
-      this.props.dispatch(RemoveCard(this.state.article.ARTICLE_ID));      
+      var data = {
+        data_id:this.state.article.ARTICLE_ID,
+        type:"detail"
+      }
+      this.props.dispatch(RemoveCard(data));      
      
     }
 

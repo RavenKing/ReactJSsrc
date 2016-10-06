@@ -6,7 +6,7 @@ import {
           InputNumber,Popover
         } from "antd";
 import { connect } from "react-redux";
-import { CloseEditPanel,UpdateArticle,fetchArticles } from "../../Actions/KnowledgeAction";
+import { RemoveCard,UpdateArticle,fetchArticles } from "../../Actions/KnowledgeAction";
 import { setCardDragable,handleFocus } from "../../interactScript";
 
 import ArchivingForm from "../CreatePanel/ArchivingForm";
@@ -56,8 +56,11 @@ export default class EditPanel extends React.Component{
   }
 
 	closeEdit(){
-
-		  this.props.dispatch(CloseEditPanel(this.props.article.ARTICLE_ID));
+      var data = {
+        data_id:this.props.article.ARTICLE_ID,
+        type:"edit"
+      };
+		  this.props.dispatch(RemoveCard(data));
       
 	}
   componentWillMount(){
@@ -88,7 +91,9 @@ export default class EditPanel extends React.Component{
       }
 
       this.setState({
-        DVM:defaultValues
+        DVM:defaultValues,
+        x:this.props.display.x,
+        y:this.props.display.y
       });
 
   }
@@ -309,6 +314,10 @@ export default class EditPanel extends React.Component{
 
       const { DVM } = this.state;   
       var that = this; 
+      var pos = {
+        top: this.state.y+'px',
+        left:this.state.x+'px'
+      };
     
       //set checked text areas
       var checkedStrategyTextAreas = DVM.map((one)=>{
@@ -394,7 +403,7 @@ export default class EditPanel extends React.Component{
     }); 
 
 		return (
-			<div className="edit-panel">
+			<div className="edit-panel" style={pos}>
 				<Card title={"Edit Article"} extra={<Icon type="cross"  onClick={this.closeEdit.bind(this)}/>}>
       			<p>Basic Information</p>
       			<hr />

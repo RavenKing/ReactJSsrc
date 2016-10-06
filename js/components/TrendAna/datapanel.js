@@ -1,5 +1,5 @@
 import React from "react";
-import {Button,Badge,Tooltip} from "antd";
+import {Button,Badge,Tooltip,Popover} from "antd";
 
 var interact=window.interact
 var dataPanelItemChangeAction = window.dataPanelItemChangeAction
@@ -68,9 +68,32 @@ var global = window
           )
         );
       }
-      else{
-
+      else if(this.props.item.FACTOR_CATEGORY == "RET"){
         return React.createElement(
+          Popover,
+          { content:"residence time of best practice",
+            placement:"bottom"},
+          React.createElement(
+            Button,
+            { className: "data-item", type: "dashed",
+                "data-type": "ITEM",
+                "data-info": currentStatus + "-ITEM",
+                "data-factor_guid": this.props.item.FACTOR_GUID,
+                "data-factor_name": this.props.item.FACTOR_NAME,
+                "data-trend": this.props.item.TREND,
+                "data-category": this.props.item.FACTOR_CATEGORY },
+              React.createElement(
+                  Badge,
+                  { dot: parseFloat(item.TREND) > 5.0 },
+                  item.FACTOR_NAME
+              )
+            )
+          
+       );
+
+      }
+      else{
+         return React.createElement(
             Button,
             { className: "data-item", type: "dashed",
               "data-type": "ITEM",
@@ -85,7 +108,7 @@ var global = window
               item.FACTOR_NAME
             )
           );
-
+        
       }
     }
   });

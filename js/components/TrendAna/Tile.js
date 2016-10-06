@@ -104,13 +104,18 @@ var  Tile = React.createClass({
 
 				var type = this.typeTrans(item[i].FACTOR_TYPE);
 				var pin = this.pinTrans(item[i].PIN);
-
+				if(item[i].TREND == null){
+					item[i].TREND = "no data";
+				}
+				else{
+					item[i].TREND = item[i].TREND + "%";
+				}
 				data.push({
 					key: item[i].FACTOR_GUID,
 					factor_name: item[i].FACTOR_NAME,
 					factor_business_name: item[i].FACTOR_BUSINESS_NAME,
 					factor_type: type,
-					factor_trend: item[i].TREND + "%",
+					factor_trend: item[i].TREND,
 					factor_pin: pin
 				});
 			}

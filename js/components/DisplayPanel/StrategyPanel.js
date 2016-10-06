@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Progress } from "antd";
+import { Table, Progress,Alert } from "antd";
 import  ReactHighCharts  from "react-highcharts";
 
 
@@ -103,8 +103,30 @@ export default class StrategyPanel extends React.Component {
 
 
         }
-    
-
+        var sav_est_p;
+        if(Strategy.SAVING_EST_P != null){
+          sav_est_p = (
+                        <div>
+                          <Progress type="circle" percent={parseInt(Strategy.SAVING_EST_P)} width="200"/>
+                          <br/>
+                          <br/>
+                          <p>Estimated Saving Percent&nbsp;&nbsp;&nbsp;</p>
+                          <br/>
+                        </div>
+                      )
+        }
+        else{
+          sav_est_p = (
+                      <div>
+                        <Alert
+                          message="Warning"
+                          description="No setting for Estimated Saving Percent."
+                          type="warning"
+                          showIcon
+                        />
+                      </div>
+          )
+        }
 
         return (
         <div>
@@ -120,17 +142,14 @@ export default class StrategyPanel extends React.Component {
           <div>
             <div className="strategyPanelLeft">
               <div className="textcenter">
-              <Progress type="circle" percent={parseInt(Strategy.SAVING_EST_P)} width="200"/>
-                <br/>
-                <br/>
-                <p>Estimated Saving Percent&nbsp;&nbsp;&nbsp;</p>
-                <br/>
-               </div>
+              { sav_est_p }
               </div>
-              <div className="strategyPanelRight">
+              
+            </div>
+            <div className="strategyPanelRight">
                 <br/>
                 <ReactHighCharts config={config}> </ReactHighCharts>
-              </div>
+            </div>
 
           </div>
 

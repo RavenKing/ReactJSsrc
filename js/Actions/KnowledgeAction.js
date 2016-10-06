@@ -36,31 +36,6 @@ else{
     
     
 }
-export function ShowMainPanel(query)
-{
-  return dispatch=>{
-
-    dispatch({type:"SHOW_ARTICLE_MAIN",payload:query}) 
-  }
-}
-export function ShowEditPanel(data){
-    return dispatch=>{
-      dispatch({type:"SHOW_EDIT_PANEL",payload:data})
-    }
-}
-export function CloseEditPanel(data){
-    return dispatch=>{
-      dispatch({type:"CLOSE_EDIT_PANEL",payload:data})
-    }
-}
-
-export function CloseMainPanel()
-{
-
-   return dispatch=>{
-    dispatch({type:"CLOSE_ARTICLE_MAIN"})
-   }
-}
 
 export function AddCard(data)
 {
@@ -83,25 +58,6 @@ export function RemoveCard(data)
 
    }
 
-}
-
-export function ShowCreatePanel()
-{
-
-   return dispatch=>{
-
-    dispatch({type:"SHOW_CREATE_PANEL"});
-   }
-
-
-}
-
-export function CloseCreatePanel()
-{
-  return dispatch=>{
-
-    dispatch({type:"CLOSE_CREATE_PANEL"});
-   }
 }
 
 export function NewArticleStepOne(data)

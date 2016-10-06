@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {Card,Icon,Steps} from "antd";
-import { CloseCreatePanel } from "../../Actions/KnowledgeAction";
+import { RemoveCard,CloseCreatePanel } from "../../Actions/KnowledgeAction";
 
 import TemplateSelect from "./TemplateSelect";
 import ObjectDefinition from "./ObjectDefinition";
@@ -56,8 +56,10 @@ export default class CreatePanel extends React.Component {
     }
  
     CloseCreatePanel(){
-
-        this.props.dispatch(CloseCreatePanel());
+        var data = {
+          type:"create"
+        };
+        this.props.dispatch(RemoveCard(data));
 
     }
 
@@ -119,9 +121,9 @@ export default class CreatePanel extends React.Component {
 
 
   return (
-  <div >
+  <div className="create-panel">
 
-   <Card className="create-panel" title="Create New Article" extra={<Icon type="cross" onClick = {this.CloseCreatePanel.bind(this)}/>}>
+   <Card  title="Create New Article" extra={<Icon type="cross" onClick = {this.CloseCreatePanel.bind(this)}/>}>
     <div>
       <Steps current={currentstep}>
         <Step title="Template Selection" description="Currenct template in System" />
