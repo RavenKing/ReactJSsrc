@@ -59,7 +59,7 @@ export default class Login extends React.Component {
     UserChange(e){
 
         this.setState({
-          username: e.target.value
+          username: e.target.value.toUpperCase()
         })
     }
     CustomerIdChange(e){
@@ -120,7 +120,7 @@ export default class Login extends React.Component {
 
     }
     saveUsrInfo(){
-      var username = this.refs.username.refs.input.value;
+      var username = this.refs.username.refs.input.value.toUpperCase();
       var usr_cus_id = this.refs.usr_cus_id.refs.input.value;
       var pwd1 = this.refs.pwd1.refs.input.value;
       var pwd2 = this.refs.pwd2.refs.input.value;
@@ -190,16 +190,17 @@ export default class Login extends React.Component {
           regUsrInfo.pwd1 = md5(pwd1);
           regUsrInfo.pwd2 = md5(pwd2);
           
-          this.props.dispatch(UserRegister(regUsrInfo)); 
-          if(!this.props.auth.token.error){
-            setTimeout(function(){
+          this.props.dispatch(UserRegister(regUsrInfo));
 
-            this.setState({
-            tab_key:"1"
-          });
-          }.bind(this),3000)
-          
-          }  
+          setTimeout(function(){
+            if(!this.props.auth.token.error){
+              setTimeout(function(){
+                this.setState({
+                  tab_key:"1"
+                });
+              }.bind(this),1000)
+            }
+          }.bind(this),2000) 
           
         }
         else{
@@ -217,10 +218,10 @@ export default class Login extends React.Component {
       const {token } = auth;
       if(auth.status=="passed")
       {
-browserHistory.push('/')
+          browserHistory.push('/')
       }
       
-      return  (
+      return (
       
       
           <div className="login">
