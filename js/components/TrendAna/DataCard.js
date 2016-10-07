@@ -46,7 +46,7 @@ var DataCard = React.createClass({
 			global.resetPosition(this.getDOMNode());
 		},
 		render: function render() {
-console.log(this.props)
+
 			return React.createElement(
 				Card,
 				{ className: "data-card",
@@ -57,7 +57,7 @@ console.log(this.props)
 
 				/*this.props.card.objList.map(function(item) {	
       return (<rc.Tile content={this.props.card.objList} />);
-          })*/
+          })*/	
 				React.createElement(Tile, { content: this.props.card }),
 				" "
 			);

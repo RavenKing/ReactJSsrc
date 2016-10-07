@@ -1,5 +1,5 @@
 import React from "react";
-import {Table,LocaleProvider } from "antd";
+import {Table,LocaleProvider,Input } from "antd";
 var displayAreaChangeActions = window.displayAreaChangeActions;
 var global  = window;
 
@@ -9,6 +9,36 @@ var  Tile = React.createClass({
 
 		//-----
 		//mixins: [componentMixin],
+		componentWillMount:function componentWillMount() {
+			var that = this;
+			var item = this.props.content.objList;
+			var data = [];
+
+			var itemLen = item.length;
+
+			for (var i = 0; i < itemLen; i++) {
+
+				var type = this.typeTrans(item[i].FACTOR_TYPE);
+				var pin = this.pinTrans(item[i].PIN);
+				if(item[i].TREND == null){
+					item[i].TREND = "no data";
+				}
+				else{
+					item[i].TREND = item[i].TREND + "%";
+				}
+				data.push({
+					key: item[i].FACTOR_GUID,
+					factor_name: item[i].FACTOR_NAME,
+					factor_business_name: item[i].FACTOR_BUSINESS_NAME,
+					factor_type: type,
+					factor_trend: item[i].TREND,
+					factor_pin: pin
+				});
+			}
+			this.setState({
+				all_data:data
+			});
+		},
 		componentDidMount: function componentDidMount() {
 			//this.interactDrag = global.setNodeDragable(this.getDOMNode());
 			global.handleFocus(this.getDOMNode());
@@ -92,34 +122,32 @@ var  Tile = React.createClass({
 
 			displayAreaChangeActions.displayAreaAddCardAction(pageStatusDataStore.getCurrentStatus(), data);
 		},
+		filterSearch:function(e){
+			var filterString = e.target.value;
+			var items = this.state.all_data;
+
+			var data = items.filter((item)=>{
+
+        		if(item.factor_name.indexOf(filterString) > -1 || item.factor_business_name.indexOf(filterString) > -1){
+        			return item;
+        		}
+
+      		});
+
+
+      		this.setState({
+      			data:data
+      		});
+		},
 		//-----
 		render: function render() {
-			var that = this;
-			var item = this.props.content.objList;
-			var data = [];
-
-			var itemLen = item.length;
-
-			for (var i = 0; i < itemLen; i++) {
-
-				var type = this.typeTrans(item[i].FACTOR_TYPE);
-				var pin = this.pinTrans(item[i].PIN);
-				if(item[i].TREND == null){
-					item[i].TREND = "no data";
-				}
-				else{
-					item[i].TREND = item[i].TREND + "%";
-				}
-				data.push({
-					key: item[i].FACTOR_GUID,
-					factor_name: item[i].FACTOR_NAME,
-					factor_business_name: item[i].FACTOR_BUSINESS_NAME,
-					factor_type: type,
-					factor_trend: item[i].TREND,
-					factor_pin: pin
-				});
+			var data;
+			if(!this.state.data){
+				data = this.state.all_data;
 			}
-
+			else{
+				data = this.state.data;
+			}
 			var pagination = {
 				total: data.length,
 				pageSize: 5,
@@ -165,13 +193,21 @@ var  Tile = React.createClass({
     </Card>*/
 				//var currentStatus = pageStatusDataStore.getCurrentStatus();
 				//var item = this.props.item;
-				React.createElement(
-					LocaleProvider,
-					null,
-					React.createElement(Table, { columns: columns, dataSource: data, pagination: pagination, scroll: { y: 300 }, onChange: this.onChange, onRowClick: this.onRowClick.bind(this) })
+				React.createElement(Input,{ 
+          				className:"margin-bottom10",
+          				placeholder:"Search help",
+          				size:"small",
+          				onChange:this.filterSearch.bind(this)
+          				},
+						React.createElement(
+							LocaleProvider,
+							null,
+							React.createElement(Table, { columns: columns, dataSource: data, pagination: pagination, scroll: { y: 300 }, onChange: this.onChange, onRowClick: this.onRowClick.bind(this) })
+						)
 				)
-			);
+			)
 		}
+		
 	});
 
 

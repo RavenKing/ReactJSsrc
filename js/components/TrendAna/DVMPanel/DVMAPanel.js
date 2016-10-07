@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {Card,Icon,Row,Col,Input,InputNumber,Form,Button,Modal} from "antd";
 import { setCardDragable,handleFocus } from "../../../interactScript";
 
-
+ 
 const FormItem=Form.Item;
 var displayAreaChangeActions = window.displayAreaChangeActions
 var pageStatusDataStore = window.pageStatusDataStore
@@ -94,32 +94,53 @@ export default class DVMAPanel extends React.Component{
 		//get the object list of datapanel
 		var currentStatus = pageStatusDataStore.getCurrentStatus();
 		var objList = dataPanelDataStore.getBlockObjList(currentStatus,"Arch Obj");
-      	var retentionList = dataPanelDataStore.getBlockObjList(currentStatus,"Retention");
+		var tblList = dataPanelDataStore.getBlockObjList(currentStatus,"Tables");
+      	var retentionList = dataPanelDataStore.getBlockObjList(currentStatus,"Residence Time");
+      	
       	//get table names
-      	data.TBL.map((table,idx)=>{
-      		if(valid){
-      			if(formValues['TBL_SIZE'+idx] == undefined){
-      				size[idx] = "";
-      			}else{
-      				if(isNaN(formValues['TBL_SIZE'+idx])){
-      					valid = false;
-      					const modal = Modal.warning({
-              				title: 'Warning! ',
-              				content: 'The Article Name Should not be Empty!'
-          				});
-      				}else{
-      					size[idx] = formValues['TBL_SIZE'+idx];
+      	if(valid){
+      		for(var i = 0; i < tblList.length; i++){
+      			tables[i] = tblList[i].FACTOR_NAME;
+      			var j;
+      			for(j = 0; j < data.TBL.length;j++){
+      				if(tables[i] == data.TBL[j]){
+      					//no input for table size
+      					if(formValues['TBL_SIZE'+j] == undefined){
+      						size[i] = "";
+      					}
+      					//input for table size
+      					else{
+      						//invalid
+      						if(isNaN(formValues['TBL_SIZE'+j])){
+      							valid = false;
+      							const modal = Modal.warning({
+              						title: 'Warning! ',
+              						content: 'The Article Name Should not be Empty!'
+          						});
+      						}
+      						else{//valid
+      							size[i] = formValues['TBL_SIZE'+j];
+      						}
+      					}
+
+      					if(formValues['TBL_DSC'+j] == undefined){
+      						dsc[i] = "";
+      					}else{
+      						dsc[i] = formValues['TBL_DSC'+j];
+      					}
+      					break;
       				}
-      			
+      				
+      				
+      					
       			}
-      			if(formValues['TBL_DSC'+idx] == undefined){
-      				dsc[idx] = "";
-      			}else{
-      				dsc[idx] = formValues['TBL_DSC'+idx];
+      			if(j >= data.TBL.length){
+      				size[i] = "";
+      				dsc[i] = "";
+      				
       			}
       		}
-      		
-      	});
+      	}
 		
      	//get the new values of strategies
      	if(valid){
@@ -156,7 +177,7 @@ export default class DVMAPanel extends React.Component{
 			//some fields of new article
 			var values = {
 				ARCHOBJ:objList[0].FACTOR_NAME,
-				TABLES:data.TBL,
+				TABLES:tables,
 				SIZE:size,
 				TABLESDSC:dsc,
 				ARCHIVING:archiving,
@@ -218,6 +239,8 @@ export default class DVMAPanel extends React.Component{
 
 		const {card} = this.props;
 		const {style} = card;
+		var currentStatus = pageStatusDataStore.getCurrentStatus();
+		var retentionList = dataPanelDataStore.getBlockObjList(currentStatus,"Residence Time");
 		//去重
 		var data ={
 			OBJ:"",
@@ -266,11 +289,11 @@ export default class DVMAPanel extends React.Component{
 					break;
 				}
 				//Retention
-				case "RET":
+				/*case "RET":
 				{
 					data.RET=parseInt(onerow.factor_name);
 					break;
-				}
+				}*/
 			}
 		
 		}
@@ -370,7 +393,54 @@ export default class DVMAPanel extends React.Component{
     		);
     				
     		var form = data.STRATEGY.map((one)=>{
-    			return (
+    			if(one.factor_name == "Archiving"){
+    				
+    				if(retentionList[0] && !data.RET){
+
+    					data.RET = retentionList[0].FACTOR_NAME;    				
+    				
+    					return (
+    					<Form horizontal className="ant-advanced-search-form">			
+    				
+            				<FormItem
+            				{...formItemLayout}
+            				label="Retention Time"
+            				>
+            				<InputNumber min={12} max={999} 
+            				{...getFieldProps('RETENTION', {initialValue:data.RET})}
+            				/>
+            				</FormItem>	
+            		
+    						<FormItem
+                      		{...formItemLayout}
+                      		label={one.factor_name}
+                    		>
+                      		<Input type="textarea" placeholder="current strategy"
+                      		{...getFieldProps(one.factor_name.toUpperCase(),{initialValue:one.factor_info})}
+                      		/>
+                    		</FormItem>
+
+    					</Form>    				
+
+    					)
+    				}
+    				else{
+    					return (
+    					<Form horizontal className="ant-advanced-search-form">
+    						<FormItem
+                      		{...formItemLayout}
+                      		label={one.factor_name}
+                    		>
+                      		<Input type="textarea" placeholder="current strategy"
+                      		{...getFieldProps(one.factor_name.toUpperCase(),{initialValue:one.factor_info})}
+                      		/>
+                    		</FormItem>
+    					</Form>
+    					)
+    				}
+    			}
+    			else{
+    				return (
     				<Form horizontal className="ant-advanced-search-form">
     					<FormItem
                       	{...formItemLayout}
@@ -381,14 +451,17 @@ export default class DVMAPanel extends React.Component{
                       	/>
                     	</FormItem>
     				</Form>
-    			)
+    				)
+    			}
+    			
     		});
     		staView = (<div>{title}{form}</div>);
     	}else{
     		staView = (<div></div>);
     	}
     	var retView;
-		if(data.RET != ""){
+		if(retentionList[0].FACTOR_NAME && !data.RET){
+			data.RET = retentionList[0].FACTOR_NAME;  
 			retView = (
     			<Form horizontal className="ant-advanced-search-form">
 					<p>Retention Time</p>

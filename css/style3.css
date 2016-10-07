@@ -171,35 +171,18 @@ li {
 }
 
 
-.data-card, .line-card, .pie-card, .create-obj-card, .upload-card {
-  position: absolute;
-  box-shadow: 1px 2px 10px rgba(22, 22, 22, 0.5);
-  z-index: 100;
-  transition: border-radius .3s, box-shadow .3s, filter .3s, -webkit-filter .3s;
-}
-.create-panel{
+.data-card, .line-card, .pie-card, .create-obj-card, .upload-card,.create-panel,.main-panel,.detail-panel {
   position: absolute;
   box-shadow: 1px 2px 10px rgba(22, 22, 22, 0.5);
   z-index: 101;
   transition: border-radius .3s, box-shadow .3s, filter .3s, -webkit-filter .3s;
 }
+
 .main-panel{
-
-  position: absolute;
   width:700px;
-  box-shadow: 1px 2px 10px rgba(22, 22, 22, 0.5);
-  z-index: 101;
-  transition: border-radius .3s, box-shadow .3s, filter .3s, -webkit-filter .3s;
-
 }
-.detail-panel {
-
-  position: absolute;
-  width:870px;
-  box-shadow: 1px 2px 10px rgba(22, 22, 22, 0.5);
-  z-index: 101; 
-  transition: border-radius .3s, box-shadow .3s, filter .3s, -webkit-filter .3s;
- 
+.detail-panel { 
+  width:870px; 
 }
 
 .data-card:hover, .line-card:hover, .pie-card:hover , .create-obj-card:hover, .upload-card:hover, .detail-panel:hover, .create-panel:hover, .edit-panel:hover, .main-panel:hover{

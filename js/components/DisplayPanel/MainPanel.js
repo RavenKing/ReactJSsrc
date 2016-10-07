@@ -86,20 +86,18 @@ export default class MainPanel extends React.Component {
       const searcharray = results.concat();
       var data = searcharray.filter((one)=>{
 
-      if(one.ARTICLE_NAM.indexOf(filterdata)!=-1)
-      {
-        return one;     
-      }
-      else if(one.ARTICLE_DSC.indexOf(filterdata)!=-1)
-      {
-        return one;
+        if(one.ARTICLE_NAM.indexOf(filterdata)!=-1)
+        {
+          return one;     
+        }
+        else if(one.ARTICLE_DSC.indexOf(filterdata)!=-1)
+        {
+          return one;
+        }
 
-      }
+      });
 
-    });
-
-
-    var tabledata = data.map((result)=>{
+      var tabledata = data.map((result)=>{
           return {
             key:result.ARTICLE_ID,
             article_nam:result.ARTICLE_NAM,
