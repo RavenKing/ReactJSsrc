@@ -90,6 +90,7 @@ export function GetBestPractice(data){
 
   var customerid = data.customerid;  
   var archobj = data.archobj;
+  archobj = archobj.replace(/^\s+|\s+$/g,"");
   var articleid = data.articleid;
   var industry = data.industry;
   var country = data.country;
@@ -124,7 +125,7 @@ return dispatch=>{
                
                 auth: {
                   username:'zengheng',
-                  password: 'Sap12345'
+                  password: 'Sap12345' 
                 }   
               }).then(function(response,err){
                 console.log(response.data.d.results[0])
@@ -144,6 +145,7 @@ export function GetSAPBestPractice(data)
 {
 
       var archobj = data.archobj;
+      archobj = archobj.replace(/^\s+|\s+$/g,"");
       console.log(archobj)
 
       return dispatch=>{ 

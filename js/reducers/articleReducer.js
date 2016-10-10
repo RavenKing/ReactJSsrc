@@ -116,7 +116,7 @@ export default function reducer(state={
             });
             var newArticles = {};
             newArticles.results = newdata;
-            return {...state,articles:newArticles};
+            return {...state,articles:newArticles}; 
         }
         case "GET_BEST_PRACTICE_STEP2":
         {
