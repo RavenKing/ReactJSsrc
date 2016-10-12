@@ -76,8 +76,14 @@ export default class Login extends React.Component {
     IndustryChange(value){
       console.log(value); 
       this.setState({
-        industry:valid
+        industry:value
       });
+    }
+    RegionChange(value){
+      console.log(value);
+      this.setState({
+        region:value
+      })
     }
     saveCusInfo(){
       //customer information
@@ -86,6 +92,7 @@ export default class Login extends React.Component {
         var sid = this.refs.sid.refs.input.value;
         var client = this.refs.client.refs.input.value;
         var industry = this.state.industry;
+        var region = this.state.region;
         var country = this.refs.country.refs.input.value;
         var city = this.refs.city.refs.input.value;
       var valid = true;
@@ -112,6 +119,7 @@ export default class Login extends React.Component {
           regCusInfo.sid = sid;
           regCusInfo.client = client;
           regCusInfo.industry = industry;
+          regCusInfo.region = region;
           regCusInfo.country = country;
           regCusInfo.city = city;
           this.props.dispatch(CusRegister(regCusInfo));   
@@ -353,6 +361,24 @@ export default class Login extends React.Component {
                     <Option value="HIGH-TECH">HIGH-TECH</Option>
                     <Option value="UTILITY">UTILITY</Option>
                     <Option value="BANK">BANK</Option>
+                  </Select>
+                  </FormItem>
+
+                  <FormItem
+                    label="Region:"
+                    labelCol={{ span: 7 }}
+                    wrapperCol={{ span: 12 }}
+                    
+                  >
+                  <Select showSearch
+                    placeholder="please select region"                   
+                    onChange={this.RegionChange.bind(this)}                    
+                    
+                  >
+                    <Option value="APJ">APJ</Option>
+                    <Option value="EMEA">EMEA</Option>
+                    <Option value="Americas">Americas</Option>
+                    
                   </Select>
                   </FormItem>
 

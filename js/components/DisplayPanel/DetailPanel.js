@@ -4,7 +4,7 @@ import { Modal,Button,Card,Icon} from "antd";
 import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
-import { AddCard,RemoveCard,GetBestPractice,ShowEditPanel,DeleteArticle,fetchArticles} from "../../Actions/KnowledgeAction";
+import { AddCard,RemoveCard,GetBestPractice,DeleteArticle,GetRegionData,fetchArticles} from "../../Actions/KnowledgeAction";
 import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
 const confirm = Modal.confirm;
@@ -19,7 +19,32 @@ const success= Modal.success;
 export default class DetailPanel extends React.Component { 
   constructor(props)
   {
-    super(props)
+    super(props);
+
+    // get number 
+    const { display} = this.props;
+    const { article } = this.props;
+    const { user } = this.props.auth;
+    
+    var parms1 = { 
+     customerid:user.CUSTOMER_ID,
+     articleid : article.ARTICLE_ID,
+     archobj:article.ARCHOBJ,
+     industry:user.INDUSTRY,
+     country:user.COUNTRY,
+     
+    }
+    var parms2 = {
+      articleid : article.ARTICLE_ID,
+      archobj:article.ARCHOBJ,
+      region:user.REGION
+    }
+    this.props.dispatch(GetBestPractice(parms1));
+    this.props.dispatch(GetRegionData(parms2));
+    this.state={
+      article:article,
+      page:1
+    }
   }
 
 
@@ -54,7 +79,6 @@ export default class DetailPanel extends React.Component {
     
 
   }
-
   componentDidMount() {
     var that = this;
     setCardDragable(ReactDOM.findDOMNode(this));
@@ -122,37 +146,12 @@ export default class DetailPanel extends React.Component {
   }
 
   componentWillMount(){
-   
-
-  // get number 
-    const { display} = this.props;
-    const { article } = this.props;
-    const { user } = this.props.auth;
-    
-    var parms = { 
-     customerid:user.CUSTOMER_ID,
-     articleid : article.ARTICLE_ID,
-     archobj:article.ARCHOBJ,
-     industry:user.INDUSTRY,
-     country:user.COUNTRY
-    }
-   
-    this.props.dispatch(GetBestPractice(parms));
-  
-
-    this.setState({
-      article:article,
-      page:1,
-      x:display.x,
-      y:display.y
-    })
-
 
   }
 
     removeCard(){
       var data = {
-        data_id:this.state.article.ARTICLE_ID,
+        data_id:this.props.article.ARTICLE_ID,
         type:"detail"
       }
       this.props.dispatch(RemoveCard(data));      
@@ -160,10 +159,10 @@ export default class DetailPanel extends React.Component {
     }
 
     render() {  
-      var pos = {
+      /*var pos = {
         top: this.state.y+'px',
         left:this.state.x+'px'
-      };
+      };*/
       var pos1 = {
         top:this.props.display.y+'px',
         left:this.props.display.x+'px'
@@ -171,13 +170,13 @@ export default class DetailPanel extends React.Component {
      
       return (
         
-        <Card className="detail-panel" data-id={this.state.article.ARTICLE_ID} style={pos} title={this.state.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
+        <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
           <div className="leftside" onClick={this.NavLeft.bind(this)}>
           <Icon type="left" />
           </div>
           <div className="middlecontainer">  
 
-          <DvmPanel Page={this.state.page} Article={this.state.article}> </DvmPanel>
+          <DvmPanel Page={this.state.page} Article={this.props.article}> </DvmPanel>
           </div>
           <div className="rightside" onClick={this.NavRight.bind(this)}>
           <Icon type="right"/>

@@ -23,7 +23,7 @@ dispatch({type:"AUTH_VALIDATING"});
       dispatch({type:"AUTH_SET_TOKEN",payload:data});
     }
     else{
-   axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
+   axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH1?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
       headers:{
         'X-My-Custom-Header':'Header-Value',
         'content-type':'application/json'
@@ -102,6 +102,7 @@ export function CusRegister(data){
     var sid = data.sid;
     var client = data.client;
     var industry = data.industry;
+    var region = data.region;
     var country = data.country;
     var city = data.city;
 
@@ -123,7 +124,8 @@ export function CusRegister(data){
         COUNTRY:country,
         CITY:city,
         SYSTEMID:sid,
-        CLIENT:client
+        CLIENT:client,
+        REGION:region
     },
     config).then(function(response){
         var token = {

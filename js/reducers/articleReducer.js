@@ -71,7 +71,7 @@ export default function reducer(state={
                 return {...state,displayPanel:newdata,newArticle:{currentstep:0}}
             }
             else{
-                return {...state,displayPanel:newdata,refresh:true}
+                return {...state,displayPanel:newdata}
             }
             
         }
@@ -95,22 +95,23 @@ export default function reducer(state={
          }
          case "GET_BEST_PRACTICE":
          {
-            const { articles  } = state;
-            
+            const { articles  } = state;            
             const { results } = articles;
+            var data =  action.payload;
             var newdata = results.filter((article)=>{ 
-                if(article.ARTICLE_ID == action.payload.articleid){
+                if(article.ARTICLE_ID == data.articleid){
                     if(article.bestpractice){
-                    article.bestpractice.AVGS = action.payload.AVGS;
-                   article.bestpractice.Retention=action.payload.Retention;}
-                   else{
-                    article.bestpractice={
-                        AVGS:action.payload.AVGS,
-                        Retention:action.payload.Retention
-                    }
-                   }
-                }
+                        article.bestpractice.AVGS = data.AVGS;
+                        article.bestpractice.Retention = data.Retention;
                        
+                    }
+                    else{
+                        article.bestpractice={
+                            AVGS:data.AVGS,
+                            Retention:data.Retention                        
+                        }
+                    }
+                }
                 return  article;
                       
             });
@@ -143,6 +144,43 @@ export default function reducer(state={
             var newArticles = {};
             newArticles.results = newdata;
             return {...state,articles:newArticles};
+        }
+        case "GET_REGION_DATA":
+        {
+            const { articles  } = state;
+            const { results } = articles;
+            var data = action.payload;
+            var newdata = results.filter((article)=>{ 
+                if(article.ARTICLE_ID == data.articleid){
+                    if(article.bestpractice){
+                        article.bestpractice.region_data = {
+                            AVGS:data.AVGS,
+                            Retention:data.Retention,
+                            ARCHOBJ:data.ARCHOBJ,
+                            Region:data.Region,
+                            CustomerCount:data.CustomerCount
+                        };
+                    }
+                    else{
+                         article.bestpractice = {
+                            region_data:{
+                                AVGS:data.AVGS,
+                                Retention:data.Retention,
+                                ARCHOBJ:data.ARCHOBJ,
+                                Region:data.Region,
+                                CustomerCount:data.CustomerCount
+                            }
+                            
+                        };
+                    }
+                }
+                return  article;
+            });
+            var newArticles = {};
+            newArticles.results = newdata;
+            return {...state,articles:newArticles};
+
+                        
         }
         case "GET_PRACTICES":
         {
@@ -256,6 +294,7 @@ export default function reducer(state={
         return {...state,newArticle:createarticle};
 
         }
+                    
 
 
     }

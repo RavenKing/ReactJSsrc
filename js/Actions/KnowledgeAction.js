@@ -94,40 +94,33 @@ export function GetBestPractice(data){
   var articleid = data.articleid;
   var industry = data.industry;
   var country = data.country;
-return dispatch=>{        
-              axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry="+industry ,{
-              headers:{
+  var region = data.region;
+  var config = {
+      headers:{
 
-                  'X-My-Custom-Header': 'Header-Value',
-                  'Content-Type': 'application/json'
-                },
+          'X-My-Custom-Header': 'Header-Value',
+          'Content-Type': 'application/json'
+      },
                
-                auth: {
-                  username:'zengheng',
-                  password: 'Sap12345'
-                }
-            }).then(function(response,err){
-              
-              var data = response.data.results[0];
-              data.articleid = articleid;
-              dispatch({type:"GET_BEST_PRACTICE",payload:data});
-
-
-            }).catch(function(err){
+      auth: {
+          username:'zengheng',
+          password: 'Sap12345'
+      }
+  };
+return dispatch=>{
+    var data;        
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry="+industry,
+      config).then(function(response,err){
+          
+          data = response.data.results[0];
+          data.articleid = articleid;              
+          dispatch({type:"GET_BEST_PRACTICE",payload:data});
+          }).catch(function(err){
               console.log(err);
-            })
+          })
 
-      axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",{
-                          headers:{
-                  'X-My-Custom-Header': 'Header-Value',
-                  'Content-Type': 'application/json'
-                },
-               
-                auth: {
-                  username:'zengheng',
-                  password: 'Sap12345' 
-                }   
-              }).then(function(response,err){
+      axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",
+          config).then(function(response,err){
                 console.log(response.data.d.results[0])
                 var payload = {
                     articleid:articleid,
@@ -140,6 +133,37 @@ return dispatch=>{
 
   
     }
+}
+export function GetRegionData(data){
+  var archobj = data.archobj;
+  var region = data.region;
+  var payload;
+  var config = {
+      headers:{
+
+          'X-My-Custom-Header': 'Header-Value',
+          'Content-Type': 'application/json'
+      },
+               
+      auth: {
+          username:'zengheng',
+          password: 'Sap12345'
+      }
+  };
+  return dispatch=>{
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=ALLRECOM&region="+region+"&archobj="+archobj,
+            config).then(function(response,err){
+                    if(response.data.results.length > 0){
+                      payload = response.data.results[0];
+                      payload.articleid = data.articleid;
+                      dispatch({type:"GET_REGION_DATA",payload:payload});                      
+                    }
+                   
+                }).catch(function(err){
+                    console.log(err);
+                })
+  }
+  
 }
 export function GetSAPBestPractice(data)
 {
@@ -242,9 +266,6 @@ export function GetTop5Tables(attr_nam){
     })
 
   }
-
-    
-
 
 }
 export function SetBasicInfo(data){
