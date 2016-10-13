@@ -404,14 +404,17 @@ export default class DVMAPanel extends React.Component{
     				
             				<FormItem
             				{...formItemLayout}
-            				label="Retention Time"
+            				label="Residence Time"
             				>
-            				<InputNumber min={12} max={999} 
-            				{...getFieldProps('RETENTION', {initialValue:data.RET})}
-            				/>
+            				<div>
+                      <InputNumber min={12} max={999} 
+                      {...getFieldProps('RETENTION', {initialValue:data.RET})}
+                      />
+                      <p className="ant-form-text" >Month</p>
+                    </div>
             				</FormItem>	
             		
-    						<FormItem
+    						    <FormItem
                       		{...formItemLayout}
                       		label={one.factor_name}
                     		>
@@ -470,11 +473,14 @@ export default class DVMAPanel extends React.Component{
       
             		<FormItem
             		{...formItemLayout}
-            		label="Retention Time"
+            		label="Residence Time"
             		>
-            		<InputNumber min={12} max={999} 
-            		{...getFieldProps('RETENTION', {initialValue:data.RET})}
-            		/>
+                <div>
+            		  <InputNumber min={12} max={999} 
+            		  {...getFieldProps('RETENTION', {initialValue:data.RET})}
+            		  />
+                  <p className="ant-form-text" >Month</p>
+                </div>
             		</FormItem>
             	</Form>
     		)

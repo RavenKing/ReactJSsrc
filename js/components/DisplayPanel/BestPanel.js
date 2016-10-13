@@ -4,10 +4,8 @@ import { Spin, Alert,Badge } from 'antd';
 import { connect } from "react-redux";
 import { Progress,Rate,Input,Tabs,Slider,Popover,Tag } from "antd";
 import { GetBestPractice } from "../../Actions/KnowledgeAction";
-import  ReactHighCharts  from "react-highcharts";
-import Highcharts from "highcharts";
 
-import $ from "jquery";
+
 const TabPane = Tabs.TabPane;
 
 @connect((store)=>{
@@ -67,7 +65,6 @@ export default class BestPanel extends React.Component {
     } 
 
     render() {  
-    	  console.log(this.state);
 
         const { articles } =this.props;
         const { bestpractice } = this.props;
@@ -98,21 +95,7 @@ export default class BestPanel extends React.Component {
         }
 
 
-
-
-       // $.getJSON('http://www.hcharts.cn/datas/jsonp.php?filename=world-population.json&callback=?', function (data) {
-
-        
-        var mapData = Highcharts.geojson(Highcharts.maps['custom/world']);
-        console.log(mapData);
-      
-      
-      
-
-
-
-        const region_content =  <div>
-                                 
+        const region_content =  <div>                          
                                   <p>
                                   Average Saving Percent of {region_data.Region}
                                   <Progress type="circle" percent={parseInt(region_data.AVGS).toFixed(2)}/>
