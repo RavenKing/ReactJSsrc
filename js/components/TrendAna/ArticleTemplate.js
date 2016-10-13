@@ -27,7 +27,7 @@ export default class ArticleTemplate extends React.Component {
       var objList = dataPanelDataStore.getBlockObjList(currentStatus,"Arch Obj");
       var tablesList = dataPanelDataStore.getBlockObjList(currentStatus,"Tables");
       var strategyList = dataPanelDataStore.getBlockObjList(currentStatus,"Strategy");
-      var retentionList = dataPanelDataStore.getBlockObjList(currentStatus,"Retention");
+      var retentionList = dataPanelDataStore.getBlockObjList(currentStatus,"Residence Time");
       this.setState({
         objList:objList,
         tablesList:tablesList,
@@ -152,7 +152,8 @@ export default class ArticleTemplate extends React.Component {
             formValues.TABLESDSC = dsc;
             
             //post article
-            this.props.dispatch(PostArticle(formValues))
+            this.props.dispatch(PostArticle(formValues));
+            this.CloseCard();
         }
 
     }
