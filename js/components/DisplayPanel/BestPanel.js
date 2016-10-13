@@ -1,10 +1,13 @@
 import React from "react";
 import axios from "axios";
-import { Spin, Alert } from 'antd';
+import { Spin, Alert,Badge } from 'antd';
 import { connect } from "react-redux";
 import { Progress,Rate,Input,Tabs,Slider,Popover,Tag } from "antd";
 import { GetBestPractice } from "../../Actions/KnowledgeAction";
 import  ReactHighCharts  from "react-highcharts";
+import Highcharts from "highcharts";
+
+import $ from "jquery";
 const TabPane = Tabs.TabPane;
 
 @connect((store)=>{
@@ -94,10 +97,29 @@ export default class BestPanel extends React.Component {
             label: <strong>{recommendmark}</strong>,
         }
 
-        const region_content =  <div>
-                                  <Progress type="circle" percent={parseInt(region_data.AVGS).toFixed(2)}/>
-                                </div>
 
+
+
+       // $.getJSON('http://www.hcharts.cn/datas/jsonp.php?filename=world-population.json&callback=?', function (data) {
+
+        
+        var mapData = Highcharts.geojson(Highcharts.maps['custom/world']);
+        console.log(mapData);
+      
+      
+      
+
+
+
+        const region_content =  <div>
+                                 
+                                  <p>
+                                  Average Saving Percent of {region_data.Region}
+                                  <Progress type="circle" percent={parseInt(region_data.AVGS).toFixed(2)}/>
+                                  </p>
+                                  <span>There are</span> <Badge count={region_data.CustomerCount} /><span> customers in {region_data.Region}</span>
+                                </div>
+        const title = "Region:"+region_data.Region;
         return (
 
 
@@ -110,7 +132,7 @@ export default class BestPanel extends React.Component {
             <hr />
             <h2 className="margin-top10 margin-bottom10">Industry-Based Statistics {customer.INDUSTRY?"("+customer.INDUSTRY+")":""} </h2>
             <h3>Avg Saving Percent for the first DVM Run:&nbsp;
-            <Popover content={region_content}>
+            <Popover title={title} placement="right" content={region_content}>
             <Progress type="circle" percent={parseInt(bestpractice.AVGS).toFixed(2)}/>
             </Popover>
             </h3>   
