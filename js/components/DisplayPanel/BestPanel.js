@@ -4,6 +4,7 @@ import { Spin, Alert,Badge } from 'antd';
 import { connect } from "react-redux";
 import { Progress,Rate,Input,Tabs,Slider,Popover,Tag } from "antd";
 import { GetBestPractice } from "../../Actions/KnowledgeAction";
+
 import  ReactHighmaps from "react-highcharts/dist/ReactHighmaps";
 
 
@@ -68,8 +69,6 @@ export default class BestPanel extends React.Component {
     } 
 
     render() {  
-
-       console.log(this.state);
 
         const { articles } =this.props;
         const { bestpractice } = this.props;
@@ -200,7 +199,6 @@ var config = {
 
 
 
-
        // $.getJSON('http://www.hcharts.cn/datas/jsonp.php?filename=world-population.json&callback=?', function (data) {
 
       
@@ -211,7 +209,7 @@ var config = {
 
         const region_content =  <div class="mapspop">
                                    <ReactHighmaps config={config}></ReactHighmaps> 
-                            
+
                                 </div>
         const title = "Region Distribution";
         return (

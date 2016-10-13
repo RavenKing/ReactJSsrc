@@ -1,11 +1,14 @@
 import React from "react";
 import PredictPanel from "../DisplayPanel/PredictPanel";
 import { RemoveCard,PostArticle } from "../../Actions/KnowledgeAction";
-import {Button} from "antd";
+import {Button,Modal} from "antd";
 import BackButton from "./BackButton";
-const ButtonGroup = Button.Group;
-
 import { connect } from "react-redux";
+
+const ButtonGroup = Button.Group;
+const confirm = Modal.confirm;
+
+
 
 @connect((store)=>{    
     return {
@@ -23,10 +26,22 @@ export default class PredictAnalysis extends React.Component{
       this.props.dispatch(PostArticle(data));
   }
   CloseCreatePanel(){
-    var data = {
-      type:"create"
-    };
-    this.props.dispatch(RemoveCard(data));
+      var that = this;
+      confirm({
+          title: 'Do you really want to close this panel?',
+          content: 'Please confirm that you have saved the article before close this panel!',
+          onOk() {
+                      
+              var data = {
+                type:"create"
+              };
+              that.props.dispatch(RemoveCard(data));   
+          },                      
+          onCancel() {}
+      });
+                    
+
+    
   }
 	render(){
 		
