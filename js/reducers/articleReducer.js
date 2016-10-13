@@ -150,26 +150,15 @@ export default function reducer(state={
             const { articles  } = state;
             const { results } = articles;
             var data = action.payload;
+            console.log(data);
             var newdata = results.filter((article)=>{ 
                 if(article.ARTICLE_ID == data.articleid){
                     if(article.bestpractice){
-                        article.bestpractice.region_data = {
-                            AVGS:data.AVGS,
-                            Retention:data.Retention,
-                            ARCHOBJ:data.ARCHOBJ,
-                            Region:data.Region,
-                            CustomerCount:data.CustomerCount
-                        };
+                        article.bestpractice.region_data = data;
                     }
                     else{
                          article.bestpractice = {
-                            region_data:{
-                                AVGS:data.AVGS,
-                                Retention:data.Retention,
-                                ARCHOBJ:data.ARCHOBJ,
-                                Region:data.Region,
-                                CustomerCount:data.CustomerCount
-                            }
+                            region_data:data
                             
                         };
                     }

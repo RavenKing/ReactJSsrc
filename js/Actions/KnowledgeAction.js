@@ -156,9 +156,14 @@ export function GetRegionData(data){
     axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=ALLRECOM&region="+region+"&archobj="+archobj,
             config).then(function(response,err){
                     if(response.data.results.length > 0){
-                      payload = response.data.results[0];
-                      payload.articleid = data.articleid;
-                      dispatch({type:"GET_REGION_DATA",payload:payload});                      
+                      var senddata = {
+                        articleid : data.articleid,
+                        region:response.data.results
+
+                      }
+                      console.log("get regions")
+                      console.log(senddata);
+                      dispatch({type:"GET_REGION_DATA",payload:senddata});                      
                     }
                    
                 }).catch(function(err){
