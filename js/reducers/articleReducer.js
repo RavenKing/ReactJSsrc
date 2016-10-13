@@ -71,7 +71,7 @@ export default function reducer(state={
                 return {...state,displayPanel:newdata,newArticle:{currentstep:0}}
             }
             else{
-                return {...state,displayPanel:newdata}
+                return {...state,displayPanel:newdata,refresh:true}
             }
             
         }
