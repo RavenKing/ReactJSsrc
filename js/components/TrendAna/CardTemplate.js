@@ -140,7 +140,6 @@ export default class TemplateSelect extends React.Component {
         {this.props.name}
         </div>
     <div className="custom-card">
-      <h2></h2>
       <p>{this.props.description}</p>
        </div>
        </Card>

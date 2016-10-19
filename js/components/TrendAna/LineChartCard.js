@@ -373,7 +373,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 					});
 				
-		var tpselect = <Modal title="select template" onOk={()=>{this.onSetUnvisible()} }  visible={this.state.tsvisible}>
+		var tpselect = <Modal title="select template"
+			footer= {false}
+		 onCancel={()=>{this.onSetUnvisible()} }  visible={this.state.tsvisible}>
 		<TemplateSelect card = {this.props.card} visible={this.state.tsvisible}/>
 					</Modal>
 
