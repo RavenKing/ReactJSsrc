@@ -13,6 +13,71 @@
       content: []
     }],
 
+    trendSimulation: function(dataInfo, getSimResult) {
+
+      /*var dataInfo = {
+            "factorId": data.factorGuid,
+            "factorStr": data.factorGuidStr
+          };*/
+          var url = "http://10.97.144.117:8000/SmartOperations/services/whatIfAnalysis.xsjs";
+          //var url = "http://10.128.245.87:8004/Kevinyantest/HANAXS_TEST/services/whatIfAnalysis.xsjs?factorId=" + data.factorGuid + "&factorStr=" + data.factorGuidStr;
+          $.ajax({
+            url: url,
+            method: 'POST',
+            async: true,
+            data: JSON.stringify(dataInfo),
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (resp) {
+            console.log('resp ------ ', resp);
+            var axis = [];
+            var actualValue = [];
+            var predictValue = [];
+            resp.results.forEach(function (item) {
+              //axis.push(item.ID);
+              //console.log(item.DATETIME);
+              axis.push(item.DATETIME.substr(0, 19));
+              if (item.ACTUAL_VALUE) {
+                actualValue.push(parseInt(item.ACTUAL_VALUE));
+              } else {
+                actualValue.push(item.ACTUAL_VALUE);
+              }
+              if (item.PREDICT_VALUE) {
+                predictValue.push(parseInt(item.PREDICT_VALUE));
+              } else {
+                predictValue.push(item.PREDICT_VALUE);
+              }
+            });
+
+            dataInfo.lineChartAxis = new Array(axis);
+            dataInfo.lineChartValue = new Array(actualValue, predictValue);
+            dataInfo.lineNameArr = ["ACTUAL_VALUE", "PREDICT_VALUE"];
+            /*$.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });*/
+
+            getSimResult(dataInfo);
+
+          }).fail(function () {
+            console.error('Fetch what-if chart data error:');
+            console.error(arguments); 
+          });
+
+
+
+    },
+
+
 
     uploadConfirm: function(dataInfo, getRespond) {
     var flag = false;
@@ -426,48 +491,7 @@
           });
           break;
         case "WHAT_IF":
-          var dataInfo = {
-            "factorId": data.factorGuid,
-            "factorStr": data.factorGuidStr
-          };
-          var url = "http://10.97.144.117:8000/SmartOperations/services/whatIfAnalysis.xsjs";
-          //var url = "http://10.128.245.87:8004/Kevinyantest/HANAXS_TEST/services/whatIfAnalysis.xsjs?factorId=" + data.factorGuid + "&factorStr=" + data.factorGuidStr;
-          $.ajax({
-            url: url,
-            method: 'POST',
-            //async: false,
-            data: JSON.stringify(dataInfo),
-            headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
-              'X-Requested-With': 'XMLHttpRequest',
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              'DataServiceVersion': '2.0',
-              'X-CSRF-Token': 'Fetch'
-            }
-          }).done(function (resp) {
-            var axis = [];
-            var actualValue = [];
-            var predictValue = [];
-            resp.results.forEach(function (item) {
-              //axis.push(item.ID);
-              //console.log(item.DATETIME);
-              axis.push(item.DATETIME.substr(0, 19));
-              if (item.ACTUAL_VALUE) {
-                actualValue.push(parseInt(item.ACTUAL_VALUE));
-              } else {
-                actualValue.push(item.ACTUAL_VALUE);
-              }
-              if (item.PREDICT_VALUE) {
-                predictValue.push(parseInt(item.PREDICT_VALUE));
-              } else {
-                predictValue.push(item.PREDICT_VALUE);
-              }
-            });
-
-            data.lineChartAxis = new Array(axis);
-            data.lineChartValue = new Array(actualValue, predictValue);
-            data.lineNameArr = ["ACTUAL_VALUE", "PREDICT_VALUE"];
+          
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 item.content.push(data);
@@ -475,10 +499,7 @@
                 return false;
               }
             });
-          }).fail(function () {
-            console.error('Fetch what-if chart data error:');
-            console.error(arguments); 
-          });
+          
 
           break;
         case "SAVE":
