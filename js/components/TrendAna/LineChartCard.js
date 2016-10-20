@@ -4,6 +4,7 @@ import { Slider , Modal, message,Card,Icon	} from "antd"
 import LineChart from  "./LineChart"
 import PredictLineChart from "./PredictLineChart"
 import {browserHistory } from "react-router"
+import TemplateSelect from "./TemplateSelect"
 
 var global =window
 
@@ -49,6 +50,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 		mixins: [componentMixin],
 		getInitialState: function getInitialState() {
 			return {
+				tsvisible:false,
 				rangeMin: this.props.card.lineChartAxis[0].length - 30,
 				rangeMax: this.props.card.lineChartAxis[0].length,
 				rangeLimit: this.props.card.lineChartAxis[0].length
@@ -59,6 +61,12 @@ var dataPanelDataStore = window.dataPanelDataStore
 				rangeMin: value[0],
 				rangeMax: value[1]
 			});
+		},
+		onSetUnvisible:function onSetUnvisible()
+		{
+			this.setState({
+				tsvisible:false
+			})
 		},
 		//var confirm = Modal.confirm;
 		showConfirmEdit: function showConfirmEdit(text) {
@@ -128,6 +136,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			this.interactDrop = global.setAreaDropable({
 				element: this.getDOMNode(),
 				accept: '.function-button, .data-item,.data-block,.config-button, .function-button-nav',
+
 				ondrop: function ondrop(event) { // card on drop
 					var draggableElement = event.relatedTarget,
 					    dropzoneElement = event.target;
@@ -141,89 +150,10 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 					switch (data.info) {
 						case "ANALYSIS":
-							console.log('case ANALYSIS');
-							console.log(that.props.card);
-							//edit for analysis DVM
-							var factorCate = that.props.card.category[0];
+						  that.setState({
+						tsvisible:true
 
-							var factorName = that.props.card.FACTOR_NAME[0];
-
-							if(factorCate == "S"){
-								var nextStatus = "ANALYSIS_RCA_" + factorName;
-
-								if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
-									var sIntervalCallId;
-
-									(function () {
-										var addStatus = function addStatus() {
-											if (displayAreaDataStore.isStatusExisted(nextStatus) && dataPanelDataStore.isStatusExisted(nextStatus) && functionPanelDataStore.isStatusExisted(nextStatus)) {
-												clearInterval(sIntervalCallId);
-												pageStatusChangeActions.pageStatusAddAction(nextStatus);
-											}
-										};
-
-										var nextData = {};
-
-										nextData.style = that.props.card.style;
-										nextData.type = "ITEM-ANA";
-										nextData.guidArr = that.props.card.guidArr;
-										nextData.FACTOR_NAME = that.props.card.FACTOR_NAME;
-										nextData.category = that.props.card.category;
-
-
-										displayAreaChangeActions.displayAreaAddPageAction(nextStatus, cardId);
-										dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
-										functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
-										displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
-
-										sIntervalCallId = setInterval(function () {
-											addStatus();
-										}, 100);
-										;
-									})();
-								} else {
-									pageStatusChangeActions.pageStatusChangeAction(nextStatus);
-								}
-							}
-							else if (factorCate == "B"){
-
-								var nextStatus = "ANALYSIS_DVM_" + factorName;
-
-								if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
-									var sIntervalCallId;
-
-									(function () {
-										var addStatus = function addStatus() {
-											if (displayAreaDataStore.isStatusExisted(nextStatus) && dataPanelDataStore.isStatusExisted(nextStatus) && functionPanelDataStore.isStatusExisted(nextStatus)) {
-												clearInterval(sIntervalCallId);
-												pageStatusChangeActions.pageStatusAddAction(nextStatus);
-											}
-										};
-
-										var nextData = {};
-
-										nextData.style = that.props.card.style;
-										nextData.type = "ITEM-ANA";
-										nextData.guidArr = that.props.card.guidArr;
-										nextData.FACTOR_NAME = that.props.card.FACTOR_NAME;
-										nextData.category = that.props.card.category;
-
-										displayAreaChangeActions.displayAreaAddPageAction(nextStatus, cardId);
-										dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
-										functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
-										displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
-
-										sIntervalCallId = setInterval(function () {
-											addStatus();
-										}, 100);
-										;
-									})();
-								} else {
-									pageStatusChangeActions.pageStatusChangeAction(nextStatus);
-								}
-
-
-							}
+														})
 
 							break;
 						case "DVM_ANA":
@@ -445,7 +375,11 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 					});
 				
-
+		var tpselect = <Modal title="select template"
+			footer= {false}
+		 onCancel={()=>{this.onSetUnvisible()} }  visible={this.state.tsvisible}>
+		<TemplateSelect card = {this.props.card} visible={this.state.tsvisible}/>
+					</Modal>
 
 			}
 
@@ -460,7 +394,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 					bodyStyle: {
 						padding: 0
 					} },
-				subLineChart,
+					subLineChart,
+					this.state.tsvisible==true?tpselect:<div></div>,
 				React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })
 			);
 
