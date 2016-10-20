@@ -609,8 +609,21 @@ text-align: center
 
 
 }
+.seperateLine{
+  padding-top: 10px;
+  padding-bottom: 15px;
+  width: 475px;
+  padding-left: 25px;
+}
 
+.simOptions{
 
+  padding-left: 25px;
+}
+
+.optionForm{
+  margin-bottom: 5px;
+}
 
 .strategyCard{
   width:500px;

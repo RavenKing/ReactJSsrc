@@ -6,7 +6,8 @@ import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
 import SaveArticle from "./SaveArticle";
 import ArticleTemplate from "./ArticleTemplate";
-import DVMAPanel from "./DVMPanel/DVMAPanel"
+import DVMAPanel from "./DVMPanel/DVMAPanel";
+import WhatIfCard from "./WhatIfCard";
 import { History,Router,browserHistory } from "react-router";
 
 var interact = window.interact;
@@ -133,17 +134,29 @@ if (!rc) {
           if (item.type == 'TITLE') {
             return React.createElement(DataCard, { key: item.id + "DataCard", card: item });
 
-          } else if (item.type == 'ITEM' || item.type == 'WHAT_IF' || item.type == 'ITEM-ANA') {
+          } 
+          else if (item.type == 'ITEM' || item.type == 'ITEM-ANA') {
             return React.createElement(LineChartCard, { key: item.id + "LineChartCard", card: item });
-          } else if (item.type == 'PIE') {
+          } 
+
+          else if (item.type == 'WHAT_IF') {
+            return React.createElement(WhatIfCard, { key: item.id + "WhatIfCard", card: item });
+          } 
+
+          else if (item.type == 'PIE') {
             return React.createElement(PieChartCard, { key: item.id + "PIEChartCard", card: item });
-          } else if (item.type == 'CREATE') {
+          } 
+
+          else if (item.type == 'CREATE') {
 
             return React.createElement(CreateObjCard, { key: item.id + "CreateObjCard", card: item });
-          } else if (item.type == 'EDIT') {
+          } 
+
+          else if (item.type == 'EDIT') {
 
             return React.createElement(CreateObjCard, { key: item.id + "EditObjCard", card: item });
           }
+
           else if(item.type == 'UPLOAD'){
             return React.createElement(UploadCard, { key: item.id + "UploadCard", card: item });
           }

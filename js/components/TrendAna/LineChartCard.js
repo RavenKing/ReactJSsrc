@@ -279,17 +279,19 @@ var dataPanelDataStore = window.dataPanelDataStore
 							console.log('case WHAT_IF');
 							if (!displayAreaDataStore.isCardExisted(currentStatus, "WHAT_IF") && displayAreaDataStore.getCardLineNumber(currentStatus, cardId) > 1) {
 								var _style2 = {
-									top: that.props.card.style.top + that.getDOMNode().clientHeight + 30,
-									left: that.getDOMNode().clientWidth + 240 + 30
+									top: that.props.card.style.top + that.getDOMNode().clientHeight - 360,
+									left: that.getDOMNode().clientWidth + 180
 								};
 								var guidArr = that.props.card.guidArr;
+								
 								var oData = {
 									FACTOR_NAME: that.props.card.FACTOR_NAME,
 									type: "WHAT_IF",
 									style: _style2,
 									factorGuid: guidArr[0],
 									factorGuidStr: guidArr.slice(1).join(","),
-									category: that.props.card.category[0]
+									category: that.props.card.category[0],
+									guidArr: guidArr
 								};
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
