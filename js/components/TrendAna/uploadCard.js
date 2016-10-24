@@ -79,8 +79,8 @@ var UploadCard = React.createClass({
 					customerId: "1001",
 					sysId: "KEV",
 					sysClt: "001",
-					dateYear: 2016,
-					dateMonth: 9
+					dateYear: this.state.curYearMonth.slice(0,4),
+					dateMonth: this.state.curYearMonth.slice(5,7)
 				},
 				curYearMonth: this.state.curYearMonth,
 				taskType: "BACKGROUND",//API for TIME PROFILE of different type
@@ -126,8 +126,8 @@ var UploadCard = React.createClass({
 			});
 		},
 
-		onChangeTime: function onChangeTime(dateString) {
-			console.log('Year/Month = ',dateString);
+		onChangeTime: function onChangeTime(value,dateString) {
+			console.log('Year/Month = ',dateString.slice(0,4), dateString.slice(5,7));
 			this.setState({
 				curYearMonth: dateString,
 				checkType: ((!!dateString) && (!!this.state.kmType)) ? false : true

@@ -520,6 +520,170 @@
               }
           });
           break;
+
+        case "CPM-DIA":
+        case "CPM-BTC":
+        case "CPM-RFC":
+          console.log('go to dataStore CPM drilldown ------ ', data);
+
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getTransaction.xsjs?customerId=" + data.customerId + "&dateYear=" + data.dateYear + "&dateMonth=" + data.dateMonth + "&taskType=" + data.taskType;
+
+          $.ajax({
+            url: url,
+            method: 'get',
+            dataType: 'json',
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (resp) {
+            var cateArr = [];
+            var cpuValueArr = [];
+            var dbValueArr = [];
+            var cumValueArr = [];
+
+            resp.results.forEach(function (item) {
+              
+              cateArr.push(item.REPORT_NAME);
+              cpuValueArr.push(parseInt(item.CPU_TOTAL));
+              dbValueArr.push(parseInt(item.DB_TOTAL));
+              cumValueArr.push(parseInt(item.CUMULATED));
+
+
+            });
+            data.chartCateAxis = new Array(cateArr);
+            data.chartCPUValue = new Array(cpuValueArr);
+            data.chartDBValue = new Array(dbValueArr);
+            data.chartCumValue = new Array(cumValueArr);
+            $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });
+          }).fail(function () {
+            console.error('Fetch Transaction chart data error:');
+            console.error(arguments);
+          });
+
+          break;
+
+        case "CPM-History":
+
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLHistory.xsjs?customerId=" + data.customerId + "&latestYear=" + data.latestYear + "&latestMonth=" + data.latestMonth + "&monthCount=" + data.monthCount;
+
+          $.ajax({
+            url: url,
+            method: 'get',
+            dataType: 'json',
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (resp) {
+            var cateArr = [];
+            var cpuValueArr = [];
+            var dbValueArr = [];
+            var stepValueArr = [];
+
+            resp.results.forEach(function (item) {
+              
+              cateArr.push(item.YEAR_MONTH);
+              cpuValueArr.push(parseInt(item.CPU_SUM));
+              dbValueArr.push(parseInt(item.DB_SUM));
+              stepValueArr.push(parseInt(item.STEP_SUM));
+
+
+            });
+            data.chartCateAxis = new Array(cateArr);
+            data.chartCPUValue = new Array(cpuValueArr);
+            data.chartDBValue = new Array(dbValueArr);
+            data.chartStepValue = new Array(stepValueArr);
+            $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });
+          }).fail(function () {
+            console.error('Fetch WLH chart data error:');
+            console.error(arguments);
+          });
+
+
+          break;
+        case "CPM-Overview":
+          /*$.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });*/
+
+          //////////
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=" + data.customerId + "&dateYear=" + data.dateYear + "&dateMonth=" + data.dateMonth;
+
+          $.ajax({
+            url: url,
+            method: 'get',
+            dataType: 'json',
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (resp) {
+            var cateArr = [];
+            var cpuValueArr = [];
+            var dbValueArr = [];
+            var cumValueArr = [];
+
+            resp.results.forEach(function (item) {
+              
+              cateArr.push(item.TASK_TYPE);
+              cpuValueArr.push(parseInt(item.CPU_TOTAL));
+              dbValueArr.push(parseInt(item.DB_TOTAL));
+              cumValueArr.push(parseInt(item.CUMULATED));
+
+
+            });
+            data.chartCateAxis = new Array(cateArr);
+            data.chartCPUValue = new Array(cpuValueArr);
+            data.chartDBValue = new Array(dbValueArr);
+            data.chartCumValue = new Array(cumValueArr);
+            $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });
+          }).fail(function () {
+            console.error('Fetch WLO chart data error:');
+            console.error(arguments);
+          });
+
+
+
+
+          break;
         default:
           ;
       }

@@ -3,7 +3,7 @@
 (function (Reflux, $, global) {
 
   global.dataPanelItemChangeActions = Reflux.createActions(['dataPanelItemAddAction', 'dataPanelRCAAddItemAction', 
-    'dataPanelAddPageAction', 'dataPanelRemovePageAction','dataPanelDVMAddItemAction']);
+    'dataPanelAddPageAction', 'dataPanelRemovePageAction','dataPanelDVMAddItemAction', 'dataPanelCPMAddItemAction']);
 
   global.dataPanelDataStore = Reflux.createStore({
     listenables: [global.dataPanelItemChangeActions],
@@ -62,6 +62,20 @@
           }]
         });
 
+
+      }
+      else if(pageStatus == "CAPACITY_MGMT"){
+
+        this.dataPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            title: "WL Overview",
+            objList: []
+          }, {
+            title: "WL History",
+            objList: []
+          }]
+        });
 
       }
 
@@ -128,6 +142,122 @@
               console.error('Data panel fetch error:');
               console.error(arguments);
             });
+          } else {
+            return false;
+          }
+        }
+      });
+    },
+    onDataPanelCPMAddItemAction: function onDataPanelCPMAddItemAction(pageStatus, customerId) {
+      var that = this;
+      $.each(this.dataPanelData, function (idx, item) {
+        if (pageStatus === item.pageStatus) {
+          var len = 0;
+          $.each(item.content, function (idx1, item1) {
+            len += item1.objList.length;
+          });
+          if (!len) {
+
+            console.log("CPM content - item -----", item);
+            var url = "http://10.97.144.117:8000/SmartOperations/services/cpmDataItem.xsjs?customerId=" + customerId;
+            $.ajax({
+              url: url,
+              method: 'get',
+              dataType: 'json',
+              headers: {
+                //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'DataServiceVersion': '2.0',
+                'X-CSRF-Token': 'Fetch'
+              }
+            }).done(function (resp) {
+              console.log("get WLO number --- ", resp);
+              resp.results.forEach(function (d) {
+                if (d.category === "CPM-Overview") {
+                  $.each(item.content, function (idx1, item1) {
+                    if (item1.title === "WL Overview") {
+                      item1.objList.push(d);
+                      return false;
+                    }
+                  });
+                } else if (d.category === "CPM-History") {
+                  $.each(item.content, function (idx1, item1) {
+                    if (item1.title === "WL History") {
+                      item1.objList.push(d);
+                      return false;
+                    }
+                  });
+                } else if (d.category === "CPM-Transaction") {
+                  $.each(item.content, function (idx1, item1) {
+                    if (item1.title === "Transaction") {
+                      item1.objList.push(d);
+                      return false;
+                    }
+                  });
+                }
+              });
+              that.trigger(item.content);
+            }).fail(function () {
+              console.error('Data panel fetch error:');
+              console.error(arguments);
+            });
+//////////////////////////////////////////////////////////////////
+            /*$.each(item.content, function (idx1, item1) {
+              if (item1.title === "WL Overview") {
+                var d = {
+                  ITEM_NAME: "2016-09"
+                };
+
+                item1.objList.push(d);
+                
+              }
+              else if(item1.title === "WL History") {
+                var d = {
+                  ITEM_NAME: "Last 3 Months"
+                };
+
+                item1.objList.push(d);
+
+                var d1 = {
+                  ITEM_NAME: "Last 6 Months"
+                };
+
+                item1.objList.push(d1);
+
+                var d2 = {
+                  ITEM_NAME: "Last 12 Months"
+                };
+
+                item1.objList.push(d2);
+
+              }
+              else if(item1.title === "Transaction") {
+
+                var d = {
+                  ITEM_NAME: "Dialog"
+                };
+
+                item1.objList.push(d);
+
+                var d1 = {
+                  ITEM_NAME: "Background"
+                };
+
+                item1.objList.push(d1);
+
+                var d2 = {
+                  ITEM_NAME: "RFC"
+                };
+
+                item1.objList.push(d2);
+
+              }
+            });*/
+
+
+
           } else {
             return false;
           }

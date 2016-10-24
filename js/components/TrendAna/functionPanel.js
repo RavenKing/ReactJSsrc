@@ -131,11 +131,21 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
     render: function render() {
       var type = 'ghost';
 
-      if (this.props.fun.type == 'NOTE' || this.props.fun.type == "SAVE_KM") {
+      if (this.props.fun.type == 'NOTE' || this.props.fun.type == "SAVE_KM" ) {
         return React.createElement(
           Button,
           { className: 'function-button-nav draggable', size: 'large',
             type: type, 'data-info': this.props.fun.info, 'data-type': this.props.fun.type, icon: 'hdd' },
+            
+          this.props.fun.name
+        );
+      } 
+
+      else if (this.props.fun.type == "CPM") {
+        return React.createElement(
+          Button,
+          { className: 'function-button-nav draggable', size: 'large',
+            type: type, 'data-info': this.props.fun.info, 'data-type': this.props.fun.type, icon: 'bar-chart' },
             
           this.props.fun.name
         );

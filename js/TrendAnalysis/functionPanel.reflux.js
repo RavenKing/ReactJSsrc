@@ -13,6 +13,10 @@
         info: 'ANALYSIS',
         type: 'ANALYSIS'
       }, {
+        name: 'Capacity',
+        info: 'CPM',
+        type: 'CPM'
+      },{
         name: 'Knowledge',
         info: 'NOTE',
         type: 'NOTE'
@@ -64,6 +68,26 @@
           }*/]
         });
 
+
+      }
+      else if(pageStatus == "CAPACITY_MGMT"){
+
+        this.functionPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            name: "Dialog Job",
+            info: "CPM-DIA",
+            type: "CPM-DIA"
+          },{
+            name: "Batch Job",
+            info: "CPM-BTC",
+            type: "CPM-BTC"
+          },{
+            name: "RFC Call",
+            info: "CPM-RFC",
+            type: "CPM-RFC"
+          }]
+        });
 
       }
 

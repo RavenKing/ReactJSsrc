@@ -68,6 +68,67 @@ var global = window
           )
         );
       }
+      else if(currentStatus == "CAPACITY_MGMT"){///123456789
+
+        if(this.props.item.category == "CPM-Overview"){
+          return React.createElement(
+              Button,
+              { className: "data-item", type: "dashed",
+                "data-type": this.props.item.category,
+                "data-info": currentStatus + "-CPMITEM",
+                "data-year": this.props.item.dateYear,
+                "data-month": this.props.item.dateMonth,
+                "data-factor_name": this.props.item.ITEM_NAME,
+                "data-customer":this.props.item.customerId
+                 },
+              
+                item.ITEM_NAME
+              
+            );
+        }
+        else if(this.props.item.category == "CPM-History"){
+
+          return React.createElement(
+              Button,
+              { className: "data-item", type: "dashed",
+                
+                "data-info": currentStatus + "-CPMITEM",
+                "data-factor_name": this.props.item.ITEM_NAME,
+                "data-type": this.props.item.category,
+                "data-m_count": this.props.item.monthCount,
+                "data-l_year": this.props.item.latestYear,
+                "data-l_month": this.props.item.latestMonth,
+                "data-customer":this.props.item.customerId,
+                
+                 },
+              
+                item.ITEM_NAME
+              
+            );
+
+        }
+        /*else if(this.props.item.category == "CPM-Transaction"){
+
+          return React.createElement(
+              Button,
+              { className: "data-item", type: "dashed",
+                "data-type": this.props.item.category,
+                "data-info": currentStatus + "-CPMITEM",
+                "data-year": this.props.item.dateYear,
+                "data-month": this.props.item.dateMonth,
+                "data-factor_name": this.props.item.ITEM_NAME,
+                "data-customer":this.props.item.customerId
+                 },
+              
+                item.ITEM_NAME
+              
+            );
+
+        }*/
+        
+
+      }
+
       else if(this.props.item.FACTOR_CATEGORY == "RET"){
         return React.createElement(
           Popover,

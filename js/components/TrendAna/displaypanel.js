@@ -8,6 +8,8 @@ import SaveArticle from "./SaveArticle";
 import ArticleTemplate from "./ArticleTemplate";
 import DVMAPanel from "./DVMPanel/DVMAPanel";
 import WhatIfCard from "./WhatIfCard";
+import WLOverview from "./WLOverview";
+import WLHistory from "./WLHistory";
 import { History,Router,browserHistory } from "react-router";
 
 var interact = window.interact;
@@ -97,6 +99,68 @@ if (!rc) {
               data.title = 'Upload Statistics File';
       
               break;
+
+            case 'CPM-Overview':
+              data.title = 'Workload Overview - ' + draggableElement.getAttribute('data-factor_name');
+              data.customerId = draggableElement.getAttribute('data-customer');
+              data.dateYear = draggableElement.getAttribute('data-year');
+              data.dateMonth = draggableElement.getAttribute('data-month');
+              break;
+
+            case 'CPM-History':
+              data.title = 'Workload History - ' + draggableElement.getAttribute('data-factor_name');
+              data.customerId = draggableElement.getAttribute('data-customer');
+              data.latestYear = draggableElement.getAttribute('data-l_year');
+              data.latestMonth = draggableElement.getAttribute('data-l_month');
+              data.monthCount = draggableElement.getAttribute('data-m_count');
+              break;
+
+
+            case 'CPM-Transaction':
+
+              break;
+
+            case 'CPM':
+
+              var nextStatus = "CAPACITY_MGMT";
+
+                if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
+                  var sIntervalCallId;
+
+                  (function () {
+                    var addStatus = function addStatus() {
+                      if (displayAreaDataStore.isStatusExisted(nextStatus) && dataPanelDataStore.isStatusExisted(nextStatus) && functionPanelDataStore.isStatusExisted(nextStatus)) {
+                        clearInterval(sIntervalCallId);
+                        pageStatusChangeActions.pageStatusAddAction(nextStatus);
+                      }
+                    };
+
+                    /*var nextData = {};
+
+                    nextData.style = that.props.card.style;
+                    nextData.type = "ITEM-ANA";
+                    nextData.guidArr = that.props.card.guidArr;
+                    nextData.FACTOR_NAME = that.props.card.FACTOR_NAME;
+                    nextData.category = that.props.card.category;*/
+
+
+                    displayAreaChangeActions.displayAreaAddPageAction(nextStatus, "");
+                    dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
+                    functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
+                    //displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
+                    dataPanelItemChangeActions.dataPanelCPMAddItemAction(nextStatus, "1001");
+
+                    sIntervalCallId = setInterval(function () {
+                      addStatus();
+                    }, 100);
+                    ;
+                  })();
+                } else {
+                  pageStatusChangeActions.pageStatusChangeAction(nextStatus);
+                }
+
+
+              break;
             default:
               ;
           }
@@ -159,6 +223,13 @@ if (!rc) {
 
           else if(item.type == 'UPLOAD'){
             return React.createElement(UploadCard, { key: item.id + "UploadCard", card: item });
+          }
+          else if(item.type == 'CPM-Overview' || item.type == 'CPM-DIA' || item.type == 'CPM-BTC' || item.type == 'CPM-RFC'){
+            return React.createElement(WLOverview, { key: item.id + "CPMOverview", card: item });
+          }
+
+          else if(item.type == 'CPM-History'){
+            return React.createElement(WLHistory, { key: item.id + "CPMHistory", card: item });
           }
 
           else if(item.type=='DVM')
