@@ -182,7 +182,7 @@ li {
   width:700px;
 }
 .detail-panel { 
-  width:870px; 
+  width:650px; 
 }
 
 .data-card:hover, .line-card:hover, .pie-card:hover , .create-obj-card:hover, .upload-card:hover, .detail-panel:hover, .create-panel:hover, .edit-panel:hover, .main-panel:hover{
@@ -497,12 +497,13 @@ li {
 }
 .custom-size{
     text-align: center;
-    height: 200px;
+    height: 170px;
     line-height: 200px;
     font-size:20px;
     word-wrap: break-word;
 }
 .templatecontainer{
+  
 display: block;
 margin-bottom: 10px;
 
@@ -654,7 +655,7 @@ text-align: center
   height: 111px;
 }
 .tableChart{
-  width:700px;
+  width:550px;
   
 }
 .bscInfo{

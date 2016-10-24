@@ -23,7 +23,7 @@ const TabPane = Tabs.TabPane;
 export default class BestPanel extends React.Component {
     constructor(props)
     {
- 	      super(props)
+          super(props)
         const  { bestpractice } = this.props;
         var content;
         var number;
@@ -32,7 +32,7 @@ export default class BestPanel extends React.Component {
         console.log(detail.BEST_PRACTICE)
         if(detail.BEST_PRACTICE)
         {
-     	      number = parseInt(detail.BEST_PRACTICE)/12
+              number = parseInt(detail.BEST_PRACTICE)/12
         }
         console.log(number)
 
@@ -42,19 +42,19 @@ export default class BestPanel extends React.Component {
         }
         else if(detail.RANK==2)
         {
- 	          content= " Around 30 archiving experience in our database";
+              content= " Around 30 archiving experience in our database";
         }
         else if(detail.RANK==3)
         {
-	         content= " Around 50 archiving experience in our database";     
+             content= " Around 50 archiving experience in our database";     
         }
         else if(detail.RANK ==4 )
         {
-     	      content= " Less than 80 archiving experience in our database";
+              content= " Less than 80 archiving experience in our database";
         }
         else if(detail.RANK ==5 )
         {
-     	      content= " More than 80 archiving experience in our database";
+              content= " More than 80 archiving experience in our database";
         }
 
 
@@ -62,8 +62,8 @@ export default class BestPanel extends React.Component {
 
 
         this.state={
-     		   saveyear:number,
-     		   hintcontent:content
+               saveyear:number,
+               hintcontent:content
         }
 
     } 
@@ -281,5 +281,4 @@ var config = {
       );
   }
 }
-
 

@@ -37,7 +37,7 @@ setItUnvisible()
  <div class="templatecontainer"> 
          
   <CardTemplate name="DVM" description="Tables and Objects" key1="DVM" card = {this.props.card}/>
-  <CardTemplate name="Capacity Management" description="Tables and Objects" key1="CAPA"  card = {this.props.card}/>
+  <CardTemplate name="Forcast" description="Tables and Objects" key1="CAPA"  card = {this.props.card}/>
   <CardTemplate name="What If " description="Tables and Objects" key1="BUSI" />
           </div>
 
