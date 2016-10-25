@@ -18,7 +18,10 @@ export default class TemplateSelect extends React.Component {
 constructor(props)
 {
   super(props)
-  this.state={visible:this.props.visible}
+  this.state={
+    category:this.props.card.category[0],
+    visible:this.props.visible
+  }
 }
    
 setItUnvisible()
@@ -31,15 +34,25 @@ setItUnvisible()
 
 
     render() {
-      console.log(this.state)
+        var templates;
+        switch(this.state.category){
+          case "B":
+            templates = <div>
+                            <CardTemplate name="DVM" description="Tables and Objects" key1="DVM" card = {this.props.card}/>
+                            <CardTemplate name="What If " description="Tables and Objects" key1="BUSI" />
+                        </div>
+            break;
+          case "S":
+            templates = <CardTemplate name="Forcast" description="Tables and Objects" key1="CAPA"  card = {this.props.card}/>
+            break;
+        }
         return (
 
- <div class="templatecontainer"> 
+            <div class="templatecontainer aligncenter"> 
          
-  <CardTemplate name="DVM" description="Tables and Objects" key1="DVM" card = {this.props.card}/>
-  <CardTemplate name="Forcast" description="Tables and Objects" key1="CAPA"  card = {this.props.card}/>
-  <CardTemplate name="What If " description="Tables and Objects" key1="BUSI" />
-          </div>
+                {templates}
+
+            </div>
 
          
 

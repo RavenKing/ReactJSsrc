@@ -48,7 +48,7 @@ export default class TemplateSelect extends React.Component {
         console.log(factorCate);
         var factorName = card.FACTOR_NAME[0];
         
-        if(datatype == "CAPA" && (factorCate == "S" || factorCate == "R")){
+        if(datatype == "CAPA"){
             var nextStatus = "ANALYSIS_RCA_" + factorName;
 
             if(pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
@@ -85,7 +85,7 @@ export default class TemplateSelect extends React.Component {
                   pageStatusChangeActions.pageStatusChangeAction(nextStatus);
                 }
               }
-              else if (datatype == "DVM" && (factorCate == "B" || factorCate == "S")){
+              else if (datatype == "DVM" ){
 
                   var nextStatus = "ANALYSIS_DVM_" + factorName;
 
@@ -137,7 +137,7 @@ export default class TemplateSelect extends React.Component {
     render() {
 
         return (
-  <Card class="margin10" style={{ width: 140 }} onClick={this.ModeSelect.bind(this)}>
+  <Card class="margin10" style={{ width: 160 }} onClick={this.ModeSelect.bind(this)}>
   <div class="custom-size">
         {this.props.name}
         </div>
