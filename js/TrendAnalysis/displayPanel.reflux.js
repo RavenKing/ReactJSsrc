@@ -417,7 +417,92 @@
           break;
         case 'ITEM':
         case 'ITEM-ANA':
-          var url = "http://10.97.144.117:8000/SmartOperations/services/statData.xsodata/STATISDATA?$format=json&$filter=FACTOR_GUID eq " + data.guidArr[0];
+
+        if(data.category == 'S')
+        {
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=1001&sysId=KEV&sysClt=001&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME;
+console.log('url: ',url);
+          $.ajax({
+            url: url,
+            method: 'get',
+            dataType: 'json',
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (resp) {
+            var axis = [];
+            var value = [];
+            resp.results.forEach(function (item) {
+              //axis.push(item.CALENDARWEEK);
+              axis.push(item.YEAR_MONTH)
+              value.push(item.CPU_DB_TIME);
+            });
+            data.lineChartAxis = new Array(axis);
+            data.lineChartValue = new Array(value);
+            $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                console.log('pageStatus chart = ');
+                console.log(pageStatus);
+                console.log('cardId = ');
+                console.log(item);
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });
+          }).fail(function () {
+            console.error('Fetch line chart data error:');
+            console.error(arguments);
+          });
+        }
+        else if(data.category == 'B')
+        {
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=1001&sysId=KEV&sysClt=001&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME;
+console.log('url: ',url);
+          $.ajax({
+            url: url,
+            method: 'get',
+            dataType: 'json',
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (resp) {
+            var axis = [];
+            var value = [];
+            resp.results.forEach(function (item) {
+              //axis.push(item.CALENDARWEEK);
+              axis.push(item.YEAR_MONTH)
+              value.push(item.TABLE_ENTRIES);
+            });
+            data.lineChartAxis = new Array(axis);
+            data.lineChartValue = new Array(value);
+            $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                console.log('pageStatus chart = ');
+                console.log(pageStatus);
+                console.log('cardId = ');
+                console.log(item);
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });
+          }).fail(function () {
+            console.error('Fetch line chart data error:');
+            console.error(arguments);
+          });
+        }
+          /*var url = "http://10.97.144.117:8000/SmartOperations/services/statData.xsodata/STATISDATA?$format=json&$filter=FACTOR_GUID eq " + data.guidArr[0];
           $.ajax({
             url: url,
             method: 'get',
@@ -458,7 +543,7 @@
           }).fail(function () {
             console.error('Fetch line chart data error:');
             console.error(arguments);
-          });
+          });*/
           break;
         case "PIE":
           var categoryTypeArr = [];

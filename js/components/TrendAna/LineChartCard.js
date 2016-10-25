@@ -184,7 +184,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 										left: 240
 									};
 									cardGuid = that.props.card.guidArr[0];
-
+					console.log('when RCA: ----- ', that.props.card);
 									dataPanelItemChangeActions.dataPanelRCAAddItemAction(currentStatus, cardGuid);
 
 									sIntervalCallId = setInterval(function () {
