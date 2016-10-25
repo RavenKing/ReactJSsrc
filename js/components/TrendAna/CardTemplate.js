@@ -124,6 +124,45 @@ export default class TemplateSelect extends React.Component {
 
 
               }
+              else{
+
+                  var nextStatus = "ANALYSIS_WIF_" + factorName;
+
+                  if(pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
+                    var sIntervalCallId;
+
+                    (function () {
+                        var addStatus = function addStatus() {
+                            if (displayAreaDataStore.isStatusExisted(nextStatus) && dataPanelDataStore.isStatusExisted(nextStatus) && functionPanelDataStore.isStatusExisted(nextStatus)) {
+                                clearInterval(sIntervalCallId);
+                                pageStatusChangeActions.pageStatusAddAction(nextStatus);
+                            }
+                        };
+
+                        var nextData = {};
+
+                        nextData.style = that.props.card.style;
+                        nextData.type = "ITEM-ANA";
+                        nextData.guidArr = that.props.card.guidArr;
+                        nextData.FACTOR_NAME = that.props.card.FACTOR_NAME;
+                        nextData.category = that.props.card.category;
+
+
+                        displayAreaChangeActions.displayAreaAddPageAction(nextStatus, cardId);
+                        dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
+                        functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
+                        displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
+
+                        sIntervalCallId = setInterval(function () {
+                            addStatus();
+                        }, 100);
+                    ;
+                    })();
+                  } else {
+                  pageStatusChangeActions.pageStatusChangeAction(nextStatus);
+                }
+              }
+              
 
 
 

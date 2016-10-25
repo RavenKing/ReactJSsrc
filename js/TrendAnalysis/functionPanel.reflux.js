@@ -70,6 +70,20 @@
 
 
       }
+      else if(anaType == "WIF"){
+        this.functionPanelData.push({
+          pageStatus:pageStatus,
+          content:[{
+            name: "Root Cause",
+            info: "RCA",
+            type: "RCA"
+          },{
+            name: "WHAT_IF",
+            info: "WHAT_IF",
+            type: "WHAT_IF"
+          }]
+        })
+      }
       else if(pageStatus == "CAPACITY_MGMT"){
 
         this.functionPanelData.push({

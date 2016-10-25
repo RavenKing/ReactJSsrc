@@ -39,7 +39,7 @@ setItUnvisible()
           case "B":
             templates = <div>
                             <CardTemplate name="DVM" description="Tables and Objects" key1="DVM" card = {this.props.card}/>
-                            <CardTemplate name="What If " description="Tables and Objects" key1="BUSI" />
+                            <CardTemplate name="What If " description="Tables and Objects" key1="BUSI"  card={this.props.card}/>
                         </div>
             break;
           case "S":

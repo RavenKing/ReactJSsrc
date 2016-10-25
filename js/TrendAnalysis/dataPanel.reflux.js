@@ -64,6 +64,24 @@
 
 
       }
+      else if(anaType == "WIF"){
+        this.dataPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            title: "Performance",
+            objList: []
+          }, {
+            title: "Service",
+            objList: []
+          }, {
+            title: "Business",
+            objList: []
+          }, {
+            title: "Resource",
+            objList: []
+          }]
+        });
+      }
       else if(pageStatus == "CAPACITY_MGMT"){
 
         this.dataPanelData.push({
