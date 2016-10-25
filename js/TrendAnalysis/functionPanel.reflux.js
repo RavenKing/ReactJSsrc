@@ -78,7 +78,7 @@
             info: "RCA",
             type: "RCA"
           },{
-            name: "WHAT_IF",
+            name: "What If",
             info: "WHAT_IF",
             type: "WHAT_IF"
           }]
@@ -100,6 +100,10 @@
             name: "RFC Call",
             info: "CPM-RFC",
             type: "CPM-RFC"
+          },{
+              name:"Save Article",
+              info:"SAVE-ARTI",
+              type:"SAVE-ARTI"
           }]
         });
 
