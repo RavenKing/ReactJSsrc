@@ -83,7 +83,7 @@ var UploadCard = React.createClass({
 					dateMonth: this.state.curYearMonth.slice(5,7)
 				},
 				curYearMonth: this.state.curYearMonth,
-				taskType: "BACKGROUND",//API for TIME PROFILE of different type
+				taskType: "BACKGROUD",//API for TIME PROFILE of different type
 				tableName: this.state.kmType[1],
 				tableData: this.state.tableData
 			};
