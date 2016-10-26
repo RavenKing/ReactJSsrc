@@ -35,8 +35,8 @@
             type: "RCA"
           }, {
             name: "Simulate",
-            info: "WHAT_IF",
-            type: "WHAT_IF"
+            info: "RCA_SIM",
+            type: "RCA_SIM"
           }]
         });
 

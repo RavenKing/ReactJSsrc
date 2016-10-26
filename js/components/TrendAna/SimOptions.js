@@ -13,7 +13,7 @@ var displayAreaDataStore= window.displayAreaDataStore
 var pageStatusChangeActions =window.pageStatusChangeActions
 var displayAreaChangeActions = window.displayAreaChangeActions
 var dataPanelItemChangeActions = window.dataPanelItemChangeActions
-var pageStatusDataStore = window.pageStatusDataStore
+var pageStatusDataStore = window.pageStatusDataStore 
 var dataPanelDataStore = window.dataPanelDataStore
 
 

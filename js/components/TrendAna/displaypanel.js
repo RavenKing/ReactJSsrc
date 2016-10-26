@@ -7,6 +7,7 @@ import UploadCard from "./uploadCard";
 import SaveArticle from "./SaveArticle";
 import ArticleTemplate from "./ArticleTemplate";
 import DVMAPanel from "./DVMPanel/DVMAPanel";
+import RCASimCard from "./RCASimCard";
 import WhatIfCard from "./WhatIfCard";
 import WLOverview from "./WLOverview";
 import WLHistory from "./WLHistory";
@@ -203,10 +204,12 @@ if (!rc) {
             return React.createElement(LineChartCard, { key: item.id + "LineChartCard", card: item });
           } 
 
-          else if (item.type == 'WHAT_IF') {
-            return React.createElement(WhatIfCard, { key: item.id + "WhatIfCard", card: item });
+          else if (item.type == "RCA_SIM") {
+            return React.createElement(RCASimCard, { key: item.id + "RCASimCard", card: item });
           } 
-
+          else if(item.type == "WHAT_IF") {
+            return React.createElement(WhatIfCard, { key: item.id + "WhatIfCard", card: item });
+          }
           else if (item.type == 'PIE') {
             return React.createElement(PieChartCard, { key: item.id + "PIEChartCard", card: item });
           } 

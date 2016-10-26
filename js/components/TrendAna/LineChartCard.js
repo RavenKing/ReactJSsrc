@@ -205,9 +205,35 @@ var dataPanelDataStore = window.dataPanelDataStore
 							}
 
 							break;
+						case "RCA_SIM":
+							console.log('case RCA_SIM');
+							var test1 = displayAreaDataStore.isCardExisted(currentStatus, "RCA_SIM");
+							var test2 = displayAreaDataStore.getCardLineNumber(currentStatus, cardId) > 1;
+							if (!displayAreaDataStore.isCardExisted(currentStatus, "RCA_SIM") && displayAreaDataStore.getCardLineNumber(currentStatus, cardId) > 1) {
+								var _style2 = {
+									top: that.props.card.style.top + that.getDOMNode().clientHeight - 360,
+									left: that.getDOMNode().clientWidth + 180
+								};
+								var guidArr = that.props.card.guidArr;
+								
+								var oData = {
+									FACTOR_NAME: that.props.card.FACTOR_NAME,
+									type: "RCA_SIM",
+									style: _style2,
+									factorGuid: guidArr[0],
+									factorGuidStr: guidArr.slice(1).join(","),
+									category: that.props.card.category[0],
+									guidArr: guidArr
+								};
+								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
+							}
+
+							break;
 						case "WHAT_IF":
 							console.log('case WHAT_IF');
-							if (!displayAreaDataStore.isCardExisted(currentStatus, "WHAT_IF") && displayAreaDataStore.getCardLineNumber(currentStatus, cardId) > 1) {
+							var test1 = displayAreaDataStore.isCardExisted(currentStatus, "WHAT_IF");
+							
+							if (!displayAreaDataStore.isCardExisted(currentStatus, "WHAT_IF")) {
 								var _style2 = {
 									top: that.props.card.style.top + that.getDOMNode().clientHeight - 360,
 									left: that.getDOMNode().clientWidth + 180
