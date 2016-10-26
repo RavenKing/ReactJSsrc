@@ -19,9 +19,8 @@ export default class DataBlock extends React.Component {
     render() { 
 
       const { articles } =this.props;
-     
       var  DataItems;
-      if(articles.fetched === true)
+      if(articles.fetched === true&&this.props.type=="DVM")
       {
        
         const  { results } = articles.articles;
@@ -41,7 +40,7 @@ export default class DataBlock extends React.Component {
         return (
           <div className="data-block" data-type="TITLE"> 
           <div className="data-title" >
-            <span> DVM </span>
+            <span> {this.props.type} </span>
           </div>
           { DataItems }
           </div>
