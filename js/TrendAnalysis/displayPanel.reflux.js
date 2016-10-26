@@ -490,6 +490,16 @@
             }
           });
           break;
+        case "RCA_SIM":
+          $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });          
+
+          break;
         case "WHAT_IF":
           
             $.each(that.displayAreaData, function (idx, item) {
