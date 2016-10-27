@@ -400,10 +400,10 @@ export function PostArticle(data){
   return dispatch=>{
     
     //fetch article id for creation
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC?$orderby=ARTILE_ID desc&$top=1",
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
       config
       ).then(function(response){
-        article_id = Number(response.data.d.results[0].ARTILE_ID) + 1;
+        article_id = Number(response.data.d.results[0].ARTICLE_ID) + 1;
         article_id = article_id.toString();
         //creation for KMBSC
         for(var i = 0; i < tables.length && i < size.length && i < tablesDsc.length;i++){
@@ -500,6 +500,74 @@ export function PostArticle(data){
 
   
   
+}
+export function PostCapArticle(data){
+    var config = {
+        headers:{
+            'X-My-Custom-Header':'Header-Value',
+            'content-type':'application/json'
+            },
+            auth:{
+                username:'zengheng',
+                password:'Sap12345'
+        }
+    };
+    var article_id;
+    var article_nam = data.ARTICLE_NAM;
+    var article_dsc = data.ARTICLE_DSC;
+    var customer_id = data.CUSTOMER_ID.toString();
+   
+    var create_on = (new Date()).getTime();
+    create_on = "\/Date("+create_on+")\/";
+    var create_by = data.USERNAME;
+    var comment = data.COMMENT;
+    return dispatch=>{
+        axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
+          config).then(function(response){
+              article_id = Number(response.data.d.results[0].ARTICLE_ID) + 1;
+              article_id = article_id.toString();
+
+
+              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
+      
+                ARTICLE_ID:article_id,
+                FACTOR_GUID:0,
+                CUSTOMER_ID:customer_id,
+                FACTOR_CAT:"S",
+                FACTOR_TYP:"CAP",        
+                ARTICLE_NAM:article_nam,
+                ARTICLE_DSC:article_dsc,
+                CREATE_ON:create_on,
+                CREATE_BY:create_by,
+                UPDATE_ON:null,
+                UPDATE_BY:null
+              },config).catch(function(error){
+                  console.log(error)
+              })
+
+              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP",{
+                ARTICLE_ID:article_id,
+                COMMENT:comment,
+                CAPACITY_DATE:create_on
+              },config).then(function(response){
+                dispatch({type:"POST_ARTICLE",payload:{refresh:true}})
+                  const modal = Modal.success({
+                      title: 'Successfully create! ',
+                      content: 'The article is created done',
+                  });
+                }).catch(function(error){
+                  console.log(error);
+                })
+          
+          }).catch(function(error){
+              console.log(error);
+          })
+        
+          
+                
+  }
+
+
 }
 export function UpdateArticle(data){
   var config = {

@@ -11,6 +11,7 @@ import RCASimCard from "./RCASimCard";
 import WhatIfCard from "./WhatIfCard";
 import WLOverview from "./WLOverview";
 import WLHistory from "./WLHistory";
+import SaveCapArticle from "./SaveCapArticle";
 import { History,Router,browserHistory } from "react-router";
 
 var interact = window.interact;
@@ -185,7 +186,7 @@ if (!rc) {
       this.unsubscribe();
       this.unsubscribeStatus();
     },
-
+ 
     // componentWillUpdate: function() {
     //   this.setState(getState());
     // },
@@ -230,7 +231,9 @@ if (!rc) {
           else if(item.type == 'CPM-Overview' || item.type == 'CPM-DIA' || item.type == 'CPM-BTC' || item.type == 'CPM-RFC'){
             return React.createElement(WLOverview, { key: item.id + "CPMOverview", card: item });
           }
-
+          else if(item.type == 'SAVE-ARTI') {
+            return <SaveCapArticle key={item.id + 'Save Capacity Article'} card={item} />
+          }
           else if(item.type == 'CPM-History'){
             return React.createElement(WLHistory, { key: item.id + "CPMHistory", card: item });
           }
