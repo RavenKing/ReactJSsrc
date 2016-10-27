@@ -42,7 +42,7 @@ export default class DataBlock extends React.Component {
        }
 
         return (
-          <div className="data-block" data-type="TITLE"> 
+          <div className="data-block" data-type="TITLE" data-factor-type={this.props.type}> 
           <div className="data-title" >
             <span> {this.props.title} </span>
           </div>

@@ -55,14 +55,14 @@ export default class DisplayPanel extends React.Component {
               }
               case "TITLE":
               {
-                  data.type = "main";
 
+                  data.type = "main";
+                  data.stype= draggableElement.getAttribute('data-factor-type')
                   props.dispatch(AddCard(data));
                   break;
               }
               case "FUNC":
               {
-                  
                   if(data_id == "1"){
                       data.type = "create";
                       props.dispatch(AddCard(data));
@@ -131,7 +131,7 @@ export default class DisplayPanel extends React.Component {
           return <CreatePanel/>
         }
         else if(one.type == "main"){
-          return <MainPanel results={ results } query={one.query?one.query:""}></MainPanel>
+          return <MainPanel results={ results } query={one.query?one.query:""} type={one.stype}></MainPanel>
         }
       })
 

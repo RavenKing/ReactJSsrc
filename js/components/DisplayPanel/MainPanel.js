@@ -97,14 +97,26 @@ export default class MainPanel extends React.Component {
 
       });
 
-      var tabledata = data.map((result)=>{
+      var tabledata = data.filter((result)=>{
+          if(result.FACTOR_TYPE==this.props.type)
+          {if(this.props.type=="DVM")
           return {
             key:result.ARTICLE_ID,
             article_nam:result.ARTICLE_NAM,
             article_dsc:result.ARTICLE_DSC,
             archobj:result.ARCHOBJ,
-            total_size:result.TOTAL_SIZE
+            total_size:result.TOTAL_SIZE, 
+            type:result.FACTOR_TYPE
           }
+          else if(this.props.type=="CAP")
+          {
+            return {
+            key:result.ARTICLE_ID,
+            article_nam:result.ARTICLE_NAM,
+            article_dsc:result.ARTICLE_DSC,
+            type:result.FACTOR_TYPE}
+          }
+        }
       });
       return tabledata;
     }
@@ -126,7 +138,10 @@ export default class MainPanel extends React.Component {
       {
         const { articles} = this.props;
         results = articles.articles.results;
-        data = results.map((result)=>{
+        data = results.filter((result)=>{
+
+          if(result.FACTOR_TYPE==this.props.type)
+          {if(this.props.type=="DVM")
           return {
             key:result.ARTICLE_ID,
             article_nam:result.ARTICLE_NAM,
@@ -135,6 +150,16 @@ export default class MainPanel extends React.Component {
             total_size:result.TOTAL_SIZE, 
             type:result.FACTOR_TYPE
           }
+          else if(this.props.type=="CAP")
+          {
+            return {
+            key:result.ARTICLE_ID,
+            article_nam:result.ARTICLE_NAM,
+            article_dsc:result.ARTICLE_DSC,
+            type:result.FACTOR_TYPE}
+          }
+        }
+
         });
       }
       else{
@@ -142,31 +167,49 @@ export default class MainPanel extends React.Component {
       }
    
 
-        
-      var columns = [        
+       if(this.props.type == "DVM") 
+      {var columns = [        
         {
           title: 'Article Name',
           width:150,
-          dataIndex: 'article_nam',
-          render:(text,record)=><a href='#' onClick={this.addnewCard.bind(this)} rel={record.key} type={record.type}>{text}</a>
+          dataIndex: 'ARTICLE_NAM',
+          render:(text,record)=><a href='#' onClick={this.addnewCard.bind(this)} rel={record.ARTICLE_ID} type={record.FACTOR_TYPE}>{text}</a>
         },
         {
           title: 'Article Description',
           width:150,
-          dataIndex: 'article_dsc'
+          dataIndex: 'ARTICLE_DSC'
         },
         {
           title: 'Archiving Object',
           width:150,
-          dataIndex: 'archobj'
+          dataIndex: 'ARCHOBJ'
         },
         {
           title: 'Total Size (GB)',
           width:150,
-          dataIndex: 'total_size'
+          dataIndex: 'TOTAL_SIZE'
         }];
-               
+      }
+      else if(this.props.type == "CAP")
+      {
+      var columns = [ 
+        {
+          title: 'Article Name',
+          width:150,
+          dataIndex: 'ARTICLE_NAM',
+          render:(text,record)=><a href='#' onClick={this.addnewCard.bind(this)} rel={record.ARTICLE_ID} type={record.FACTOR_TYPE}>{text}</a>
+        },
+        {
+          title: 'Article Description',
+          width:150,
+          dataIndex: 'ARTICLE_DSC'
+        }]
 
+      }
+               
+  console.log(data);
+  console.log(columns)
         return (
           <div className="main-panel">
            <Card title="DVM Articles" extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />}  >

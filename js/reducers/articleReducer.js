@@ -22,6 +22,7 @@ export default function reducer(state={
             if(payload.type == "main"){
                 displayPanel.push({
                     type:payload.type,
+                    stype:payload.stype,
                     query:payload.query,
                     x:payload.x,
                     y:payload.y,
