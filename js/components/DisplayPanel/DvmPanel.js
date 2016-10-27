@@ -27,7 +27,7 @@ export default class DvmPanel extends React.Component {
       displaydata =  <StrategyPanel Strategy = { Article }> </StrategyPanel>
 
     }
-    else if(Page == 3 && Article.bestpractice)
+    else if(Page == 3)
     {
       if(loading==false)
           displaydata = <BestPanel archobj={Article.ARCHOBJ} articleid={Article.ARTICLE_ID} customerid={Article.CUSTOMER_ID} bestpractice={Article.bestpractice}/>
