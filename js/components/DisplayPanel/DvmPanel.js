@@ -11,7 +11,12 @@ export default class DvmPanel extends React.Component {
     const { Page } = this.props;
     const { Article} = this.props;
     var displaydata ;
-    
+    let loading = true; 
+    if(Article.bestpractice!=null)
+    {
+      loading = false;
+    }
+
     if(Page == 1)
     {
       displaydata =  <TableCharts Article={Article}></TableCharts>
@@ -24,8 +29,10 @@ export default class DvmPanel extends React.Component {
     }
     else if(Page == 3 && Article.bestpractice)
     {
-          displaydata = <BestPanel archobj={Article.ARCHOBJ} articleid={Article.ARTICLE_ID} customerid={Article.CUSTOMER_ID} bestpractice={Article.bestpractice}></BestPanel>
-    
+      if(loading==false)
+          displaydata = <BestPanel archobj={Article.ARCHOBJ} articleid={Article.ARTICLE_ID} customerid={Article.CUSTOMER_ID} bestpractice={Article.bestpractice}/>
+      else 
+        displaydata=<h1>loading</h1>
     }
     else if(Page == 4){
         displaydata = <PredictPanel/>

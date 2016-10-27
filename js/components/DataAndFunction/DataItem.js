@@ -33,7 +33,7 @@ export default class DataItem extends React.Component {
         return (
             
 
-            <Button className="data-item" data-type="ITEM" type="dashed" data-id={this.props.uniquekey}>
+            <Button data-factor-type ={this.props.type} className="data-item" data-type="ITEM" type="dashed" data-id={this.props.uniquekey}>
               {this.props.title}
             </Button>
       );

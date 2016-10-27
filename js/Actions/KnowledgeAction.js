@@ -1,10 +1,34 @@
 import axios from "axios";
 import { Modal } from 'antd';
 
+
+
+export function GetCapaData(param)
+{
+  return dispatch=>{
+var url = 'http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=1001&dateYear=2016&dateMonth=06';
+axios.get(url,{
+headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'Content-Type': 'application/json'
+        },
+    auth: {
+    username: 'zengheng',
+    password: 'Sap12345'
+     }
+})
+.then(function(response,err)
+{
+  var data = response.data;
+  data.articleid=param.articleid;
+  dispatch({type:"ADD_CAPA_DATA",payload:data})
+})
+
+}
+
+}
+
 export function fetchArticles(user){
-
-
-
 var customerid;
 if(user.ROLE=="ADM") 
 {

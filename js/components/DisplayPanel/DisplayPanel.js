@@ -6,6 +6,7 @@ import MainPanel from "./MainPanel";
 import DetailPanel from "./DetailPanel";
 import CreatePanel from "../CreatePanel/CreatePanel";
 import EditPanel from "../EditPanel/EditPanel";
+import CapacityPanel from "./CapacityPanel";
 
 import { setAreaDropable } from "../../interactScript";
 
@@ -44,8 +45,9 @@ export default class DisplayPanel extends React.Component {
               switch(draggableElement.getAttribute('data-type')){
               case "ITEM":
               { 
+                var type = draggableElement.getAttribute('data-factor-type')
 
-                  data.type = "detail";
+                  data.type = type;
                   data.data_id = data_id;
                
                   props.dispatch(AddCard(data));
@@ -111,7 +113,7 @@ export default class DisplayPanel extends React.Component {
       const { results } = articles.articles;
       
       var displayArea = displayPanel.map((one)=>{
-        if(one.type == "detail"){
+        if(one.type == "DVM"||one.type=="CAP"){
           for(var i = 0; i < results.length;i++){
             if(results[i].ARTICLE_ID ==  one.article){
               return <DetailPanel article={results[i]} display={one} />

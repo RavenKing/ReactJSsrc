@@ -4,6 +4,7 @@ import { Modal,Button,Card,Icon} from "antd";
 import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
+import CapacityPanel from "./CapacityPanel"
 import { AddCard,RemoveCard,GetBestPractice,DeleteArticle,GetRegionData,fetchArticles} from "../../Actions/KnowledgeAction";
 import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
@@ -39,8 +40,10 @@ export default class DetailPanel extends React.Component {
       archobj:article.ARCHOBJ,
       region:user.REGION
     }
-    this.props.dispatch(GetBestPractice(parms1));
+    if(article.FACTOR_TYPE=="DVM")
+    {this.props.dispatch(GetBestPractice(parms1));
     this.props.dispatch(GetRegionData(parms2));
+    }
     this.state={
       article:article,
       page:1
@@ -150,7 +153,8 @@ export default class DetailPanel extends React.Component {
     removeCard(type){
       var data = {
         data_id:this.props.article.ARTICLE_ID,
-        type:type
+        type:this.props.article.FACTOR_TYPE
+
       }
       this.props.dispatch(RemoveCard(data));      
      
@@ -161,11 +165,17 @@ export default class DetailPanel extends React.Component {
         top: this.state.y+'px',
         left:this.state.x+'px'
       };*/
-      var pos1 = {
+      const pos1 = {
         top:this.props.display.y+'px',
         left:this.props.display.x+'px'
       };
-     
+
+    if(this.props.article.FACTOR_TYPE == "DVM")
+     var displayzone = <DvmPanel Page={this.state.page} Article={this.props.article} /> ; 
+      else if(this.props.article.FACTOR_TYPE == "CAP")
+      var displayzone = <CapacityPanel Article ={this.props.article}/>
+
+
       return (
         
         <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,"detail")} />}>
@@ -173,8 +183,7 @@ export default class DetailPanel extends React.Component {
           <Icon type="left" />
           </div>
           <div className="middlecontainer">  
-
-          <DvmPanel Page={this.state.page} Article={this.props.article}> </DvmPanel>
+          {displayzone}
           </div>
           <div className="rightside" onClick={this.NavRight.bind(this)}>
           <Icon type="right"/>
