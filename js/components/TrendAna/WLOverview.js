@@ -119,6 +119,16 @@ var WLOverview = React.createClass({
 								};
 							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							break;
+						case "SAVE-ARTI":
+							console.log('case save capacity ' + currentStatus);					
+								
+							data.factor_name = draggableElement.getAttribute('data-factor_name');
+							data.factor_info = draggableElement.getAttribute('data-factor_info');
+							data.category = draggableElement.getAttribute('data-category');
+							data.type = "SAVE-ARTI";
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);									
+								
+							break;
 
 					}
 

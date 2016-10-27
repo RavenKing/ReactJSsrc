@@ -530,7 +530,15 @@
               }
           });
           break;
-
+        case "SAVE-ARTI":
+          $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+          });
+          break;
         case "CPM-DIA":
         case "CPM-BTC":
         case "CPM-RFC":
