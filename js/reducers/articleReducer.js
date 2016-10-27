@@ -66,10 +66,15 @@ export default function reducer(state={
                 return  displayone.article != payload.data_id || displayone.type != payload.type
                       
             })
-            
+            //remove create panel
             if(payload.type == "create"){
-                return {...state,displayPanel:newdata,newArticle:{currentstep:0}}
+                return {...state,displayPanel:newdata,newArticle:{currentstep:0},refresh:true}
             }
+            //remove detail panel through the cross icon
+            else if(payload.type == "detail"){
+                return {...state,displayPanel:newdata}
+            }
+            //remove detail panel by drag the delete button or remove edit panel
             else{
                 return {...state,displayPanel:newdata,refresh:true}
             }

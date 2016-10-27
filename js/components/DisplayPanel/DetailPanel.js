@@ -123,7 +123,7 @@ export default class DetailPanel extends React.Component {
                         if(articles[i].ARTICLE_ID == drop_id){
 
                             props.dispatch(DeleteArticle(articles[i]));
-                            that.removeCard();
+                            that.removeCard("delete");
                             break;
                         }
                       }
@@ -145,14 +145,12 @@ export default class DetailPanel extends React.Component {
     });
   }
 
-  componentWillMount(){
+ 
 
-  }
-
-    removeCard(){
+    removeCard(type){
       var data = {
         data_id:this.props.article.ARTICLE_ID,
-        type:"detail"
+        type:type
       }
       this.props.dispatch(RemoveCard(data));      
      
@@ -170,7 +168,7 @@ export default class DetailPanel extends React.Component {
      
       return (
         
-        <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this)} />}>
+        <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,"detail")} />}>
           <div className="leftside" onClick={this.NavLeft.bind(this)}>
           <Icon type="left" />
           </div>

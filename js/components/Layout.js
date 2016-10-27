@@ -68,14 +68,15 @@ export default class Layout extends React.Component {
 
   componentWillUpdate(nextProps,nextState){
     const {auth} = this.props;
- const {user} = auth.token ; 
+    const {user} = auth.token ; 
     const {articles} = nextProps;
     if(articles.refresh ==true)
     {
-      setTimeout(function(){
+      this.props.dispatch(fetchArticles(user));
+      /*setTimeout(function(){
 
-this.props.dispatch(fetchArticles(user))
-      }.bind(this),1000)
+        this.props.dispatch(fetchArticles(user))
+      }.bind(this),1000)*/
       }
 
   }
@@ -83,26 +84,26 @@ this.props.dispatch(fetchArticles(user))
 
   componentWillMount()
   {
-const {auth} = this.props;
+    const {auth} = this.props;
+    const {user} = auth.token ; 
 
-const {user} = auth.token ; 
-this.props.dispatch(fetchArticles(user))
+    this.props.dispatch(fetchArticles(user))
 
   }
 
 
-      render() {
+    render() {
         
-    return (
-         <div id="wrapper">
+      return (
+          <div id="wrapper">
 
-          <DataPanel articles={this.props.articles}> </DataPanel>
-          <DisplayPanel articles = {this.props.articles}> </DisplayPanel>
+            <DataPanel articles={this.props.articles}> </DataPanel>
+            <DisplayPanel articles = {this.props.articles}> </DisplayPanel>
       
-          <FunctionPanel> 
-          </FunctionPanel>
+            <FunctionPanel/> 
+            
 
-        </div>
+          </div>
         
         
         
