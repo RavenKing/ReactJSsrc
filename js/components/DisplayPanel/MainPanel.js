@@ -73,7 +73,7 @@ export default class MainPanel extends React.Component {
       console.log(e.target.rel)
       var data = {
         data_id:e.target.rel,
-        type:"detail"
+        type:e.target.type
       };
       this.props.dispatch(AddCard(data));
     }
@@ -132,7 +132,8 @@ export default class MainPanel extends React.Component {
             article_nam:result.ARTICLE_NAM,
             article_dsc:result.ARTICLE_DSC,
             archobj:result.ARCHOBJ,
-            total_size:result.TOTAL_SIZE
+            total_size:result.TOTAL_SIZE, 
+            type:result.FACTOR_TYPE
           }
         });
       }
@@ -147,7 +148,7 @@ export default class MainPanel extends React.Component {
           title: 'Article Name',
           width:150,
           dataIndex: 'article_nam',
-          render:(text,record)=><a href='#' onClick={this.addnewCard.bind(this)} rel={record.key}>{text}</a>
+          render:(text,record)=><a href='#' onClick={this.addnewCard.bind(this)} rel={record.key} type={record.type}>{text}</a>
         },
         {
           title: 'Article Description',
