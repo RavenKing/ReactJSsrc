@@ -184,8 +184,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 										left: 240
 									};
 									cardGuid = that.props.card.guidArr[0];
-
-									dataPanelItemChangeActions.dataPanelRCAAddItemAction(currentStatus, cardGuid);
+					console.log('when RCA: ----- ', that.props.card);
+									dataPanelItemChangeActions.dataPanelRCAAddItemAction(currentStatus, that.props.card);
 
 									sIntervalCallId = setInterval(function () {
 										addPieCard();

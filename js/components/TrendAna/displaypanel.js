@@ -87,6 +87,10 @@ if (!rc) {
               data.guidArr = new Array(draggableElement.getAttribute('data-factor_guid'));
               data.FACTOR_NAME = new Array(draggableElement.getAttribute('data-factor_name'));
               data.category = new Array(draggableElement.getAttribute('data-category'));
+              data.factor_type = new Array(draggableElement.getAttribute('data-factor_type'));
+              data.customerId = new Array(draggableElement.getAttribute('data-customer_id'));
+              data.systemId = new Array(draggableElement.getAttribute('data-sys_id'));
+              data.systemClt = new Array(draggableElement.getAttribute('data-sys_clt'));
               break;
             case 'CREATE':
 

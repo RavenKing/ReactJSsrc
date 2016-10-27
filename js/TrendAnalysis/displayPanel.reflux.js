@@ -326,15 +326,19 @@
           switch (data.title) {
             case 'Business':
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID%20eq%20%271001%27%20and%20SYSID%20eq%20%27KEV%27%20and%20SYSCLT%20eq%20%27001%27%20and%20FACTOR_CATEGORY%20eq%20%27B%27';
               break;
 
             case 'Service':
-              url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID%20eq%20%271001%27%20and%20SYSID%20eq%20%27KEV%27%20and%20SYSCLT%20eq%20%27001%27%20and%20FACTOR_CATEGORY%20eq%20%27S%27';
+              
               break;
 
             case 'Resource':
-              url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID%20eq%20%271001%27%20and%20SYSID%20eq%20%27KEV%27%20and%20SYSCLT%20eq%20%27001%27%20and%20FACTOR_CATEGORY%20eq%20%27R%27';
               break;
 
             default:
@@ -417,7 +421,93 @@
           break;
         case 'ITEM':
         case 'ITEM-ANA':
-          var url = "http://10.97.144.117:8000/SmartOperations/services/statData.xsodata/STATISDATA?$format=json&$filter=FACTOR_GUID eq " + data.guidArr[0];
+
+        if(data.category == 'S')
+        {
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME;
+console.log('ITEM url: ',url);
+console.log('RCA data ----', data);
+          $.ajax({
+            url: url,
+            method: 'get',
+            dataType: 'json',
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (resp) {
+            var axis = [];
+            var value = [];
+            resp.results.forEach(function (item) {
+              //axis.push(item.CALENDARWEEK);
+              axis.push(item.YEAR_MONTH)
+              value.push(item.CPU_DB_TIME);
+            });
+            data.lineChartAxis = new Array(axis);
+            data.lineChartValue = new Array(value);
+            $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                console.log('pageStatus chart = ');
+                console.log(pageStatus);
+                console.log('cardId = ');
+                console.log(item);
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });
+          }).fail(function () {
+            console.error('Fetch line chart data error:');
+            console.error(arguments);
+          });
+        }
+        else if(data.category == 'B')
+        {
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorName=' + data.FACTOR_NAME;
+console.log('url: ',url);
+          $.ajax({
+            url: url,
+            method: 'get',
+            dataType: 'json',
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (resp) {
+            var axis = [];
+            var value = [];
+            resp.results.forEach(function (item) {
+              //axis.push(item.CALENDARWEEK);
+              axis.push(item.YEAR_MONTH)
+              value.push(item.TABLE_ENTRIES);
+            });
+            data.lineChartAxis = new Array(axis);
+            data.lineChartValue = new Array(value);
+            $.each(that.displayAreaData, function (idx, item) {
+              if (pageStatus === item.pageStatus) {
+                console.log('pageStatus chart = ');
+                console.log(pageStatus);
+                console.log('cardId = ');
+                console.log(item);
+                item.content.push(data);
+                that.trigger(item.content);
+                return false;
+              }
+            });
+          }).fail(function () {
+            console.error('Fetch line chart data error:');
+            console.error(arguments);
+          });
+        }
+          /*var url = "http://10.97.144.117:8000/SmartOperations/services/statData.xsodata/STATISDATA?$format=json&$filter=FACTOR_GUID eq " + data.guidArr[0];
           $.ajax({
             url: url,
             method: 'get',
@@ -458,7 +548,7 @@
           }).fail(function () {
             console.error('Fetch line chart data error:');
             console.error(arguments);
-          });
+          });*/
           break;
         case "PIE":
           var categoryTypeArr = [];

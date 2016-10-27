@@ -2,7 +2,7 @@ import React from "react"
 
 import { connect } from "react-redux";
 
-import {Card,message,Button,Cascader,Icon,Table,Upload,Row,Col,Form,DatePicker } from "antd"
+import {Card,message,Button,Cascader,Icon,Table,Upload,Row,Col,Form,DatePicker,Select } from "antd"
 var global = window
 
 var displayAreaDataStore= window.displayAreaDataStore
@@ -59,7 +59,8 @@ var UploadCard = React.createClass({
 				kmType: [],
 				tableLen: 550,
 				checkType: true,
-				curYearMonth: curYearMonth
+				curYearMonth: curYearMonth,
+				taskType: "BACKGROUND"
 			};
 		},
 
@@ -73,7 +74,7 @@ var UploadCard = React.createClass({
 			global.resetPosition(this.getDOMNode());
 		},
 		onConfirm: function onConfirm() {
-
+			var that = this;
 			var uploadData = {
 				userInfo: {
 					customerId: "1001",
@@ -83,7 +84,7 @@ var UploadCard = React.createClass({
 					dateMonth: this.state.curYearMonth.slice(5,7)
 				},
 				curYearMonth: this.state.curYearMonth,
-				taskType: "BACKGROUND",//API for TIME PROFILE of different type
+				taskType: this.state.taskType,//API for TIME PROFILE of different type
 				tableName: this.state.kmType[1],
 				tableData: this.state.tableData
 			};
@@ -94,6 +95,7 @@ var UploadCard = React.createClass({
 				console.log('respCode = ', respCode);
 				if(respCode){
 					message.success('Local file uploaded to HANA successfully.', 3.5);
+					that.onReset();
 				}
 				else {
 					message.error('Upload failed.', 3.5);
@@ -114,8 +116,7 @@ var UploadCard = React.createClass({
 				isEnabled: false,
 				kmType: [],
 				tableLen: 550,
-				checkType: true,
-				curYearMonth: curYearMonth
+				checkType: true
 			});
 		},
 		onChangeType: function onChangeType(value) {
@@ -132,6 +133,12 @@ var UploadCard = React.createClass({
 				curYearMonth: dateString,
 				checkType: ((!!dateString) && (!!this.state.kmType)) ? false : true
 			});
+		},
+		handleTypeChange: function handleTypeChange(value) {
+		  console.log('selected type:' , value);
+		  this.setState({
+		  	taskType: value
+		  })
 		},
 
 		render: function render() {
@@ -281,6 +288,7 @@ var UploadCard = React.createClass({
 			}
 
 			var submitBtn;
+
 			switch (this.state.echoData) {
 				case true:
 					{
@@ -312,9 +320,19 @@ var UploadCard = React.createClass({
 								null,
 								React.createElement(
 									Col,
-									{ span: 16 },
+									{ span: 10 },
 									React.createElement(DatePicker.MonthPicker, { defaultValue: this.state.curYearMonth , disabled: true})
+								),
+								React.createElement(
+									Col,
+									{ span: 12 },
+									<Select defaultValue={this.state.taskType} style={{ width: 120 }} onChange={this.handleTypeChange} disabled>
+								      <Select.Option value="DIALOG">DIALOG</Select.Option>
+								      <Select.Option value="BACKGROUND">BACKGROUND</Select.Option>
+								      <Select.Option value="RFC">RFC</Select.Option>
+								    </Select>
 								)
+
 							)
 						);
 						break;
@@ -352,8 +370,17 @@ var UploadCard = React.createClass({
 								null,
 								React.createElement(
 									Col,
-									{ span: 16 },
+									{ span: 10 },
 									React.createElement(DatePicker.MonthPicker, { defaultValue: this.state.curYearMonth , onChange: this.onChangeTime })
+								),
+								React.createElement(
+									Col,
+									{ span: 12 },
+									<Select defaultValue={this.state.taskType} style={{ width: 120 }} onChange={this.handleTypeChange}>
+								      <Select.Option value="DIALOG">DIALOG</Select.Option>
+								      <Select.Option value="BACKGROUND">BACKGROUND</Select.Option>
+								      <Select.Option value="RFC">RFC</Select.Option>
+								    </Select>
 								)
 							)
 						);

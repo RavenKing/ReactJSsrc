@@ -84,7 +84,7 @@ var WLOverview = React.createClass({
 
 						case 'CPM-DIA':
 							var oData = {
-									title: 'Transaction Profile - Dialog Jobs',
+									title: 'Transaction Profile - Dialog Jobs (' + that.props.card.dateYear + '-' + that.props.card.dateMonth + ')',
 									type: data.info,
 									taskType:"DIALOG",
 									customerId: that.props.card.customerId,
@@ -96,7 +96,7 @@ var WLOverview = React.createClass({
 							break;
 						case 'CPM-BTC':
 						var oData = {
-									title: 'Transaction Profile - Background Jobs',
+									title: 'Transaction Profile - Background Jobs (' + that.props.card.dateYear + '-' + that.props.card.dateMonth + ')',
 									type: data.info,
 									taskType:"BACKGROUND",
 									customerId: that.props.card.customerId,
@@ -109,7 +109,7 @@ var WLOverview = React.createClass({
 						case 'CPM-RFC':
 
 							var oData = {
-									title: 'Transaction Profile - Remote Function Calls',
+									title: 'Transaction Profile - Remote Function Calls (' + that.props.card.dateYear + '-' + that.props.card.dateMonth + ')',
 									type: data.info,
 									taskType:"RFC",
 									customerId: that.props.card.customerId,
