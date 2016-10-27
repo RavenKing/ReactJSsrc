@@ -60,7 +60,11 @@ var global = window
               "data-factor_name": this.props.item.FACTOR_NAME,
               "data-trend": this.props.item.TREND,
               "data-category": this.props.item.FACTOR_CATEGORY,
-              "data-factor_type": this.props.item.FACTOR_TYPE },
+              "data-factor_type": this.props.item.FACTOR_TYPE,
+              "data-customer_id": this.props.item.CUSTOMER_ID,
+              "data-sys_id": this.props.item.SYSID,
+              "data-sys_clt": this.props.item.SYSCLT
+            },
             React.createElement(
               Badge,
               { dot: parseFloat(item.TREND) > 5.0 },

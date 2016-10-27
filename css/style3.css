@@ -241,7 +241,7 @@ li {
   display: table;
 }
 
-.pie-card .pie {
+.pie {
   display: table-cell;
   height: 300px;
   width: 350px;
