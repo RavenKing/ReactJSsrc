@@ -191,7 +191,6 @@ if (!rc) {
     // },
 
     render: function render() {
-      console.log(displayAreaDataStore.displayAreaData);
       return React.createElement(
         'div',
         { className: (!this.state.cards.length) ? 'display-panel help-bg' : 'display-panel' },

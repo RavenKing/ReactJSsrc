@@ -10,9 +10,7 @@ export default function reducer(state={
     
     switch(action.type)
     {
-        
-
-        case "FETCH_ARTICLE_FULFILLED":
+      case "FETCH_ARTICLE_FULFILLED":
         {
                     
             return {...state,fetching:false,fetched:true,articles:action.payload,refresh:false}
@@ -20,25 +18,8 @@ export default function reducer(state={
         case "ADD_ARTICLE_VIEW":
         {
             const  { displayPanel } = state;
-            var payload = action.payload;
-            if(payload.type == "detail"){
-                displayPanel.push({
-                type:payload.type,
-                article:payload.data_id,
-                x:payload.x,
-                y:payload.y,
-                visible:true});
-            }
-            else if(payload.type == "edit"){
-                displayPanel.push({
-                    type:payload.type,
-                    article:payload.data_id,
-                    x:payload.x,
-                    y:payload.y,
-                    visible:true
-                });
-            }
-            else if(payload.type == "main"){
+            const {payload}= action;
+            if(payload.type == "main"){
                 displayPanel.push({
                     type:payload.type,
                     query:payload.query,
@@ -48,8 +29,10 @@ export default function reducer(state={
                 });
             }
             else{
+
                 displayPanel.push({
                 type:payload.type,
+                article:payload.data_id?payload.data_id:null,
                 x:payload.x,
                 y:payload.y,
                 visible:true});
@@ -121,8 +104,6 @@ export default function reducer(state={
         }
         case "GET_BEST_PRACTICE_STEP2":
         {
-
-            console.log(action.payload)
             const { articles  } = state;
             const { results } = articles;
             var newdata = results.filter((article)=>{ 
@@ -283,7 +264,32 @@ export default function reducer(state={
         return {...state,newArticle:createarticle};
 
         }
-                    
+        case "ADD_CAPA_DATA":
+        {
+            console.log("test")
+         const { articles  } = state;
+            const { results } = articles;
+            var newdata = results.filter((article)=>{ 
+                if(article.ARTICLE_ID == action.payload.articleid){
+                    if(article.capadata){
+                        article.capadata.detail = action.payload.results
+                    }
+                    else{
+                        
+                        article.capadata={detail:action.payload.results}
+
+                    }
+                }
+                       
+                return  article;
+                      
+            });
+            var newArticles = {};
+            newArticles.results = newdata;
+            return {...state,articles:newArticles};
+
+        }          
+
 
 
     }
