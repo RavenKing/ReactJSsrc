@@ -81,6 +81,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			global.resetPosition(this.getDOMNode());
 		},	
 		startSim: function startSim(simOptions){
+			console.log(pageStatusDataStore.getCurrentStatus());
 			var that = this;
 			var dataInfo = {
 				factorId: this.props.card.factorGuid,

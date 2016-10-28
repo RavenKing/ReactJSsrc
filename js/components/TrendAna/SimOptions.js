@@ -31,6 +31,7 @@ var SimOptions = React.createClass({
   startSim() {
 
   	var options = this.state.factorAdjArr;
+ console.log(options)
     
     for(var i = 0; i < this.state.factorArr.length; i ++){
 

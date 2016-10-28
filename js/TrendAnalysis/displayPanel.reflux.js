@@ -19,9 +19,11 @@
             "factorId": data.factorGuid,
             "factorStr": data.factorGuidStr
           };*/
+
+          console.log(dataInfo)
           var url = "http://10.97.144.117:8000/SmartOperations/services/whatIfAnalysis.xsjs";
           //var url = "http://10.128.245.87:8004/Kevinyantest/HANAXS_TEST/services/whatIfAnalysis.xsjs?factorId=" + data.factorGuid + "&factorStr=" + data.factorGuidStr;
-          $.ajax({
+          /*$.ajax({
             url: url,
             method: 'POST',
             async: true,
@@ -64,14 +66,14 @@
                 that.trigger(item.content);
                 return false;
               }
-            });*/
+            });
 
             getSimResult(dataInfo);
 
           }).fail(function () {
             console.error('Fetch what-if chart data error:');
             console.error(arguments); 
-          });
+          });*/
 
 
 
