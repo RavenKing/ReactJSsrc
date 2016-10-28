@@ -82,6 +82,28 @@ var dataPanelDataStore = window.dataPanelDataStore
 		},	
 		startSim: function startSim(simOptions){
 			console.log(pageStatusDataStore.getCurrentStatus());
+			const gooddata =  displayAreaDataStore.getData(pageStatusDataStore.getCurrentStatus());
+			console.log(gooddata)
+			let origin ={};
+			let factors = [];
+			gooddata.filter((one)=>{
+					if(one.lineChartValue)
+					{
+							origin=one.lineChartValue[0]
+						for(var i=1;i<one.lineChartValue.length;i++)
+						{
+							factors.push(one.lineChartValue[i])
+
+						}
+
+
+					}
+
+
+			})
+
+
+
 			var that = this;
 			var dataInfo = {
 				factorId: this.props.card.factorGuid,
@@ -89,7 +111,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 				predictCnt: this.state.predictCnt,
 				factorCate: this.props.card.category,
 				factorCateStr: this.props.card.categoryStr,
-				factorAdj: simOptions.slice(0).join(",")
+				factorAdj: simOptions.slice(0).join(","),
+				origin:origin,
+				factors:factors
 			};
 			console.log("props.card ---", this.props.card);
 			console.log('dataInfo --- ', dataInfo);

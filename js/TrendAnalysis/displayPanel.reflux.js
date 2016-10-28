@@ -14,12 +14,12 @@
     }],
 
     trendSimulation: function(dataInfo, getSimResult) {
-
+      console.log(dataInfo);
       /*var dataInfo = {
             "factorId": data.factorGuid,
             "factorStr": data.factorGuidStr
           };*/
-<<<<<<< HEAD
+
 
           console.log(dataInfo)
           var url = "http://10.97.144.117:8000/SmartOperations/services/whatIfAnalysis.xsjs";
@@ -86,9 +86,7 @@
             console.error(arguments); 
 <<<<<<< HEAD
           });*/
-=======
-          });*/ ///to here
->>>>>>> origin/newGeneration5
+
 
 
 
