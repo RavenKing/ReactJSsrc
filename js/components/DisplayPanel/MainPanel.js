@@ -206,15 +206,16 @@ export default class MainPanel extends React.Component {
           title: 'Article Description',
           width:150,
           dataIndex: 'ARTICLE_DSC'
-        }]
+        }] 
 
       }
                
   console.log(data);
   console.log(columns)
+        var title = this.props.type == "CAP"?"Capacity Articles":"DVM Articles";
         return (
           <div className="main-panel">
-           <Card title="DVM Articles" extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />}  >
+           <Card title={title} extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />}  >
           <div class="margin-bottom10">
           <Input placeholder="Search help" size="small" onChange={this.filterSearch.bind(this)} defaultValue={this.state.query?this.state.query:""}/>
           </div>
