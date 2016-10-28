@@ -269,11 +269,16 @@ var dataPanelDataStore = window.dataPanelDataStore
 							break;
 						case currentStatus + "-ITEM":
 							console.log('case ' + currentStatus + '-ITEM');
+							console.log('state when add factor --- ', that.props.card);
 							if (currentStatus != "INIT" && that.props.card.type === "ITEM-ANA") {
 								if(currentStatus.indexOf("ANALYSIS_RCA") > -1){
 									data.guid = draggableElement.getAttribute('data-factor_guid');
 									data.FACTOR_NAME_S = draggableElement.getAttribute('data-factor_name');
 									data.category = draggableElement.getAttribute('data-category');
+									data.factor_type = draggableElement.getAttribute('data-factor_type');
+									data.customerId = that.props.card.customerId;
+									data.systemId = that.props.card.systemId;
+									data.systemClt = that.props.card.systemClt;
 									displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId);
 								}
 								else if(currentStatus.indexOf("ANALYSIS_DVM") > -1){
