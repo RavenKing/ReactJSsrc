@@ -223,8 +223,10 @@ var dataPanelDataStore = window.dataPanelDataStore
 									factorGuid: guidArr[0],
 									factorGuidStr: guidArr.slice(1).join(","),
 									category: that.props.card.category[0],
+									categoryStr: that.props.card.category.slice(1).join(","),
 									guidArr: guidArr
 								};
+								console.log('oooooooDATA ----',oData);
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
 
@@ -247,8 +249,10 @@ var dataPanelDataStore = window.dataPanelDataStore
 									factorGuid: guidArr[0],
 									factorGuidStr: guidArr.slice(1).join(","),
 									category: that.props.card.category[0],
+									categoryStr: that.props.card.category.slice(1).join(","),
 									guidArr: guidArr
 								};
+								
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
 
