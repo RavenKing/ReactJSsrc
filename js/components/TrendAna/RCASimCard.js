@@ -149,7 +149,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 				factorAdj: simOptions.slice(0).join(","),
 				origin:origin,
 				factors:factors,
-				ofstring:header+body
+				ofstring:header+body,
+				length:origin.length
 			};
 
 			var simResult = {};
