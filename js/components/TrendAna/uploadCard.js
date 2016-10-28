@@ -161,6 +161,9 @@ var UploadCard = React.createClass({
 				}, {
 					value: 'KMDVM',
 					label: 'Data Strategy'
+				},{
+					value: 'CMTBL',
+					label: 'Time-based Distribution'
 				}]
 			}, {
 				value: 'CPM',

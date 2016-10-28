@@ -467,7 +467,7 @@ console.log('RCA data ----', data);
         }
         else if(data.category == 'B')
         {
-          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorName=' + data.FACTOR_NAME;
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME;
 console.log('url: ',url);
           $.ajax({
             url: url,
@@ -834,56 +834,133 @@ console.log('url: ',url);
     },
     onDisplayAreaChangeCardAction: function onDisplayAreaChangeCardAction(pageStatus, data, cardId) {
       var that = this;
-      $.each(this.displayAreaData, function (idx, item) {
-        if (pageStatus === item.pageStatus) {
-          $.each(item.content, function (idx1, item1) {
+      if(data.category == 'B'){
+        $.each(this.displayAreaData, function (idx, item) {
+          if (pageStatus === item.pageStatus) {
+            $.each(item.content, function (idx1, item1) {
 
-            if (item1.id === cardId) {
-              console.log('pageStatus update = ');
-              console.log(pageStatus);
-              console.log('cardId = ');
-              console.log(cardId);
-              var url = "http://10.97.144.117:8000/SmartOperations/services/statData.xsodata/STATISDATA?$format=json&$filter=FACTOR_GUID eq " + data.guid;
-              $.ajax({
-                url: url,
-                method: 'get',
-                dataType: 'json',
-                headers: {
-                  //'Authorization': 'Basic ' + btoa('panypan:Initial1'),
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
-                  'DataServiceVersion': '2.0',
-                  'X-CSRF-Token': 'Fetch'
-                }
-              }).done(function (resp) {
-                var axis = [];
-                var value = [];
-                resp.d.results.forEach(function (item) {
-                  //axis.push(item.CALENDARWEEK);
-                  if (item.DATETIME != null) {
-                    axis.push(new Date(parseInt(item.DATETIME.replace("/Date(", "").replace(")/", ""))));
-                  } else {
-                    axis.push(item.CALENDARWEEK);
+              if (item1.id === cardId) {
+                console.log('pageStatus update = ');
+                console.log(pageStatus);
+                console.log('cardId = ');
+                console.log(cardId);
+                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
+                console.log('RCA Add factor URL---------', url);
+                $.ajax({
+                  url: url,
+                  method: 'get',
+                  dataType: 'json',
+                  headers: {
+                    //'Authorization': 'Basic ' + btoa('panypan:Initial1'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
                   }
-                  value.push(parseInt(item.STAT_VALUE));
-                });
+                }).done(function (resp) {
+                  var axis = [];
+                  var value = [];
+                  resp.results.forEach(function (item) {
+                    //axis.push(item.CALENDARWEEK);
+                    axis.push(item.YEAR_MONTH)
+                    value.push(item.TABLE_ENTRIES);
+                  });
+                  //data.lineChartAxis = new Array(axis);
+                  //data.lineChartValue = new Array(value);
+                  console.log('item1 in forEach -------------- ',item1);
 
-                item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
-                item1.guidArr.push(data.guid);
-                item1.lineChartAxis.push(axis);
-                item1.lineChartValue.push(value);
-                item1.category.push(data.category);
-                that.trigger(item.content);
-              }).fail(function () {
-                console.error('Fetch line chart data error:');
-                console.error(arguments);
-              });
-            }
-          });
-          return false;
-        }
-      });
+                  item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
+                  item1.guidArr.push(data.FACTOR_NAME_S);
+                  item1.lineChartAxis.push(axis);
+                  item1.lineChartValue.push(value);
+                  item1.category.push(data.category);
+                  that.trigger(item.content);
+                  /*$.each(that.displayAreaData, function (idx, item) {
+                    if (pageStatus === item.pageStatus) {
+                      console.log('pageStatus chart = ');
+                      console.log(pageStatus);
+                      console.log('cardId = ');
+                      console.log(item);
+                      item.content.push(data);
+                      that.trigger(item.content);
+                      return false;
+                    }
+                  });*/
+                }
+            ).fail(function () {
+                  console.error('Fetch line chart data error:');
+                  console.error(arguments);
+                });
+              }
+            });
+            return false;
+          }
+        });
+    }else if(data.category == 'S'){
+      $.each(this.displayAreaData, function (idx, item) {
+          if (pageStatus === item.pageStatus) {
+            $.each(item.content, function (idx1, item1) {
+
+              if (item1.id === cardId) {
+                console.log('pageStatus update = ');
+                console.log(pageStatus);
+                console.log('cardId = ');
+                console.log(cardId);
+                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
+                console.log('RCA Add factor URL---------', url);
+                $.ajax({
+                  url: url,
+                  method: 'get',
+                  dataType: 'json',
+                  headers: {
+                    //'Authorization': 'Basic ' + btoa('panypan:Initial1'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function (resp) {
+                  var axis = [];
+                  var value = [];
+                  resp.results.forEach(function (item) {
+                    //axis.push(item.CALENDARWEEK);
+                    axis.push(item.YEAR_MONTH)
+                    value.push(item.CPU_DB_TIME);
+                  });
+                  //data.lineChartAxis = new Array(axis);
+                  //data.lineChartValue = new Array(value);
+                  console.log('item1 in forEach -------------- ',item1);
+
+                  item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
+                  item1.guidArr.push(data.FACTOR_NAME_S);
+                  item1.lineChartAxis.push(axis);
+                  item1.lineChartValue.push(value);
+                  item1.category.push(data.category);
+                  that.trigger(item.content);
+                  /*$.each(that.displayAreaData, function (idx, item) {
+                    if (pageStatus === item.pageStatus) {
+                      console.log('pageStatus chart = ');
+                      console.log(pageStatus);
+                      console.log('cardId = ');
+                      console.log(item);
+                      item.content.push(data);
+                      that.trigger(item.content);
+                      return false;
+                    }
+                  });*/
+                }
+            ).fail(function () {
+                  console.error('Fetch line chart data error:');
+                  console.error(arguments);
+                });
+              }
+            });
+            return false;
+          }
+        });
+    }
     },
     onDisplayAreaUpdateCardPosAction: function onDisplayAreaUpdateCardPosAction(cardId, pos) {
       $.each(this.displayAreaData, function (idx, item) {
