@@ -205,6 +205,7 @@ if (!rc) {
 
           } 
           else if (item.type == 'ITEM' || item.type == 'ITEM-ANA') {
+            console.log(item)
             return React.createElement(LineChartCard, { key: item.id + "LineChartCard", card: item });
           } 
 

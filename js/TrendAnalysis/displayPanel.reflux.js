@@ -467,6 +467,7 @@ console.log('RCA data ----', data);
         }
         else if(data.category == 'B')
         {
+          console.log(data)
           var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME;
 console.log('url: ',url);
           $.ajax({

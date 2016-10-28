@@ -122,7 +122,6 @@ export default class TemplateSelect extends React.Component {
                           dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
                           functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
                           displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
-
                           sIntervalCallId = setInterval(function () {
                               addStatus();
                           }, 100);
@@ -131,7 +130,6 @@ export default class TemplateSelect extends React.Component {
                   } else {
                     pageStatusChangeActions.pageStatusChangeAction(nextStatus);
                   }
-
 
               }
               else{
@@ -156,6 +154,11 @@ export default class TemplateSelect extends React.Component {
                         nextData.guidArr = that.props.card.guidArr;
                         nextData.FACTOR_NAME = that.props.card.FACTOR_NAME;
                         nextData.category = that.props.card.category;
+                        
+                          nextData.factor_type = that.props.card.factor_type;
+                          nextData.customerId = that.props.card.customerId;
+                          nextData.systemId = that.props.card.systemId;
+                          nextData.systemClt = that.props.card.systemClt;
 
 
                         displayAreaChangeActions.displayAreaAddPageAction(nextStatus, cardId);
@@ -166,6 +169,7 @@ export default class TemplateSelect extends React.Component {
                         sIntervalCallId = setInterval(function () {
                             addStatus();
                         }, 100);
+
                     ;
                     })();
                   } else {
