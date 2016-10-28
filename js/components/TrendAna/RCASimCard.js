@@ -84,6 +84,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			console.log(pageStatusDataStore.getCurrentStatus());
 			const gooddata =  displayAreaDataStore.getData(pageStatusDataStore.getCurrentStatus());
 			console.log(gooddata)
+			console.log(simOptions);
 			let origin ={};
 			let factors = [];
 			gooddata.filter((one)=>{
@@ -92,8 +93,17 @@ var dataPanelDataStore = window.dataPanelDataStore
 							origin=one.lineChartValue[0]
 						for(var i=1;i<one.lineChartValue.length;i++)
 						{
-							factors.push(one.lineChartValue[i])
+							let factordata = one.lineChartValue[i]
+							for (var g=1;g<factordata.length;g++)
+							{
+								let mathdata = simOptions[i-1]/100 ;
+								if(mathdata ==0)
+									mathdata=1;
+								factordata[g] = parseInt(factordata[g]*(Math.pow(mathdata,g)+1))
 
+							}
+							console.log(factordata);
+							factors.push(factordata);
 						}
 
 
@@ -101,6 +111,31 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 
 			})
+			let header = "";
+			let body = "";
+
+			if(origin!=null)
+			{	
+					for(let i=0;i<origin.length;i++)
+					{
+						header = header + (i+1)+",";
+
+					}
+					header = header + "#" + origin.toString();
+					console.log(header);
+					for(let i=0;i<factors.length;i++)
+					{
+						body=body+"#"+factors[i].toString() ;
+
+					}	
+					console.log(body);
+
+
+
+			}
+
+
+
 
 
 
@@ -113,10 +148,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 				factorCateStr: this.props.card.categoryStr,
 				factorAdj: simOptions.slice(0).join(","),
 				origin:origin,
-				factors:factors
+				factors:factors,
+				ofstring:header+body
 			};
-			console.log("props.card ---", this.props.card);
-			console.log('dataInfo --- ', dataInfo);
 
 			var simResult = {};
 
