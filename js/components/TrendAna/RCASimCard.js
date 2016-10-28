@@ -87,9 +87,11 @@ var dataPanelDataStore = window.dataPanelDataStore
 				factorId: this.props.card.factorGuid,
 				factorStr: this.props.card.factorGuidStr,
 				predictCnt: this.state.predictCnt,
-				factorAdj: simOptions
+				factorCate: this.props.card.category,
+				factorCateStr: this.props.card.categoryStr,
+				factorAdj: simOptions.slice(0).join(",")
 			};
-
+			console.log("props.card ---", this.props.card);
 			console.log('dataInfo --- ', dataInfo);
 
 			var simResult = {};
