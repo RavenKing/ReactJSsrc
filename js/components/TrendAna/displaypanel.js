@@ -213,7 +213,7 @@ if (!rc) {
             return React.createElement(RCASimCard, { key: item.id + "RCASimCard", card: item });
           } 
           else if(item.type == "WHAT_IF") {
-            return React.createElement(WhatIfCard, { key: item.id + "WhatIfCard", card: item });
+            return React.createElement(RCASimCard, { key: item.id + "WhatSimCard", card: item });
           }
           else if (item.type == 'PIE') {
             return React.createElement(PieChartCard, { key: item.id + "PIEChartCard", card: item });

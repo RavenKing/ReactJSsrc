@@ -15,6 +15,14 @@
 
     trendSimulation: function(dataInfo, getSimResult) {
       console.log(dataInfo);
+
+
+
+
+
+
+
+
       /*var dataInfo = {
             "factorId": data.factorGuid,
             "factorStr": data.factorGuidStr
@@ -22,15 +30,10 @@
 
 
           console.log(dataInfo)
-          var url = "http://10.97.144.117:8000/SmartOperations/services/whatIfAnalysis.xsjs";
+          var url = "http://10.97.144.117:8000/SmartOperations/services/rcaSim.xsjs";
           //var url = "http://10.128.245.87:8004/Kevinyantest/HANAXS_TEST/services/whatIfAnalysis.xsjs?factorId=" + data.factorGuid + "&factorStr=" + data.factorGuidStr;
-          /*$.ajax({
-=======
-          console.log('data transfer to backend ---- :', dataInfo);
-          var url = "http://10.97.144.117:8000/SmartOperations/services/whatIfAnalysis.xsjs";
-          //var url = "http://10.128.245.87:8004/Kevinyantest/HANAXS_TEST/services/whatIfAnalysis.xsjs?factorId=" + data.factorGuid + "&factorStr=" + data.factorGuidStr;
-         /* $.ajax({////////from here
->>>>>>> origin/newGeneration5
+         $.ajax({////////from here
+
             url: url,
             method: 'POST',
             async: true,
@@ -45,47 +48,12 @@
             }
           }).done(function (resp) {
             console.log('resp ------ ', resp);
-            var axis = [];
-            var actualValue = [];
-            var predictValue = [];
-            resp.results.forEach(function (item) {
-              //axis.push(item.ID);
-              //console.log(item.DATETIME);
-              axis.push(item.DATETIME.substr(0, 19));
-              if (item.ACTUAL_VALUE) {
-                actualValue.push(parseInt(item.ACTUAL_VALUE));
-              } else {
-                actualValue.push(item.ACTUAL_VALUE);
-              }
-              if (item.PREDICT_VALUE) {
-                predictValue.push(parseInt(item.PREDICT_VALUE));
-              } else {
-                predictValue.push(item.PREDICT_VALUE);
-              }
-            });
-
-            dataInfo.lineChartAxis = new Array(axis);
-            dataInfo.lineChartValue = new Array(actualValue, predictValue);
-            dataInfo.lineNameArr = ["ACTUAL_VALUE", "PREDICT_VALUE"];
-<<<<<<< HEAD
-            /*$.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
-                item.content.push(data);
-                that.trigger(item.content);
-                return false;
-              }
-            });
-=======
            
->>>>>>> origin/newGeneration5
-
-            getSimResult(dataInfo);
-
           }).fail(function () {
             console.error('Fetch what-if chart data error:');
             console.error(arguments); 
-<<<<<<< HEAD
-          });*/
+
+          });
 
 
 

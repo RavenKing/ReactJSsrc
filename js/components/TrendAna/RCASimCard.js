@@ -96,10 +96,11 @@ var dataPanelDataStore = window.dataPanelDataStore
 							let factordata = one.lineChartValue[i]
 							for (var g=1;g<factordata.length;g++)
 							{
-								let mathdata = simOptions[i-1]/100 ;
+								let mathdata =parseFloat(simOptions[i-1]+ 100) ;
+								console.log(mathdata/100)
 								if(mathdata ==0)
 									mathdata=1;
-								factordata[g] = parseInt(factordata[g]*(Math.pow(mathdata,g)+1))
+								factordata[g] = parseInt(factordata[g]*(Math.pow(mathdata/100,g)))
 
 							}
 							console.log(factordata);
@@ -184,7 +185,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 		render: function render() {
 			var title = "";
 			console.log("I want to know the factors name ----- ", this.props.card);
-			title = "Trend Simulation - " + this.props.card.FACTOR_NAME[0];			
+			title = "Trend Simulation - " + this.props.card.FACTOR_NAME[0];	
+			let tagetname = 		this.props.card.FACTOR_NAME[0];
 
 			////////////////
 			
