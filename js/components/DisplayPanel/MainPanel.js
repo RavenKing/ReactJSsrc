@@ -84,6 +84,8 @@ export default class MainPanel extends React.Component {
 
       const { results } = this.props;
       const searcharray = results.concat();
+      console.log("searche")
+      console.log(searcharray);
       var data = searcharray.filter((one)=>{
 
         if(one.ARTICLE_NAM.indexOf(filterdata)!=-1)
