@@ -206,7 +206,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 							break;
 						case "RCA_SIM":
-							console.log('case RCA_SIM');
 							var test1 = displayAreaDataStore.isCardExisted(currentStatus, "RCA_SIM");
 							var test2 = displayAreaDataStore.getCardLineNumber(currentStatus, cardId) > 1;
 							if (!displayAreaDataStore.isCardExisted(currentStatus, "RCA_SIM") && displayAreaDataStore.getCardLineNumber(currentStatus, cardId) > 1) {
@@ -235,7 +234,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 							console.log('case WHAT_IF');
 							var test1 = displayAreaDataStore.isCardExisted(currentStatus, "WHAT_IF");
 							
-							if (!displayAreaDataStore.isCardExisted(currentStatus, "WHAT_IF")) {
+							if (!displayAreaDataStore.isCardExisted(currentStatus, "WHAT_IF")&& displayAreaDataStore.getCardLineNumber(currentStatus, cardId) > 1) {
 								var _style2 = {
 									top: that.props.card.style.top + that.getDOMNode().clientHeight - 360,
 									left: that.getDOMNode().clientWidth + 180
@@ -275,7 +274,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 							console.log('case ' + currentStatus + '-ITEM');
 							console.log('state when add factor --- ', that.props.card);
 							if (currentStatus != "INIT" && that.props.card.type === "ITEM-ANA") {
-								if(currentStatus.indexOf("ANALYSIS_RCA") > -1){
+								if(currentStatus.indexOf("ANALYSIS_RCA") > -1||currentStatus.indexOf("ANALYSIS_WIF") > -1){
 									data.guid = draggableElement.getAttribute('data-factor_guid');
 									data.FACTOR_NAME_S = draggableElement.getAttribute('data-factor_name');
 									data.category = draggableElement.getAttribute('data-category');
@@ -283,6 +282,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 									data.customerId = that.props.card.customerId;
 									data.systemId = that.props.card.systemId;
 									data.systemClt = that.props.card.systemClt;
+									console.log(data);
 									displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId);
 								}
 								else if(currentStatus.indexOf("ANALYSIS_DVM") > -1){
@@ -315,7 +315,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 						case "NOTE":
 							console.log('NOTE -factor name = ');
 							console.log(that.props.card.FACTOR_NAME);
-							browserHistory.push("/km?object=" + that.props.card.FACTOR_NAME[0]);
+							//define article type
+							var stype = that.props.card.category[0] == "B"?"DVM":"CAP";
+							browserHistory.push("/km?object=" + that.props.card.FACTOR_NAME[0] + "&stype=" + stype);
 
 							break;
 

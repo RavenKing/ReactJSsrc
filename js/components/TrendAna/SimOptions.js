@@ -9,18 +9,13 @@ import {browserHistory } from "react-router"
 
 var global =window
 
-var displayAreaDataStore= window.displayAreaDataStore
-var pageStatusChangeActions =window.pageStatusChangeActions
-var displayAreaChangeActions = window.displayAreaChangeActions
-var dataPanelItemChangeActions = window.dataPanelItemChangeActions
 var pageStatusDataStore = window.pageStatusDataStore 
-var dataPanelDataStore = window.dataPanelDataStore
-
 
 var SimOptions = React.createClass({
 
   getInitialState() {
 	return {
+    target:this.props.factorArr[0],
 		factorArr: this.props.factorArr.slice(1),
 		factorAdjArr: new Array(this.props.factorArr.slice(1).length),
 		inputValue: 0
@@ -29,7 +24,7 @@ var SimOptions = React.createClass({
 
   
   startSim() {
-
+console.log(this.props)
   	var options = this.state.factorAdjArr;
  console.log(options)
     
@@ -64,28 +59,41 @@ var SimOptions = React.createClass({
   },
   
   render() {
-
+    var currentStatus = pageStatusDataStore.getCurrentStatus();
+    console.log(this.state)
+    console.log(currentStatus)
   	const that = this;
     const { getFieldProps, getFieldValue } = this.props.form;
-
-    getFieldProps('keys', {
+let formItems=<h1></h1>
+if(currentStatus.indexOf("ANALYSIS_WIF")>-1)
+  {  getFieldProps('keys', {
+      initialValue: that.state.target,
+    });
+  
+    formItems =  <Form.Item {...formItemLayout} className="optionForm" label={that.state.target} key={that.state.target}>
+          <OptionsForFactor setAdj={this.setAdj} tableKey={that.state.target}/>
+        </Form.Item>
+  	
+    }
+    else
+    {getFieldProps('keys', {
       initialValue: that.state.factorArr,
     });
-  	
-    
-
-    const formItemLayout = {
-      labelCol: { span: 5 },
-      wrapperCol: { span: 12 },
-    };
-
-    const formItems = getFieldValue('keys').map((k) => {
+   formItems = getFieldValue('keys').map((k) => {
       return (
         <Form.Item {...formItemLayout} className="optionForm" label={k} key={k}>
           <OptionsForFactor setAdj={this.setAdj} tableKey={k}/>
         </Form.Item>
       );
     });
+    }
+
+    const formItemLayout = {
+      labelCol: { span: 5 },
+      wrapperCol: { span: 12 },
+    };
+
+    
     return (
       <Form horizontal form={this.props.form}>
 

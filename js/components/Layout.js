@@ -26,7 +26,7 @@ import DisplayPanel from "./DisplayPanel/DisplayPanel"
         articles:store.articles,
         auth:store.auth
     };
-    
+     
 })
 export default class Layout extends React.Component {
   constructor(props)
@@ -38,19 +38,19 @@ export default class Layout extends React.Component {
     
     this.props.dispatch(fetchArticles(user))
 
-    const {location} = this.props;
+    const {location} = this.props; 
     const {query} = location;
     console.log(query);
-    if(query.object)
+    if(query.object && query.stype)
     {
       setTimeout(function(){
         var data = {
           query:query,
-          type:"main"
+          type:"main",
+          stype:query.stype
         };
         this.props.dispatch(AddCard(data));
       }.bind(this),500)
-
 
     }
 

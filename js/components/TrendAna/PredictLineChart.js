@@ -45,6 +45,7 @@ var PredictLineChart = React.createClass({
 
 			var seriesArr = [];
 			for (var i = 0; i < len; i++) {
+				console.log('pika pika pika --- ', i, nameArr[i]);
 				seriesArr.push({
 					id: 'series-' + i,
 					name: nameArr[i],

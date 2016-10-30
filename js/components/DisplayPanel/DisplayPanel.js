@@ -130,7 +130,7 @@ export default class DisplayPanel extends React.Component {
         else if(one.type == "create"){
           return <CreatePanel/>
         }
-        else if(one.type == "main"){
+        else if(one.type == "main" && results){
           return <MainPanel results={ results } query={one.query?one.query:""} type={one.stype}></MainPanel>
         }
       })
