@@ -87,6 +87,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			console.log(simOptions);
 			let origin ={};
 			let factors = [];
+			let currentStatus = pageStatusDataStore.getCurrentStatus();
 			gooddata.filter((one)=>{
 					if(one.lineChartValue)
 					{
@@ -100,10 +101,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 								console.log(mathdata/100)
 								if(mathdata ==0)
 									mathdata=1;
-								factordata[g] = parseInt(factordata[g]*(Math.pow(mathdata/100,g)))
+								factordata[g] = parseInt(factordata[g-1]*(Math.pow(mathdata/100,g)))
 
 							}
-							console.log(factordata);
 							factors.push(factordata);
 						}
 
@@ -112,6 +112,17 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 
 			})
+			if(currentStatus.indexOf("ANALYSIS_WIF")> -1 )
+			{
+
+				let mathdata = (simOptions[0]+100)/100;
+				for(let i=1;i<origin.length;i++)
+				{
+
+					origin[i] = parseInt(origin[i-1]*Math.pow(mathdata,i))
+				}
+			}
+			
 			let header = "";
 			let body = "";
 

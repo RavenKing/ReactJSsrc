@@ -16,6 +16,7 @@ var SimOptions = React.createClass({
   getInitialState() {
 	return {
     target:this.props.factorArr[0],
+    targetadj:null,
 		factorArr: this.props.factorArr.slice(1),
 		factorAdjArr: new Array(this.props.factorArr.slice(1).length),
 		inputValue: 0
@@ -24,23 +25,34 @@ var SimOptions = React.createClass({
 
   
   startSim() {
-console.log(this.props)
   	var options = this.state.factorAdjArr;
- console.log(options)
-    
+
     for(var i = 0; i < this.state.factorArr.length; i ++){
 
     	if(options[i] == null){
     		options[i] = 0;
     	}
+    if(this.state.targetadj!=null)
+    {
+      options[0] = this.state.targetadj;
+    }
 
     }
 
+ console.log(options)
   	this.props.startSim(options);
 
   },
 
   setAdj(tblKey, adjValue) {
+
+let currentStatus=pageStatusDataStore.getCurrentStatus();
+if( currentStatus.indexOf("ANALYSIS_WIF")>-1)
+{
+  this.setState({
+    targetadj:adjValue
+  })
+}
 
   	var tmpAdjArr = this.state.factorAdjArr;
 
@@ -55,7 +67,6 @@ console.log(this.props)
   		}
 
   	}
-
   },
   
   render() {
