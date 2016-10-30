@@ -17,12 +17,6 @@
       console.log(dataInfo);
 
 
-
-
-
-
-
-
       /*var dataInfo = {
             "factorId": data.factorGuid,
             "factorStr": data.factorGuidStr
@@ -30,8 +24,11 @@
 
 
           console.log(dataInfo)
-          var url = "http://10.97.144.117:8000/SmartOperations/services/rcaSim.xsjs";
-          //var url = "http://10.128.245.87:8004/Kevinyantest/HANAXS_TEST/services/whatIfAnalysis.xsjs?factorId=" + data.factorGuid + "&factorStr=" + data.factorGuidStr;
+        if(dataInfo.factorCate == 'S'){
+
+          var url = "http://10.97.144.117:8000/SmartOperations/services/rcaSimulation.xsjs";
+          
+
          $.ajax({////////from here
 
             url: url,
@@ -48,14 +45,82 @@
             }
           }).done(function (resp) {
             console.log('resp ------ ', resp);
-           
+
+            var axis = [];
+            var actualValue = [];
+            var predictValue = [];
+            resp.results.forEach(function(item) {
+              //axis.push(item.ID);
+        //console.log(item.DATETIME);
+              axis.push(item.DATETIME);
+
+              if (item.ACTUAL_VALUE) {
+                actualValue.push(parseInt(item.ACTUAL_VALUE));
+              } else {
+                actualValue.push(item.ACTUAL_VALUE);
+              }
+
+              if (item.PREDICT_VALUE) {
+                predictValue.push(parseInt(item.PREDICT_VALUE));
+              } else {
+                predictValue.push(item.PREDICT_VALUE);
+              }
+            });
+            var data = {};
+            
+            data.lineChartAxis = new Array(axis);
+            data.lineChartValue = new Array(actualValue, predictValue);
+            data.lineNameArr = ["ACTUAL_VALUE", "PREDICT_VALUE"];
+
+
+            getSimResult(data);
+
           }).fail(function () {
             console.error('Fetch what-if chart data error:');
             console.error(arguments); 
 
           });
+        }
+
+        else if(dataInfo.factorCate == 'B'){
+
+          var url = "http://10.97.144.117:8000/SmartOperations/services/rcaWhatIf.xsjs";
+          
+
+         $.ajax({////////from here
+
+            url: url,
+            method: 'POST',
+            async: true,
+            data: JSON.stringify(dataInfo),
+            headers: {
+              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (resp) {
+            console.log('resp ------ ', resp);
+            
+            
+            var data = {};
+            
+            data.lineChartAxis = resp.axis;
+            data.lineChartValue = resp.series;
+            data.lineNameArr = resp.nameArr;
+           
 
 
+            getSimResult(data);
+
+          }).fail(function () {
+            console.error('Fetch what-if chart data error:');
+            console.error(arguments); 
+
+          });
+        }
 
 
     },

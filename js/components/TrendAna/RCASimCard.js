@@ -97,6 +97,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 							let factordata = one.lineChartValue[i]
 							for (var g=1;g<factordata.length;g++)
 							{
+
 								let mathdata =parseFloat(simOptions[i-1]+ 100) ;
 								console.log(mathdata/100)
 								if(mathdata ==0)
