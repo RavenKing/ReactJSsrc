@@ -103,52 +103,13 @@
             }
           }).done(function (resp) {
             console.log('resp ------ ', resp);
-            var data = {
-              "lineChartAxis":[],
-              "lineChartValue":[],
-              "lineNameArr":[]
-            };
-
-            var axis = [];
-
-            var lineChartAxi
-
             
-            resp.results.forEach(function(itemA) {
-
-              itemA.forEach(function(item){
-              //axis.push(item.ID);
-        //console.log(item.DATETIME);
-
-              var actualValue = [];
-              var predictValue = [];
-
-              axis.push(item.DATETIME);
-
-              if (item.ACTUAL_VALUE) {
-                actualValue.push(parseInt(item.ACTUAL_VALUE));
-              } else {
-                actualValue.push(item.ACTUAL_VALUE);
-              }
-
-              if (item.PREDICT_VALUE) {
-                predictValue.push(parseInt(item.PREDICT_VALUE));
-              } else {
-                predictValue.push(item.PREDICT_VALUE);
-              }
-
-            });
-
-              var lineChartAxis = new Array(axis);
-              var lineChartValue = new Array(actualValue, predictValue);
-
-              data.lineChartAxis.push(lineChartAxis);
-              data.lineChartValue.push(lineChartValue);
-
-            });
-
+            
+            var data = {};
+            
+            data.lineChartAxis = resp.axis;
+            data.lineChartValue = resp.series;
             data.lineNameArr = resp.nameArr;
-            
            
 
 
