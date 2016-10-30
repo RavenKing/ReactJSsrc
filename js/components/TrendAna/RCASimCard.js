@@ -96,7 +96,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 							let factordata = one.lineChartValue[i]
 							for (var g=1;g<factordata.length;g++)
 							{
-								let mathdata = simOptions[i-1]/100 ;
+								let mathdata = simOptions[i-1]/100 + 1 ;
+								console.log(Math.pow(mathdata,g))
 								if(mathdata ==0)
 									mathdata=1;
 								factordata[g] = parseInt(factordata[g]*(Math.pow(mathdata,g)+1))
