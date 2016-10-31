@@ -226,7 +226,7 @@ export default class Login extends React.Component {
       const {token } = auth;
       if(auth.status=="passed")
       {
-          browserHistory.push('/')
+          browserHistory.push('/SMARTOPERATIONS/')
       }
       
       return (
