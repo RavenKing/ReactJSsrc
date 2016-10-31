@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom"
 import {Button,Badge,Tooltip,Popover} from "antd";
 
 var interact=window.interact
@@ -7,6 +8,7 @@ var dataPanelDataStore=window.dataPanelDataStore
 var pageStatusDataStore = window.pageStatusDataStore
 var global = window
 
+import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 /*(function (React, rc, antd, interact, dataPanelItemChangeAction, dataPanelDataStore, pageStatusDataStore, global) {
 */
 /*  if (!rc) {
@@ -34,16 +36,13 @@ var global = window
     },
 
     componentDidMount: function componentDidMount() {
-      this.interactable = global.setNodeDragable(this.getDOMNode());
-    },
-    componentWillUnmount: function componentWillUnmount() {
-      this.interactable.unset();
-      this.interactable = null;
+      alert("did")
+     setNodeDragable(ReactDOM.findDOMNode(this));
     },
 
     render: function render() {
       var currentStatus = pageStatusDataStore.getCurrentStatus();
-
+      alert(currentStatus+"render")
       var item = this.props.item;
       if(currentStatus == "INIT"){
 
@@ -53,7 +52,9 @@ var global = window
 
           React.createElement(
             Button,
-            { className: "data-item", type: "dashed",
+            { 
+              className: "data-item", type: "dashed",
+              "key" :(new Date() + Math.floor(Math.random() * 999999)).toString(31),
               "data-type": "ITEM",
               "data-info": currentStatus + "-ITEM",
               "data-factor_guid": this.props.item.FACTOR_GUID,
@@ -166,7 +167,7 @@ var global = window
               "data-info": currentStatus + "-ITEM",
               "data-factor_guid": this.props.item.FACTOR_GUID,
               "data-factor_name": this.props.item.FACTOR_NAME,
-              
+               "key" :(new Date() + Math.floor(Math.random() * 999999)).toString(31),
               "data-factor_type": this.props.item.FACTOR_TYPE,
               "data-category": this.props.item.FACTOR_CATEGORY },
             React.createElement(
@@ -189,11 +190,7 @@ var global = window
     },
 
     componentDidMount: function componentDidMount() {
-      this.interactable = global.setNodeDragable(this.getDOMNode());
-    },
-    componentWillUnmount: function componentWillUnmount() {
-      this.interactable.unset();
-      this.interactable = null;
+  setNodeDragable(ReactDOM.findDOMNode(this));
     },
 
     render: function render() {
@@ -201,7 +198,8 @@ var global = window
       var items = [];
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       for (var ind in block.objList) {
-        items.push(React.createElement(DataItem, { key: block.objList[ind].FACTOR_GUID, item: block.objList[ind] }));
+        let keyitem = (new Date() + Math.floor(Math.random() * 999999)).toString(31);
+        items.push(React.createElement(DataItem, { key:keyitem , item: block.objList[ind] ,keynumber:block.objList[ind].FACTOR_GUID}));
       }
 
       return React.createElement(
