@@ -135,7 +135,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			this.interactDrag = global.setCardDragable(this.getDOMNode(), this.props.card.id);
 			this.interactDrop = global.setAreaDropable({
 				element: this.getDOMNode(),
-				accept: '.function-button, .data-item,.data-block,.config-button, .function-button-nav',
+				accept: '.function-button, .data-item,.data-block,.config-button, .function-button-nav,.data-item-rca',
 
 				ondrop: function ondrop(event) { // card on drop
 					var draggableElement = event.relatedTarget,

@@ -162,7 +162,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
       else{
          return React.createElement(
             Button,
-            { className: "data-item", type: "dashed",
+            { className: "data-item-rca", type: "dashed",
               "data-type": "ITEM",
               "data-info": currentStatus + "-ITEM",
               "data-factor_guid": this.props.item.FACTOR_GUID,
