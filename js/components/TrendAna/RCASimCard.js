@@ -95,14 +95,17 @@ var dataPanelDataStore = window.dataPanelDataStore
 						for(var i=1;i<one.lineChartValue.length;i++)
 						{
 							let factordata = one.lineChartValue[i]
+// WIF  donnt handle the factor data 
+							if(currentStatus.indexOf("ANALYSIS_WIF")== -1)
 							for (var g=1;g<factordata.length;g++)
 							{
 
-								let mathdata =parseFloat(simOptions[i-1]+ 100) ;
-								console.log(mathdata/100)
-								if(mathdata ==0)
+								let mathdata =parseFloat(simOptions[i-1]+ 100)/100 ;
+								console.log(mathdata)
+								if(mathdata ==1)
 									mathdata=1;
-								factordata[g] = parseInt(factordata[g-1]*(Math.pow(mathdata/100,g)))
+								else
+								factordata[g] = parseInt(factordata[g-1]*(Math.pow(mathdata,g)))
 
 							}
 							factors.push(factordata);
@@ -110,6 +113,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 
 					}
+					console.log(factors)
 
 
 			})
@@ -117,6 +121,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 			{
 
 				let mathdata = (simOptions[0]+100)/100;
+				console.log(mathdata)
+
+				if(mathdata!= 1)
 				for(let i=1;i<origin.length;i++)
 				{
 
