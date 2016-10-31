@@ -201,7 +201,8 @@ var global = window
       var items = [];
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       for (var ind in block.objList) {
-        items.push(React.createElement(DataItem, { key: block.objList[ind].FACTOR_GUID, item: block.objList[ind] }));
+        var key = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
+        items.push(React.createElement(DataItem, { key: key, item: block.objList[ind] }));
       }
 
       return React.createElement(
