@@ -317,7 +317,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 							console.log(that.props.card.FACTOR_NAME);
 							//define article type
 							var stype = that.props.card.category[0] == "B"?"DVM":"CAP";
-							browserHistory.push("/SMARTOPERATIONS/km?object=" + that.props.card.FACTOR_NAME[0] + "&stype=" + stype);
+							browserHistory.push("/SMARTOPERATION/km?object=" + that.props.card.FACTOR_NAME[0] + "&stype=" + stype);
 
 							break;
 

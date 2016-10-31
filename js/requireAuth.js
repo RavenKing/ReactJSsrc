@@ -30,7 +30,7 @@ export default function requireAuth(Component)
     }
 
     redirectToLogin (){
-     browserHistory.push("/SMARTOPERATIONS/login")
+     browserHistory.push("/SMARTOPERATION/login")
     }
 
 

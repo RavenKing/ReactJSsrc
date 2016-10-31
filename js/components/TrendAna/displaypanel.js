@@ -99,7 +99,7 @@ if (!rc) {
               break;
 
             case 'NOTE':
-              browserHistory.push("/SMARTOPERATIONS/km")
+              browserHistory.push("/SMARTOPERATION/km")
               break;
             case 'UPLOAD':
               data.title = 'Upload Statistics File';

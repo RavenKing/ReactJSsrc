@@ -36,13 +36,12 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
     },
 
     componentDidMount: function componentDidMount() {
-      alert("did")
+   
      setNodeDragable(ReactDOM.findDOMNode(this));
     },
 
     render: function render() {
       var currentStatus = pageStatusDataStore.getCurrentStatus();
-      alert(currentStatus+"render")
       var item = this.props.item;
       if(currentStatus == "INIT"){
 
