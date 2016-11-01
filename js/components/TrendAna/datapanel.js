@@ -36,14 +36,12 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
     },
 
     componentDidMount: function componentDidMount() {
-      alert("did")
      setNodeDragable(ReactDOM.findDOMNode(this));
     },
 
     render: function render() {
       var currentStatus = pageStatusDataStore.getCurrentStatus();
-      alert(currentStatus+"render")
-      var item = this.props.item;
+       var item = this.props.item;
       if(currentStatus == "INIT"){
 
         return React.createElement(
@@ -198,7 +196,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
       var items = [];
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       for (var ind in block.objList) {
-        let keyitem = (new Date() + Math.floor(Math.random() * 999999)).toString(31);
+        let keyitem = (Date.now() + Math.floor(Math.random() * 999999)).toString(31);
         items.push(React.createElement(DataItem, { key:keyitem , item: block.objList[ind] ,keynumber:block.objList[ind].FACTOR_GUID}));
       }
 

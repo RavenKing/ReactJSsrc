@@ -74,7 +74,7 @@
         this.functionPanelData.push({
           pageStatus:pageStatus,
           content:[{
-            name: "Root Cause",
+            name: "Correlation",
             info: "RCA",
             type: "RCA"
           },{
