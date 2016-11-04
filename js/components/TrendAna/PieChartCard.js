@@ -55,7 +55,7 @@ var PieChartCard = React.createClass({
 			return React.createElement(
 				Card,
 				{ className: "pie-card",
-					title: "Why This Performance Issue Happened(By Probability)?",
+					title: "Potential Correlation with other objects?",
 					style: this.props.card.style,
 					extra: React.createElement(Icon, { type: "cross", onClick: this.removeCard().bind(this) }),
 					bodyStyle: {

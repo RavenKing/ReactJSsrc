@@ -288,10 +288,17 @@ li {
   z-index: 9999;
 }
 
-.data-item, .data-title {
+.data-item, .data-title,.data-item-rca {
   display: block;
 }
 
+.data-item-rca{
+  margin: 10px;
+  padding: 3px 10px;
+  border-color: #fff;
+  color: #fff;
+
+}
 .data-item {
   margin: 10px;
   padding: 3px 10px;

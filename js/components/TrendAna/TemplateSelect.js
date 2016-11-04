@@ -38,12 +38,12 @@ setItUnvisible()
         switch(this.state.category){
           case "B":
             templates = <div>
-                            <CardTemplate name="DVM" description="Tables and Objects" key1="DVM" card = {this.props.card}/>
-                            <CardTemplate name="What If " description="Tables and Objects" key1="BUSI"  card={this.props.card}/>
+                            <CardTemplate name="DVM" description="Data Volume" key1="DVM" card = {this.props.card}/>
+                            <CardTemplate name="What If " description="What If Analysis" key1="BUSI"  card={this.props.card}/>
                         </div>
             break;
           case "S":
-            templates = <CardTemplate name="Forcast" description="Tables and Objects" key1="CAPA"  card = {this.props.card}/>
+            templates = <CardTemplate name="RCA" description="Root Cause Analysis" key1="CAPA"  card = {this.props.card}/>
             break;
         }
         return (

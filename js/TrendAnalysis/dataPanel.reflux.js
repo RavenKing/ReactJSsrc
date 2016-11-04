@@ -491,8 +491,8 @@ console.log('prepare to run RCA -------', card);
 
       var urls = {
         bUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=1001&factorCate=B&sysId=KEV&sysClt=001',
-        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=1001&factorCate=S&sysId=KEV&sysClt=001'
-        //rUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=1001&factorCate=R&sysId=KEV&sysClt=001'
+        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=1001&factorCate=S&sysId=KEV&sysClt=001',
+        rUrl: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
       };
       /*var urls = {
         bUrl: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5',
