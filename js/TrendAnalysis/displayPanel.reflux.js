@@ -277,17 +277,19 @@
     },
 
     onDisplayAreaAddCardAction: function onDisplayAreaAddCardAction(pageStatus, data) {
+
       data.id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
+      let copydata = JSON.parse(JSON.stringify(data));
       var that = this;
       console.log('add card action');
       console.log(data);
-      switch (data.type) {
+      switch (copydata.type) {
         case 'UPLOAD':
 
 
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
               }
             });
@@ -317,11 +319,11 @@
               factorObj.push(item);
             });
 
-            data.objList = resp.d.results;
+            copydata.objList = resp.d.results;
 
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
               }
             });
@@ -353,11 +355,11 @@
               factorObj.push(item);
             });
 
-            data.objList = resp.d.results;
+            copydata.objList = resp.d.results;
 
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
               }
             });
@@ -371,7 +373,7 @@
         case 'TITLE':
 
           var url = '';
-          switch (data.title) {
+          switch (copydata.title) {
             case 'Business':
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc';
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
@@ -413,11 +415,11 @@
               factorObj.push(item);
             });
 
-            data.objList = resp.d.results;
+            copydata.objList = resp.d.results;
 
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -436,7 +438,7 @@
 
                 item.content.filter((one)=>{
                   if(one.type == "DVM")
-                    {one.dvmanalysis.push(data)                
+                    {one.dvmanalysis.push(copydata)                
                     counter ++;
                     }
                 });
@@ -444,9 +446,9 @@
                 {
                   item.content.push({
                     type:"DVM",
-                    dvmanalysis:[data],
-                    id:data.id,
-                    style:data.style
+                    dvmanalysis:[copydata],
+                    id:copydata.id,
+                    style:copydata.style
                   })
                 }
                 that.trigger(item.content);
@@ -461,7 +463,7 @@
         case 'DVM-BLOCK':
           $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -470,11 +472,11 @@
         case 'ITEM':
         case 'ITEM-ANA':
 
-        if(data.category == 'S')
+        if(copydata.category[0] == 'S')
         {
-          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME;
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
 console.log('ITEM url: ',url);
-console.log('RCA data ----', data);
+console.log('RCA data ----', copydata);
           $.ajax({
             url: url,
             method: 'get',
@@ -495,15 +497,15 @@ console.log('RCA data ----', data);
               axis.push(item.YEAR_MONTH)
               value.push(item.CPU_DB_TIME);
             });
-            data.lineChartAxis = new Array(axis);
-            data.lineChartValue = new Array(value);
+            copydata.lineChartAxis = new Array(axis);
+            copydata.lineChartValue = new Array(value);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 console.log('pageStatus chart = ');
                 console.log(pageStatus);
                 console.log('cardId = ');
                 console.log(item);
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -513,10 +515,10 @@ console.log('RCA data ----', data);
             console.error(arguments);
           });
         }
-        else if(data.category == 'B')
+        else if(copydata.category[0] == 'B')
         {
-          console.log(data)
-          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME;
+          console.log(copydata)
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
 console.log('url: ',url);
           $.ajax({
             url: url,
@@ -538,15 +540,15 @@ console.log('url: ',url);
               axis.push(item.YEAR_MONTH)
               value.push(item.TABLE_ENTRIES);
             });
-            data.lineChartAxis = new Array(axis);
-            data.lineChartValue = new Array(value);
+            copydata.lineChartAxis = new Array(axis);
+            copydata.lineChartValue = new Array(value);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 console.log('pageStatus chart = ');
                 console.log(pageStatus);
                 console.log('cardId = ');
-                console.log(item);
-                item.content.push(data);
+                console.log(item);                
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -602,7 +604,7 @@ console.log('url: ',url);
         case "PIE":
           var categoryTypeArr = [];
           var INFLUENCE_RATE_Arr = [];
-          $.each(data.objList, function (idx, item) {
+          $.each(copydata.objList, function (idx, item) {
             var index = categoryTypeArr.indexOf(item.FACTOR_CATEGORY);
             if (index < 0) {
               categoryTypeArr.push(item.FACTOR_CATEGORY);
@@ -612,19 +614,19 @@ console.log('url: ',url);
             }
           });
 
-          data.seriesArr = [];
+          copydata.seriesArr = [];
           var convert = {
             "S": "Service",
             "B": "Business",
             "R": "Resource"
           };
           for (var i in categoryTypeArr) {
-            data.seriesArr.push([convert[categoryTypeArr[i]], INFLUENCE_RATE_Arr[i]]);
+            copydata.seriesArr.push([convert[categoryTypeArr[i]], INFLUENCE_RATE_Arr[i]]);
           }
 
           $.each(that.displayAreaData, function (idx, item) {
             if (pageStatus === item.pageStatus) {
-              item.content.push(data);
+              item.content.push(copydata);
               that.trigger(item.content);
             }
           });
@@ -632,7 +634,7 @@ console.log('url: ',url);
         case "RCA_SIM":
           $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -643,7 +645,7 @@ console.log('url: ',url);
           
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -654,7 +656,7 @@ console.log('url: ',url);
         case "SAVE":
           $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -663,7 +665,7 @@ console.log('url: ',url);
         case "ART_TEMP":
           $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -672,7 +674,7 @@ console.log('url: ',url);
         case "SAVE-ARTI":
           $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -681,9 +683,9 @@ console.log('url: ',url);
         case "CPM-DIA":
         case "CPM-BTC":
         case "CPM-RFC":
-          console.log('go to dataStore CPM drilldown ------ ', data);
+          console.log('go to dataStore CPM drilldown ------ ', copydata);
 
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getTransaction.xsjs?customerId=" + data.customerId + "&dateYear=" + data.dateYear + "&dateMonth=" + data.dateMonth + "&taskType=" + data.taskType;
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getTransaction.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
 
           $.ajax({
             url: url,
@@ -712,14 +714,14 @@ console.log('url: ',url);
 
 
             });
-            data.chartCateAxis = new Array(cateArr);
-            data.chartCPUValue = new Array(cpuValueArr);
-            data.chartDBValue = new Array(dbValueArr);
-            data.chartCumValue = new Array(cumValueArr);
+            copydata.chartCateAxis = new Array(cateArr);
+            copydata.chartCPUValue = new Array(cpuValueArr);
+            copydata.chartDBValue = new Array(dbValueArr);
+            copydata.chartCumValue = new Array(cumValueArr);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -733,7 +735,7 @@ console.log('url: ',url);
 
         case "CPM-History":
 
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLHistory.xsjs?customerId=" + data.customerId + "&latestYear=" + data.latestYear + "&latestMonth=" + data.latestMonth + "&monthCount=" + data.monthCount;
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLHistory.xsjs?customerId=" + copydata.customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
 
           $.ajax({
             url: url,
@@ -762,14 +764,14 @@ console.log('url: ',url);
 
 
             });
-            data.chartCateAxis = new Array(cateArr);
-            data.chartCPUValue = new Array(cpuValueArr);
-            data.chartDBValue = new Array(dbValueArr);
-            data.chartStepValue = new Array(stepValueArr);
+            copydata.chartCateAxis = new Array(cateArr);
+            copydata.chartCPUValue = new Array(cpuValueArr);
+            copydata.chartDBValue = new Array(dbValueArr);
+            copydata.chartStepValue = new Array(stepValueArr);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -791,7 +793,7 @@ console.log('url: ',url);
             });*/
 
           //////////
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=" + data.customerId + "&dateYear=" + data.dateYear + "&dateMonth=" + data.dateMonth;
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
 
           $.ajax({
             url: url,
@@ -820,14 +822,14 @@ console.log('url: ',url);
 
 
             });
-            data.chartCateAxis = new Array(cateArr);
-            data.chartCPUValue = new Array(cpuValueArr);
-            data.chartDBValue = new Array(dbValueArr);
-            data.chartCumValue = new Array(cumValueArr);
+            copydata.chartCateAxis = new Array(cateArr);
+            copydata.chartCPUValue = new Array(cpuValueArr);
+            copydata.chartDBValue = new Array(dbValueArr);
+            copydata.chartCumValue = new Array(cumValueArr);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 
-                item.content.push(data);
+                item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
               }
@@ -999,6 +1001,7 @@ console.log('url: ',url);
                   //data.lineChartAxis = new Array(axis);
                   //data.lineChartValue = new Array(value);
                   console.log('item1 in forEach -------------- ',item1);
+                  
 
                   item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
                   item1.guidArr.push(data.FACTOR_NAME_S);
@@ -1006,6 +1009,7 @@ console.log('url: ',url);
                   item1.lineChartValue.push(value);
                   item1.category.push(data.category);
                   that.trigger(item.content);
+                  console.log(this.displayAreaData);
                   /*$.each(that.displayAreaData, function (idx, item) {
                     if (pageStatus === item.pageStatus) {
                       console.log('pageStatus chart = ');
@@ -1022,6 +1026,7 @@ console.log('url: ',url);
                   console.error('Fetch line chart data error:');
                   console.error(arguments);
                 });
+            return false;
               }
             });
             return false;

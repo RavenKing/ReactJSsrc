@@ -93,7 +93,7 @@ export default class TemplateSelect extends React.Component {
               else if (datatype == "DVM" ){
 
                   var nextStatus = "ANALYSIS_DVM_" + factorName;
-
+                  var status = pageStatusDataStore.getAllStatus();
                   if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
                       var sIntervalCallId;
 
