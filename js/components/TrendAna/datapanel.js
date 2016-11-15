@@ -197,8 +197,10 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
       var items = [];
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       for (var ind in block.objList) {
+        
         let keyitem = (Date.now() + Math.floor(Math.random() * 999999)).toString(31);
         items.push(React.createElement(DataItem, { key:keyitem , item: block.objList[ind] ,keynumber:block.objList[ind].FACTOR_GUID}));
+
       }
 
       return React.createElement(
