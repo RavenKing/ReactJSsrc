@@ -25,11 +25,11 @@ const app = document.getElementById('app');
 ReactDOM.render(
     <Provider store = {store}>
     <Router history={browserHistory}>
-     <Route path="/SMARTOPERATION/login" component ={Login}> </Route>  
-     <Route path="/SMARTOPERATION/" component ={requireAuth(First)}> 
-        <Route path="/SMARTOPERATION/trend" component={First}>   </Route>  
+     <Route path="/login" component ={Login}> </Route>  
+     <Route path="/" component ={requireAuth(First)}> 
+        <Route path="/trend" component={First}>   </Route>  
       </Route>
-    <Route path="/SMARTOPERATION/km" component={requireAuth(Layout)}>   </Route> 
+    <Route path="/km" component={requireAuth(Layout)}>   </Route> 
   </Router>
     </Provider>,
 app);

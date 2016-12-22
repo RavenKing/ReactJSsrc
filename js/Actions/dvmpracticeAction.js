@@ -5,7 +5,7 @@ import { Modal } from 'antd';
 
 export function GetAlltheDVM(user){
     return dispatch=>{
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE",{
+    axios.get("https://10.97.144.117:4300/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE",{
        headers:{
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
@@ -31,7 +31,7 @@ export function updateDVM(data)
 
     console.log(data)
     return dispatch=>{
-    axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE("+data.FACTOR_GUID+")",data,{
+    axios.put("https://10.97.144.117:4300/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE("+data.FACTOR_GUID+")",data,{
        headers:{
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
