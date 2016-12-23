@@ -479,6 +479,10 @@ console.log('prepare to run RCA -------', card);
       }
     },
     getInitPageData: function getInitPageData(pageStatus) {
+
+     var data123 =  global.pageStatusDataStore.getCustomerID();
+      console.log(data123);
+
       var ajaxData = [];
       var that = this;
       var ajaxTotal = 0;

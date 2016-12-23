@@ -13,6 +13,9 @@ import WLOverview from "./WLOverview";
 import WLHistory from "./WLHistory";
 import SaveCapArticle from "./SaveCapArticle";
 import { History,Router,browserHistory } from "react-router";
+import { connect } from "react-redux";
+
+
 
 var interact = window.interact;
 var displayAreaDataStore = window.displayAreaDataStore
@@ -33,11 +36,11 @@ if (!rc) {
       cards: displayAreaDataStore.getData(that.props.currentStatus)
     };
   };
-
   var DisplayPanel = React.createClass({
     displayName: 'DisplayPanel',
 
     getInitialState: function getInitialState() {
+      console.log(this.props);
       return {
         cards: displayAreaDataStore.getData("INIT")
       };

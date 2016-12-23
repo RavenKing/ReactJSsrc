@@ -5,6 +5,7 @@ import { Modal } from 'antd';
 
 export function setAuthToken (parameter) {
 
+var pageStatusDataStore = window.pageStatusDataStore
 
 
 // http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq 'admin'
@@ -13,7 +14,6 @@ return dispatch=>{
 dispatch({type:"AUTH_VALIDATING"});
   console.log(parameter);
     if(!parameter.customer_id){
-      console.log("did it?")
       var data = {
           authorized:false,
           error:"customer_id",
@@ -47,7 +47,7 @@ dispatch({type:"AUTH_VALIDATING"});
       				user:data[0],
       				hint:"logged"
       			}
-
+              pageStatusDataStore.setUpCustomerID(data[0]);
       		}
       		else 
       		{

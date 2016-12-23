@@ -11,9 +11,9 @@ const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 
-@connect((store)=>{
-    
+var pageStatusDataStore = window.pageStatusDataStore
 
+@connect((store)=>{
     return {
       	auth:store.auth
     };
@@ -226,6 +226,9 @@ export default class Login extends React.Component {
       const {token } = auth;
       if(auth.status=="passed")
       {
+        console.log(auth);
+        console.log(token);
+        pageStatusDataStore.setUpCustomerID(token.user);
           browserHistory.push('/')
       }
       

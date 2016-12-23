@@ -46,6 +46,13 @@
     },
     getCurrentStatus: function getCurrentStatus() {
       return this.pageStatusData.currentStatus;
-    }
+    },
+    setUpCustomerID:function setUpCustomerID(customerdata){
+      this.pageStatusData.customerInfo = customerdata;
+      },
+      getCustomerID:function getCustomerID()
+      {
+        return this.pageStatusData.customerInfo;
+      }
   });
 })(window.Reflux, window);
