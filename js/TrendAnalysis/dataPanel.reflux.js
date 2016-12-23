@@ -126,7 +126,7 @@ console.log('prepare to run RCA -------', card);
               method: 'get',
               dataType: 'json',
               headers: {
-                //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -186,7 +186,7 @@ console.log('prepare to run RCA -------', card);
               method: 'get',
               dataType: 'json',
               headers: {
-                //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -303,7 +303,7 @@ console.log('prepare to run RCA -------', card);
                 dataType: 'json',
                 async:false,
                 headers: {
-                  //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                  'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                   'X-Requested-With': 'XMLHttpRequest',
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
@@ -355,7 +355,7 @@ console.log('prepare to run RCA -------', card);
                   method: 'get',
                   dataType: 'json',
                   headers: {
-                    //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                     'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -508,7 +508,7 @@ console.log('prepare to run RCA -------', card);
           method: 'get',
           dataType: 'json',
           headers: {
-            //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+            'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
             'X-Requested-With': 'XMLHttpRequest',
             'Content-Type': 'application/json',
             'Accept': 'application/json',

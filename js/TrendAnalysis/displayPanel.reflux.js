@@ -36,7 +36,7 @@
             async: true,
             data: JSON.stringify(dataInfo),
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -94,7 +94,7 @@
             async: true,
             data: JSON.stringify(dataInfo),
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -137,7 +137,7 @@
             data: JSON.stringify(dataInfo),
             async: true,//changed from false
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -174,7 +174,7 @@
             data: JSON.stringify(dataInfo),
             async: true,//changed from false
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -202,7 +202,7 @@
         method: 'GET',
         async: false,
         headers: {
-          //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+          'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
           'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -229,7 +229,7 @@
         method: 'GET',
         async: false,
         headers: {
-          //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+          'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
           'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -257,7 +257,7 @@
         async: false,
         data: JSON.stringify(dataInfo),
         headers: {
-          //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+          'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
           'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -304,7 +304,7 @@
             method: 'get',
             dataType: 'json',
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -340,7 +340,7 @@
             method: 'get',
             dataType: 'json',
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -400,7 +400,7 @@
             method: 'get',
             dataType: 'json',
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -482,7 +482,7 @@ console.log('RCA data ----', copydata);
             method: 'get',
             dataType: 'json',
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -525,7 +525,7 @@ console.log('url: ',url);
             method: 'get',
             dataType: 'json',
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -564,7 +564,7 @@ console.log('url: ',url);
             method: 'get',
             dataType: 'json',
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345')
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -692,7 +692,7 @@ console.log('url: ',url);
             method: 'get',
             dataType: 'json',
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -742,7 +742,7 @@ console.log('url: ',url);
             method: 'get',
             dataType: 'json',
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -800,7 +800,7 @@ console.log('url: ',url);
             method: 'get',
             dataType: 'json',
             headers: {
-              //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json',
               'Accept': 'application/json',
