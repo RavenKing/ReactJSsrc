@@ -24,7 +24,11 @@ export default class PredictAnalysis extends React.Component{
       const { articles } = this.props.articles;
       var data = newArticle;
       var that = this;
-      if(data.ARTICLE_NAM == articles.results[0].ARTICLE_NAM){
+      if(articles.results.length == 0){
+          data.USERNAME = user.USERNAME;
+          this.props.dispatch(PostArticle(data));
+      }
+      else if(data.ARTICLE_NAM == articles.results[0].ARTICLE_NAM){
         confirm({
           title: '\''+data.ARTICLE_NAM + '\' already exists, do you still want to save this article?',
           content: 'Please confirm that you want to save this article with the same name \'' + data.ARTICLE_NAM+'\'!',
@@ -36,9 +40,9 @@ export default class PredictAnalysis extends React.Component{
           onCancel() {}
       });
       }
-      else{
-          data.USERNAME = user.USERNAME;
+      else{data.USERNAME = user.USERNAME;
           this.props.dispatch(PostArticle(data));
+          
       }
       
   }
