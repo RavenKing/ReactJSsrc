@@ -21,9 +21,26 @@ export default class PredictAnalysis extends React.Component{
   PostArticle(){
       const { user } = this.props.auth;
       const { newArticle } = this.props.articles;
+      const { articles } = this.props.articles;
       var data = newArticle;
-      data.USERNAME = user.USERNAME;
-      this.props.dispatch(PostArticle(data));
+      var that = this;
+      if(data.ARTICLE_NAM == articles.results[0].ARTICLE_NAM){
+        confirm({
+          title: '\''+data.ARTICLE_NAM + '\' already exists, do you still want to save this article?',
+          content: 'Please confirm that you want to save this article with the same name \'' + data.ARTICLE_NAM+'\'!',
+          onOk() {
+                      
+                data.USERNAME = user.USERNAME;
+                that.props.dispatch(PostArticle(data));
+          },                      
+          onCancel() {}
+      });
+      }
+      else{
+          data.USERNAME = user.USERNAME;
+          this.props.dispatch(PostArticle(data));
+      }
+      
   }
   CloseCreatePanel(){
       var that = this;
