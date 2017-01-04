@@ -22,6 +22,7 @@ import HighCharts from "highcharts"
 
 			var axisArr = this.props.chartAxisArr.slice(axisMin, axisMax);
 			var valueArr = this.props.chartValueArr;
+			var valueArr1 = this.props.chartValueArr1;
 			var nameArr = this.props.lineNameArr;
 			var len = nameArr.length;
 
@@ -36,7 +37,7 @@ import HighCharts from "highcharts"
 					break;
 
 				case "S":
-					var axisTitle = "Response Time [h]";
+					var axisTitle = "Response Time [S]";
 					break;
 
 				case "R":
@@ -51,10 +52,11 @@ import HighCharts from "highcharts"
 			seriesArr.push({
 
 				name: nameArr,
-				data: valueArr.slice(axisMin, axisMax)
+				data: valueArr.slice(axisMin, axisMax),
 			});
 
-			this.chart = new HighCharts['Chart'](this.getDOMNode(), {
+			
+				this.chart = new HighCharts['Chart'](this.getDOMNode(), {
 				chart: {
 					type: "line"
 				},
@@ -84,6 +86,7 @@ import HighCharts from "highcharts"
 				},
 				series: seriesArr
 			});
+			
 		},
 
 		componentWillUnmount: function componentWillUnmount() {

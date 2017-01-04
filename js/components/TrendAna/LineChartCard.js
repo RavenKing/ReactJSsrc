@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Slider , Modal, message,Card,Icon	} from "antd"
+import { Slider,Modal, message,Card,Icon,Switch} from "antd"
 import LineChart from  "./LineChart"
 import PredictLineChart from "./PredictLineChart"
 import {browserHistory } from "react-router"
@@ -61,6 +61,19 @@ var dataPanelDataStore = window.dataPanelDataStore
 				rangeMin: value[0],
 				rangeMax: value[1]
 			});
+		},
+		changeTimeType:function changeTimeType(checked){
+			if(checked == true){
+				this.setState({
+					timeType:"AVG"
+				});
+			}
+			else{
+				this.setState({
+					timeType:"TOTAL"
+				});
+			}
+			
 		},
 		onSetUnvisible:function onSetUnvisible()
 		{
@@ -400,23 +413,42 @@ var dataPanelDataStore = window.dataPanelDataStore
 					factorCate: this.props.card.category[0]
 				});
 			} else if(this.props.card.type === "ITEM") {
+				var chartValueArr;
 				
+				
+				if(this.props.card.category[0] == "B"){					
+					chartValueArr: this.props.card.lineChartValue[0];						
+				}
+				else{//"S"
+					if(this.state.timeType == "AVG"){
+						chartValueArr = this.props.card.lineChartAvgTime[0];
+					}
+					else{//"total"
+						chartValueArr = this.props.card.lineChartTotalTime[0];
+					}					
+					
+				}	
 				var subLineChart = React.createElement(LineChart, {
 						chartAxisArr: this.props.card.lineChartAxis[0],
-						chartValueArr: this.props.card.lineChartValue[0],
+						chartValueArr: chartValueArr,
 						lineNameArr: this.props.card.FACTOR_NAME[0],
 						axisMin: this.state.rangeMin,
 						axisMax: this.state.rangeMax,
 						factorCate: this.props.card.category[0],
-						showLabel: true
+						showLabel: true	
+				
+				
 
-					});
+				
+				
 				
 		var tpselect = <Modal title="select template"
 			footer= {false}
 		 onCancel={()=>{this.onSetUnvisible()} }  visible={this.state.tsvisible}>
 		<TemplateSelect card = {this.props.card} visible={this.state.tsvisible}/>
 					</Modal>
+
+		var timeSwitch = <Switch checkedChildren="AVG" unCheckedChildren="TOTAL" defaultChecked={false} onChange={this.changeTimeType.bind(this)} />
 
 			}
 
@@ -433,7 +465,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 					} },
 					subLineChart,
 					this.state.tsvisible==true?tpselect:<div></div>,
-				React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })
+					this.props.card.category[0] == "S"?timeSwitch:<div></div>,
+					React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })
 			);
 
 		}

@@ -475,8 +475,8 @@
         if(copydata.category[0] == 'S')
         {
           var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
-console.log('ITEM url: ',url);
-console.log('RCA data ----', copydata);
+          console.log('ITEM url: ',url);
+          console.log('RCA data ----', copydata);
           $.ajax({
             url: url,
             method: 'get',
@@ -491,14 +491,21 @@ console.log('RCA data ----', copydata);
             }
           }).done(function (resp) {
             var axis = [];
-            var value = [];
+            var avg_time = [];
+            var total_time = [];
+            var step = [];
             resp.results.forEach(function (item) {
               //axis.push(item.CALENDARWEEK);
-              axis.push(item.YEAR_MONTH)
-              value.push(item.CPU_DB_TIME);
+              axis.push(item.YEAR_MONTH);
+              avg_time.push(item.AVG_TIME);
+              total_time.push(item.TOTAL_TIME);
+              step.push(item.STEP);
+              //value.push(item.CPU_DB_TIME);
             });
             copydata.lineChartAxis = new Array(axis);
-            copydata.lineChartValue = new Array(value);
+            copydata.lineChartAvgTime = new Array(avg_time);
+            copydata.lineChartTotalTime = new Array(total_time);
+            copydata.lineChartStep = new Array(step);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 console.log('pageStatus chart = ');
