@@ -6,8 +6,16 @@ import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
 import SaveArticle from "./SaveArticle";
 import ArticleTemplate from "./ArticleTemplate";
-import DVMAPanel from "./DVMPanel/DVMAPanel"
+import DVMAPanel from "./DVMPanel/DVMAPanel";
+import RCASimCard from "./RCASimCard";
+import WhatIfCard from "./WhatIfCard";
+import WLOverview from "./WLOverview";
+import WLHistory from "./WLHistory";
+import SaveCapArticle from "./SaveCapArticle";
 import { History,Router,browserHistory } from "react-router";
+import { connect } from "react-redux";
+
+
 
 var interact = window.interact;
 var displayAreaDataStore = window.displayAreaDataStore
@@ -28,11 +36,11 @@ if (!rc) {
       cards: displayAreaDataStore.getData(that.props.currentStatus)
     };
   };
-
   var DisplayPanel = React.createClass({
     displayName: 'DisplayPanel',
 
     getInitialState: function getInitialState() {
+      console.log(this.props);
       return {
         cards: displayAreaDataStore.getData("INIT")
       };
@@ -82,6 +90,10 @@ if (!rc) {
               data.guidArr = new Array(draggableElement.getAttribute('data-factor_guid'));
               data.FACTOR_NAME = new Array(draggableElement.getAttribute('data-factor_name'));
               data.category = new Array(draggableElement.getAttribute('data-category'));
+              data.factor_type = new Array(draggableElement.getAttribute('data-factor_type'));
+              data.customerId = new Array(draggableElement.getAttribute('data-customer_id'));
+              data.systemId = new Array(draggableElement.getAttribute('data-sys_id'));
+              data.systemClt = new Array(draggableElement.getAttribute('data-sys_clt'));
               break;
             case 'CREATE':
 
@@ -95,6 +107,69 @@ if (!rc) {
             case 'UPLOAD':
               data.title = 'Upload Statistics File';
       
+              break;
+
+            case 'CPM-Overview':
+              data.title = 'Workload Overview - ' + draggableElement.getAttribute('data-factor_name');
+              data.customerId = draggableElement.getAttribute('data-customer');
+              data.dateYear = draggableElement.getAttribute('data-year');
+              data.dateMonth = draggableElement.getAttribute('data-month');
+              break;
+
+            case 'CPM-History':
+              data.title = 'Workload History - ' + draggableElement.getAttribute('data-factor_name');
+              data.customerId = draggableElement.getAttribute('data-customer');
+              data.latestYear = draggableElement.getAttribute('data-l_year');
+              data.latestMonth = draggableElement.getAttribute('data-l_month');
+              data.monthCount = draggableElement.getAttribute('data-m_count');
+              break;
+
+
+            case 'CPM-Transaction':
+
+              break;
+
+            case 'CPM':
+
+              var nextStatus = "CAPACITY_MGMT";
+
+                if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
+                  var sIntervalCallId;
+
+                  (function () {
+                    var addStatus = function addStatus() {
+                      if (displayAreaDataStore.isStatusExisted(nextStatus) && dataPanelDataStore.isStatusExisted(nextStatus) && functionPanelDataStore.isStatusExisted(nextStatus)) {
+                        clearInterval(sIntervalCallId);
+                        pageStatusChangeActions.pageStatusAddAction(nextStatus);
+                      }
+                    };
+
+                    /*var nextData = {};
+
+                    nextData.style = that.props.card.style;
+                    nextData.type = "ITEM-ANA";
+                    nextData.guidArr = that.props.card.guidArr;
+                    nextData.FACTOR_NAME = that.props.card.FACTOR_NAME;
+                    nextData.category = that.props.card.category;*/
+                    var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
+                    var logCustomerId = logCustomerInfo.CUSTOMER_ID;
+
+                    displayAreaChangeActions.displayAreaAddPageAction(nextStatus, "");
+                    dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
+                    functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
+                    //displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
+                    dataPanelItemChangeActions.dataPanelCPMAddItemAction(nextStatus, logCustomerId);
+
+                    sIntervalCallId = setInterval(function () {
+                      addStatus();
+                    }, 100);
+                    ;
+                  })();
+                } else {
+                  pageStatusChangeActions.pageStatusChangeAction(nextStatus);
+                }
+
+
               break;
             default:
               ;
@@ -119,13 +194,12 @@ if (!rc) {
       this.unsubscribe();
       this.unsubscribeStatus();
     },
-
+ 
     // componentWillUpdate: function() {
     //   this.setState(getState());
     // },
 
     render: function render() {
-      console.log(displayAreaDataStore.displayAreaData);
       return React.createElement(
         'div',
         { className: (!this.state.cards.length) ? 'display-panel help-bg' : 'display-panel' },
@@ -133,19 +207,43 @@ if (!rc) {
           if (item.type == 'TITLE') {
             return React.createElement(DataCard, { key: item.id + "DataCard", card: item });
 
-          } else if (item.type == 'ITEM' || item.type == 'WHAT_IF' || item.type == 'ITEM-ANA') {
+          } 
+          else if (item.type == 'ITEM' || item.type == 'ITEM-ANA') {
+            console.log(item)
             return React.createElement(LineChartCard, { key: item.id + "LineChartCard", card: item });
-          } else if (item.type == 'PIE') {
+          } 
+
+          else if (item.type == "RCA_SIM") {
+            return React.createElement(RCASimCard, { key: item.id + "RCASimCard", card: item });
+          } 
+          else if(item.type == "WHAT_IF") {
+            return React.createElement(RCASimCard, { key: item.id + "WhatSimCard", card: item });
+          }
+          else if (item.type == 'PIE') {
             return React.createElement(PieChartCard, { key: item.id + "PIEChartCard", card: item });
-          } else if (item.type == 'CREATE') {
+          } 
+
+          else if (item.type == 'CREATE') {
 
             return React.createElement(CreateObjCard, { key: item.id + "CreateObjCard", card: item });
-          } else if (item.type == 'EDIT') {
+          } 
+
+          else if (item.type == 'EDIT') {
 
             return React.createElement(CreateObjCard, { key: item.id + "EditObjCard", card: item });
           }
+
           else if(item.type == 'UPLOAD'){
             return React.createElement(UploadCard, { key: item.id + "UploadCard", card: item });
+          }
+          else if(item.type == 'CPM-Overview' || item.type == 'CPM-DIA' || item.type == 'CPM-BTC' || item.type == 'CPM-RFC'){
+            return React.createElement(WLOverview, { key: item.id + "CPMOverview", card: item });
+          }
+          else if(item.type == 'SAVE-ARTI') {
+            return <SaveCapArticle key={item.id + 'Save Capacity Article'} card={item} />
+          }
+          else if(item.type == 'CPM-History'){
+            return React.createElement(WLHistory, { key: item.id + "CPMHistory", card: item });
           }
 
           else if(item.type=='DVM')

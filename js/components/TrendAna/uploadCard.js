@@ -2,7 +2,7 @@ import React from "react"
 
 import { connect } from "react-redux";
 
-import {Card,message,Button,Cascader,Icon,Table,Upload,Row,Col,Form,DatePicker } from "antd"
+import {Card,message,Button,Cascader,Icon,Table,Upload,Row,Col,Form,DatePicker,Select } from "antd"
 var global = window
 
 var displayAreaDataStore= window.displayAreaDataStore
@@ -59,7 +59,8 @@ var UploadCard = React.createClass({
 				kmType: [],
 				tableLen: 550,
 				checkType: true,
-				curYearMonth: curYearMonth
+				curYearMonth: curYearMonth,
+				taskType: "BACKGROUND"
 			};
 		},
 
@@ -73,20 +74,24 @@ var UploadCard = React.createClass({
 			global.resetPosition(this.getDOMNode());
 		},
 		onConfirm: function onConfirm() {
-
+			var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
+            var logCustomerId = logCustomerInfo.CUSTOMER_ID;
+			var that = this;
 			var uploadData = {
 				userInfo: {
-					customerId: "1001",
+					customerId: logCustomerId.toString(),
 					sysId: "KEV",
 					sysClt: "001",
-					dateYear: 2016,
-					dateMonth: 9
+					dateYear: this.state.curYearMonth.slice(0,4),
+					dateMonth: this.state.curYearMonth.slice(5,7)
 				},
 				curYearMonth: this.state.curYearMonth,
-				taskType: "BACKGROUND",//API for TIME PROFILE of different type
+				taskType: this.state.taskType,//API for TIME PROFILE of different type
 				tableName: this.state.kmType[1],
 				tableData: this.state.tableData
 			};
+
+			console.log('uploadData = ', uploadData);
 
 
 			displayAreaDataStore.uploadConfirm(uploadData,function(respCode){
@@ -94,6 +99,7 @@ var UploadCard = React.createClass({
 				console.log('respCode = ', respCode);
 				if(respCode){
 					message.success('Local file uploaded to HANA successfully.', 3.5);
+					that.onReset();
 				}
 				else {
 					message.error('Upload failed.', 3.5);
@@ -114,8 +120,7 @@ var UploadCard = React.createClass({
 				isEnabled: false,
 				kmType: [],
 				tableLen: 550,
-				checkType: true,
-				curYearMonth: curYearMonth
+				checkType: true
 			});
 		},
 		onChangeType: function onChangeType(value) {
@@ -126,12 +131,18 @@ var UploadCard = React.createClass({
 			});
 		},
 
-		onChangeTime: function onChangeTime(dateString) {
-			console.log('Year/Month = ',dateString);
+		onChangeTime: function onChangeTime(value,dateString) {
+			console.log('Year/Month = ',dateString.slice(0,4), dateString.slice(5,7));
 			this.setState({
 				curYearMonth: dateString,
 				checkType: ((!!dateString) && (!!this.state.kmType)) ? false : true
 			});
+		},
+		handleTypeChange: function handleTypeChange(value) {
+		  console.log('selected type:' , value);
+		  this.setState({
+		  	taskType: value
+		  })
 		},
 
 		render: function render() {
@@ -154,6 +165,9 @@ var UploadCard = React.createClass({
 				}, {
 					value: 'KMDVM',
 					label: 'Data Strategy'
+				},{
+					value: 'CMTBL',
+					label: 'Time-based Distribution'
 				}]
 			}, {
 				value: 'CPM',
@@ -281,6 +295,7 @@ var UploadCard = React.createClass({
 			}
 
 			var submitBtn;
+
 			switch (this.state.echoData) {
 				case true:
 					{
@@ -312,9 +327,19 @@ var UploadCard = React.createClass({
 								null,
 								React.createElement(
 									Col,
-									{ span: 16 },
+									{ span: 10 },
 									React.createElement(DatePicker.MonthPicker, { defaultValue: this.state.curYearMonth , disabled: true})
+								),
+								React.createElement(
+									Col,
+									{ span: 12 },
+									<Select defaultValue={this.state.taskType} style={{ width: 120 }} onChange={this.handleTypeChange} disabled>
+								      <Select.Option value="DIALOG">DIALOG</Select.Option>
+								      <Select.Option value="BACKGROUND">BACKGROUND</Select.Option>
+								      <Select.Option value="RFC">RFC</Select.Option>
+								    </Select>
 								)
+
 							)
 						);
 						break;
@@ -352,8 +377,17 @@ var UploadCard = React.createClass({
 								null,
 								React.createElement(
 									Col,
-									{ span: 16 },
+									{ span: 10 },
 									React.createElement(DatePicker.MonthPicker, { defaultValue: this.state.curYearMonth , onChange: this.onChangeTime })
+								),
+								React.createElement(
+									Col,
+									{ span: 12 },
+									<Select defaultValue={this.state.taskType} style={{ width: 120 }} onChange={this.handleTypeChange}>
+								      <Select.Option value="DIALOG">DIALOG</Select.Option>
+								      <Select.Option value="BACKGROUND">BACKGROUND</Select.Option>
+								      <Select.Option value="RFC">RFC</Select.Option>
+								    </Select>
 								)
 							)
 						);

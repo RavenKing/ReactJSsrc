@@ -32,7 +32,7 @@ var  Tile = React.createClass({
 					factor_business_name: item[i].FACTOR_BUSINESS_NAME,
 					factor_type: type,
 					factor_trend: item[i].TREND,
-					factor_pin: pin
+					factor_cate: item[i].FACTOR_CATEGORY
 				});
 			}
 			this.setState({
@@ -83,22 +83,22 @@ var  Tile = React.createClass({
 		cateTrans: function cateTrans(cate) {
 			switch (cate) {
 				case "Table":
-					return "B";
+					return "TBL";
 					break;
 				case "Arch Obj":
-					return "B";
+					return "DVM";
 					break;
 				case "System Load":
-					return "R";
+					return "SYS";
 					break;
 				case "Dialog Job":
-					return "S";
+					return "DIA";
 					break;
 				case "Batch Job":
-					return "S";
+					return "BTC";
 					break;
 				case "RFC Call":
-					return "S";
+					return "RFC";
 					break;
 				default:
 					return "";
@@ -114,11 +114,17 @@ var  Tile = React.createClass({
 
 			//data.style.left = 300;
 			//data.style.top = 100;
+			var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
+            var logCustomerId = logCustomerInfo.CUSTOMER_ID;
 
 			data.type = "ITEM";
-			data.guidArr = new Array(record.key.toString());
+			data.guidArr = new Array(record.key);
 			data.FACTOR_NAME = new Array(record.factor_name);
-			data.category = new Array(this.cateTrans(record.factor_type));
+			data.category = new Array(record.factor_cate);
+			data.factor_type = new Array(this.cateTrans(record.factor_type));
+			data.customerId = logCustomerId.toString();
+			data.systemId = 'KEV';
+			data.systemClt = '001';
 
 			displayAreaChangeActions.displayAreaAddCardAction(pageStatusDataStore.getCurrentStatus(), data);
 		},
@@ -175,12 +181,12 @@ var  Tile = React.createClass({
 				dataIndex: 'factor_type',
 				width: 80
 			}, {
-				title: 'Growth',
-				dataIndex: 'factor_trend',
-				width: 60
+				title: 'Category',
+				dataIndex: 'factor_cate',
+				width: 80
 			}, {
-				title: 'Sticked',
-				dataIndex: "factor_pin",
+				title: 'Growth',
+				dataIndex: "factor_trend",
 				width: 60
 			}];
 

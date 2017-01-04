@@ -36,7 +36,7 @@ import HighCharts from "highcharts"
 					break;
 
 				case "S":
-					var axisTitle = "Response Time [ms]";
+					var axisTitle = "Response Time [h]";
 					break;
 
 				case "R":
@@ -67,7 +67,7 @@ import HighCharts from "highcharts"
 				xAxis: {
 					id: 'xAxis',
 					categories: axisArr,
-					tickInterval: Math.round((axisMax - axisMin) / 10),
+					//tickInterval: Math.round((axisMax - axisMin) / 10),
 					labels: {
 						enabled: this.state.showLabel
 					}
@@ -136,7 +136,7 @@ import HighCharts from "highcharts"
 					data: valueArr.slice(axisMin, axisMax)
 				};
 				this.chart.xAxis[0].update({
-					tickInterval: Math.round((axisMax - axisMin) / 10),
+					//tickInterval: Math.round((axisMax - axisMin) / 10),
 					labels: {
 						enabled: nextState.showLabel
 					}
@@ -156,7 +156,7 @@ import HighCharts from "highcharts"
 
 				var valueArr = nextProps.chartValueArr;
 				this.chart.xAxis[0].update({
-					tickInterval: Math.round((axisMax - axisMin) / 10)
+					//tickInterval: Math.round((axisMax - axisMin) / 10)
 				});
 				this.chart.get('xAxis').setCategories(axisArr, false);
 				for (var i = 0; i < dataLen; i++) {

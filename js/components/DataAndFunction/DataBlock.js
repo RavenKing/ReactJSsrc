@@ -19,7 +19,6 @@ export default class DataBlock extends React.Component {
     render() { 
 
       const { articles } =this.props;
-     
       var  DataItems;
       if(articles.fetched === true)
       {
@@ -28,8 +27,12 @@ export default class DataBlock extends React.Component {
         const topfive = results.concat();
 
 
-        const topfive1 = topfive.splice(0,5);
-        DataItems = topfive1.map((item)=><DataItem title = {item.ARTICLE_NAM} key = {item.ARTICLE_ID} uniquekey={item.ARTICLE_ID} />);
+        let topfive1 = topfive.filter((one)=>{
+          if(one.FACTOR_TYPE == this.props.type)
+          return one;
+        });
+        topfive1=topfive1.splice(0,5);
+        DataItems = topfive1.map((item)=><DataItem  title = {item.ARTICLE_NAM} key = {item.ARTICLE_ID} uniquekey={item.ARTICLE_ID} type = {item.FACTOR_TYPE} />);
       
        }
        else
@@ -39,9 +42,9 @@ export default class DataBlock extends React.Component {
        }
 
         return (
-          <div className="data-block" data-type="TITLE"> 
+          <div className="data-block" data-type="TITLE" data-factor-type={this.props.type}> 
           <div className="data-title" >
-            <span> DVM </span>
+            <span> {this.props.title} </span>
           </div>
           { DataItems }
           </div>

@@ -13,6 +13,10 @@
         info: 'ANALYSIS',
         type: 'ANALYSIS'
       }, {
+        name: 'Capacity',
+        info: 'CPM',
+        type: 'CPM'
+      },{
         name: 'Knowledge',
         info: 'NOTE',
         type: 'NOTE'
@@ -31,8 +35,8 @@
             type: "RCA"
           }, {
             name: "Simulate",
-            info: "WHAT_IF",
-            type: "WHAT_IF"
+            info: "RCA_SIM",
+            type: "RCA_SIM"
           }]
         });
 
@@ -64,6 +68,44 @@
           }*/]
         });
 
+
+      }
+      else if(anaType == "WIF"){
+        this.functionPanelData.push({
+          pageStatus:pageStatus,
+          content:[{
+            name: "Correlation",
+            info: "RCA",
+            type: "RCA"
+          },{
+            name: "What If",
+            info: "WHAT_IF",
+            type: "WHAT_IF"
+          }]
+        })
+      }
+      else if(pageStatus == "CAPACITY_MGMT"){
+
+        this.functionPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            name: "Dialog Job",
+            info: "CPM-DIA",
+            type: "CPM-DIA"
+          },{
+            name: "Batch Job",
+            info: "CPM-BTC",
+            type: "CPM-BTC"
+          },{
+            name: "RFC Call",
+            info: "CPM-RFC",
+            type: "CPM-RFC"
+          },{
+              name:"Save Article",
+              info:"SAVE-ARTI",
+              type:"SAVE-ARTI"
+          }]
+        });
 
       }
 

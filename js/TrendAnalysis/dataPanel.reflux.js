@@ -3,7 +3,7 @@
 (function (Reflux, $, global) {
 
   global.dataPanelItemChangeActions = Reflux.createActions(['dataPanelItemAddAction', 'dataPanelRCAAddItemAction', 
-    'dataPanelAddPageAction', 'dataPanelRemovePageAction','dataPanelDVMAddItemAction']);
+    'dataPanelAddPageAction', 'dataPanelRemovePageAction','dataPanelDVMAddItemAction', 'dataPanelCPMAddItemAction']);
 
   global.dataPanelDataStore = Reflux.createStore({
     listenables: [global.dataPanelItemChangeActions],
@@ -64,6 +64,38 @@
 
 
       }
+      else if(anaType == "WIF"){
+        this.dataPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            title: "Performance",
+            objList: []
+          }, {
+            title: "Service",
+            objList: []
+          }, {
+            title: "Business",
+            objList: []
+          }, {
+            title: "Resource",
+            objList: []
+          }]
+        });
+      }
+      else if(pageStatus == "CAPACITY_MGMT"){
+
+        this.dataPanelData.push({
+          pageStatus: pageStatus,
+          content: [{
+            title: "WL Overview",
+            objList: []
+          }, {
+            title: "WL History",
+            objList: []
+          }]
+        });
+
+      }
 
       
     },
@@ -76,7 +108,7 @@
         }
       });
     },
-    onDataPanelRCAAddItemAction: function onDataPanelRCAAddItemAction(pageStatus, cardGuid) {
+    onDataPanelRCAAddItemAction: function onDataPanelRCAAddItemAction(pageStatus, card) {
       var that = this;
       $.each(this.dataPanelData, function (idx, item) {
         if (pageStatus === item.pageStatus) {
@@ -85,13 +117,16 @@
             len += item1.objList.length;
           });
           if (!len) {
-            var url = "http://10.97.144.117:8000/SmartOperations/services/calcRate.xsjs?factorId=" + cardGuid;
+            //var url = "http://10.97.144.117:8000/SmartOperations/services/calcRate.xsjs?factorId=" + cardGuid;
+console.log('prepare to run RCA -------', card);
+            var url = 'http://10.97.144.117:8000/SmartOperations/services/calcSigRate.xsjs?factorName=' + card.FACTOR_NAME + '&factorCate='+card.category+'&customerId='+card.customerId+'&sysId='+card.systemId+'&sysClt='+card.systemClt
+           console.log('url of calc rate --- ',url);
             $.ajax({
               url: url,
               method: 'get',
               dataType: 'json',
               headers: {
-                //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -134,6 +169,122 @@
         }
       });
     },
+    onDataPanelCPMAddItemAction: function onDataPanelCPMAddItemAction(pageStatus, customerId) {
+      var that = this;
+      $.each(this.dataPanelData, function (idx, item) {
+        if (pageStatus === item.pageStatus) {
+          var len = 0;
+          $.each(item.content, function (idx1, item1) {
+            len += item1.objList.length;
+          });
+          if (!len) {
+
+            console.log("CPM content - item -----", item);
+            var url = "http://10.97.144.117:8000/SmartOperations/services/cpmDataItem.xsjs?customerId=" + customerId;
+            $.ajax({
+              url: url,
+              method: 'get',
+              dataType: 'json',
+              headers: {
+                'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'DataServiceVersion': '2.0',
+                'X-CSRF-Token': 'Fetch'
+              }
+            }).done(function (resp) {
+              console.log("get WLO number --- ", resp);
+              resp.results.forEach(function (d) {
+                if (d.category === "CPM-Overview") {
+                  $.each(item.content, function (idx1, item1) {
+                    if (item1.title === "WL Overview") {
+                      item1.objList.push(d);
+                      return false;
+                    }
+                  });
+                } else if (d.category === "CPM-History") {
+                  $.each(item.content, function (idx1, item1) {
+                    if (item1.title === "WL History") {
+                      item1.objList.push(d);
+                      return false;
+                    }
+                  });
+                } else if (d.category === "CPM-Transaction") {
+                  $.each(item.content, function (idx1, item1) {
+                    if (item1.title === "Transaction") {
+                      item1.objList.push(d);
+                      return false;
+                    }
+                  });
+                }
+              });
+              that.trigger(item.content);
+            }).fail(function () {
+              console.error('Data panel fetch error:');
+              console.error(arguments);
+            });
+//////////////////////////////////////////////////////////////////
+            /*$.each(item.content, function (idx1, item1) {
+              if (item1.title === "WL Overview") {
+                var d = {
+                  ITEM_NAME: "2016-09"
+                };
+
+                item1.objList.push(d);
+                
+              }
+              else if(item1.title === "WL History") {
+                var d = {
+                  ITEM_NAME: "Last 3 Months"
+                };
+
+                item1.objList.push(d);
+
+                var d1 = {
+                  ITEM_NAME: "Last 6 Months"
+                };
+
+                item1.objList.push(d1);
+
+                var d2 = {
+                  ITEM_NAME: "Last 12 Months"
+                };
+
+                item1.objList.push(d2);
+
+              }
+              else if(item1.title === "Transaction") {
+
+                var d = {
+                  ITEM_NAME: "Dialog"
+                };
+
+                item1.objList.push(d);
+
+                var d1 = {
+                  ITEM_NAME: "Background"
+                };
+
+                item1.objList.push(d1);
+
+                var d2 = {
+                  ITEM_NAME: "RFC"
+                };
+
+                item1.objList.push(d2);
+
+              }
+            });*/
+
+
+
+          } else {
+            return false;
+          }
+        }
+      });
+    },
     onDataPanelDVMAddItemAction:function onDataPanelDVMAddItemAction(pageStatus, factorName){
         var that = this;
         $.each(this.dataPanelData, function (idx, item) {
@@ -152,7 +303,7 @@
                 dataType: 'json',
                 async:false,
                 headers: {
-                  //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                  'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                   'X-Requested-With': 'XMLHttpRequest',
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
@@ -204,7 +355,7 @@
                   method: 'get',
                   dataType: 'json',
                   headers: {
-                    //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                     'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -328,15 +479,31 @@
       }
     },
     getInitPageData: function getInitPageData(pageStatus) {
+
+    var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
+    var logCustomerId = logCustomerInfo.CUSTOMER_ID;
+
       var ajaxData = [];
       var that = this;
       var ajaxTotal = 0;
       var ajaxCount = 0;
+      /*var urls = {
+        bUrl: 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\' and FACTOR_TYPE eq \'TBL\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
+        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
+        rUrl: 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'R\' and PIN eq \'X\'&$orderby=TREND desc&$top=5'
+      };*/
+
       var urls = {
+        bUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=B&sysId=KEV&sysClt=001',
+        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=S&sysId=KEV&sysClt=001',
+        rUrl: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
+      };
+      /*var urls = {
         bUrl: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5',
         sUrl: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5',
         rUrl: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
-      };
+      };*/
+
 
       var _loop = function _loop(url) {
         ajaxTotal++;
@@ -345,7 +512,7 @@
           method: 'get',
           dataType: 'json',
           headers: {
-            //'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+            'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
             'X-Requested-With': 'XMLHttpRequest',
             'Content-Type': 'application/json',
             'Accept': 'application/json',

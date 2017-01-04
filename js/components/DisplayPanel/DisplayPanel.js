@@ -6,6 +6,7 @@ import MainPanel from "./MainPanel";
 import DetailPanel from "./DetailPanel";
 import CreatePanel from "../CreatePanel/CreatePanel";
 import EditPanel from "../EditPanel/EditPanel";
+import CapacityPanel from "./CapacityPanel";
 
 import { setAreaDropable } from "../../interactScript";
 
@@ -44,8 +45,9 @@ export default class DisplayPanel extends React.Component {
               switch(draggableElement.getAttribute('data-type')){
               case "ITEM":
               { 
+                var type = draggableElement.getAttribute('data-factor-type')
 
-                  data.type = "detail";
+                  data.type = type;
                   data.data_id = data_id;
                
                   props.dispatch(AddCard(data));
@@ -53,14 +55,14 @@ export default class DisplayPanel extends React.Component {
               }
               case "TITLE":
               {
-                  data.type = "main";
 
+                  data.type = "main";
+                  data.stype= draggableElement.getAttribute('data-factor-type')
                   props.dispatch(AddCard(data));
                   break;
               }
               case "FUNC":
               {
-                  
                   if(data_id == "1"){
                       data.type = "create";
                       props.dispatch(AddCard(data));
@@ -111,7 +113,7 @@ export default class DisplayPanel extends React.Component {
       const { results } = articles.articles;
       
       var displayArea = displayPanel.map((one)=>{
-        if(one.type == "detail"){
+        if(one.type == "DVM"||one.type=="CAP"){
           for(var i = 0; i < results.length;i++){
             if(results[i].ARTICLE_ID ==  one.article){
               return <DetailPanel article={results[i]} display={one} />
@@ -128,8 +130,8 @@ export default class DisplayPanel extends React.Component {
         else if(one.type == "create"){
           return <CreatePanel/>
         }
-        else if(one.type == "main"){
-          return <MainPanel results={ results } query={one.query?one.query:""}></MainPanel>
+        else if(one.type == "main" && results){
+          return <MainPanel results={ results } query={one.query?one.query:""} type={one.stype}></MainPanel>
         }
       })
 

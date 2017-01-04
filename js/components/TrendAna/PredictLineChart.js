@@ -22,6 +22,8 @@ var PredictLineChart = React.createClass({
 			var nameArr = this.props.lineNameArr;
 			var len = nameArr.length;
 
+			console.log('kira kira kira ------: ', axisArr, valueArr);
+
 			/*this.setState({
    axisMin: this.props.axisMin,
    axisMax: this.props.axisMax
@@ -45,12 +47,14 @@ var PredictLineChart = React.createClass({
 
 			var seriesArr = [];
 			for (var i = 0; i < len; i++) {
+				console.log('pika pika pika --- ', i, nameArr[i],valueArr[i].slice(axisMin, axisMax));
 				seriesArr.push({
 					id: 'series-' + i,
 					name: nameArr[i],
 					data: valueArr[i].slice(axisMin, axisMax)
 				});
 			}
+			console.log(seriesArr);
 
 			this.chart = new HighCharts['Chart'](this.getDOMNode(), {
 				chart: {

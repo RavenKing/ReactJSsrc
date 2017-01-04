@@ -1,10 +1,21 @@
-import React from "react"
-import {Card,Icon } from "antd"
-var global = window;
+//WLHistory.js
 
-import PieChart from "./PieChart"
-import InfDetailBlock from "./InfDetailBlock"
-var componentMixin = {
+import React from "react"
+
+import { Slider , Modal, message,Card,Icon	} from "antd"
+import WLHistoryChart from  "./WLHistoryChart"
+import {browserHistory } from "react-router"
+
+var global = window
+
+var displayAreaDataStore= window.displayAreaDataStore
+var pageStatusChangeActions =window.pageStatusChangeActions
+var displayAreaChangeActions = window.displayAreaChangeActions
+var dataPanelItemChangeActions = window.dataPanelItemChangeActions
+var pageStatusDataStore = window.pageStatusDataStore
+var dataPanelDataStore = window.dataPanelDataStore
+
+	var componentMixin = {
 		removeCard: function removeCard() {
 			var that = this;
 			return function () {
@@ -34,39 +45,46 @@ var componentMixin = {
 	};
 
 
-
-
-
-
-
-
-var PieChartCard = React.createClass({
-		displayName: "PieChartCard",
+var WLHistory = React.createClass({
+		displayName: "UploadCard",
 
 		mixins: [componentMixin],
+
+		getInitialState: function getInitialState() {
+
+			return {
+				nothing: ""
+			};
+		},
+
 		componentDidMount: function componentDidMount() {
-			this.interactable = global.setCardDragable(this.getDOMNode(), this.props.card.id);
+			
+			this.interactDrag = global.setCardDragable(this.getDOMNode(), this.props.card.id);
 			global.handleFocus(this.getDOMNode());
 		},
 		componentWillUpdate: function componentWillUpdate() {
+
 			global.resetPosition(this.getDOMNode());
 		},
+		
+		
+
 		render: function render() {
+			var that = this;
+			
+			var subWLHChart = React.createElement(WLHistoryChart, { chartContent: this.props.card });
+
 			return React.createElement(
 				Card,
-				{ className: "pie-card",
-					title: "Potential Correlation with other objects?",
+				{ className: "upload-card",
+					title: this.props.card.title,
 					style: this.props.card.style,
-					extra: React.createElement(Icon, { type: "cross", onClick: this.removeCard().bind(this) }),
-					bodyStyle: {
-						padding: 0
-					} },
-				React.createElement(PieChart, { seriesArr: this.props.card.seriesArr }),
-				" ",
-				React.createElement(InfDetailBlock, { objs: this.props.card.objList
-				}),
-				" "
+					
+					extra: React.createElement(Icon, { type: "cross", onClick: this.removeCard().bind(this) }) },
+				subWLHChart
 			);
 		}
 	});
-export default PieChartCard
+
+
+ export default WLHistory;

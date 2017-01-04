@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom"
 import {Button,Badge,Tooltip,Popover} from "antd";
 
 var interact=window.interact
@@ -7,6 +8,7 @@ var dataPanelDataStore=window.dataPanelDataStore
 var pageStatusDataStore = window.pageStatusDataStore
 var global = window
 
+import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 /*(function (React, rc, antd, interact, dataPanelItemChangeAction, dataPanelDataStore, pageStatusDataStore, global) {
 */
 /*  if (!rc) {
@@ -34,17 +36,13 @@ var global = window
     },
 
     componentDidMount: function componentDidMount() {
-      this.interactable = global.setNodeDragable(this.getDOMNode());
-    },
-    componentWillUnmount: function componentWillUnmount() {
-      this.interactable.unset();
-      this.interactable = null;
+     setNodeDragable(ReactDOM.findDOMNode(this));
     },
 
     render: function render() {
       var currentStatus = pageStatusDataStore.getCurrentStatus();
-
       var item = this.props.item;
+
       if(currentStatus == "INIT"){
 
         return React.createElement(
@@ -53,13 +51,20 @@ var global = window
 
           React.createElement(
             Button,
-            { className: "data-item", type: "dashed",
+            { 
+              className: "data-item", type: "dashed",
+              "key" :(new Date() + Math.floor(Math.random() * 999999)).toString(31),
               "data-type": "ITEM",
               "data-info": currentStatus + "-ITEM",
               "data-factor_guid": this.props.item.FACTOR_GUID,
               "data-factor_name": this.props.item.FACTOR_NAME,
               "data-trend": this.props.item.TREND,
-              "data-category": this.props.item.FACTOR_CATEGORY },
+              "data-category": this.props.item.FACTOR_CATEGORY,
+              "data-factor_type": this.props.item.FACTOR_TYPE,
+              "data-customer_id": this.props.item.CUSTOMER_ID,
+              "data-sys_id": this.props.item.SYSID,
+              "data-sys_clt": this.props.item.SYSCLT
+            },
             React.createElement(
               Badge,
               { dot: parseFloat(item.TREND) > 5.0 },
@@ -68,6 +73,67 @@ var global = window
           )
         );
       }
+      else if(currentStatus == "CAPACITY_MGMT"){///123456789
+
+        if(this.props.item.category == "CPM-Overview"){
+          return React.createElement(
+              Button,
+              { className: "data-item", type: "dashed",
+                "data-type": this.props.item.category,
+                "data-info": currentStatus + "-CPMITEM",
+                "data-year": this.props.item.dateYear,
+                "data-month": this.props.item.dateMonth,
+                "data-factor_name": this.props.item.ITEM_NAME,
+                "data-customer":this.props.item.customerId
+                 },
+              
+                item.ITEM_NAME
+              
+            );
+        }
+        else if(this.props.item.category == "CPM-History"){
+
+          return React.createElement(
+              Button,
+              { className: "data-item", type: "dashed",
+                
+                "data-info": currentStatus + "-CPMITEM",
+                "data-factor_name": this.props.item.ITEM_NAME,
+                "data-type": this.props.item.category,
+                "data-m_count": this.props.item.monthCount,
+                "data-l_year": this.props.item.latestYear,
+                "data-l_month": this.props.item.latestMonth,
+                "data-customer":this.props.item.customerId,
+                
+                 },
+              
+                item.ITEM_NAME
+              
+            );
+
+        }
+        /*else if(this.props.item.category == "CPM-Transaction"){
+
+          return React.createElement(
+              Button,
+              { className: "data-item", type: "dashed",
+                "data-type": this.props.item.category,
+                "data-info": currentStatus + "-CPMITEM",
+                "data-year": this.props.item.dateYear,
+                "data-month": this.props.item.dateMonth,
+                "data-factor_name": this.props.item.ITEM_NAME,
+                "data-customer":this.props.item.customerId
+                 },
+              
+                item.ITEM_NAME
+              
+            );
+
+        }*/
+        
+
+      }
+
       else if(this.props.item.FACTOR_CATEGORY == "RET"){
         return React.createElement(
           Popover,
@@ -95,12 +161,13 @@ var global = window
       else{
          return React.createElement(
             Button,
-            { className: "data-item", type: "dashed",
+            { className: "data-item-rca", type: "dashed",
               "data-type": "ITEM",
               "data-info": currentStatus + "-ITEM",
               "data-factor_guid": this.props.item.FACTOR_GUID,
               "data-factor_name": this.props.item.FACTOR_NAME,
-              "data-trend": this.props.item.TREND,
+               "key" :(new Date() + Math.floor(Math.random() * 999999)).toString(31),
+              "data-factor_type": this.props.item.FACTOR_TYPE,
               "data-category": this.props.item.FACTOR_CATEGORY },
             React.createElement(
               Badge,
@@ -122,11 +189,7 @@ var global = window
     },
 
     componentDidMount: function componentDidMount() {
-      this.interactable = global.setNodeDragable(this.getDOMNode());
-    },
-    componentWillUnmount: function componentWillUnmount() {
-      this.interactable.unset();
-      this.interactable = null;
+  setNodeDragable(ReactDOM.findDOMNode(this));
     },
 
     render: function render() {
@@ -134,7 +197,10 @@ var global = window
       var items = [];
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       for (var ind in block.objList) {
-        items.push(React.createElement(DataItem, { key: block.objList[ind].FACTOR_GUID, item: block.objList[ind] }));
+        
+        let keyitem = (Date.now() + Math.floor(Math.random() * 999999)).toString(31);
+        items.push(React.createElement(DataItem, { key:keyitem , item: block.objList[ind] ,keynumber:block.objList[ind].FACTOR_GUID}));
+
       }
 
       return React.createElement(
