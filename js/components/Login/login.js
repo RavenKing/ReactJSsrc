@@ -229,7 +229,7 @@ export default class Login extends React.Component {
         console.log(auth);
         console.log(token);
         pageStatusDataStore.setUpCustomerID(token.user);
-          browserHistory.push('/SMARTOPERATION/')
+          browserHistory.push('/')
       }
       
       return (
