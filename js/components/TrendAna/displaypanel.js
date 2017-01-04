@@ -151,13 +151,14 @@ if (!rc) {
                     nextData.guidArr = that.props.card.guidArr;
                     nextData.FACTOR_NAME = that.props.card.FACTOR_NAME;
                     nextData.category = that.props.card.category;*/
-
+                    var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
+                    var logCustomerId = logCustomerInfo.CUSTOMER_ID;
 
                     displayAreaChangeActions.displayAreaAddPageAction(nextStatus, "");
                     dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
                     functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
                     //displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
-                    dataPanelItemChangeActions.dataPanelCPMAddItemAction(nextStatus, "1001");
+                    dataPanelItemChangeActions.dataPanelCPMAddItemAction(nextStatus, logCustomerId);
 
                     sIntervalCallId = setInterval(function () {
                       addStatus();

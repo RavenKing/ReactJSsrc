@@ -74,10 +74,12 @@ var UploadCard = React.createClass({
 			global.resetPosition(this.getDOMNode());
 		},
 		onConfirm: function onConfirm() {
+			var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
+            var logCustomerId = logCustomerInfo.CUSTOMER_ID;
 			var that = this;
 			var uploadData = {
 				userInfo: {
-					customerId: "1001",
+					customerId: logCustomerId.toString(),
 					sysId: "KEV",
 					sysClt: "001",
 					dateYear: this.state.curYearMonth.slice(0,4),
@@ -88,6 +90,8 @@ var UploadCard = React.createClass({
 				tableName: this.state.kmType[1],
 				tableData: this.state.tableData
 			};
+
+			console.log('uploadData = ', uploadData);
 
 
 			displayAreaDataStore.uploadConfirm(uploadData,function(respCode){

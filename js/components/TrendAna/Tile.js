@@ -114,13 +114,15 @@ var  Tile = React.createClass({
 
 			//data.style.left = 300;
 			//data.style.top = 100;
+			var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
+            var logCustomerId = logCustomerInfo.CUSTOMER_ID;
 
 			data.type = "ITEM";
 			data.guidArr = new Array(record.key);
 			data.FACTOR_NAME = new Array(record.factor_name);
 			data.category = new Array(record.factor_cate);
 			data.factor_type = new Array(this.cateTrans(record.factor_type));
-			data.customerId = '1001';
+			data.customerId = logCustomerId.toString();
 			data.systemId = 'KEV';
 			data.systemClt = '001';
 
