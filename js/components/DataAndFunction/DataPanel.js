@@ -13,7 +13,7 @@ export default class DataPanel extends React.Component {
  			<div className="data-panel">
             
         		<DataBlock  articles = { articles } title="DVM" type="DVM"> </DataBlock>
-        		<DataBlock  articles = { articles } title="Capactiy" type="CAP"> </DataBlock>
+        		<DataBlock  articles = { articles } title="General" type="GEN"> </DataBlock>
         		
  			</div>
             
