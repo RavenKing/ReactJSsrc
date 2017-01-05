@@ -86,6 +86,7 @@ if (!rc) {
           switch (data.type) {
             case 'TITLE':
               data.title = draggableElement.getAttribute('data-category');
+              data.customerId = draggableElement.getAttribute('data-customer_id');
               break;
             case 'ITEM':
               data.guidArr = new Array(draggableElement.getAttribute('data-factor_guid'));

@@ -277,6 +277,7 @@
     onDisplayAreaAddCardAction: function onDisplayAreaAddCardAction(pageStatus, data) {
 
       data.id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
+      var customerId = data.customerId;
       let copydata = JSON.parse(JSON.stringify(data));
       var that = this;
       console.log('add card action');
@@ -385,18 +386,18 @@
             case 'Business':
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc';
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID%20eq%20%271001%27%20and%20SYSID%20eq%20%27KEV%27%20and%20SYSCLT%20eq%20%27001%27%20and%20FACTOR_CATEGORY%20eq%20%27B%27';
+              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\'';
               break;
 
             case 'Service':
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID%20eq%20%271001%27%20and%20SYSID%20eq%20%27KEV%27%20and%20SYSCLT%20eq%20%27001%27%20and%20FACTOR_CATEGORY%20eq%20%27S%27';
+              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\'';
               
               break;
 
             case 'Resource':
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID%20eq%20%271001%27%20and%20SYSID%20eq%20%27KEV%27%20and%20SYSCLT%20eq%20%27001%27%20and%20FACTOR_CATEGORY%20eq%20%27R%27';
+              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'R\'';
               break;
 
             default:

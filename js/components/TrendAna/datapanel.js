@@ -209,7 +209,8 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
         { className: "data-block", 
           "data-type": "TITLE", 
           "data-info": currentStatus + "-BLOCK",
-          "data-category": block.title 
+          "data-category": block.title,
+          "data-customer_id":block.objList[0].CUSTOMER_ID
         },
         React.createElement(
           "span",
