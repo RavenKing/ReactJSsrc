@@ -238,7 +238,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 									categoryStr: that.props.card.category.slice(1).join(","),
 									guidArr: guidArr
 								};
-								console.log('oooooooDATA ----',oData);
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
 
@@ -417,7 +416,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 				
 				
 				if(this.props.card.category[0] == "B"){					
-					chartValueArr: this.props.card.lineChartValue[0];						
+					chartValueArr= this.props.card.lineChartValue[0];						
 				}
 				else{//"S"
 					if(this.state.timeType == "AVG"){
@@ -435,7 +434,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 						axisMin: this.state.rangeMin,
 						axisMax: this.state.rangeMax,
 						factorCate: this.props.card.category[0],
-						showLabel: true	
+						showLabel: true	});
 				
 				
 
