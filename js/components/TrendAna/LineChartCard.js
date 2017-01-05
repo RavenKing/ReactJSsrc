@@ -332,6 +332,16 @@ var dataPanelDataStore = window.dataPanelDataStore
 							browserHistory.push("/km?object=" + that.props.card.FACTOR_NAME[0] + "&stype=" + stype);
 
 							break;
+						case "COM":
+							console.log('COMMENT -factor name =');
+							console.log(that.props.card.FACTOR_NAME[0]);
+							var data = {
+								type: "COM",
+								title: "Comments for " + that.props.card.FACTOR_NAME[0]
+							}
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
+
+							break;
 
 						case "DELETE":
 							console.log('DELETE');

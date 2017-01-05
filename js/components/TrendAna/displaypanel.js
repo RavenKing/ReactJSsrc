@@ -4,6 +4,7 @@ import LineChartCard from "./LineChartCard";
 import PieChartCard from "./PieChartCard";
 import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
+import CommentCard from "./CommentCard";
 import SaveArticle from "./SaveArticle";
 import ArticleTemplate from "./ArticleTemplate";
 import DVMAPanel from "./DVMPanel/DVMAPanel";
@@ -227,7 +228,9 @@ if (!rc) {
 
             return React.createElement(CreateObjCard, { key: item.id + "CreateObjCard", card: item });
           } 
-
+          else if(item.type == 'COM') {
+            return React.createElement(CommentCard, { key:item.id + "CommentCard", card: item});
+          }
           else if (item.type == 'EDIT') {
 
             return React.createElement(CreateObjCard, { key: item.id + "EditObjCard", card: item });

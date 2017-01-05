@@ -284,6 +284,16 @@
       console.log('add card action');
       console.log(data);
       switch (copydata.type) {
+        case 'COM':
+        
+          $.each(that.displayAreaData,function(idx,item){
+            if(pageStatus === item.pageStatus){
+              item.content.push(copydata);
+              that.trigger(item.content);
+            }
+          });
+
+          break;
         case 'UPLOAD':
 
 
