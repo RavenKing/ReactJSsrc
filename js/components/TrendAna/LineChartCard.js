@@ -2,6 +2,7 @@ import React from "react"
 
 import { Slider,Modal, message,Card,Icon,Switch} from "antd"
 import LineChart from  "./LineChart"
+import LineNewChart from "./LineNewChart"
 import PredictLineChart from "./PredictLineChart"
 import {browserHistory } from "react-router"
 import TemplateSelect from "./TemplateSelect"
@@ -283,8 +284,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 							
 							break;
 						case currentStatus + "-ITEM":
-							console.log('case ' + currentStatus + '-ITEM');
-							console.log('state when add factor --- ', that.props.card);
 							if (currentStatus != "INIT" && that.props.card.type === "ITEM-ANA") {
 								if(currentStatus.indexOf("ANALYSIS_RCA") > -1||currentStatus.indexOf("ANALYSIS_WIF") > -1){
 									data.guid = draggableElement.getAttribute('data-factor_guid');
@@ -429,46 +428,64 @@ var dataPanelDataStore = window.dataPanelDataStore
 				});
 			} else if(this.props.card.type === "ITEM") {
 				var chartValueArr;
-				
+				var subLineChart;
 				
 				if(this.props.card.category[0] == "B"){					
-
-					chartValueArr = this.props.card.lineChartValue[0];						
-
-				}
-				else{//"S"
-					if(this.state.timeType == "AVG"){
-						chartValueArr = this.props.card.lineChartAvgTime[0];
-					}
-					else{//"total"
-						chartValueArr = this.props.card.lineChartTotalTime[0];
-					}					
 					
-				}	
-				var subLineChart = React.createElement(LineChart, {
+
+					chartValueArr = this.props.card.lineChartValue[0];	
+					subLineChart = React.createElement(LineChart, {
 						chartAxisArr: this.props.card.lineChartAxis[0],
-						chartValueArr: chartValueArr,
+						chartValueArr: this.props.card.lineChartValue[0],
 						lineNameArr: this.props.card.FACTOR_NAME[0],
 						axisMin: this.state.rangeMin,
 						axisMax: this.state.rangeMax,
 						factorCate: this.props.card.category[0],
-						showLabel: true	
-				});
+						showLabel: true
+
+					});
+
+
+
+
+
+				}
+				else{//"S"
+					chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+					if(this.state.timeType == "AVG"){
+						chartValueArr = this.props.card.lineChartAvgTime[0].slice();
+					}
+					else if(this.state.timeType == "TOTAL"){//"total"
+						chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+					}					
+					var param = {
+						chartContent:{						
+							data:chartValueArr,
+							steps:this.props.card.lineChartStep[0],
+							chartCateAxis:this.props.card.lineChartAxis,
+							axisMin: this.state.rangeMin,
+							axisMax: this.state.rangeMax
+						}
+
+					};
+				 	subLineChart = React.createElement(LineNewChart,param);
+
+				
+				}	
 
 
 				
-				
 
 				
 				
 				
-		var tpselect = <Modal title="select template"
-			footer= {false}
-		 onCancel={()=>{this.onSetUnvisible()} }  visible={this.state.tsvisible}>
-		<TemplateSelect card = {this.props.card} visible={this.state.tsvisible}/>
+				var tpselect = <Modal title="select template"
+					footer= {false}
+		 			onCancel={()=>{this.onSetUnvisible()} }  visible={this.state.tsvisible}>
+					<TemplateSelect card = {this.props.card} visible={this.state.tsvisible}/>
 					</Modal>
 
-		var timeSwitch = <Switch checkedChildren="AVG" unCheckedChildren="TOTAL" defaultChecked={false} onChange={this.changeTimeType.bind(this)} />
+				var timeSwitch = <Switch checkedChildren="AVG" unCheckedChildren="TOTAL" defaultChecked={false} onChange={this.changeTimeType.bind(this)} />
 
 			}
 
