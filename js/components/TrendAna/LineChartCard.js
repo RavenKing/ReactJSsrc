@@ -335,9 +335,15 @@ var dataPanelDataStore = window.dataPanelDataStore
 						case "COM":
 							console.log('COMMENT -factor name =');
 							console.log(that.props.card.FACTOR_NAME[0]);
+							console.log(draggableElement);
 							var data = {
 								type: "COM",
-								title: "Comments for " + that.props.card.FACTOR_NAME[0]
+								title: "Comments for " + that.props.card.FACTOR_NAME[0],
+								factor_name:that.props.card.FACTOR_NAME[0],
+								factor_cat:that.props.card.category[0],
+								article_nam:that.props.card.business_name[0],
+								article_dsc:that.props.card.business_name[0]
+
 							}
 							displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
 

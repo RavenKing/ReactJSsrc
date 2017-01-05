@@ -95,6 +95,7 @@ if (!rc) {
               data.customerId = new Array(draggableElement.getAttribute('data-customer_id'));
               data.systemId = new Array(draggableElement.getAttribute('data-sys_id'));
               data.systemClt = new Array(draggableElement.getAttribute('data-sys_clt'));
+              data.business_name = new Array(draggableElement.getAttribute('data-business_name'));
               break;
             case 'CREATE':
 

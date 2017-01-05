@@ -60,7 +60,77 @@ else{
     
     
 }
+export function AddComment(data){
+  var config = {
+        headers:{
+            'X-My-Custom-Header':'Header-Value',
+            'content-type':'application/json'
+            },
+            auth:{
+                username:'zengheng',
+                password:'Sap12345'
+        }
+    };
+    var article_id;
+    var article_nam = data.article_nam;
+    var article_dsc = data.article_dsc;
+    var customer_id = data.customer_id.toString();
+    var factor_guid = data.factor_guid;
+    var factor_cat = data.factor_cat;
+    var factor_name = data.factor_name;
+   
+    var create_on = (new Date()).getTime();
+    create_on = "\/Date("+create_on+")\/";
+    var create_by = data.username;
+    var comment = data.comment;
+    return dispatch=>{
+        axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
+          config).then(function(response){
+              article_id = Number(response.data.d.results[0].ARTICLE_ID) + 1;
+              article_id = article_id.toString();
 
+
+              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
+      
+                ARTICLE_ID:article_id,
+                FACTOR_GUID:factor_guid,
+                CUSTOMER_ID:customer_id,
+                FACTOR_CAT:factor_cat,
+                FACTOR_TYP:"GEN",        
+                ARTICLE_NAM:article_nam,
+                ARTICLE_DSC:article_dsc,
+                CREATE_ON:create_on,
+                CREATE_BY:create_by,
+                UPDATE_ON:null,
+                UPDATE_BY:null,
+                FACTOR_NAME:factor_name
+              },config).catch(function(error){
+                  console.log(error)
+              })
+
+              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP",{
+                ARTICLE_ID:article_id,
+                COMMENT:comment,
+                CAPACITY_DATE:create_on
+              },config).then(function(response){
+                dispatch({type:"POST_ARTICLE",payload:{refresh:true}})
+                  const modal = Modal.success({
+                      title: 'Successfully add comments! ',
+                      content: 'Comments have been created',
+                  });
+                }).catch(function(error){
+                  console.log(error);
+                })
+          
+          }).catch(function(error){
+              console.log(error);
+          })
+        
+          
+                
+  }
+  
+}
 export function AddCard(data)
 {
 

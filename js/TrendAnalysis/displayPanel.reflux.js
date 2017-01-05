@@ -125,8 +125,6 @@
 
     },
 
-
-
     uploadConfirm: function(dataInfo, getRespond) {
     var flag = false;
 
@@ -285,7 +283,7 @@
       console.log(data);
       switch (copydata.type) {
         case 'COM':
-        
+
           $.each(that.displayAreaData,function(idx,item){
             if(pageStatus === item.pageStatus){
               item.content.push(copydata);

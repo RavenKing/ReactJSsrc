@@ -63,7 +63,8 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
               "data-factor_type": this.props.item.FACTOR_TYPE,
               "data-customer_id": this.props.item.CUSTOMER_ID,
               "data-sys_id": this.props.item.SYSID,
-              "data-sys_clt": this.props.item.SYSCLT
+              "data-sys_clt": this.props.item.SYSCLT,
+              "data-business_name":this.props.item.FACTOR_BUSINESS_NAME
             },
             React.createElement(
               Badge,
