@@ -417,7 +417,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 				
 				
 				if(this.props.card.category[0] == "B"){					
-					chartValueArr: this.props.card.lineChartValue[0];						
+					chartValueArr = this.props.card.lineChartValue[0];						
 				}
 				else{//"S"
 					if(this.state.timeType == "AVG"){
@@ -436,6 +436,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 						axisMax: this.state.rangeMax,
 						factorCate: this.props.card.category[0],
 						showLabel: true	
+					}
+				);
+
 				
 				
 
