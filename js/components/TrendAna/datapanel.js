@@ -203,6 +203,13 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
         items.push(React.createElement(DataItem, { key:keyitem , item: block.objList[ind] ,keynumber:block.objList[ind].FACTOR_GUID}));
 
       }
+      var customerId;
+      if(block.objList[0]){
+        customerId = block.objList[0].CUSTOMER_ID;
+      }
+      else{
+        customerId = "";
+      }
 
       return React.createElement(
         "div",
@@ -210,7 +217,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
           "data-type": "TITLE", 
           "data-info": currentStatus + "-BLOCK",
           "data-category": block.title,
-          "data-customer_id":block.objList[0].CUSTOMER_ID
+          "data-customer_id":customerId
         },
         React.createElement(
           "span",
