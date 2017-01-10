@@ -68,7 +68,7 @@ export default class DisplayPanel extends React.Component {
                       props.dispatch(AddCard(data));
                   }
                   else if(data_id == "4"){
-                    browserHistory.push("/trend")
+                    browserHistory.push("/SMARTOPERATION/trend")
                   }
 
                   break;

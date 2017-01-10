@@ -8,7 +8,7 @@ export function setAuthToken (parameter) {
 var pageStatusDataStore = window.pageStatusDataStore
 
 
-// http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq 'admin'
+// /SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq 'admin'
 return dispatch=>{
 
 dispatch({type:"AUTH_VALIDATING"});
@@ -23,7 +23,7 @@ dispatch({type:"AUTH_VALIDATING"});
       dispatch({type:"AUTH_SET_TOKEN",payload:data});
     }
     else{
-   axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH1?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
+   axios.get("/SmartOperations/services/authorization.xsodata/AUTH1?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
       headers:{
         'X-My-Custom-Header':'Header-Value',
         'content-type':'application/json'
@@ -116,7 +116,7 @@ export function CusRegister(data){
         password: 'Sap12345'
       }
     };
-    axios.post("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/CUST",{
+    axios.post("/SmartOperations/services/authorization.xsodata/CUST",{
 
         CUSTOMER_ID:customer_id,
         CUSTOMER_NAME:customer_name,
@@ -174,11 +174,11 @@ export function UserRegister(data){
       }
     };
 
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/CUST?$filter=CUSTOMER_ID eq "+customer_id,
+    axios.get("/SmartOperations/services/authorization.xsodata/CUST?$filter=CUSTOMER_ID eq "+customer_id,
       config).then(function(response){
         if(response.data.d.results.length > 0){
           //check user name whether exists
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq '"+username+"'",
+    axios.get("/SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq '"+username+"'",
       config
       ).then(function(response){
         if(response.data.d.results.length > 0){
@@ -192,14 +192,14 @@ export function UserRegister(data){
          
         }
         else{
-          axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$orderby=USER_ID desc&top=1",
+          axios.get("/SmartOperations/services/authorization.xsodata/users?$orderby=USER_ID desc&top=1",
           config).then(function(response){
               
               var user_id = response.data.d.results[0].USER_ID;
               user_id = Number(user_id + 1);
               user_id = user_id.toString();
 
-              axios.post("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users",{
+              axios.post("/SmartOperations/services/authorization.xsodata/users",{
 
                   USER_ID:user_id,
                   CUSTOMER_ID:customer_id,

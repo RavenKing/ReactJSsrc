@@ -26,7 +26,7 @@
           console.log(dataInfo)
         if(dataInfo.factorCate == 'S'){
 
-          var url = "http://10.97.144.117:8000/SmartOperations/services/rcaSimulation.xsjs";
+          var url = "/SmartOperations/services/rcaSimulation.xsjs";
           
 
          $.ajax({////////from here
@@ -84,7 +84,7 @@
 
         else if(dataInfo.factorCate == 'B'){
 
-          var url = "http://10.97.144.117:8000/SmartOperations/services/rcaWhatIf.xsjs";
+          var url = "/SmartOperations/services/rcaWhatIf.xsjs";
           
 
          $.ajax({////////from here
@@ -128,7 +128,7 @@
     uploadConfirm: function(dataInfo, getRespond) {
     var flag = false;
 
-    var url = "http://10.97.144.117:8000/SmartOperations/services/uploadConfirm.xsjs";
+    var url = "/SmartOperations/services/uploadConfirm.xsjs";
       /*$.ajax({
             url: url,
             method: 'POST',
@@ -194,7 +194,7 @@
 
     pinObject: function pinObject(factorId, setPin) {
       var flag = false;
-      var url = "http://10.97.144.117:8000/SmartOperations/services/pinObject.xsjs?factorId=" + factorId + "&pin=" + setPin;
+      var url = "/SmartOperations/services/pinObject.xsjs?factorId=" + factorId + "&pin=" + setPin;
       $.ajax({
         url: url,
         method: 'GET',
@@ -221,7 +221,7 @@
 
     deleteObject: function deleteObject(factorId) {
       var flag = false;
-      var url = "http://10.97.144.117:8000/SmartOperations/services/deleteObject.xsjs?factorId=" + factorId;
+      var url = "/SmartOperations/services/deleteObject.xsjs?factorId=" + factorId;
       $.ajax({
         url: url,
         method: 'GET',
@@ -248,7 +248,7 @@
 
     createObject: function createObject(dataInfo) {
       var flag = false;
-      var url = "http://10.97.144.117:8000/SmartOperations/services/maintainObject.xsjs";
+      var url = "/SmartOperations/services/maintainObject.xsjs";
       $.ajax({
         url: url,
         method: 'POST',
@@ -309,7 +309,7 @@
         case 'EDIT':
 
           $.ajax({
-            url: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=STATUS%20eq%20%27A%27&$orderby=TREND%20desc',
+            url: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=STATUS%20eq%20%27A%27&$orderby=TREND%20desc',
             method: 'get',
             dataType: 'json',
             headers: {
@@ -345,7 +345,7 @@
         case 'CREATE':
 
           $.ajax({
-            url: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=STATUS%20eq%20%27A%27&$orderby=TREND%20desc',
+            url: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=STATUS%20eq%20%27A%27&$orderby=TREND%20desc',
             method: 'get',
             dataType: 'json',
             headers: {
@@ -384,20 +384,20 @@
           var url = '';
           switch (copydata.title) {
             case 'Business':
-              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc';
-              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\'&$orderby=TREND desc';
+              //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc';
+              //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\'&$orderby=TREND desc';
               break;
 
             case 'Service':
-              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\'&$orderby=TREND desc';
+              //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\'&$orderby=TREND desc';
               
               break;
 
             case 'Resource':
-              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'R\'&$orderby=TREND desc';
+              //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'R\'&$orderby=TREND desc';
               break;
 
             default:
@@ -483,7 +483,7 @@
 
         if(copydata.category[0] == 'S')
         {
-          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
+          var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
           console.log('ITEM url: ',url);
           console.log('RCA data ----', copydata);
           $.ajax({
@@ -534,7 +534,7 @@
         else if(copydata.category[0] == 'B')
         {
           console.log(copydata)
-          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
+          var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
 console.log('url: ',url);
           $.ajax({
             url: url,
@@ -577,7 +577,7 @@ console.log('url: ',url);
             console.error(arguments);
           });
         }
-          /*var url = "http://10.97.144.117:8000/SmartOperations/services/statData.xsodata/STATISDATA?$format=json&$filter=FACTOR_GUID eq " + data.guidArr[0];
+          /*var url = "/SmartOperations/services/statData.xsodata/STATISDATA?$format=json&$filter=FACTOR_GUID eq " + data.guidArr[0];
           $.ajax({
             url: url,
             method: 'get',
@@ -704,7 +704,7 @@ console.log('url: ',url);
         case "CPM-RFC":
           console.log('go to dataStore CPM drilldown ------ ', copydata);
 
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getTransaction.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
+          var url = "/SmartOperations/services/getTransaction.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
 
           $.ajax({
             url: url,
@@ -754,7 +754,7 @@ console.log('url: ',url);
 
         case "CPM-History":
 
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLHistory.xsjs?customerId=" + copydata.customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
+          var url = "/SmartOperations/services/getWLHistory.xsjs?customerId=" + copydata.customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
 
           $.ajax({
             url: url,
@@ -812,7 +812,7 @@ console.log('url: ',url);
             });*/
 
           //////////
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
+          var url = "/SmartOperations/services/getWLOverview.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
 
           $.ajax({
             url: url,
@@ -932,7 +932,7 @@ console.log('url: ',url);
                 console.log(pageStatus);
                 console.log('cardId = ');
                 console.log(cardId);
-                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
+                var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
                 console.log('RCA Add factor URL---------', url);
                 $.ajax({
                   url: url,
@@ -995,7 +995,7 @@ console.log('url: ',url);
                 console.log(pageStatus);
                 console.log('cardId = ');
                 console.log(cardId);
-                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
+                var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
                 console.log('RCA Add factor URL---------', url);
                 $.ajax({
                   url: url,

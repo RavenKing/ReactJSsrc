@@ -6,7 +6,7 @@ import { Modal } from 'antd';
 export function GetCapaData(param)
 {
   return dispatch=>{
-var url = 'http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=1001&dateYear=2016&dateMonth=06';
+var url = '/SmartOperations/services/getWLOverview.xsjs?customerId=1001&dateYear=2016&dateMonth=06';
 axios.get(url,{
 headers:{
         'X-My-Custom-Header': 'Header-Value',
@@ -41,7 +41,7 @@ else{
 
 //http://10.128.245.87:8004/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'
     return dispatch=>{
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/articleContent.xsjs?customerId="+customerid,{
+    axios.get("/SmartOperations/services/articleContent.xsjs?customerId="+customerid,{
        headers:{
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
@@ -84,13 +84,13 @@ export function AddComment(data){
     var create_by = data.username;
     var comment = data.comment;
     return dispatch=>{
-        axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
+        axios.get("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
           config).then(function(response){
               article_id = Number(response.data.d.results[0].ARTICLE_ID) + 1;
               article_id = article_id.toString();
 
 
-              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
+              axios.post("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
       
                 ARTICLE_ID:article_id,
                 FACTOR_GUID:factor_guid,
@@ -108,7 +108,7 @@ export function AddComment(data){
                   console.log(error)
               })
 
-              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP",{
+              axios.post("/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP",{
                 ARTICLE_ID:article_id,
                 COMMENT:comment,
                 CAPACITY_DATE:create_on
@@ -203,7 +203,7 @@ export function GetBestPractice(data){
   };
 return dispatch=>{
     var data;        
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry="+industry,
+    axios.get("/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry="+industry,
       config).then(function(response,err){
           
           data = response.data.results[0];
@@ -213,7 +213,7 @@ return dispatch=>{
               console.log(err);
           })
 
-      axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",
+      axios.get("/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",
           config).then(function(response,err){
                 console.log(response.data.d.results[0])
                 var payload = {
@@ -247,7 +247,7 @@ export function GetRegionData(data){
       }
   };
   return dispatch=>{
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=ALLRECOM&region="+region+"&archobj="+archobj,
+    axios.get("/SmartOperations/services/KnowledgeManagement.xsjs?cmd=ALLRECOM&region="+region+"&archobj="+archobj,
             config).then(function(response,err){
                     if(response.data.results.length > 0){
                       var senddata = {
@@ -274,7 +274,7 @@ export function GetSAPBestPractice(data)
       console.log(archobj)
 
       return dispatch=>{ 
-        axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",{
+        axios.get("/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",{
                       headers:{
                   'X-My-Custom-Header': 'Header-Value',
                   'Content-Type': 'application/json'
@@ -310,12 +310,12 @@ export function GetPractices(obj){
       }
   };
 return dispatch=>{        
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + obj + "&industry=AUTO",
+    axios.get("/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + obj + "&industry=AUTO",
       config).then(function(response,err){
               
           var data = response.data.results[0];              
           var archobj = data.ARCHOBJ;
-          axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",
+          axios.get("/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq '"+archobj+"'",
               config).then(function(response,err){
                   var detail = response.data.d.results[0];
                   var payload = {
@@ -347,7 +347,7 @@ export function GetTop5Tables(attr_nam){
  
   return dispatch=>{
 
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/Createarticle_test.xsjs?attr_nam="+attr_nam,{
+    axios.get("/SmartOperations/services/Createarticle_test.xsjs?attr_nam="+attr_nam,{
       headers:{
         'X-My-Custom-Header':'Header-Value',
         'content-type':'application/json'
@@ -494,7 +494,7 @@ export function PostArticle(data){
   return dispatch=>{
     
     //fetch article id for creation
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
+    axios.get("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
       config
       ).then(function(response){
         article_id = Number(response.data.d.results[0].ARTICLE_ID) + 1;
@@ -510,7 +510,7 @@ export function PostArticle(data){
             tableSize = null;
           }
           
-          axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC",{
+          axios.post("/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC",{
             ARTILE_ID:article_id,
             ATTR_ID:attr_id,
             ATTR_TYP:"TBL",
@@ -524,12 +524,12 @@ export function PostArticle(data){
           });
         }
         //fetch factor_guid
-        axios.get("http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$filter=FACTOR_NAME eq '"+archobj+"'",
+        axios.get("/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$filter=FACTOR_NAME eq '"+archobj+"'",
           config
           ).then(function(response){
               var factor_guid = response.data.d.results[0].FACTOR_GUID;
               //creation for KMHDR
-              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
+              axios.post("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
       
                 ARTICLE_ID:article_id,
                 FACTOR_GUID:factor_guid,
@@ -557,7 +557,7 @@ export function PostArticle(data){
             
         });
         total_size = total_size.toString();
-        axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM",{
+        axios.post("/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM",{
       
           ARTICLE_ID:article_id,    
           TOTAL_SIZE:total_size,
@@ -616,13 +616,13 @@ export function PostCapArticle(data){
     var create_by = data.USERNAME;
     var comment = data.COMMENT;
     return dispatch=>{
-        axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
+        axios.get("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
           config).then(function(response){
               article_id = Number(response.data.d.results[0].ARTICLE_ID) + 1;
               article_id = article_id.toString();
 
 
-              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
+              axios.post("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
       
                 ARTICLE_ID:article_id,
                 FACTOR_GUID:0,
@@ -639,7 +639,7 @@ export function PostCapArticle(data){
                   console.log(error)
               })
 
-              axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP",{
+              axios.post("/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP",{
                 ARTICLE_ID:article_id,
                 COMMENT:comment,
                 CAPACITY_DATE:create_on
@@ -683,7 +683,7 @@ export function UpdateArticle(data,type){
                   total_size += parseInt(table.TBL_SIZE);
               }
       
-              axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+data.article_id+",ATTR_ID="+idx+")",{
+              axios.put("/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+data.article_id+",ATTR_ID="+idx+")",{
                   ARTILE_ID:data.article_id,
                   ATTR_ID:idx,
                   ATTR_TYP:"TBL",
@@ -694,7 +694,7 @@ export function UpdateArticle(data,type){
           });
           var updatedate = (new Date()).getTime();
     
-          axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+data.article_id+")", {
+          axios.put("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+data.article_id+")", {
         
               ARTICLE_ID:data.article_id,
               FACTOR_GUID:data.factor_guid,
@@ -711,7 +711,7 @@ export function UpdateArticle(data,type){
 
           },config).then(function (response) {
 
-              axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+data.article_id+")",{
+              axios.put("/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+data.article_id+")",{
                   ARTICLE_ID:data.article_id,    
                   TOTAL_SIZE:total_size.toString(),
                   ARCHIVING:data.archiving,    
@@ -745,7 +745,7 @@ export function UpdateArticle(data,type){
     }
     else if(type == "GEN"){     
           
-        axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
+        axios.put("/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
         
             ARTICLE_ID:data.article_id,
             COMMENT:data.comment,
@@ -780,7 +780,7 @@ export function DeleteArticle(data){
     //KMBSC
     tables.map((table,idx)=>{
       idx = idx+1;
-       axios.delete("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+article_id+",ATTR_ID="+idx+")",
+       axios.delete("/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+article_id+",ATTR_ID="+idx+")",
         config).then(function(response){
 
       })
@@ -790,9 +790,9 @@ export function DeleteArticle(data){
     });
 
     //KMDVM
-    axios.delete("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+article_id+")",config)
+    axios.delete("/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+article_id+")",config)
       .then(function(response){
-        axios.delete("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+article_id+")",config)
+        axios.delete("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+article_id+")",config)
       .then(function(response){
           const modal = Modal.success({
             title: 'Successfully delete! ',
