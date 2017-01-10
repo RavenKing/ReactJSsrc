@@ -110,7 +110,7 @@ export default class MainPanel extends React.Component {
             total_size:result.TOTAL_SIZE, 
             type:result.FACTOR_TYPE
           }
-          else if(this.props.type=="CAP")
+          else if(this.props.type=="GEN")
           {
             return {
             key:result.ARTICLE_ID,
@@ -152,7 +152,7 @@ export default class MainPanel extends React.Component {
             total_size:result.TOTAL_SIZE, 
             type:result.FACTOR_TYPE
           }
-          else if(this.props.type=="CAP")
+          else if(this.props.type=="GEN")
           {
             return {
             key:result.ARTICLE_ID,
@@ -193,7 +193,7 @@ export default class MainPanel extends React.Component {
           dataIndex: 'TOTAL_SIZE'
         }];
       }
-      else if(this.props.type == "CAP")
+      else if(this.props.type == "GEN")
       {
       var columns = [ 
         {
@@ -212,7 +212,7 @@ export default class MainPanel extends React.Component {
                
   console.log(data);
   console.log(columns)
-        var title = this.props.type == "CAP"?"Capacity Articles":"DVM Articles";
+        var title = this.props.type == "GEN"?"General Articles":"DVM Articles";
         return (
           <div className="main-panel">
            <Card title={title} extra={<Icon type="cross" onClick={this.CloseMainCardPanel.bind(this)} />}  >

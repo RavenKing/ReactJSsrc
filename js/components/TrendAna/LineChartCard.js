@@ -328,7 +328,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 							console.log('NOTE -factor name = ');
 							console.log(that.props.card.FACTOR_NAME);
 							//define article type
-							var stype = that.props.card.category[0] == "B"?"DVM":"CAP";
+							var stype = that.props.card.category[0] == "B"?"DVM":"GEN";
 							browserHistory.push("/km?object=" + that.props.card.FACTOR_NAME[0] + "&stype=" + stype);
 
 							break;
