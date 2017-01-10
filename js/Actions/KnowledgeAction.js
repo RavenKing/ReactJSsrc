@@ -663,7 +663,7 @@ export function PostCapArticle(data){
 
 
 }
-export function UpdateArticle(data){
+export function UpdateArticle(data,type){
   var config = {
     headers:{
         'X-My-Custom-Header':'Header-Value',
@@ -674,80 +674,93 @@ export function UpdateArticle(data){
           password:'Sap12345'
         }
   };
-  var total_size = 0;
-  return dispatch=>{
-    data.tables.map((table,idx)=>{
-      idx = idx+1;
-      if(table.TBL_SIZE != null){
-        total_size += parseInt(table.TBL_SIZE);
-      }
+  if(type == "DVM"){
+      var total_size = 0;
+      return dispatch=>{
+          data.tables.map((table,idx)=>{
+              idx = idx+1;
+              if(table.TBL_SIZE != null){
+                  total_size += parseInt(table.TBL_SIZE);
+              }
       
-      axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+data.article_id+",ATTR_ID="+idx+")",{
-        ARTILE_ID:data.article_id,
-        ATTR_ID:idx,
-        ATTR_TYP:"TBL",
-        ATTR_NAM:table.ATTR_NAM,
-        ATTR_DSC:table.ATTR_DSC,
-        TBL_SIZE:table.TBL_SIZE
-    },config);
-    });
-    var updatedate = (new Date()).getTime();
+              axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+data.article_id+",ATTR_ID="+idx+")",{
+                  ARTILE_ID:data.article_id,
+                  ATTR_ID:idx,
+                  ATTR_TYP:"TBL",
+                  ATTR_NAM:table.ATTR_NAM,
+                  ATTR_DSC:table.ATTR_DSC,
+                  TBL_SIZE:table.TBL_SIZE
+              },config);
+          });
+          var updatedate = (new Date()).getTime();
     
-    axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+data.article_id+")", {
+          axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+data.article_id+")", {
         
-        ARTICLE_ID:data.article_id,
-        FACTOR_GUID:data.factor_guid,
-        CUSTOMER_ID:data.customer_id,
-        FACTOR_CAT:"B",
-        FACTOR_TYP:"DVM",        
-        ARTICLE_NAM:data.article_nam,
-        ARTICLE_DSC:data.article_dsc,
-        CREATE_ON:"\/Date("+updatedate+")\/",
-        CREATE_BY:data.create_by,
-        UPDATE_ON:"\/Date("+updatedate+")\/",
-        UPDATE_BY:"CASSIE"
+              ARTICLE_ID:data.article_id,
+              FACTOR_GUID:data.factor_guid,
+              CUSTOMER_ID:data.customer_id,
+              FACTOR_CAT:"B",
+              FACTOR_TYP:"DVM",        
+              ARTICLE_NAM:data.article_nam,
+              ARTICLE_DSC:data.article_dsc,
+              CREATE_ON:"\/Date("+updatedate+")\/",
+              CREATE_BY:data.create_by,
+              UPDATE_ON:"\/Date("+updatedate+")\/",
+              UPDATE_BY:"CASSIE"
         
 
-    },config
-    ).then(function (response) {
+          },config).then(function (response) {
 
+              axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+data.article_id+")",{
+                  ARTICLE_ID:data.article_id,    
+                  TOTAL_SIZE:total_size.toString(),
+                  ARCHIVING:data.archiving,    
+                  DELETION:data.deletion,
+                  SUMMARIZATION:data.summarization,
+                  AVOIDANCE:data.avoidance,
+                  RETENTION:data.retention,
+                  SAVING_EST:data.saving_est,
+                  SAVING_EST_P:data.saving_est_p,
+                  SAVING_ACT:data.saving_act,
+                  SAVING_ACT_P:data.saving_act_p, 
+                  COMMENT:data.comment,  
+                  ARCHOBJ:data.archobj
+              },config).then(function(response){
 
+                  dispatch({type:"UPDATE_ARTICLE"});
+                  const modal = Modal.success({
+                      title: 'Successfully update! ',
+                      content: 'The article is updated done',
+                  });            
+              }).catch(function(response){
+                  console.log(response);
+              })
+          }).catch(function (response) {
+              console.log(response);
+          });
+    
+          }
+  
+  
+    }
+    else if(type == "GEN"){     
+          
+        axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
+        
+            ARTICLE_ID:data.article_id,
+            COMMENT:data.comment,
+            CAPACITY_DATE:"\/Date("+data.capacity_date+")\/"      
 
-
-        axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+data.article_id+")",{
-          ARTICLE_ID:data.article_id,    
-          TOTAL_SIZE:total_size.toString(),
-          ARCHIVING:data.archiving,    
-          DELETION:data.deletion,
-          SUMMARIZATION:data.summarization,
-          AVOIDANCE:data.avoidance,
-          RETENTION:data.retention,
-          SAVING_EST:data.saving_est,
-          SAVING_EST_P:data.saving_est_p,
-          SAVING_ACT:data.saving_act,
-          SAVING_ACT_P:data.saving_act_p, 
-          COMMENT:data.comment,  
-          ARCHOBJ:data.archobj
-        },
-        config)
-        .then(function(response){
-
-          dispatch({type:"UPDATE_ARTICLE"});
+        },config).then(function(response){
+            dispatch({type:"UPDATE_ARTICLE"});
             const modal = Modal.success({
-            title: 'Successfully update! ',
-            content: 'The article is updated done',
+                title: 'Successfully update!',
+                content: 'The article is updated done'
             });
-            
+        }).catch(function(err){
+            console.log(err);
         })
-        .catch(function(response){
-          console.log(response);
-        })
-    })
-    .catch(function (response) {
-        console.log(response);
-    });
-    
-  }
+    }
 }
 export function DeleteArticle(data){
   var article_id = data.ARTICLE_ID;
