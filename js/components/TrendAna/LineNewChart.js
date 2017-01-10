@@ -21,28 +21,99 @@ import HighCharts from "highcharts"
 				return true;
 			}
 		},
-		componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
+		componentWillUpdate: function componentWillUpdate(nextProps, nextState) {			
 			const {chartContent} = nextProps;
-			this.chart.series[0].setData(chartContent.data);
-
-
+			if(chartContent.factorCate == "S"){
+				this.chart.series[0].setData(chartContent.data);
+			}				
+				
 		},
 
 		componentDidMount: function componentDidMount() {
 			console.log(this.props.chartContent);
+			const {chartContent} = this.props;
+
+			switch (chartContent.factorCate) {
+				case "B":
+					var yAxis = [{ // primary yAxis
+		            	title: {
+		               		text: 'Monthly Entries Number'
+		            	}
+		            
+		        	},{ // secondary yAxis
+		            	labels: {
+		                	format: '{value}'
+		            	},
+		            	title: {
+		                	text: 'Total Entries Number'
+		            	},
+		            	opposite: true
+		        	}]
+
+		        	var series = [{
+		            	
+		            	name: 'Monthly Entries',
+		            	type: 'column',
+		            	yAxis: 1,
+		            	data: this.props.chartContent.month_data
+		        	},{
+		            	name: 'Total Entries',
+		            	type: 'line',
+		            	yAxis: 0,
+		            	data: this.props.chartContent.total_data		            
+		        	}]
+
+					break;
+
+				case "S":
+					var yAxis = [{ // primary yAxis
+		            	title: {
+		                	text: 'Response Time'
+		            	},
+		            	labels: {
+		                	format: '{value} s'
+		            	}
+		            
+		        	},{ // secondary yAxis
+		            	labels: {
+		                	format: '{value}'
+		            	},
+		            	title: {
+		                	text: 'Number of steps'
+		            	},
+		            	opposite: true
+		       		}]
+
+		       		var series = [{
+		         
+		            	name: 'AVG Response Time [s]',
+		            	type: 'column',
+		            	yAxis: 0,
+		            	data: this.props.chartContent.data,
+		            	tooltip: {
+		                	valueSuffix: ' s'
+		            	}
+		        	},{
+		            	name: 'Steps',
+		            	type: 'line',
+		            	yAxis: 1,
+		            	data: this.props.chartContent.steps
+		        	}]
+					break;
+
+				case "R":
+					//var axisTitle = "Utility [%]";
+					break;
+				default:
+					;
+			}
 			
 
 			this.chart = new HighCharts['Chart'](this.getDOMNode(), {
-				////
-				/*chart: {
-		            zoomType: 'xy'
-		        },*/
+
 		        title: {
 		            text: null
 		        },
-		        /*subtitle: {
-		            text: 'Source: WorldClimate.com'
-		        },*/
 		        credits: {
 				    enabled: false
 				},
@@ -50,23 +121,7 @@ import HighCharts from "highcharts"
 		            categories: this.props.chartContent.chartCateAxis[0],
 		            crosshair: true
 		        }],
-		        yAxis: [{ // primary yAxis
-		            title: {
-		                text: 'Response Time'
-		            },
-		            labels: {
-		                format: '{value} s'
-		            }
-		            
-		        },{ // secondary yAxis
-		            labels: {
-		                format: '{value}'
-		            },
-		            title: {
-		                text: 'Number of steps'
-		            },
-		            opposite: true
-		        }],
+		        yAxis: yAxis,
 		        tooltip: {
 		            shared: true
 		        },
@@ -82,21 +137,7 @@ import HighCharts from "highcharts"
 		                stacking: 'normal'
 		            }
 		        },
-		        series: [
-		         {
-		            name: 'AVG Response Time [s]',
-		            type: 'column',
-		            yAxis: 0,
-		            data: this.props.chartContent.data,
-		            tooltip: {
-		                valueSuffix: ' h'
-		            }
-		        },{
-		            name: 'Steps',
-		            type: 'line',
-		            yAxis: 1,
-		            data: this.props.chartContent.steps
-		        }]
+		        series: series
 
 				////
 			});

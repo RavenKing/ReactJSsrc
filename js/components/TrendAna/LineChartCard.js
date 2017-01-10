@@ -3,6 +3,7 @@ import React from "react"
 import { Slider,Modal, message,Card,Icon,Switch} from "antd"
 import LineChart from  "./LineChart"
 import LineNewChart from "./LineNewChart"
+//import LineNewChart1 from "./LineNewChart1"
 import PredictLineChart from "./PredictLineChart"
 import {browserHistory } from "react-router"
 import TemplateSelect from "./TemplateSelect"
@@ -433,22 +434,18 @@ var dataPanelDataStore = window.dataPanelDataStore
 				if(this.props.card.category[0] == "B"){					
 					
 
-					chartValueArr = this.props.card.lineChartValue[0];	
-					subLineChart = React.createElement(LineChart, {
-						chartAxisArr: this.props.card.lineChartAxis[0],
-						chartValueArr: this.props.card.lineChartValue[0],
-						lineNameArr: this.props.card.FACTOR_NAME[0],
-						axisMin: this.state.rangeMin,
-						axisMax: this.state.rangeMax,
-						factorCate: this.props.card.category[0],
-						showLabel: true
+					var param = {
+						chartContent:{
+							factorCate:"B",
+							total_data:this.props.card.lineChartTotalEntries[0],
+							month_data:this.props.card.lineChartMonthEntries[0],
+							chartCateAxis:this.props.card.lineChartAxis,
+							axisMin: this.state.rangeMin,
+							axisMax: this.state.rangeMax
+						}
+					}
 
-					});
-
-
-
-
-
+					subLineChart = React.createElement(LineNewChart,param);
 				}
 				else{//"S"
 					chartValueArr = this.props.card.lineChartTotalTime[0].slice();
@@ -459,7 +456,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 						chartValueArr = this.props.card.lineChartTotalTime[0].slice();
 					}					
 					var param = {
-						chartContent:{						
+						chartContent:{	
+							factorCate:"S",					
 							data:chartValueArr,
 							steps:this.props.card.lineChartStep[0],
 							chartCateAxis:this.props.card.lineChartAxis,

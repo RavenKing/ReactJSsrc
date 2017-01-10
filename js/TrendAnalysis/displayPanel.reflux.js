@@ -550,14 +550,17 @@ console.log('url: ',url);
             }
           }).done(function (resp) {
             var axis = [];
-            var value = [];
+            var total_entries = [];
+            var month_entries = [];
             resp.results.forEach(function (item) {
               //axis.push(item.CALENDARWEEK);
-              axis.push(item.YEAR_MONTH)
-              value.push(item.TABLE_ENTRIES);
+              axis.push(item.YEAR_MONTH);
+              total_entries.push(item.TABLE_ENTRIES);
+              month_entries.push(item.MONTHLY_ENTRIES);
             });
             copydata.lineChartAxis = new Array(axis);
-            copydata.lineChartValue = new Array(value);
+            copydata.lineChartTotalEntries = new Array(total_entries);
+            copydata.lineChartMonthEntries = new Array(month_entries);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 console.log('pageStatus chart = ');
