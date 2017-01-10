@@ -743,13 +743,15 @@ export function UpdateArticle(data,type){
   
   
     }
-    else if(type == "GEN"){     
+    else if(type == "GEN"){  
+        var capacity_date = new Date(data.capacity_date).getTime();
+        capacity_date = "\/Date("+capacity_date+")\/"
           
         axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
         
             ARTICLE_ID:data.article_id,
             COMMENT:data.comment,
-            CAPACITY_DATE:"\/Date("+data.capacity_date+")\/"      
+            CAPACITY_DATE: capacity_date   
 
         },config).then(function(response){
             dispatch({type:"UPDATE_ARTICLE"});
