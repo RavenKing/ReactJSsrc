@@ -628,7 +628,7 @@ export function PostCapArticle(data){
                 FACTOR_GUID:0,
                 CUSTOMER_ID:customer_id,
                 FACTOR_CAT:"S",
-                FACTOR_TYP:"CAP",        
+                FACTOR_TYP:"GEN",        
                 ARTICLE_NAM:article_nam,
                 ARTICLE_DSC:article_dsc,
                 CREATE_ON:create_on,

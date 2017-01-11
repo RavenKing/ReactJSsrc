@@ -183,12 +183,12 @@ export default class ObjectDefinition extends React.Component {
                 <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
               
 
-      <ButtonGroup>
-      <BackButton/>
-      <Button type="primary" onClick={this.GoToStepThree.bind(this)}>
-        Go forward <Icon type="right" />
-      </Button>
-    </ButtonGroup>
+                  <ButtonGroup>
+                    <BackButton/>
+                    <Button type="primary" onClick={this.GoToStepThree.bind(this)}>
+                      Go forward <Icon type="right" />
+                    </Button>
+                  </ButtonGroup>
 
 
         

@@ -8,6 +8,7 @@ import ObjectDefinition from "./ObjectDefinition";
 import PracticeAnalysis from "./PracticeAnalysis";
 import BasicInfo from "./BasicInfo";
 import PredictAnalysis from "./PredictAnalysis";
+import GeneralArticle from "./GeneralArticle";
 
 
 import { connect } from "react-redux";
@@ -89,7 +90,13 @@ export default class CreatePanel extends React.Component {
              break;
           } 
           case 1 : {
-            displaystep = <ObjectDefinition/> ; 
+            if(newArticle.type == "DVM"){
+              displaystep = <ObjectDefinition/> ; 
+            }
+            else if(newArticle.type == "GEN"){
+              displaystep = <GeneralArticle/>;
+            }
+            
             break;
           }
           case 2: {
