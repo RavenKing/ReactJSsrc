@@ -58,9 +58,42 @@ var WLHistory = React.createClass({
 		},
 
 		componentDidMount: function componentDidMount() {
-			
+			var that = this;
 			this.interactDrag = global.setCardDragable(this.getDOMNode(), this.props.card.id);
 			global.handleFocus(this.getDOMNode());
+			this.interactDrop = global.setAreaDropable({
+				element: this.getDOMNode(),
+				accept: '.function-button',
+
+				ondrop: function ondrop(event) { 
+
+					var draggableElement = event.relatedTarget,
+					    dropzoneElement = event.target;
+					var currentStatus = pageStatusDataStore.getCurrentStatus();
+					var cardId = that.props.card.id;
+					var data = {};
+					data.style = {};
+          			data.style.left = event.dragEvent.clientX + window.scrollX;
+          			data.style.top = event.dragEvent.clientY + window.scrollY;
+					data.info = draggableElement.getAttribute('data-info');
+
+					console.log('function type ------- ', data.info);
+					console.log('info of origin WLO card:', that.props.card);
+
+
+					switch(data.info){
+
+						case "SAVE-ARTI":
+							console.log('case save capacity ' + currentStatus);					
+								
+							data.factor_name = "WLH-"+that.props.card.monthCount+"-"+that.props.card.latestYear+"-"+that.props.card.latestMonth
+							data.type = "SAVE-ARTI";
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);									
+								
+							break;
+					}
+				}
+			})
 		},
 		componentWillUpdate: function componentWillUpdate() {
 

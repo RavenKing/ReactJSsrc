@@ -16,19 +16,28 @@ export default class TemplateSelect extends React.Component {
 
     GoToStepTwo(type)
     {
-        if(type == "DVM"){
+        switch(type){
+          case "DVM":
             var newArticle = { 
                 type:"DVM",
                 currentstep:1
             }
-            
-        }
-        else if(type == "GEN"){
+            break;
+          case "GEN":
             var newArticle = { 
                 type:"GEN",
                 currentstep:1
-            }  
-        }
+            } 
+            break;
+          case "CAP":
+            var newArticle = { 
+                type:"CAP",
+                currentstep:1
+            } 
+            break;
+          default:
+            break;
+        }       
 
         this.props.dispatch(NewArticleStepOne(newArticle));
         
@@ -60,20 +69,20 @@ export default class TemplateSelect extends React.Component {
                 </div>
 
                 <div className="custom-card">
-                  <h3>Capacity Management</h3>
-                  <p>Performance </p>
+                  <h3>General Information</h3>
+                  <p>Comments</p>
                 </div>
 
               </Card>
 
-              <Card className="margin10" style={{ width: 240 }}>
+              <Card className="margin10" style={{ width: 280 }} onClick={this.GoToStepTwo.bind(this,"CAP")}>
                 <div className="custom-size">
-                  Coming Soon
+                  Capacity Management
                 </div>
 
                 <div className="custom-card">
-                  <h3>Others</h3>
-                  <p>Business API</p>
+                  <h3>Capacity Management</h3>
+                  <p>Performance </p>
                 </div>
               </Card> 
 

@@ -18,7 +18,7 @@ const Option = Select.Option;
     };
     
 })
-export default class GeneralArticle extends React.Component {  
+export default class CapArticle extends React.Component {  
 
     handleSubmit(e){
         e.preventDefault();
@@ -58,14 +58,14 @@ export default class GeneralArticle extends React.Component {
         if(valid){
             const {user} = this.props.auth;
             var data = {
-              TYPE:"GEN",
-              CUSTOMER_ID:user.CUSTOMER_ID,
-              USERNAME:user.USERNAME,
-              ARTICLE_NAM:fieldsValue["ARTICLE_NAM"],
-              ARTICLE_DSC:fieldsValue["ARTICLE_DSC"],
-              COMMENT:fieldsValue["COMMENT"],
-              FACTOR_CAT:"G",
-              FACTOR_NAME:fieldsValue["FACTOR_NAME"]
+                TYPE:"CAP",
+                CUSTOMER_ID:user.CUSTOMER_ID,
+                USERNAME:user.USERNAME,
+                ARTICLE_NAM:fieldsValue["ARTICLE_NAM"],
+                ARTICLE_DSC:fieldsValue["ARTICLE_DSC"],
+                COMMENT:fieldsValue["COMMENT"],
+                FACTOR_CAT:"W",
+                FACTOR_NAME:fieldsValue["FACTOR_NAME"]
             }            
             //post article
             this.props.dispatch(PostCapArticle(data));
@@ -74,8 +74,7 @@ export default class GeneralArticle extends React.Component {
 
     render() {	 
         const {user} = this.props.auth;       
-        const {factor_name} = this.props.articles;        
-
+        const {factor_name} = this.props.articles;
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 }
@@ -83,11 +82,10 @@ export default class GeneralArticle extends React.Component {
 
         const { getFieldProps } = this.props.form;
         const {setFieldsInitialValue} = this.props.form;
-
+    
         var options = factor_name.map(function(one){
             return <Option value={one.FACTOR_NAME}>{one.FACTOR_NAME}</Option>
         });
-
     	
     	  return (
         
@@ -105,7 +103,7 @@ export default class GeneralArticle extends React.Component {
                 {...formItemLayout}
                 label="Type:"
                 >
-                <p className="ant-form-text">General</p> 
+                <p className="ant-form-text">Capacity Management</p> 
                 </FormItem>
 
                 <FormItem
@@ -164,4 +162,4 @@ export default class GeneralArticle extends React.Component {
   }
 }
 
-GeneralArticle = Form.create()(GeneralArticle);
+CapArticle = Form.create()(CapArticle);
