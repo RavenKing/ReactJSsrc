@@ -29,107 +29,45 @@ headers:{
 }
 
 export function fetchArticles(user){
-var customerid;
-if(user.ROLE=="ADM") 
-{
-    customerid = '32326';
-
-}
-else{
-  customerid = user.CUSTOMER_ID;
-}
-
-//http://10.128.245.87:8004/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'
-    return dispatch=>{
-    axios.get("/SmartOperations/services/articleContent.xsjs?customerId="+customerid,{
-       headers:{
-        'X-My-Custom-Header': 'Header-Value',
-        'content-type':'application/json'
-        },
-    auth: {
-    username: 'zengheng',
-    password: 'Sap12345'
-     }
-    })
-    .then(function (response,err) {
-        var data = response.data;
-        dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data})    
-  })
-  
+    var customerid;
+    if(user.ROLE=="ADM") 
+    {
+        customerid = '32326';
     }
-    
-    
-}
-export function AddComment(data){
-  var config = {
+    else{
+        customerid = user.CUSTOMER_ID;
+    }
+
+    var config = {
         headers:{
-            'X-My-Custom-Header':'Header-Value',
+            'X-My-Custom-Header': 'Header-Value',
             'content-type':'application/json'
-            },
-            auth:{
-                username:'zengheng',
-                password:'Sap12345'
+        },
+        auth: {
+            username: 'zengheng',
+            password: 'Sap12345'
         }
-    };
-    var article_id;
-    var article_nam = data.article_nam;
-    var article_dsc = data.article_dsc;
-    var customer_id = data.customer_id.toString();
-    var factor_guid = data.factor_guid;
-    var factor_cat = data.factor_cat;
-    var factor_name = data.factor_name;
-   
-    var create_on = (new Date()).getTime();
-    create_on = "\/Date("+create_on+")\/";
-    var create_by = data.username;
-    var comment = data.comment;
+    }
+    var data = {};
+    //http://10.128.245.87:8004/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'
     return dispatch=>{
-        axios.get("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
-          config).then(function(response){
-              article_id = Number(response.data.d.results[0].ARTICLE_ID) + 1;
-              article_id = article_id.toString();
+    axios.get("/SmartOperations/services/articleContent.xsjs?customerId="+customerid,
+      config).then(function (response,err) {
+          data.articles = response.data; 
+          axios.get("/SmartOperations/services/smopsMaster.xsodata/FACTOR_NAME",
+            config).then(function(resp){
+                data.factor_name = (resp.data.d.results);
+                dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data}); 
+            })
+            
+       
+           
+      })
+    }
 
-
-              axios.post("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR",{
-      
-                ARTICLE_ID:article_id,
-                FACTOR_GUID:factor_guid,
-                CUSTOMER_ID:customer_id,
-                FACTOR_CAT:factor_cat,
-                FACTOR_TYP:"GEN",        
-                ARTICLE_NAM:article_nam,
-                ARTICLE_DSC:article_dsc,
-                CREATE_ON:create_on,
-                CREATE_BY:create_by,
-                UPDATE_ON:null,
-                UPDATE_BY:null,
-                FACTOR_NAME:factor_name
-              },config).catch(function(error){
-                  console.log(error)
-              })
-
-              axios.post("/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP",{
-                ARTICLE_ID:article_id,
-                COMMENT:comment,
-                CAPACITY_DATE:create_on
-              },config).then(function(response){
-                dispatch({type:"POST_ARTICLE",payload:{refresh:true}})
-                  const modal = Modal.success({
-                      title: 'Successfully add comments! ',
-                      content: 'Comments have been created',
-                  });
-                }).catch(function(error){
-                  console.log(error);
-                })
-          
-          }).catch(function(error){
-              console.log(error);
-          })
-        
-          
-                
-  }
-  
+    
+    
+    
 }
 export function AddCard(data)
 {
@@ -610,11 +548,13 @@ export function PostCapArticle(data){
     var article_nam = data.ARTICLE_NAM;
     var article_dsc = data.ARTICLE_DSC;
     var customer_id = data.CUSTOMER_ID.toString();
-   
+    var type = data.TYPE;
+    var factor_cat = data.FACTOR_CAT;
     var create_on = (new Date()).getTime();
     create_on = "\/Date("+create_on+")\/";
     var create_by = data.USERNAME;
     var comment = data.COMMENT;
+    var factor_name = data.FACTOR_NAME;
     return dispatch=>{
         axios.get("/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
           config).then(function(response){
@@ -627,14 +567,15 @@ export function PostCapArticle(data){
                 ARTICLE_ID:article_id,
                 FACTOR_GUID:0,
                 CUSTOMER_ID:customer_id,
-                FACTOR_CAT:"S",
-                FACTOR_TYP:"CAP",        
+                FACTOR_CAT:factor_cat,
+                FACTOR_TYP:type,        
                 ARTICLE_NAM:article_nam,
                 ARTICLE_DSC:article_dsc,
                 CREATE_ON:create_on,
                 CREATE_BY:create_by,
                 UPDATE_ON:null,
-                UPDATE_BY:null
+                UPDATE_BY:null,
+                FACTOR_NAME:factor_name
               },config).catch(function(error){
                   console.log(error)
               })
@@ -743,13 +684,15 @@ export function UpdateArticle(data,type){
   
   
     }
-    else if(type == "GEN"){     
+    else if(type == "GEN"){  
+        var capacity_date = new Date(data.capacity_date).getTime();
+        capacity_date = "\/Date("+capacity_date+")\/"
           
         axios.put("/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
         
             ARTICLE_ID:data.article_id,
             COMMENT:data.comment,
-            CAPACITY_DATE:"\/Date("+data.capacity_date+")\/"      
+            CAPACITY_DATE: capacity_date   
 
         },config).then(function(response){
             dispatch({type:"UPDATE_ARTICLE"});
@@ -810,5 +753,3 @@ export function DeleteArticle(data){
   
   }
 }
-
-

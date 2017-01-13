@@ -152,7 +152,7 @@ export default class MainPanel extends React.Component {
             total_size:result.TOTAL_SIZE, 
             type:result.FACTOR_TYPE
           }
-          else if(this.props.type=="GEN")
+          else if(this.props.type=="GEN" || this.props.type == "CAP")
           {
             return {
             key:result.ARTICLE_ID,
@@ -160,6 +160,7 @@ export default class MainPanel extends React.Component {
             article_dsc:result.ARTICLE_DSC,
             type:result.FACTOR_TYPE}
           }
+          
         }
 
         });
@@ -193,9 +194,9 @@ export default class MainPanel extends React.Component {
           dataIndex: 'TOTAL_SIZE'
         }];
       }
-      else if(this.props.type == "GEN")
+      else if(this.props.type == "GEN" || this.props.type == "CAP")
       {
-      var columns = [ 
+        var columns = [ 
         {
           title: 'Article Name',
           width:150,

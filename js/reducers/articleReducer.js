@@ -3,6 +3,7 @@ export default function reducer(state={
     fetching:false,
     fetched:false,
     refresh:false,
+    factor_name:[],
     newArticle:{currentstep:0},
     displayPanel:[],
     error:null
@@ -12,8 +13,9 @@ export default function reducer(state={
     {
       case "FETCH_ARTICLE_FULFILLED":
         {
+            const {payload} = action;
                     
-            return {...state,fetching:false,fetched:true,articles:action.payload,refresh:false}
+            return {...state,fetching:false,fetched:true,articles:payload.articles,factor_name:payload.factor_name,refresh:false}
         }        
         case "ADD_ARTICLE_VIEW":
         {

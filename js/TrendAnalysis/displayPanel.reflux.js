@@ -774,7 +774,7 @@ console.log('url: ',url);
             var dbValueArr = [];
             var stepValueArr = [];
 
-            resp.results.forEach(function (item) {
+           /* resp.results.forEach(function (item) {
               
               cateArr.push(item.YEAR_MONTH);
               cpuValueArr.push(parseInt(item.CPU_SUM));
@@ -782,7 +782,15 @@ console.log('url: ',url);
               stepValueArr.push(parseInt(item.STEP_SUM));
 
 
-            });
+            });*/
+
+            for(var i = resp.results.length-1; i >= 0; i--){
+                cateArr.push(resp.results[i].YEAR_MONTH);
+                cpuValueArr.push(parseInt(resp.results[i].CPU_SUM));
+                dbValueArr.push(parseInt(resp.results[i].DB_SUM));
+                stepValueArr.push(parseInt(resp.results[i].STEP_SUM));
+            }
+            
             copydata.chartCateAxis = new Array(cateArr);
             copydata.chartCPUValue = new Array(cpuValueArr);
             copydata.chartDBValue = new Array(dbValueArr);

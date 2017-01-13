@@ -58,6 +58,9 @@ export default class SaveCapArticle extends React.Component {
             //add extra field to formValues
             formValues.CUSTOMER_ID = user.CUSTOMER_ID;
             formValues.USERNAME = user.USERNAME;
+            formValues.TYPE = "CAP";
+            formValues.FACTOR_CAT = "W";
+            formValues.FACTOR_NAME = this.props.card.factor_name;
             //post article
             this.props.dispatch(PostCapArticle(formValues));
             setTimeout(this.CloseCard.bind(this),1500);
