@@ -403,21 +403,44 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 			////////////////
 			if (this.props.card.type === "ITEM-ANA") {
+
 				var arrLen = this.props.card.FACTOR_NAME.length;
 				var subLineChart = [];
 
 				for (var i = 0; i < arrLen; i++) {
+					if(this.props.card.category[i] == "B"){
+						var param = {
+							chartContent:{
+								factorCate:"B",
+								total_data:this.props.card.lineChartTotalEntries[0],
+								month_data:this.props.card.lineChartMonthEntries[0],
+								chartCateAxis:this.props.card.lineChartAxis,
+								axisMin: this.state.rangeMin,
+								axisMax: this.state.rangeMax
+							}
+						}
+					}
+					else {//"S"
+						chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+						if(this.state.timeType == "AVG"){
+							chartValueArr = this.props.card.lineChartAvgTime[0].slice();
+						}
+						else if(this.state.timeType == "TOTAL"){//"total"
+							chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+						}					
+						var param = {
+							chartContent:{	
+								factorCate:"S",					
+								data:chartValueArr,
+								steps:this.props.card.lineChartStep[0],
+								chartCateAxis:this.props.card.lineChartAxis,
+								axisMin: this.state.rangeMin,
+								axisMax: this.state.rangeMax
+							}
 
-					subLineChart[i] = React.createElement(LineChart, {
-						chartAxisArr: this.props.card.lineChartAxis[i],
-						chartValueArr: this.props.card.lineChartValue[i],
-						lineNameArr: this.props.card.FACTOR_NAME[i],
-						axisMin: this.state.rangeMin,
-						axisMax: this.state.rangeMax,
-						factorCate: this.props.card.category[i],
-						showLabel: i === 0 ? true : false
-
-					});
+						};
+					}
+					subLineChart[i] = React.createElement(LineNewChart,param);
 				}
 			} else if (this.props.card.type === "WHAT_IF") {
 				var subLineChart = React.createElement(PredictLineChart, { chartAxisArr: this.props.card.lineChartAxis,
@@ -483,7 +506,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 					<TemplateSelect card = {this.props.card} visible={this.state.tsvisible}/>
 					</Modal>
 
-				var timeSwitch = <Switch checkedChildren="AVG" unCheckedChildren="TOTAL" defaultChecked={false} onChange={this.changeTimeType.bind(this)} />
+				//var timeSwitch = <Switch checkedChildren="AVG" unCheckedChildren="TOTAL" defaultChecked={false} onChange={this.changeTimeType.bind(this)} />
 
 			}
 
@@ -500,7 +523,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 					} },
 					subLineChart,
 					this.state.tsvisible==true?tpselect:<div></div>,
-					this.props.card.category[0] == "S"?timeSwitch:<div></div>,
+					this.props.card.category[0] == "S"?<Switch checkedChildren="AVG" unCheckedChildren="TOTAL" defaultChecked={false} onChange={this.changeTimeType.bind(this)} />:<div></div>,
 					React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })
 			);
 
