@@ -956,11 +956,13 @@ console.log('url: ',url);
                   }
                 }).done(function (resp) {
                   var axis = [];
-                  var value = [];
+                  var total_entries = [];
+                  var month_entries = [];
                   resp.results.forEach(function (item) {
                     //axis.push(item.CALENDARWEEK);
                     axis.push(item.YEAR_MONTH)
-                    value.push(item.TABLE_ENTRIES);
+                    total_entries.push(item.TABLE_ENTRIES);
+                    month_entries.push(item.MONTHLY_ENTRIES);
                   });
                   //data.lineChartAxis = new Array(axis);
                   //data.lineChartValue = new Array(value);
@@ -969,7 +971,8 @@ console.log('url: ',url);
                   item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
                   item1.guidArr.push(data.FACTOR_NAME_S);
                   item1.lineChartAxis.push(axis);
-                  item1.lineChartValue.push(value);
+                  item1.lineChartTotalEntries.push(total_entries);
+                  item1.lineChartMonthEntries.push(month_entries);
                   item1.category.push(data.category);
                   that.trigger(item.content);
                   /*$.each(that.displayAreaData, function (idx, item) {
@@ -1019,11 +1022,15 @@ console.log('url: ',url);
                   }
                 }).done(function (resp) {
                   var axis = [];
-                  var value = [];
+                  var avg_time = [];
+                  var total_time = [];
+                  var step = [];
                   resp.results.forEach(function (item) {
                     //axis.push(item.CALENDARWEEK);
-                    axis.push(item.YEAR_MONTH)
-                    value.push(item.CPU_DB_TIME);
+                    axis.push(item.YEAR_MONTH);
+                    avg_time.push(item.AVG_TIME);
+                    total_time.push(item.TOTAL_TIME);
+                    step.push(item.STEP);
                   });
                   //data.lineChartAxis = new Array(axis);
                   //data.lineChartValue = new Array(value);
@@ -1033,8 +1040,11 @@ console.log('url: ',url);
                   item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
                   item1.guidArr.push(data.FACTOR_NAME_S);
                   item1.lineChartAxis.push(axis);
-                  item1.lineChartValue.push(value);
+                  item1.lineChartAvgTime.push(avg_time);
+                  item1.lineChartTotalTime.push(total_time);
+                  item1.lineChartStep.push(step);
                   item1.category.push(data.category);
+
                   that.trigger(item.content);
                   console.log(this.displayAreaData);
                   /*$.each(that.displayAreaData, function (idx, item) {
