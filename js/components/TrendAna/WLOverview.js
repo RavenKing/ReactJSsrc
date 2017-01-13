@@ -121,12 +121,9 @@ var WLOverview = React.createClass({
 							break;
 						case "SAVE-ARTI":
 							console.log('case save capacity ' + currentStatus);					
-								
-							data.factor_name = draggableElement.getAttribute('data-factor_name');
-							data.factor_info = draggableElement.getAttribute('data-factor_info');
-							data.category = draggableElement.getAttribute('data-category');
+							data.factor_name = "WLO-"+that.props.card.dateYear+"-"+that.props.card.dateMonth					
 							data.type = "SAVE-ARTI";
-							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);									
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);								
 								
 							break;
 

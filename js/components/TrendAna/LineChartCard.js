@@ -1,7 +1,9 @@
 import React from "react"
 
-import { Slider , Modal, message,Card,Icon	} from "antd"
+import { Slider,Modal, message,Card,Icon,Switch} from "antd"
 import LineChart from  "./LineChart"
+import LineNewChart from "./LineNewChart"
+//import LineNewChart1 from "./LineNewChart1"
 import PredictLineChart from "./PredictLineChart"
 import {browserHistory } from "react-router"
 import TemplateSelect from "./TemplateSelect"
@@ -61,6 +63,19 @@ var dataPanelDataStore = window.dataPanelDataStore
 				rangeMin: value[0],
 				rangeMax: value[1]
 			});
+		},
+		changeTimeType:function changeTimeType(checked){
+			if(checked == true){
+				this.setState({
+					timeType:"AVG"
+				});
+			}
+			else{
+				this.setState({
+					timeType:"TOTAL"
+				});
+			}
+			
 		},
 		onSetUnvisible:function onSetUnvisible()
 		{
@@ -225,7 +240,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 									categoryStr: that.props.card.category.slice(1).join(","),
 									guidArr: guidArr
 								};
-								console.log('oooooooDATA ----',oData);
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
 
@@ -271,8 +285,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 							
 							break;
 						case currentStatus + "-ITEM":
-							console.log('case ' + currentStatus + '-ITEM');
-							console.log('state when add factor --- ', that.props.card);
 							if (currentStatus != "INIT" && that.props.card.type === "ITEM-ANA") {
 								if(currentStatus.indexOf("ANALYSIS_RCA") > -1||currentStatus.indexOf("ANALYSIS_WIF") > -1){
 									data.guid = draggableElement.getAttribute('data-factor_guid');
@@ -316,8 +328,24 @@ var dataPanelDataStore = window.dataPanelDataStore
 							console.log('NOTE -factor name = ');
 							console.log(that.props.card.FACTOR_NAME);
 							//define article type
-							var stype = that.props.card.category[0] == "B"?"DVM":"CAP";
+							var stype = that.props.card.category[0] == "B"?"DVM":"GEN";
 							browserHistory.push("/km?object=" + that.props.card.FACTOR_NAME[0] + "&stype=" + stype);
+
+							break;
+						case "COM":
+							console.log('COMMENT -factor name =');
+							console.log(that.props.card.FACTOR_NAME[0]);
+							console.log(draggableElement);
+							var data = {
+								type: "COM",
+								title: "Comments for " + that.props.card.FACTOR_NAME[0],
+								factor_name:that.props.card.FACTOR_NAME[0],
+								factor_cat:that.props.card.category[0],
+								article_nam:that.props.card.business_name[0],
+								article_dsc:that.props.card.business_name[0]
+
+							}
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
 
 							break;
 
@@ -400,23 +428,62 @@ var dataPanelDataStore = window.dataPanelDataStore
 					factorCate: this.props.card.category[0]
 				});
 			} else if(this.props.card.type === "ITEM") {
+				var chartValueArr;
+				var subLineChart;
 				
-				var subLineChart = React.createElement(LineChart, {
-						chartAxisArr: this.props.card.lineChartAxis[0],
-						chartValueArr: this.props.card.lineChartValue[0],
-						lineNameArr: this.props.card.FACTOR_NAME[0],
-						axisMin: this.state.rangeMin,
-						axisMax: this.state.rangeMax,
-						factorCate: this.props.card.category[0],
-						showLabel: true
+				if(this.props.card.category[0] == "B"){					
+					
 
-					});
+					var param = {
+						chartContent:{
+							factorCate:"B",
+							total_data:this.props.card.lineChartTotalEntries[0],
+							month_data:this.props.card.lineChartMonthEntries[0],
+							chartCateAxis:this.props.card.lineChartAxis,
+							axisMin: this.state.rangeMin,
+							axisMax: this.state.rangeMax
+						}
+					}
+
+					subLineChart = React.createElement(LineNewChart,param);
+				}
+				else{//"S"
+					chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+					if(this.state.timeType == "AVG"){
+						chartValueArr = this.props.card.lineChartAvgTime[0].slice();
+					}
+					else if(this.state.timeType == "TOTAL"){//"total"
+						chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+					}					
+					var param = {
+						chartContent:{	
+							factorCate:"S",					
+							data:chartValueArr,
+							steps:this.props.card.lineChartStep[0],
+							chartCateAxis:this.props.card.lineChartAxis,
+							axisMin: this.state.rangeMin,
+							axisMax: this.state.rangeMax
+						}
+
+					};
+				 	subLineChart = React.createElement(LineNewChart,param);
+
 				
-		var tpselect = <Modal title="select template"
-			footer= {false}
-		 onCancel={()=>{this.onSetUnvisible()} }  visible={this.state.tsvisible}>
-		<TemplateSelect card = {this.props.card} visible={this.state.tsvisible}/>
+				}	
+
+
+				
+
+				
+				
+				
+				var tpselect = <Modal title="select template"
+					footer= {false}
+		 			onCancel={()=>{this.onSetUnvisible()} }  visible={this.state.tsvisible}>
+					<TemplateSelect card = {this.props.card} visible={this.state.tsvisible}/>
 					</Modal>
+
+				var timeSwitch = <Switch checkedChildren="AVG" unCheckedChildren="TOTAL" defaultChecked={false} onChange={this.changeTimeType.bind(this)} />
 
 			}
 
@@ -433,7 +500,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 					} },
 					subLineChart,
 					this.state.tsvisible==true?tpselect:<div></div>,
-				React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })
+					this.props.card.category[0] == "S"?timeSwitch:<div></div>,
+					React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })
 			);
 
 		}

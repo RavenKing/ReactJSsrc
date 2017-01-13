@@ -4,6 +4,7 @@ import LineChartCard from "./LineChartCard";
 import PieChartCard from "./PieChartCard";
 import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
+import CommentCard from "./CommentCard";
 import SaveArticle from "./SaveArticle";
 import ArticleTemplate from "./ArticleTemplate";
 import DVMAPanel from "./DVMPanel/DVMAPanel";
@@ -85,6 +86,7 @@ if (!rc) {
           switch (data.type) {
             case 'TITLE':
               data.title = draggableElement.getAttribute('data-category');
+              data.customerId = draggableElement.getAttribute('data-customer_id');
               break;
             case 'ITEM':
               data.guidArr = new Array(draggableElement.getAttribute('data-factor_guid'));
@@ -94,6 +96,7 @@ if (!rc) {
               data.customerId = new Array(draggableElement.getAttribute('data-customer_id'));
               data.systemId = new Array(draggableElement.getAttribute('data-sys_id'));
               data.systemClt = new Array(draggableElement.getAttribute('data-sys_clt'));
+              data.business_name = new Array(draggableElement.getAttribute('data-business_name'));
               break;
             case 'CREATE':
 
@@ -227,7 +230,9 @@ if (!rc) {
 
             return React.createElement(CreateObjCard, { key: item.id + "CreateObjCard", card: item });
           } 
-
+          else if(item.type == 'COM') {
+            return React.createElement(CommentCard, { key:item.id + "CommentCard", card: item});
+          }
           else if (item.type == 'EDIT') {
 
             return React.createElement(CreateObjCard, { key: item.id + "EditObjCard", card: item });

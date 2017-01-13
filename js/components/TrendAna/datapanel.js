@@ -63,7 +63,8 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
               "data-factor_type": this.props.item.FACTOR_TYPE,
               "data-customer_id": this.props.item.CUSTOMER_ID,
               "data-sys_id": this.props.item.SYSID,
-              "data-sys_clt": this.props.item.SYSCLT
+              "data-sys_clt": this.props.item.SYSCLT,
+              "data-business_name":this.props.item.FACTOR_BUSINESS_NAME
             },
             React.createElement(
               Badge,
@@ -202,13 +203,21 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
         items.push(React.createElement(DataItem, { key:keyitem , item: block.objList[ind] ,keynumber:block.objList[ind].FACTOR_GUID}));
 
       }
+      var customerId;
+      if(block.objList[0]){
+        customerId = block.objList[0].CUSTOMER_ID;
+      }
+      else{
+        customerId = "";
+      }
 
       return React.createElement(
         "div",
         { className: "data-block", 
           "data-type": "TITLE", 
           "data-info": currentStatus + "-BLOCK",
-          "data-category": block.title 
+          "data-category": block.title,
+          "data-customer_id":customerId
         },
         React.createElement(
           "span",

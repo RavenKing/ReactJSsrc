@@ -20,6 +20,10 @@
         name: 'Knowledge',
         info: 'NOTE',
         type: 'NOTE'
+      },{
+        name: 'Comment',
+        info: 'COM',
+        type: 'COM'
       }]
     }],
     onFunctionPanelAddPageAction: function onFunctionPanelAddPageAction(pageStatus) {

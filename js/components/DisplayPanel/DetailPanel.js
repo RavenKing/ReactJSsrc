@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Modal,Button,Card,Icon} from "antd";
+import { Modal,Button,Card,Icon,Input} from "antd";
 import { connect } from "react-redux";
 import TableCharts from "./TableCharts";
 import DvmPanel from "./DvmPanel";
@@ -172,24 +172,50 @@ export default class DetailPanel extends React.Component {
         left:this.props.display.x+'px'
       };
 
-    if(this.props.article.FACTOR_TYPE == "DVM")
-     var displayzone = <DvmPanel Page={this.state.page} Article={this.props.article} /> ; 
-      else if(this.props.article.FACTOR_TYPE == "CAP")
-      var displayzone = <CapacityPanel Article ={this.props.article}/>
+      var displayzone;
+      if(this.props.article.FACTOR_TYPE == "DVM"){
+        displayzone = (
+          <div>
+            <div className="leftside" onClick={this.NavLeft.bind(this)}>
+              <Icon type="left" />
+            </div>
+            <div className="middlecontainer">  
+              <DvmPanel Page={this.state.page} Article={this.props.article} />
+            </div>
+            <div className="rightside" onClick={this.NavRight.bind(this)}>
+              <Icon type="right"/>
+            </div>
+          </div>
+        );
+      }    
+      else if(this.props.article.FACTOR_TYPE == "CAP"){
+        displayzone = (
+          <div>
+            <div className="leftside" onClick={this.NavLeft.bind(this)}>
+              <Icon type="left" />
+            </div>
+            <div className="middlecontainer">  
+              <CapacityPanel Article ={this.props.article}/>
+            </div>
+            <div className="rightside" onClick={this.NavRight.bind(this)}>
+              <Icon type="right"/>
+            </div>
+          </div>
+        );
+      }
+      else if(this.props.article.FACTOR_TYPE == "GEN"){
+        displayzone = (
+          <Input type="textarea" value={this.props.article.COMMENT} rows={8}/>
+
+        )
+      }
+     
 
 
       return (
         
         <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,false)} />}>
-          <div className="leftside" onClick={this.NavLeft.bind(this)}>
-          <Icon type="left" />
-          </div>
-          <div className="middlecontainer">  
-          {displayzone}
-          </div>
-          <div className="rightside" onClick={this.NavRight.bind(this)}>
-          <Icon type="right"/>
-          </div>
+         {displayzone}
         </Card>
         
       );

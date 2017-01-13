@@ -29,38 +29,46 @@ headers:{
 }
 
 export function fetchArticles(user){
-var customerid;
-if(user.ROLE=="ADM") 
-{
-    customerid = '32326';
-
-}
-else{
-  customerid = user.CUSTOMER_ID;
-}
-
-//http://10.128.245.87:8004/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'
-    return dispatch=>{
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/articleContent.xsjs?customerId="+customerid,{
-       headers:{
-        'X-My-Custom-Header': 'Header-Value',
-        'content-type':'application/json'
-        },
-    auth: {
-    username: 'zengheng',
-    password: 'Sap12345'
-     }
-    })
-    .then(function (response,err) {
-        var data = response.data;
-        dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data})    
-  })
-  
+    var customerid;
+    if(user.ROLE=="ADM") 
+    {
+        customerid = '32326';
     }
+    else{
+        customerid = user.CUSTOMER_ID;
+    }
+
+    var config = {
+        headers:{
+            'X-My-Custom-Header': 'Header-Value',
+            'content-type':'application/json'
+        },
+        auth: {
+            username: 'zengheng',
+            password: 'Sap12345'
+        }
+    }
+    var data = {};
+    //http://10.128.245.87:8004/HANAXS_TEST/services/knowledge_management.xsodata/KMDB?$format=json&$orderby=ARTICLE_ID desc&$top=5&$filter=CUSTOMER_ID eq '32326'
+    return dispatch=>{
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/articleContent.xsjs?customerId="+customerid,
+      config).then(function (response,err) {
+          data.articles = response.data; 
+          axios.get("http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTOR_NAME",
+            config).then(function(resp){
+                data.factor_name = (resp.data.d.results);
+                dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data}); 
+            })
+            
+       
+           
+      })
+    }
+
+    
     
     
 }
-
 export function AddCard(data)
 {
 
@@ -540,11 +548,13 @@ export function PostCapArticle(data){
     var article_nam = data.ARTICLE_NAM;
     var article_dsc = data.ARTICLE_DSC;
     var customer_id = data.CUSTOMER_ID.toString();
-   
+    var type = data.TYPE;
+    var factor_cat = data.FACTOR_CAT;
     var create_on = (new Date()).getTime();
     create_on = "\/Date("+create_on+")\/";
     var create_by = data.USERNAME;
     var comment = data.COMMENT;
+    var factor_name = data.FACTOR_NAME;
     return dispatch=>{
         axios.get("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR?$orderby=ARTICLE_ID desc&$top=1",
           config).then(function(response){
@@ -557,14 +567,15 @@ export function PostCapArticle(data){
                 ARTICLE_ID:article_id,
                 FACTOR_GUID:0,
                 CUSTOMER_ID:customer_id,
-                FACTOR_CAT:"S",
-                FACTOR_TYP:"CAP",        
+                FACTOR_CAT:factor_cat,
+                FACTOR_TYP:type,        
                 ARTICLE_NAM:article_nam,
                 ARTICLE_DSC:article_dsc,
                 CREATE_ON:create_on,
                 CREATE_BY:create_by,
                 UPDATE_ON:null,
-                UPDATE_BY:null
+                UPDATE_BY:null,
+                FACTOR_NAME:factor_name
               },config).catch(function(error){
                   console.log(error)
               })
@@ -593,7 +604,7 @@ export function PostCapArticle(data){
 
 
 }
-export function UpdateArticle(data){
+export function UpdateArticle(data,type){
   var config = {
     headers:{
         'X-My-Custom-Header':'Header-Value',
@@ -604,80 +615,95 @@ export function UpdateArticle(data){
           password:'Sap12345'
         }
   };
-  var total_size = 0;
-  return dispatch=>{
-    data.tables.map((table,idx)=>{
-      idx = idx+1;
-      if(table.TBL_SIZE != null){
-        total_size += parseInt(table.TBL_SIZE);
-      }
+  if(type == "DVM"){
+      var total_size = 0;
+      return dispatch=>{
+          data.tables.map((table,idx)=>{
+              idx = idx+1;
+              if(table.TBL_SIZE != null){
+                  total_size += parseInt(table.TBL_SIZE);
+              }
       
-      axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+data.article_id+",ATTR_ID="+idx+")",{
-        ARTILE_ID:data.article_id,
-        ATTR_ID:idx,
-        ATTR_TYP:"TBL",
-        ATTR_NAM:table.ATTR_NAM,
-        ATTR_DSC:table.ATTR_DSC,
-        TBL_SIZE:table.TBL_SIZE
-    },config);
-    });
-    var updatedate = (new Date()).getTime();
+              axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMBSC(ARTILE_ID="+data.article_id+",ATTR_ID="+idx+")",{
+                  ARTILE_ID:data.article_id,
+                  ATTR_ID:idx,
+                  ATTR_TYP:"TBL",
+                  ATTR_NAM:table.ATTR_NAM,
+                  ATTR_DSC:table.ATTR_DSC,
+                  TBL_SIZE:table.TBL_SIZE
+              },config);
+          });
+          var updatedate = (new Date()).getTime();
     
-    axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+data.article_id+")", {
+          axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMHDR("+data.article_id+")", {
         
-        ARTICLE_ID:data.article_id,
-        FACTOR_GUID:data.factor_guid,
-        CUSTOMER_ID:data.customer_id,
-        FACTOR_CAT:"B",
-        FACTOR_TYP:"DVM",        
-        ARTICLE_NAM:data.article_nam,
-        ARTICLE_DSC:data.article_dsc,
-        CREATE_ON:"\/Date("+updatedate+")\/",
-        CREATE_BY:data.create_by,
-        UPDATE_ON:"\/Date("+updatedate+")\/",
-        UPDATE_BY:"CASSIE"
+              ARTICLE_ID:data.article_id,
+              FACTOR_GUID:data.factor_guid,
+              CUSTOMER_ID:data.customer_id,
+              FACTOR_CAT:"B",
+              FACTOR_TYP:"DVM",        
+              ARTICLE_NAM:data.article_nam,
+              ARTICLE_DSC:data.article_dsc,
+              CREATE_ON:"\/Date("+updatedate+")\/",
+              CREATE_BY:data.create_by,
+              UPDATE_ON:"\/Date("+updatedate+")\/",
+              UPDATE_BY:"CASSIE"
         
 
-    },config
-    ).then(function (response) {
+          },config).then(function (response) {
 
+              axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+data.article_id+")",{
+                  ARTICLE_ID:data.article_id,    
+                  TOTAL_SIZE:total_size.toString(),
+                  ARCHIVING:data.archiving,    
+                  DELETION:data.deletion,
+                  SUMMARIZATION:data.summarization,
+                  AVOIDANCE:data.avoidance,
+                  RETENTION:data.retention,
+                  SAVING_EST:data.saving_est,
+                  SAVING_EST_P:data.saving_est_p,
+                  SAVING_ACT:data.saving_act,
+                  SAVING_ACT_P:data.saving_act_p, 
+                  COMMENT:data.comment,  
+                  ARCHOBJ:data.archobj
+              },config).then(function(response){
 
+                  dispatch({type:"UPDATE_ARTICLE"});
+                  const modal = Modal.success({
+                      title: 'Successfully update! ',
+                      content: 'The article is updated done',
+                  });            
+              }).catch(function(response){
+                  console.log(response);
+              })
+          }).catch(function (response) {
+              console.log(response);
+          });
+    
+          }
+  
+  
+    }
+    else if(type == "GEN"){  
+        var capacity_date = new Date(data.capacity_date).getTime();
+        capacity_date = "\/Date("+capacity_date+")\/"
+          
+        axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
+        
+            ARTICLE_ID:data.article_id,
+            COMMENT:data.comment,
+            CAPACITY_DATE: capacity_date   
 
-
-        axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMDVM("+data.article_id+")",{
-          ARTICLE_ID:data.article_id,    
-          TOTAL_SIZE:total_size.toString(),
-          ARCHIVING:data.archiving,    
-          DELETION:data.deletion,
-          SUMMARIZATION:data.summarization,
-          AVOIDANCE:data.avoidance,
-          RETENTION:data.retention,
-          SAVING_EST:data.saving_est,
-          SAVING_EST_P:data.saving_est_p,
-          SAVING_ACT:data.saving_act,
-          SAVING_ACT_P:data.saving_act_p, 
-          COMMENT:data.comment,  
-          ARCHOBJ:data.archobj
-        },
-        config)
-        .then(function(response){
-
-          dispatch({type:"UPDATE_ARTICLE"});
+        },config).then(function(response){
+            dispatch({type:"UPDATE_ARTICLE"});
             const modal = Modal.success({
-            title: 'Successfully update! ',
-            content: 'The article is updated done',
+                title: 'Successfully update!',
+                content: 'The article is updated done'
             });
-            
+        }).catch(function(err){
+            console.log(err);
         })
-        .catch(function(response){
-          console.log(response);
-        })
-    })
-    .catch(function (response) {
-        console.log(response);
-    });
-    
-  }
+    }
 }
 export function DeleteArticle(data){
   var article_id = data.ARTICLE_ID;

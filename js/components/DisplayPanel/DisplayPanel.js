@@ -113,7 +113,7 @@ export default class DisplayPanel extends React.Component {
       const { results } = articles.articles;
       
       var displayArea = displayPanel.map((one)=>{
-        if(one.type == "DVM"||one.type=="CAP"){
+        if(one.type == "DVM"|| one.type == "GEN" || one.type == "CAP"){
           for(var i = 0; i < results.length;i++){
             if(results[i].ARTICLE_ID ==  one.article){
               return <DetailPanel article={results[i]} display={one} />

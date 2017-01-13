@@ -125,8 +125,6 @@
 
     },
 
-
-
     uploadConfirm: function(dataInfo, getRespond) {
     var flag = false;
 
@@ -279,11 +277,22 @@
     onDisplayAreaAddCardAction: function onDisplayAreaAddCardAction(pageStatus, data) {
 
       data.id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
+      var customerId = data.customerId;
       let copydata = JSON.parse(JSON.stringify(data));
       var that = this;
       console.log('add card action');
       console.log(data);
       switch (copydata.type) {
+        case 'COM':
+
+          $.each(that.displayAreaData,function(idx,item){
+            if(pageStatus === item.pageStatus){
+              item.content.push(copydata);
+              that.trigger(item.content);
+            }
+          });
+
+          break;
         case 'UPLOAD':
 
 
@@ -377,18 +386,18 @@
             case 'Business':
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc';
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID%20eq%20%271001%27%20and%20SYSID%20eq%20%27KEV%27%20and%20SYSCLT%20eq%20%27001%27%20and%20FACTOR_CATEGORY%20eq%20%27B%27';
+              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\'&$orderby=TREND desc';
               break;
 
             case 'Service':
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID%20eq%20%271001%27%20and%20SYSID%20eq%20%27KEV%27%20and%20SYSCLT%20eq%20%27001%27%20and%20FACTOR_CATEGORY%20eq%20%27S%27';
+              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\'&$orderby=TREND desc';
               
               break;
 
             case 'Resource':
               //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID%20eq%20%271001%27%20and%20SYSID%20eq%20%27KEV%27%20and%20SYSCLT%20eq%20%27001%27%20and%20FACTOR_CATEGORY%20eq%20%27R%27';
+              url = 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'R\'&$orderby=TREND desc';
               break;
 
             default:
@@ -475,8 +484,8 @@
         if(copydata.category[0] == 'S')
         {
           var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
-console.log('ITEM url: ',url);
-console.log('RCA data ----', copydata);
+          console.log('ITEM url: ',url);
+          console.log('RCA data ----', copydata);
           $.ajax({
             url: url,
             method: 'get',
@@ -491,14 +500,21 @@ console.log('RCA data ----', copydata);
             }
           }).done(function (resp) {
             var axis = [];
-            var value = [];
+            var avg_time = [];
+            var total_time = [];
+            var step = [];
             resp.results.forEach(function (item) {
               //axis.push(item.CALENDARWEEK);
-              axis.push(item.YEAR_MONTH)
-              value.push(item.CPU_DB_TIME);
+              axis.push(item.YEAR_MONTH);
+              avg_time.push(item.AVG_TIME);
+              total_time.push(item.TOTAL_TIME);
+              step.push(item.STEP);
+              //value.push(item.CPU_DB_TIME);
             });
             copydata.lineChartAxis = new Array(axis);
-            copydata.lineChartValue = new Array(value);
+            copydata.lineChartAvgTime = new Array(avg_time);
+            copydata.lineChartTotalTime = new Array(total_time);
+            copydata.lineChartStep = new Array(step);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 console.log('pageStatus chart = ');
@@ -534,14 +550,17 @@ console.log('url: ',url);
             }
           }).done(function (resp) {
             var axis = [];
-            var value = [];
+            var total_entries = [];
+            var month_entries = [];
             resp.results.forEach(function (item) {
               //axis.push(item.CALENDARWEEK);
-              axis.push(item.YEAR_MONTH)
-              value.push(item.TABLE_ENTRIES);
+              axis.push(item.YEAR_MONTH);
+              total_entries.push(item.TABLE_ENTRIES);
+              month_entries.push(item.MONTHLY_ENTRIES);
             });
             copydata.lineChartAxis = new Array(axis);
-            copydata.lineChartValue = new Array(value);
+            copydata.lineChartTotalEntries = new Array(total_entries);
+            copydata.lineChartMonthEntries = new Array(month_entries);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
                 console.log('pageStatus chart = ');
@@ -755,7 +774,7 @@ console.log('url: ',url);
             var dbValueArr = [];
             var stepValueArr = [];
 
-            resp.results.forEach(function (item) {
+           /* resp.results.forEach(function (item) {
               
               cateArr.push(item.YEAR_MONTH);
               cpuValueArr.push(parseInt(item.CPU_SUM));
@@ -763,7 +782,15 @@ console.log('url: ',url);
               stepValueArr.push(parseInt(item.STEP_SUM));
 
 
-            });
+            });*/
+
+            for(var i = resp.results.length-1; i >= 0; i--){
+                cateArr.push(resp.results[i].YEAR_MONTH);
+                cpuValueArr.push(parseInt(resp.results[i].CPU_SUM));
+                dbValueArr.push(parseInt(resp.results[i].DB_SUM));
+                stepValueArr.push(parseInt(resp.results[i].STEP_SUM));
+            }
+            
             copydata.chartCateAxis = new Array(cateArr);
             copydata.chartCPUValue = new Array(cpuValueArr);
             copydata.chartDBValue = new Array(dbValueArr);
