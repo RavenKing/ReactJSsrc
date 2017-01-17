@@ -89,12 +89,14 @@ var dataPanelDataStore = window.dataPanelDataStore
 			let factors = [];
 			let currentStatus = pageStatusDataStore.getCurrentStatus();
 			gooddata.filter((one)=>{
-					if(one.lineChartValue)
+
+
+					if(one.lineChartAxis)
 					{
-							origin=one.lineChartValue[0]
-						for(var i=1;i<one.lineChartValue.length;i++)
+							origin=one.lineChartTotalTime[0]
+						for(var i=1;i<one.lineChartTotalTime.length;i++)
 						{
-							let factordata = one.lineChartValue[i]
+							let factordata = one.lineChartTotalTime[i]
 // WIF  donnt handle the factor data 
 							if(currentStatus.indexOf("ANALYSIS_WIF")== -1)
 							for (var g=1;g<factordata.length;g++)

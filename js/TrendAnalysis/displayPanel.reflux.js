@@ -947,7 +947,7 @@ console.log('url: ',url);
                   method: 'get',
                   dataType: 'json',
                   headers: {
-                    //'Authorization': 'Basic ' + btoa('panypan:Initial1'),
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                     'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -1013,7 +1013,7 @@ console.log('url: ',url);
                   method: 'get',
                   dataType: 'json',
                   headers: {
-                    //'Authorization': 'Basic ' + btoa('panypan:Initial1'),
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                     'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -1035,7 +1035,7 @@ console.log('url: ',url);
                   //data.lineChartAxis = new Array(axis);
                   //data.lineChartValue = new Array(value);
                   console.log('item1 in forEach -------------- ',item1);
-                  
+                  console.log(avg_time);
 
                   item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
                   item1.guidArr.push(data.FACTOR_NAME_S);
