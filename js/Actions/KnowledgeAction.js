@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 
 
 
+
 export function GetCapaData(param)
 {
   return dispatch=>{
