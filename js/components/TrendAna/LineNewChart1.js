@@ -84,7 +84,7 @@ import HighCharts from "highcharts"
 		        },
 		        series: [
 		         {
-		            name: 'AVG Response Time [s]',
+		            name: 'Response Time [s]',
 		            type: 'column',
 		            yAxis: 0,
 		            data: this.props.chartContent.data,

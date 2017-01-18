@@ -513,7 +513,7 @@
             });
             copydata.lineChartAxis = new Array(axis);
             copydata.lineChartAvgTime = new Array(avg_time);
-            copydata.lineChartTotalTime = new Array(total_time);
+            copydata.lineChartValue = new Array(total_time);
             copydata.lineChartStep = new Array(step);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
@@ -559,7 +559,7 @@ console.log('url: ',url);
               month_entries.push(item.MONTHLY_ENTRIES);
             });
             copydata.lineChartAxis = new Array(axis);
-            copydata.lineChartTotalEntries = new Array(total_entries);
+            copydata.lineChartValue = new Array(total_entries);
             copydata.lineChartMonthEntries = new Array(month_entries);
             $.each(that.displayAreaData, function (idx, item) {
               if (pageStatus === item.pageStatus) {
@@ -971,8 +971,8 @@ console.log('url: ',url);
                   item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
                   item1.guidArr.push(data.FACTOR_NAME_S);
                   item1.lineChartAxis.push(axis);
-                  item1.lineChartTotalEntries.push(total_entries);
-                  item1.lineChartMonthEntries.push(month_entries);
+                  item1.lineChartValue.push(total_entries);
+             //     item1.lineChartMonthEntries.push(month_entries);
                   item1.category.push(data.category);
                   that.trigger(item.content);
                   /*$.each(that.displayAreaData, function (idx, item) {
@@ -1040,9 +1040,9 @@ console.log('url: ',url);
                   item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
                   item1.guidArr.push(data.FACTOR_NAME_S);
                   item1.lineChartAxis.push(axis);
-                  item1.lineChartAvgTime.push(avg_time);
-                  item1.lineChartTotalTime.push(total_time);
-                  item1.lineChartStep.push(step);
+              //    item1.lineChartAvgTime.push(avg_time);
+                  item1.lineChartValue.push(total_time);
+                //  item1.lineChartStep.push(step);
                   item1.category.push(data.category);
 
                   that.trigger(item.content);

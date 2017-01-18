@@ -93,10 +93,10 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 					if(one.lineChartAxis)
 					{
-							origin=one.lineChartTotalTime[0]
-						for(var i=1;i<one.lineChartTotalTime.length;i++)
+							origin=one.lineChartValue[0]
+						for(var i=1;i<one.lineChartValue.length;i++)
 						{
-							let factordata = one.lineChartTotalTime[i]
+							let factordata = one.lineChartValue[i]
 // WIF  donnt handle the factor data 
 							if(currentStatus.indexOf("ANALYSIS_WIF")== -1)
 							for (var g=1;g<factordata.length;g++)
@@ -115,8 +115,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 
 					}
-					console.log(factors)
-
 
 			})
 			if(currentStatus.indexOf("ANALYSIS_WIF")> -1 )
