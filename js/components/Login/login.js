@@ -55,7 +55,17 @@ export default class Login extends React.Component {
         }.bind(this),1000);*/
 
     }
- 
+    SidChange(e){
+        this.setState({
+          sid:e.target.value
+        })
+    }
+    CltChange(e){
+        this.setState({
+          clt:e.target.value
+        })
+    }
+
     UserChange(e){
 
         this.setState({
@@ -128,14 +138,16 @@ export default class Login extends React.Component {
 
     }
     saveUsrInfo(){
+     
       var username = this.refs.username.refs.input.value.toUpperCase();
       var usr_cus_id = this.refs.usr_cus_id.refs.input.value;
+
       var pwd1 = this.refs.pwd1.refs.input.value;
       var pwd2 = this.refs.pwd2.refs.input.value;
 
       var token;
       var valid = true;
-       
+
           if(username == ""){
             valid = false;
             token={
@@ -168,6 +180,8 @@ export default class Login extends React.Component {
           
             }
           }
+      
+      
         if(valid){
           if(pwd2 == ""){
             valid = false;
@@ -244,6 +258,23 @@ export default class Login extends React.Component {
             {token.error=="password"?"error":""}
 
             <Form horizontal id="login-form">
+
+              <FormItem
+                wrapperCol={{ span: 16 }}
+                validateStatus={token.error=="sid"?"error":""}
+                help={token.error=="sid"?token.hint:""}
+              >
+                <Input placeholder="System Id" onChange={this.SidChange.bind(this)}/>
+              </FormItem>
+
+              <FormItem
+                wrapperCol={{ span: 16 }}
+                validateStatus={token.error=="clt"?"error":""}
+                help={token.error=="clt"?token.hint:""}
+              >
+                <Input placeholder="Client" onChange={this.CltChange.bind(this)}/>
+              </FormItem>
+
               <FormItem               
     
                 wrapperCol={{ span: 16 }}
@@ -262,7 +293,7 @@ export default class Login extends React.Component {
                 help={token.error=="username"?token.hint:""}
               >
                 <Input placeholder="UserName" onChange={this.UserChange.bind(this)}/>
-              </FormItem>
+              </FormItem>              
               
               <FormItem                
     

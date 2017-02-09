@@ -12,8 +12,30 @@ var pageStatusDataStore = window.pageStatusDataStore
 return dispatch=>{
 
 dispatch({type:"AUTH_VALIDATING"});
-  console.log(parameter);
-    if(!parameter.customer_id){
+    console.log(parameter);
+    var valid = true;
+    if(!parameter.sid){
+      valid = false;
+      var data = {
+        authorized:false,
+        error:"sid",
+        hint:"input system id",
+        user:null
+      }
+      dispatch({type:"AUTH_SET_TOKEN",payload:data});
+    }
+    if(valid && !parameter.clt){
+      valid = false;
+      var data = {
+        authorized:false,
+        error:"clt",
+        hint:"input client number",
+        user:null
+      }
+      dispatch({type:"AUTH_SET_TOKEN",payload:data});
+    }
+    if(valid){
+      if(!parameter.customer_id){
       var data = {
           authorized:false,
           error:"customer_id",
@@ -34,31 +56,66 @@ dispatch({type:"AUTH_VALIDATING"});
       }
       
     }).then(function(response,err){
-      var data = response.data.d.results;
+      var results = response.data.d.results;
 
-      if(data.length!=0)
+      if(results.length!=0)
       {
 
-      		if(data[0].USERNAME == parameter.username &&data[0].CUSTOMER_ID == parameter.customer_id && data[0].PASSWORD == parameter.password)
-      		{
-      			data = {
+          if(results[0].USERNAME == parameter.username && results[0].CUSTOMER_ID == parameter.customer_id && results[0].PASSWORD == parameter.password)
+          {
+             
+              axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+parameter.customer_id +
+                " and SID eq '"+parameter.sid+"' and CLIENT eq '"+parameter.clt+"'",{
+              headers:{
+                'X-My-Custom-Header':'Header-Value',
+                'content-type':'application/json'
+              },
+              auth:{
+                username:'zengheng',
+                password:'Sap12345'
+              }
+            }).then(function(res){
+              var res = res.data.d.results;
+              if(res.length > 0){
 
-      				authorized:true,
-      				user:data[0],
-      				hint:"logged"
-      			}
-              pageStatusDataStore.setUpCustomerID(data[0]);
-      		}
-      		else 
-      		{
-			       data = {
+                
+                data = {
+                  authorized:true,
+                  user:{
+                    USERNAME:parameter.username,
+                    CUSTOMER_ID:parameter.customer_id,
+                    SID:parameter.sid,
+                    CLIENT:parameter.clt
+                  },
+                  hint:"logged"
+                }
+                pageStatusDataStore.setUpCustomerID(results[0]);
+                dispatch({type:"AUTH_SET_TOKEN",payload:data});
+              
+              }
+              else{
+                data = {
+                  authorized:false,
+                  error:"sid",
+                  hint:"incorrect system id or client",
+                  user:null
+                }
+                dispatch({type:"AUTH_SET_TOKEN",payload:data});
+              }
+            })
+            
+          }
+          else 
+          {
+             data = {
 
-      				authorized:false,
-      				error:"password",
-      				hint:"incorrect password",
-      				user:null
-      			}
-      		}
+              authorized:false,
+              error:"password",
+              hint:"incorrect password",
+              user:null
+            }
+            dispatch({type:"AUTH_SET_TOKEN",payload:data});
+          }
       }
       else{
 
@@ -68,17 +125,20 @@ dispatch({type:"AUTH_VALIDATING"});
           error:"username",
           hint:"incorrect username",
         }
+        dispatch({type:"AUTH_SET_TOKEN",payload:data});
 
       }
 
 
-      dispatch({type:"AUTH_SET_TOKEN",payload:data});
+      //dispatch({type:"AUTH_SET_TOKEN",payload:data});
      
     }).catch(function(err){
       console.log(err);
     })
 
   }
+    }
+    
   }
 }
 
