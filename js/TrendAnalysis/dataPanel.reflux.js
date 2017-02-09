@@ -480,8 +480,10 @@ console.log('prepare to run RCA -------', card);
     },
     getInitPageData: function getInitPageData(pageStatus) {
 
-    var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
-    var logCustomerId = logCustomerInfo.CUSTOMER_ID;
+    var logInfo =  global.pageStatusDataStore.getCustomerID();
+    var logCustomerId = logInfo.CUSTOMER_ID;
+    var logSid = logInfo.SID;
+    var logClient = logInfo.CLIENT;
 
       var ajaxData = [];
       var that = this;
@@ -494,8 +496,8 @@ console.log('prepare to run RCA -------', card);
       };*/
 
       var urls = {
-        bUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=B&sysId=KEV&sysClt=001',
-        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=S&sysId=KEV&sysClt=001',
+        bUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=B&sysId='+logSid+'&sysClt='+logClient,
+        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=S&sysId='+logSid+'&sysClt='+logClient,
         rUrl: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
       };
       /*var urls = {
