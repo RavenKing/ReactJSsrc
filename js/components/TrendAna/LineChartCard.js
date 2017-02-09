@@ -412,8 +412,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 						var param = {
 							chartContent:{
 								factorCate:"B",
-								total_data:this.props.card.lineChartTotalEntries[0],
-								month_data:this.props.card.lineChartMonthEntries[0],
+								total_data:this.props.card.lineChartValue[i],
+							//	month_data:this.props.card.lineChartMonthEntries[0],
 								chartCateAxis:this.props.card.lineChartAxis,
 								axisMin: this.state.rangeMin,
 								axisMax: this.state.rangeMax
@@ -421,18 +421,18 @@ var dataPanelDataStore = window.dataPanelDataStore
 						}
 					}
 					else {//"S"
-						chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+						chartValueArr = this.props.card.lineChartValue[i].slice();
 						if(this.state.timeType == "AVG"){
-							chartValueArr = this.props.card.lineChartAvgTime[0].slice();
+							chartValueArr = this.props.card.lineChartAvgTime[i].slice();
 						}
 						else if(this.state.timeType == "TOTAL"){//"total"
-							chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+							chartValueArr = this.props.card.lineChartValue[i].slice();
 						}					
 						var param = {
 							chartContent:{	
 								factorCate:"S",					
 								data:chartValueArr,
-								steps:this.props.card.lineChartStep[0],
+							//	steps:this.props.card.lineChartStep[0],
 								chartCateAxis:this.props.card.lineChartAxis,
 								axisMin: this.state.rangeMin,
 								axisMax: this.state.rangeMax
@@ -460,7 +460,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 					var param = {
 						chartContent:{
 							factorCate:"B",
-							total_data:this.props.card.lineChartTotalEntries[0],
+							total_data:this.props.card.lineChartValue[0],
 							month_data:this.props.card.lineChartMonthEntries[0],
 							chartCateAxis:this.props.card.lineChartAxis,
 							axisMin: this.state.rangeMin,
@@ -471,12 +471,12 @@ var dataPanelDataStore = window.dataPanelDataStore
 					subLineChart = React.createElement(LineNewChart,param);
 				}
 				else{//"S"
-					chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+					chartValueArr = this.props.card.lineChartValue[0].slice();
 					if(this.state.timeType == "AVG"){
 						chartValueArr = this.props.card.lineChartAvgTime[0].slice();
 					}
 					else if(this.state.timeType == "TOTAL"){//"total"
-						chartValueArr = this.props.card.lineChartTotalTime[0].slice();
+						chartValueArr = this.props.card.lineChartValue[0].slice();
 					}					
 					var param = {
 						chartContent:{	

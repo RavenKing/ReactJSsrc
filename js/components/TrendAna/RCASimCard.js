@@ -89,7 +89,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 			let factors = [];
 			let currentStatus = pageStatusDataStore.getCurrentStatus();
 			gooddata.filter((one)=>{
-					if(one.lineChartValue)
+
+
+					if(one.lineChartAxis)
 					{
 							origin=one.lineChartValue[0]
 						for(var i=1;i<one.lineChartValue.length;i++)
@@ -113,8 +115,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 
 					}
-					console.log(factors)
-
 
 			})
 			if(currentStatus.indexOf("ANALYSIS_WIF")> -1 )
