@@ -182,7 +182,7 @@ li {
   width:700px;
 }
 .detail-panel { 
-  width:650px; 
+  width:750px; 
 }
 
 .data-card:hover, .line-card:hover, .pie-card:hover , .create-obj-card:hover, .upload-card:hover, .comment-card:hover,.detail-panel:hover, .create-panel:hover, .edit-panel:hover, .main-panel:hover{

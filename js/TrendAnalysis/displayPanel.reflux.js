@@ -13,6 +13,37 @@
       content: []
     }],
 
+
+          getSystemIDbyCustomer:function getSystemIDbyCustomer(customer_id)
+      {
+
+          var url = "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+customer_id;
+            $.ajax({
+              url: url,
+              method: 'GET',
+              async: false,
+              headers: {
+                'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'DataServiceVersion': '2.0',
+                'X-CSRF-Token': 'Fetch'
+              }
+            }).done(function (resp) {
+              console.log(resp)
+          return resp.d.results;
+
+              }).fail(function () {
+              console.error('Create object error:');
+              console.error(arguments);
+          //    flag = false;
+            });
+  
+
+      },
+
+
     trendSimulation: function(dataInfo, getSimResult) {
       console.log(dataInfo);
 

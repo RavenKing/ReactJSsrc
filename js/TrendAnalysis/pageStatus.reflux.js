@@ -54,5 +54,6 @@
       {
         return this.pageStatusData.customerInfo;
       }
+
   });
 })(window.Reflux, window);
