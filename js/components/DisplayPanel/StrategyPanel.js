@@ -54,7 +54,7 @@ export default class StrategyPanel extends React.Component {
         priority:"High",
         reason:"due delivery list in the system"
       }
-      ];d
+      ];
       var columns = [{
         title: 'Strategy Method',
         width:"130px",
