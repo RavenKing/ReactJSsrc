@@ -18,8 +18,8 @@
   global.pageStatusDataStore = Reflux.createStore({
     listenables: [global.pageStatusChangeActions],
     pageStatusData: {
-      currentStatus: "INIT",
-      pageStatusArr: ["INIT"]
+      currentStatus: "INIT0",
+      pageStatusArr: ["INIT0"]
     },
     onPageStatusChangeAction: function onPageStatusChangeAction(pageStatus) {
       this.pageStatusData.currentStatus = pageStatus;

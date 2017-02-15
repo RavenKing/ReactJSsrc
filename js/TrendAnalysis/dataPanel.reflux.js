@@ -8,7 +8,7 @@
   global.dataPanelDataStore = Reflux.createStore({
     listenables: [global.dataPanelItemChangeActions],
     dataPanelData: [{
-      pageStatus: "INIT",
+      pageStatus: "INIT0",
       content: []
     }],
     onDataPanelItemAddAction: function onDataPanelItemAddAction(pageStatus, data) {
@@ -468,6 +468,23 @@ console.log('prepare to run RCA -------', card);
     getDataPanelData: function getDataPanelData(pageStatus) {
 
       switch (pageStatus) {
+        case "INIT0":
+          var data = [
+          {
+            title:"Bisiness",
+            objList:[]
+          },
+          {
+            title:"Service",
+            objList:[]
+          },
+          {
+            title:"Resource",
+            objList:[]
+          }]
+
+          dataPanelItemChangeActions.dataPanelItemAddAction(pageStatus, data);
+          break;
         case "INIT":
           this.getInitPageData(pageStatus);
           break;

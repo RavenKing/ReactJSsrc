@@ -9,7 +9,7 @@
   global.displayAreaDataStore = Reflux.createStore({
     listenables: [global.displayAreaChangeActions],
     displayAreaData: [{
-      pageStatus: "INIT",
+      pageStatus: "INIT0",
       content: []
     }],
 
@@ -318,7 +318,16 @@
       var that = this;
       console.log('add card action');
       console.log(data);
-      switch (copydata.type) {
+      switch (data.type) {
+        case 'INIT0':
+          $.each(that.displayAreaData,function(idx,item){
+            if(pageStatus === item.pageStatus){
+              item.content.push(data);
+              that.trigger(item.content);
+            }
+          });
+
+          break;
         case 'COM':
 
           $.each(that.displayAreaData,function(idx,item){
@@ -1123,18 +1132,66 @@ console.log('url: ',url);
     },
     getData: function getData(pageStatus) {
       if (pageStatus) {
-        var tmpData = [];
-        $.each(this.displayAreaData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
-            tmpData = item.content;
-            return false;
-          }
-        });
+        if(pageStatus == "INIT0"){
+          var data = this.getInitData("INIT0");
+          return data;
+        }
+        
+        else{
+          var tmpData = [];
+          $.each(this.displayAreaData, function (idx, item) {
+            if (pageStatus === item.pageStatus) {
+              tmpData = item.content;
+              return false;
+            }
+          });
 
-        return tmpData;
+          return tmpData;
+        }
+        
       } else {
         return this.displayAreaData;
       }
+        
+    },
+    getInitData: function getInitData(pageStatus) {
+       if(pageStatus == "INIT0"){
+          var logInfo =  global.pageStatusDataStore.getCustomerID();
+          var logCustomerId = logInfo.CUSTOMER_ID;
+          var url = "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+logCustomerId;
+          
+          $.ajax({
+            url: url,
+            method: 'get',
+            dataType: 'json',
+            headers: {
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (data) { 
+            var results = data.d.results;
+              if(results.length > 0){
+                var data = {
+                  logInfo:results,
+                  type:"INIT0"
+                };
+                displayAreaChangeActions.displayAreaAddCardAction("INIT0",data);
+                return data;
+              }         
+              else{
+                return this.displayAreaData;
+              }
+                         
+          }).fail(function () {
+          console.error('Data panel fetch error:');
+          console.error(arguments);
+        });
+      };
+       
     },
     isStatusExisted: function isStatusExisted(pageStatus) {
       var flag = 0;

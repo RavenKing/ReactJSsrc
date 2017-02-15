@@ -1,4 +1,5 @@
 import React from "react"
+import SysCltCard from "./SysCltCard";
 import DataCard from "./DataCard";
 import LineChartCard from "./LineChartCard";
 import PieChartCard from "./PieChartCard";
@@ -43,7 +44,7 @@ if (!rc) {
     getInitialState: function getInitialState() {
       console.log(this.props);
       return {
-        cards: displayAreaDataStore.getData("INIT")
+        cards: displayAreaDataStore.getData("INIT0")
       };
     },
 
@@ -207,8 +208,11 @@ if (!rc) {
     render: function render() {
       return React.createElement(
         'div',
-        { className: (!this.state.cards.length) ? 'display-panel help-bg' : 'display-panel' },
+        { className: (!this.state.cards || !this.state.cards.length) ? 'display-panel help-bg' : 'display-panel' },
         this.state.cards.map(function (item) {
+         // if(item.type == 'INIT0') {
+           // return React.createElement(SYSCLTCard,{ key: item.id + "SysCltCard", card: item});
+          //}
           if (item.type == 'TITLE') {
             return React.createElement(DataCard, { key: item.id + "DataCard", card: item });
 

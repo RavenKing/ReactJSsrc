@@ -55,16 +55,6 @@ export default class Login extends React.Component {
         }.bind(this),1000);*/
 
     }
-    SidChange(e){
-        this.setState({
-          sid:e.target.value
-        })
-    }
-    CltChange(e){
-        this.setState({
-          clt:e.target.value
-        })
-    }
 
     UserChange(e){
 
@@ -99,14 +89,12 @@ export default class Login extends React.Component {
       //customer information
         var cus_id = this.refs.cus_id.refs.input.value;
         var cus_name = this.refs.cus_name.refs.input.value;
-        var sid = this.refs.sid.refs.input.value;
-        var client = this.refs.client.refs.input.value;
         var industry = this.state.industry;
         var region = this.state.region;
         var country = this.refs.country.refs.input.value;
         var city = this.refs.city.refs.input.value;
-      var valid = true;
-      var token;
+        var valid = true;
+        var token;
       
       
           //but customer id is empty
@@ -258,22 +246,6 @@ export default class Login extends React.Component {
             {token.error=="password"?"error":""}
 
             <Form horizontal id="login-form">
-
-              <FormItem
-                wrapperCol={{ span: 16 }}
-                validateStatus={token.error=="sid"?"error":""}
-                help={token.error=="sid"?token.hint:""}
-              >
-                <Input placeholder="System Id" onChange={this.SidChange.bind(this)}/>
-              </FormItem>
-
-              <FormItem
-                wrapperCol={{ span: 16 }}
-                validateStatus={token.error=="clt"?"error":""}
-                help={token.error=="clt"?token.hint:""}
-              >
-                <Input placeholder="Client" onChange={this.CltChange.bind(this)}/>
-              </FormItem>
 
               <FormItem               
     

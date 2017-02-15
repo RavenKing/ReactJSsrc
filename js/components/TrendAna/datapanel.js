@@ -236,7 +236,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
 
     getInitialState: function getInitialState() {
       return {
-        dataPanelData: dataPanelDataStore.getData("INIT")
+        dataPanelData: dataPanelDataStore.getData("INIT0")
       };
     },
 

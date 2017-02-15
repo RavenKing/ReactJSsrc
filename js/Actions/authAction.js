@@ -14,97 +14,49 @@ return dispatch=>{
 dispatch({type:"AUTH_VALIDATING"});
     console.log(parameter);
     var valid = true;
-    if(!parameter.sid){
-      valid = false;
-      var data = {
+    var data;
+    if(!parameter.customer_id){
+      data = {
         authorized:false,
-        error:"sid",
-        hint:"input system id",
+        error:"customer_id",
+        hint:"input customer id",
         user:null
-      }
-      dispatch({type:"AUTH_SET_TOKEN",payload:data});
-    }
-    if(valid && !parameter.clt){
-      valid = false;
-      var data = {
-        authorized:false,
-        error:"clt",
-        hint:"input client number",
-        user:null
-      }
-      dispatch({type:"AUTH_SET_TOKEN",payload:data});
-    }
-    if(valid){
-      if(!parameter.customer_id){
-      var data = {
-          authorized:false,
-          error:"customer_id",
-          hint:"input customer id",
-          user:null
       };
       dispatch({type:"AUTH_SET_TOKEN",payload:data});
+     
     }
     else{
-   axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH1?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
-      headers:{
-        'X-My-Custom-Header':'Header-Value',
-        'content-type':'application/json'
-      },
-      auth:{
-        username:'zengheng',
-        password:'Sap12345'
-      }
+      axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/AUTH1?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
+        headers:{
+          'X-My-Custom-Header':'Header-Value',
+          'content-type':'application/json'
+        },
+        auth:{
+          username:'zengheng',
+          password:'Sap12345'
+        }
       
-    }).then(function(response,err){
-      var results = response.data.d.results;
+      }).then(function(response,err){
+        var results = response.data.d.results;
 
-      if(results.length!=0)
-      {
+        if(results.length!=0)
+        {
 
           if(results[0].USERNAME == parameter.username && results[0].CUSTOMER_ID == parameter.customer_id && results[0].PASSWORD == parameter.password)
           {
-             
-              axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+parameter.customer_id +
-                " and SID eq '"+parameter.sid+"' and CLIENT eq '"+parameter.clt+"'",{
-              headers:{
-                'X-My-Custom-Header':'Header-Value',
-                'content-type':'application/json'
-              },
-              auth:{
-                username:'zengheng',
-                password:'Sap12345'
-              }
-            }).then(function(res){
-              var res = res.data.d.results;
-              if(res.length > 0){
-
-                
-                data = {
+                        
+              data = {
                   authorized:true,
                   user:{
                     USERNAME:parameter.username,
                     CUSTOMER_ID:parameter.customer_id,
-                    SID:parameter.sid,
-                    CLIENT:parameter.clt
                   },
                   hint:"logged"
-                }
-                pageStatusDataStore.setUpCustomerID(results[0]);
-                dispatch({type:"AUTH_SET_TOKEN",payload:data});
+              }
+              pageStatusDataStore.setUpCustomerID(results[0]);
               
-              }
-              else{
-                data = {
-                  authorized:false,
-                  error:"sid",
-                  hint:"incorrect system id or client",
-                  user:null
-                }
-                dispatch({type:"AUTH_SET_TOKEN",payload:data});
-              }
-            })
-            
-          }
+              
+          }        
           else 
           {
              data = {
@@ -114,7 +66,7 @@ dispatch({type:"AUTH_VALIDATING"});
               hint:"incorrect password",
               user:null
             }
-            dispatch({type:"AUTH_SET_TOKEN",payload:data});
+            
           }
       }
       else{
@@ -125,12 +77,12 @@ dispatch({type:"AUTH_VALIDATING"});
           error:"username",
           hint:"incorrect username",
         }
-        dispatch({type:"AUTH_SET_TOKEN",payload:data});
+        
 
       }
 
 
-      //dispatch({type:"AUTH_SET_TOKEN",payload:data});
+      dispatch({type:"AUTH_SET_TOKEN",payload:data});
      
     }).catch(function(err){
       console.log(err);
@@ -140,7 +92,7 @@ dispatch({type:"AUTH_VALIDATING"});
     }
     
   }
-}
+
 
 export function invalidateAuthToken () {
   window.localStorage.removeItem('authToken')
