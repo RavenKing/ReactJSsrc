@@ -528,7 +528,7 @@
 
         if(copydata.category[0] == 'S')
         {
-          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=\'' + sid + '\'&sysClt=\'' + client + '\'&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=\'' + copydata.FACTOR_NAME[0]+'\'';
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
           console.log('ITEM url: ',url);
           console.log('RCA data ----', copydata);
           $.ajax({
@@ -579,7 +579,7 @@
         else if(copydata.category[0] == 'B')
         {
           console.log(copydata)
-          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=\'' + sid + '\'&sysClt=\'' + client + '\'&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=\'' + copydata.FACTOR_NAME[0]+'\'';
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
 console.log('url: ',url);
           $.ajax({
             url: url,

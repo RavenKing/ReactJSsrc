@@ -22,81 +22,88 @@
       });
     },
     onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus) {
-
-      var anaType = pageStatus.substr(9,3);
-
-      if(anaType == "RCA"){
+      if(pageStatus == "INIT"){
         this.dataPanelData.push({
-          pageStatus: pageStatus,
-          content: [{
-            title: "Performance",
-            objList: []
-          }, {
-            title: "Service",
-            objList: []
-          }, {
-            title: "Business",
-            objList: []
-          }, {
-            title: "Resource",
-            objList: []
-          }]
-        });
+          pageStatus:pageStatus,
+          content:[]
+        })
+      }
+      else{
+        var anaType = pageStatus.substr(9,3);
+
+        if(anaType == "RCA"){
+          this.dataPanelData.push({
+            pageStatus: pageStatus,
+            content: [{
+              title: "Performance",
+              objList: []
+            }, {
+              title: "Service",
+              objList: []
+            }, {
+              title: "Business",
+              objList: []
+            }, {
+              title: "Resource",
+              objList: []
+            }]
+          });
+
+        }
+        else if(anaType == "DVM"){
+          this.dataPanelData.push({
+            pageStatus: pageStatus,
+            content: [{
+              title: "Arch Obj",
+              objList: []
+            }, {
+              title: "Tables",
+              objList: []
+            }, {
+              title: "Strategy",
+              objList: []
+            }, {
+              title: "Residence Time",
+              objList: []
+            }]
+          });
+
+        }
+        else if(anaType == "WIF"){
+          this.dataPanelData.push({
+            pageStatus: pageStatus,
+            content: [{
+              title: "Performance",
+              objList: []
+            }, {
+              title: "Service",
+              objList: []
+            }, {
+              title: "Business",
+              objList: []
+            }, {
+              title: "Resource",
+              objList: []
+            }]
+          });
+        }
+        else if(pageStatus == "CAPACITY_MGMT"){
+
+          this.dataPanelData.push({
+            pageStatus: pageStatus,
+            content: [{
+              title: "WL Overview",
+              objList: []
+            }, {
+              title: "WL History",
+              objList: []
+            }]
+          });
+
+        }      
 
       }
-      else if(anaType == "DVM"){
-        this.dataPanelData.push({
-          pageStatus: pageStatus,
-          content: [{
-            title: "Arch Obj",
-            objList: []
-          }, {
-            title: "Tables",
-            objList: []
-          }, {
-            title: "Strategy",
-            objList: []
-          }, {
-            title: "Residence Time",
-            objList: []
-          }]
-        });
-
-
-      }
-      else if(anaType == "WIF"){
-        this.dataPanelData.push({
-          pageStatus: pageStatus,
-          content: [{
-            title: "Performance",
-            objList: []
-          }, {
-            title: "Service",
-            objList: []
-          }, {
-            title: "Business",
-            objList: []
-          }, {
-            title: "Resource",
-            objList: []
-          }]
-        });
-      }
-      else if(pageStatus == "CAPACITY_MGMT"){
-
-        this.dataPanelData.push({
-          pageStatus: pageStatus,
-          content: [{
-            title: "WL Overview",
-            objList: []
-          }, {
-            title: "WL History",
-            objList: []
-          }]
-        });
-
-      }
-
+      
       
     },
     onDataPanelRemovePageAction: function onDataPanelRemovePageAction(pageStatus) {
@@ -498,9 +505,9 @@ console.log('prepare to run RCA -------', card);
     getInitPageData: function getInitPageData(pageStatus) {
 
     var logInfo =  global.pageStatusDataStore.getCustomerID();
-    var logCustomerId = logInfo.CUSTOMER_ID;
-    var logSid = logInfo.SID;
-    var logClient = logInfo.CLIENT;
+    var customerId = logInfo.CUSTOMER_ID;
+    var sid = logInfo.SID;
+    var client = logInfo.CLIENT;
 
       var ajaxData = [];
       var that = this;
@@ -513,8 +520,8 @@ console.log('prepare to run RCA -------', card);
       };*/
 
       var urls = {
-        bUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=B&sysId='+logSid+'&sysClt='+logClient,
-        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=S&sysId='+logSid+'&sysClt='+logClient,
+        bUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=B&sysId='+sid+'&sysClt='+client,
+        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=S&sysId='+sid+'&sysClt='+client,
         rUrl: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
       };
       /*var urls = {

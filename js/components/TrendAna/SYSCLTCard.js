@@ -34,7 +34,7 @@ export default class SYSCLTCard extends React.Component {
     render() {
         var logInfo = this.props.card.logInfo;
         var selections = logInfo.map((item)=>{
-          return <CardTemplate name={item.SID} description={item.CLIENT}/>
+          return <CardTemplate name={item.SID} description={item.CLIENT} key1 = "INIT0"/>
         })
         
         return (

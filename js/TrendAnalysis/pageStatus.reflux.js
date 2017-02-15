@@ -49,11 +49,16 @@
     },
     setUpCustomerID:function setUpCustomerID(customerdata){
       this.pageStatusData.customerInfo = customerdata;
-      },
-      getCustomerID:function getCustomerID()
-      {
-        return this.pageStatusData.customerInfo;
-      }
+    },
+    setLogInfo:function setLogInfo(sid,client){
+      this.pageStatusData.customerInfo.SID = sid;
+      this.pageStatusData.customerInfo.CLIENT = client;
+    },
+    getCustomerID:function getCustomerID()
+    {
+      return this.pageStatusData.customerInfo;
+    }
+    
 
   });
 })(window.Reflux, window);

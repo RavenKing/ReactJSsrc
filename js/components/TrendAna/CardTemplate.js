@@ -35,20 +35,27 @@ export default class TemplateSelect extends React.Component {
 
     ModeSelect(){
 
-        const props = this.props;
-        const { card } = props;
-        var that = this;
-        var draggableElement = event.relatedTarget,
-            dropzoneElement = event.target;
-        var currentStatus = pageStatusDataStore.getCurrentStatus();
-        var cardId = card.id;
-        
         var datatype= this.props.key1;
-        var factorCate = card.category[0];
-        console.log(factorCate);
-        var factorName = card.FACTOR_NAME[0];
+        if(datatype == "INIT0"){
+          var nextStatus = "INIT";
+          pageStatusChangeActions.pageStatusAddAction(nextStatus);         
+          dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
+          pageStatusChangeActions.pageStatusChangeAction(nextStatus);
+          pageStatusDataStore.setLogInfo(this.props.name,this.props.description);
+          
+        }
+        else{
+          const { card } = this.props;
+          var that = this;
+          var draggableElement = event.relatedTarget,
+              dropzoneElement = event.target;
+          var currentStatus = pageStatusDataStore.getCurrentStatus();
+          var cardId = card.id;
+          var factorCate = card.category[0];
+          console.log(factorCate);
+          var factorName = card.FACTOR_NAME[0];
         
-        if(datatype == "CAPA"){
+          if(datatype == "CAPA"){
             var nextStatus = "ANALYSIS_RCA_" + factorName;
 
             if(pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
@@ -176,12 +183,14 @@ export default class TemplateSelect extends React.Component {
                   pageStatusChangeActions.pageStatusChangeAction(nextStatus);
                 }
               }
+        }
+        
+        
               
 
 
 
-          console.log(this.props)
-          console.log(this.props.key1)
+         
 
     } 
 
