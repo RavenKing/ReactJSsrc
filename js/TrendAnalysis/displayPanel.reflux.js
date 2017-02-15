@@ -1132,24 +1132,25 @@ console.log('url: ',url);
     },
     getData: function getData(pageStatus) {
       if (pageStatus) {
-        if(pageStatus == "INIT0"){
-          var data = this.getInitData("INIT0");
-          return data;
-        }
-        
-        else{
-          var tmpData = [];
-          $.each(this.displayAreaData, function (idx, item) {
-            if (pageStatus === item.pageStatus) {
-              tmpData = item.content;
-              return false;
+        var that = this;
+        var tmpData = [];
+        $.each(this.displayAreaData, function (idx, item) {
+          if (pageStatus === item.pageStatus) {
+            if (item.content.length === 0) {
+              that.getInitData("INIT0");
             }
-          });
+            else{
+              tmpData = item.content;
+              
+            }
+            return false; 
+          }
+        });
 
-          return tmpData;
-        }
+        return tmpData;
+      }
         
-      } else {
+      else {
         return this.displayAreaData;
       }
         
@@ -1180,11 +1181,9 @@ console.log('url: ',url);
                   type:"INIT0"
                 };
                 displayAreaChangeActions.displayAreaAddCardAction("INIT0",data);
-                return data;
+                
               }         
-              else{
-                return this.displayAreaData;
-              }
+              
                          
           }).fail(function () {
           console.error('Data panel fetch error:');

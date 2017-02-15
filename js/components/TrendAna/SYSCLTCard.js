@@ -21,16 +21,16 @@ export default class SYSCLTCard extends React.Component {
 
 
     render() {
-        var data = this.props.card;
-        var logInfo = data.map((item)=>{
-          <CardTemplate name={item.SID} description={item.CLIENT}/>
+        var logInfo = this.props.card.logInfo;
+        var selections = logInfo.map((item)=>{
+          return <CardTemplate name={item.SID} description={item.CLIENT}/>
         })
         
         return (
 
             <div class="templatecontainer aligncenter"> 
          
-                {logInfo}
+                {selections}
 
             </div>
 
