@@ -40,6 +40,7 @@ export default class TemplateSelect extends React.Component {
           var nextStatus = "INIT";
           pageStatusChangeActions.pageStatusAddAction(nextStatus);         
           dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
+          displayAreaChangeActions.displayAreaAddPageAction(nextStatus);
           pageStatusChangeActions.pageStatusChangeAction(nextStatus);
           pageStatusDataStore.setLogInfo(this.props.name,this.props.description);
           
@@ -83,7 +84,7 @@ export default class TemplateSelect extends React.Component {
                     nextData.systemClt = that.props.card.systemClt;
 
 
-                    displayAreaChangeActions.displayAreaAddPageAction(nextStatus, cardId);
+                    displayAreaChangeActions.displayAreaAddPageAction(nextStatus);
                     dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
                     functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
                     displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng

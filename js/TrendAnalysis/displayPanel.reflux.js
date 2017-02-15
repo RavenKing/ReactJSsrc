@@ -935,7 +935,7 @@ console.log('url: ',url);
         }
       });
     },
-    onDisplayAreaAddPageAction: function onDisplayAreaAddPageAction(pageStatus, cardId) {
+    onDisplayAreaAddPageAction: function onDisplayAreaAddPageAction(pageStatus) {
       /*var tmpObj = {};
       $.each(this.displayAreaData, function (idx, item) {
         if (item.pageStatus === "INIT") {
@@ -1136,7 +1136,7 @@ console.log('url: ',url);
         var tmpData = [];
         $.each(this.displayAreaData, function (idx, item) {
           if (pageStatus === item.pageStatus) {
-            if (item.content.length === 0) {
+            if (pageStatus == "INIT0" && item.content.length === 0) {
               that.getInitData("INIT0");
             }
             else{
