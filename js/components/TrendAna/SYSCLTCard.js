@@ -16,9 +16,20 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 export default class SYSCLTCard extends React.Component {
 
-   
+    constructor(props){
+      
+        super(props);
+        this.state={
+          tsvisible:true
+          
+        } 
+    }  
 
-
+    onSetUnvisible(){
+      this.setState({
+        tsvisible:false
+      })
+    }
 
     render() {
         var logInfo = this.props.card.logInfo;
@@ -27,12 +38,16 @@ export default class SYSCLTCard extends React.Component {
         })
         
         return (
+            <Modal title="select system and client"
+                footer= {false}
+                onCancel={()=>{this.onSetUnvisible()} }  visible={this.state.tsvisible}>
 
-            <div class="templatecontainer aligncenter"> 
-         
-                {selections}
+                <div class="templatecontainer aligncenter">          
+                  {selections}
+                </div>
+            </Modal>
 
-            </div>
+            
 
          
 
