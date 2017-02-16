@@ -1114,6 +1114,33 @@ console.log('url: ',url);
             return false;
           }
         });
+    }else if(pageStatus == "INIT0"){
+
+         $.each(this.displayAreaData, function (idx, item) {
+          if (pageStatus === item.pageStatus) {
+              $.ajax({
+                url: "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO",
+                method: 'POST',
+                async: true,
+                data: JSON.stringify(data),
+                headers: {
+                  'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                  'X-Requested-With': 'XMLHttpRequest',
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'DataServiceVersion': '2.0',
+                  'X-CSRF-Token': 'Fetch'
+                }
+              }).done(function (resp) {                
+                item.content[0].logInfo.push(data);
+                that.trigger(item.content);
+              }).fail(function(){
+                console.log('Add systems failed')
+                console.log(arguments);
+              })
+        
+          }
+        })
     }
     },
     onDisplayAreaUpdateCardPosAction: function onDisplayAreaUpdateCardPosAction(cardId, pos) {

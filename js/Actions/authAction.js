@@ -111,8 +111,6 @@ export function CusRegister(data){
   return dispatch=>{
     var customer_id = data.customer_id;
     var customer_name = data.customer_name;    
-    var sid = data.sid;
-    var client = data.client;
     var industry = data.industry;
     var region = data.region;
     var country = data.country;
@@ -135,8 +133,6 @@ export function CusRegister(data){
         INDUSTRY:industry,
         COUNTRY:country,
         CITY:city,
-        SYSTEMID:sid,
-        CLIENT:client,
         REGION:region
     },
     config).then(function(response){
@@ -263,13 +259,34 @@ export function UserRegister(data){
       }).catch(function(response){
         console.log(response);
       })
-
-    
-
-
-
-
-
     
 }
+}
+
+export function AddSystem(data){
+  var sid = data.sid;
+  var client = data.client;
+  var customer_id = data.customer_id;
+  return dispatch=>{
+      axios.post("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO",{
+        CUSTOMER_ID:customer_id,
+        SID:sid,
+        CLIENT:client
+      },{
+      headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        },
+      auth: {
+        username: 'zengheng',
+        password: 'Sap12345'
+      }
+    }).then(function(response){
+      //dispatch({type:"ADD_SYSTEM",payload:data});
+      const modal = Modal.success({
+        title: 'Successfully register! ',
+        content: 'You have regitered done',
+      });
+    })
+  }
 }

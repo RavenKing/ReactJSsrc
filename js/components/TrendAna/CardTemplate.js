@@ -200,7 +200,7 @@ export default class TemplateSelect extends React.Component {
     render() {
 
         return (
-  <Card class="margin10" style={{ width: 160 }} onClick={this.ModeSelect.bind(this)}>
+  <Card class="margin10" style={{ width: 150 }} onClick={this.ModeSelect.bind(this)}>
   <div class="custom-size">
         {this.props.name}
         </div>

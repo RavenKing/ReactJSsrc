@@ -114,8 +114,6 @@ export default class Login extends React.Component {
           var regCusInfo = {};
           regCusInfo.customer_id = cus_id;
           regCusInfo.customer_name = cus_name;
-          regCusInfo.sid = sid;
-          regCusInfo.client = client;
           regCusInfo.industry = industry;
           regCusInfo.region = region;
           regCusInfo.country = country;
@@ -329,24 +327,6 @@ export default class Login extends React.Component {
                     
                   >
                   <Input ref="cus_name"/>
-                  </FormItem>
-
-                  <FormItem
-                    label="System ID:"
-                    labelCol={{ span: 7 }}
-                    wrapperCol={{ span: 12 }}
-                    
-                  >
-                  <Input  ref="sid"/>
-                  </FormItem>
-
-                  <FormItem
-                    label="Client:"
-                    labelCol={{ span: 7 }}
-                    wrapperCol={{ span: 12 }}
-                    
-                  >
-                  <Input  ref="client"/>
                   </FormItem>
 
                   <FormItem
