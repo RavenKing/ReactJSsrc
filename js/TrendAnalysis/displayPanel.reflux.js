@@ -21,6 +21,7 @@
           getSystemIDbyCustomer:function getSystemIDbyCustomer(customer_id)
       {
 
+
           var url = "/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+customer_id;
             $.ajax({
               url: url,
@@ -432,23 +433,23 @@
           var url = '';
           switch (copydata.title) {
             case 'Business':
-              //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc';
-              //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\'&$orderby=TREND desc';
+
+              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc';
+              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \''+ sid +'\' and SYSCLT eq \''+ client +'\' and FACTOR_CATEGORY eq \'B\'&$orderby=TREND desc';
               break;
 
             case 'Service':
-              //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\'&$orderby=TREND desc';
-
+              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \''+ sid +'\' and SYSCLT eq \''+ client +'\' and FACTOR_CATEGORY eq \'S\'&$orderby=TREND desc';
               
               break;
 
             case 'Resource':
+              //url = 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
+              url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \''+ sid +'\' and SYSCLT eq \''+ client +'\' and FACTOR_CATEGORY eq \'R\'&$orderby=TREND desc';
+              break;
 
-              //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
-              url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'R\'&$orderby=TREND desc';
-            break;
 
             default:
               ;
@@ -533,7 +534,11 @@
 
         if(copydata.category[0] == 'S')
         {
+<<<<<<< HEAD
           var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
+=======
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
+>>>>>>> cassie
           console.log('ITEM url: ',url);
           console.log('RCA data ----', copydata);
           $.ajax({
@@ -584,8 +589,12 @@
         else if(copydata.category[0] == 'B')
         {
           console.log(copydata)
+<<<<<<< HEAD
           var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
 
+=======
+          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
+>>>>>>> cassie
 console.log('url: ',url);
           $.ajax({
             url: url,
@@ -755,8 +764,12 @@ console.log('url: ',url);
         case "CPM-RFC":
           console.log('go to dataStore CPM drilldown ------ ', copydata);
 
+<<<<<<< HEAD
           var url = "/SmartOperations/services/getTransaction.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
 
+=======
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getTransaction.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
+>>>>>>> cassie
 
           $.ajax({
             url: url,
@@ -806,8 +819,12 @@ console.log('url: ',url);
 
         case "CPM-History":
 
+<<<<<<< HEAD
           var url = "/SmartOperations/services/getWLHistory.xsjs?customerId=" + copydata.customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
 
+=======
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLHistory.xsjs?customerId=" + customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
+>>>>>>> cassie
 
           $.ajax({
             url: url,
@@ -873,8 +890,12 @@ console.log('url: ',url);
             });*/
 
           //////////
+<<<<<<< HEAD
           var url = "/SmartOperations/services/getWLOverview.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
 
+=======
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
+>>>>>>> cassie
 
           $.ajax({
             url: url,

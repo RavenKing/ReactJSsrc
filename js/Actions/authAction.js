@@ -26,16 +26,16 @@ dispatch({type:"AUTH_VALIDATING"});
      
     }
     else{
-   axios.get("/SmartOperations/services/authorization.xsodata/AUTH1?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
-      headers:{
-        'X-My-Custom-Header':'Header-Value',
-        'content-type':'application/json'
-      },
-      auth:{
-        username:'zengheng',
-        password:'Sap12345'
-      }
 
+      axios.get("/SmartOperations/services/authorization.xsodata/AUTH1?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
+        headers:{
+          'X-My-Custom-Header':'Header-Value',
+          'content-type':'application/json'
+        },
+        auth:{
+          username:'zengheng',
+          password:'Sap12345'
+        }
       
       }).then(function(response,err){
         var results = response.data.d.results;
@@ -269,6 +269,7 @@ export function AddSystem(data){
   var client = data.client;
   var customer_id = data.customer_id;
   return dispatch=>{
+
       axios.post("/SmartOperations/services/authorization.xsodata/LOGONINFO",{
         CUSTOMER_ID:customer_id,
         SID:sid,

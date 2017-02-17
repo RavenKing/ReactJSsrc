@@ -109,7 +109,6 @@
               break;
 
           }     
-
         }
       }
       
@@ -527,10 +526,10 @@ console.log('prepare to run RCA -------', card);
       };*/
 
       var urls = {
-        bUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=B&sysId=KEV&sysClt=001',
-        sUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=S&sysId=KEV&sysClt=001',
-        rUrl: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
 
+        bUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=B&sysId='+sid+'&sysClt='+client,
+        sUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=S&sysId='+sid+'&sysClt='+client,
+        rUrl: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
       };
       /*var urls = {
         bUrl: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5',
