@@ -50,10 +50,8 @@ var UploadCard = React.createClass({
 		getInitialState: function getInitialState() {
 			var curDate = new Date();
 			var curYearMonth = curDate.getFullYear().toString() + '-' + (curDate.getMonth()+1).toString();
-							var currentStatus = pageStatusDataStore.getCurrentStatus();
 
-			var client = currentStatus.client;
-			var sysId = currentStatus.sid;
+			var currentStatus = pageStatusDataStore.getCurrentStatus();
 
 
 			return {
@@ -66,8 +64,8 @@ var UploadCard = React.createClass({
 				checkType: true,
 				curYearMonth: curYearMonth,
 				taskType: "BACKGROUND",
-				sysID:client,
-				sysClt:sysId
+				sysID:currentStatus.sid,
+				sysClt:currentStatus.client
 				};
 		},
 		componentWillMount:function componentWillMount(){
@@ -440,10 +438,11 @@ var UploadCard = React.createClass({
 								Row,
 								{ style: { marginTop: 5} },
 								null,
-								React.createElement(
+											React.createElement(
 									Col,
 									{ span: 10 },
-									React.createElement(Input, { value:this.state.sysId ,disabled=true})
+
+									React.createElement(Input, { value:this.state.sysID ,disabled:true})
 								),
 								React.createElement(
 									Col,
