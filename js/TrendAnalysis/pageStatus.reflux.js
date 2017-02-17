@@ -18,8 +18,12 @@
   global.pageStatusDataStore = Reflux.createStore({
     listenables: [global.pageStatusChangeActions],
     pageStatusData: {
-      currentStatus: "INIT",
-      pageStatusArr: ["INIT"]
+      currentStatus: {
+        pageName:"INIT0",
+        sid:"",
+        client:""
+      },
+      pageStatusArr: [{"pageName":"INIT0","sid":"","client":""}]
     },
     onPageStatusChangeAction: function onPageStatusChangeAction(pageStatus) {
       this.pageStatusData.currentStatus = pageStatus;
@@ -28,11 +32,14 @@
       updateContentClassList(pageStatus);
     },
     onPageStatusAddAction: function onPageStatusAddAction(pageStatus) {
-      this.pageStatusData.pageStatusArr.push(pageStatus);
-      this.pageStatusData.currentStatus = pageStatus;
-      this.trigger(this.pageStatusData);
+      if(!this.isStatusExisted(pageStatus)){
+        this.pageStatusData.pageStatusArr.push(pageStatus);
+        this.pageStatusData.currentStatus = pageStatus;
+        this.trigger(this.pageStatusData);
 
-      updateContentClassList();
+        updateContentClassList();
+      }
+      
     },
     onPageStatusRemoveAction: function onPageStatusRemoveAction(removedPageStatus, newPageStatus) {
       this.pageStatusData.pageStatusArr.splice(this.pageStatusData.pageStatusArr.indexOf(removedPageStatus), 1);
@@ -49,10 +56,39 @@
     },
     setUpCustomerID:function setUpCustomerID(customerdata){
       this.pageStatusData.customerInfo = customerdata;
-      },
-      getCustomerID:function getCustomerID()
-      {
-        return this.pageStatusData.customerInfo;
+    },
+    setLogInfo:function setLogInfo(sid,client){
+      //this.pageStatusData.customerInfo.SID = sid;
+      //this.pageStatusData.customerInfo.CLIENT = client;
+
+      this.pageStatusData.currentStatus.sid = sid;
+      this.pageStatusData.currentStatus.client = client;
+    },
+    getCustomerID:function getCustomerID()
+    {
+      return this.pageStatusData.customerInfo;
+    },
+    isStatusEqual:function isStatusEqual(pageStatus1,pageStatus2){
+      if(pageStatus1.pageName === pageStatus2.pageName && pageStatus1.sid === pageStatus2.sid 
+        && pageStatus1.client === pageStatus2.client){
+        return true;
       }
+      else{
+        return false;
+      }
+    },
+    isStatusExisted: function isStatusExisted(pageStatus) {
+      var flag = 0;
+      var that = this;
+      $.each(this.pageStatusData, function (idx, item) {
+        if (that.isStatusEqual(item,pageStatus)) {
+          flag = 1;
+          return false;
+        }
+      });
+      return !!flag;
+    }
+    
+
   });
 })(window.Reflux, window);

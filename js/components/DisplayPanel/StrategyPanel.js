@@ -12,6 +12,49 @@ export default class StrategyPanel extends React.Component {
 
 
       const {Strategy } =this.props;
+
+      var ServiceColumns=[{
+        title:"Service",
+        width:"100px",
+        dataIndex:'service'
+      }, 
+      {
+        title:"Description",
+        width:"200px",
+        dataIndex:'description'
+      },{
+        title:"Reason",
+        width:"100px",
+        dataIndex:'reason'
+      },
+      {
+        title:"Priority",
+        width:"50px",
+        dataIndex:'priority'
+      },
+      {
+        title:'Action',
+        width:'50px',
+        render:(key)=>(<span><a rel='#'>request|</a><a rel='#'>details</a></span>)
+
+      }
+
+      ];
+
+      var ServiceData=[
+      {
+        service:"DVM Review",
+        description:"Review Current Strategy with SAP standard DVM methodology",
+        priority:"Medium",
+        reason:"archive efficiency in 2014 only 40% lower than industry benchmark 95% "
+      },   
+      {
+        service:"BPPO",
+        description:"The SAP Business Process Performance Optimization (BPPO) service optimizes core SAP business processes. The main objective of this service is to identify performance issues related to core business processes (e.g. sales order and warehouse management) for different SAP software products. ",
+        priority:"High",
+        reason:"due delivery list in the system"
+      }
+      ];
       var columns = [{
         title: 'Strategy Method',
         width:"130px",
@@ -126,8 +169,7 @@ export default class StrategyPanel extends React.Component {
                         />
                       </div>
           )
-        }
-
+        } 
         return (
         <div>
 
@@ -157,7 +199,17 @@ export default class StrategyPanel extends React.Component {
               <h2>Comments:</h2>
               <h4>{Strategy.COMMENT}</h4>
               </div>
+          
+      <div>
+        <h2>Service Recommandation</h2>
+        <br/>
+       <Table columns={ServiceColumns} dataSource={ServiceData} pagination={false} />
+            
+      </div>
+
           </div>
+
+
 
   
       );

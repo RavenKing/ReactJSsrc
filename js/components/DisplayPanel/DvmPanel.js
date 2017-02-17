@@ -4,6 +4,8 @@ import TableCharts from "./TableCharts";
 import StrategyPanel from "./StrategyPanel";
 import PredictPanel from "./PredictPanel";
 
+import ServiceRecom from "./ServiceRecom";
+
 import BestPanel from "./BestPanel";
 export default class DvmPanel extends React.Component {
     
@@ -35,7 +37,10 @@ export default class DvmPanel extends React.Component {
         displaydata=<h1>loading</h1>
     }
     else if(Page == 4){
-        displaydata = <PredictPanel/>
+        displaydata = <PredictPanel />
+    }   
+     else if(Page == 5){
+        displaydata = <ServiceRecom />
     }
 
         return (

@@ -35,21 +35,37 @@ export default class TemplateSelect extends React.Component {
 
     ModeSelect(){
 
-        const props = this.props;
-        const { card } = props;
-        var that = this;
-        var draggableElement = event.relatedTarget,
-            dropzoneElement = event.target;
-        var currentStatus = pageStatusDataStore.getCurrentStatus();
-        var cardId = card.id;
-        
         var datatype= this.props.key1;
-        var factorCate = card.category[0];
-        console.log(factorCate);
-        var factorName = card.FACTOR_NAME[0];
+        if(datatype == "INIT0"){
+          var nextStatus = {
+            pageName:"INIT",
+            sid:this.props.name,
+            client:this.props.description
+          };         
+          dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
+          displayAreaChangeActions.displayAreaAddPageAction(nextStatus);
+          functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
+          pageStatusChangeActions.pageStatusAddAction(nextStatus);
+          pageStatusDataStore.setLogInfo(this.props.name,this.props.description);
+          
+        }
+        else{
+          const { card } = this.props;
+          var that = this;
+          var draggableElement = event.relatedTarget,
+              dropzoneElement = event.target;
+          var currentStatus = pageStatusDataStore.getCurrentStatus();
+          var cardId = card.id;
+          var factorCate = card.category[0];
+          console.log(factorCate);
+          var factorName = card.FACTOR_NAME[0];
         
-        if(datatype == "CAPA"){
-            var nextStatus = "ANALYSIS_RCA_" + factorName;
+          if(datatype == "CAPA"){
+            var nextStatus = {
+              pageName:"ANALYSIS_RCA_" + factorName,
+              sid:currentStatus.sid,
+              client:currentStatus.client
+            }
 
             if(pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
                 var sIntervalCallId;
@@ -76,7 +92,7 @@ export default class TemplateSelect extends React.Component {
                     nextData.systemClt = that.props.card.systemClt;
 
 
-                    displayAreaChangeActions.displayAreaAddPageAction(nextStatus, cardId);
+                    displayAreaChangeActions.displayAreaAddPageAction(nextStatus);
                     dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
                     functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
                     displayAreaChangeActions.displayAreaAddCardAction(nextStatus,nextData);//zengheng
@@ -92,7 +108,11 @@ export default class TemplateSelect extends React.Component {
               }
               else if (datatype == "DVM" ){
 
-                  var nextStatus = "ANALYSIS_DVM_" + factorName;
+                  var nextStatus = {
+                    pageName:"ANALYSIS_DVM_" + factorName,
+                    sid:currentStatus.sid,
+                    client:currentStatus.client
+                  } 
                   var status = pageStatusDataStore.getAllStatus();
                   if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
                       var sIntervalCallId;
@@ -134,7 +154,11 @@ export default class TemplateSelect extends React.Component {
               }
               else{
 
-                  var nextStatus = "ANALYSIS_WIF_" + factorName;
+                  var nextStatus = {
+                    pageName:"ANALYSIS_WIF_" + factorName,
+                    sid:currentStatus.sid,
+                    client:currentStatus.client
+                  }
 
                   if(pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
                     var sIntervalCallId;
@@ -176,12 +200,14 @@ export default class TemplateSelect extends React.Component {
                   pageStatusChangeActions.pageStatusChangeAction(nextStatus);
                 }
               }
+        }
+        
+        
               
 
 
 
-          console.log(this.props)
-          console.log(this.props.key1)
+         
 
     } 
 
@@ -190,7 +216,7 @@ export default class TemplateSelect extends React.Component {
     render() {
 
         return (
-  <Card class="margin10" style={{ width: 160 }} onClick={this.ModeSelect.bind(this)}>
+  <Card class="margin10" style={{ width: 150 }} onClick={this.ModeSelect.bind(this)}>
   <div class="custom-size">
         {this.props.name}
         </div>
