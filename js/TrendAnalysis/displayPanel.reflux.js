@@ -9,7 +9,11 @@
   global.displayAreaDataStore = Reflux.createStore({
     listenables: [global.displayAreaChangeActions],
     displayAreaData: [{
-      pageStatus: "INIT0",
+      pageStatus: {
+        pageName:"INIT0",
+        sid:"",
+        client:""
+      },
       content: []
     }],
 
@@ -309,10 +313,9 @@
 
       data.id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
       //var customerId = data.customerId;
-      var logInfo =  global.pageStatusDataStore.getCustomerID();
-      var customerId = logInfo.CUSTOMER_ID;
-      var sid = logInfo.SID;
-      var client = logInfo.CLIENT;
+      var customerId =  global.pageStatusDataStore.getCustomerID().CUSTOMER_ID;
+      var sid = pageStatus.sid;
+      var client = pageStatus.client;
 
       let copydata = JSON.parse(JSON.stringify(data));
       var that = this;
@@ -321,7 +324,7 @@
       switch (data.type) {
         case 'INIT0':
           $.each(that.displayAreaData,function(idx,item){
-            if(pageStatus === item.pageStatus){
+            if(that.isStatusEqual(item.pageStatus,pageStatus)){
               item.content.push(data);
               that.trigger(item.content);
             }
@@ -331,7 +334,7 @@
         case 'COM':
 
           $.each(that.displayAreaData,function(idx,item){
-            if(pageStatus === item.pageStatus){
+            if(that.isStatusEqual(item.pageStatus,pageStatus)){
               item.content.push(copydata);
               that.trigger(item.content);
             }
@@ -342,7 +345,7 @@
 
 
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
               }
@@ -376,7 +379,7 @@
             copydata.objList = resp.d.results;
 
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
               }
@@ -412,7 +415,7 @@
             copydata.objList = resp.d.results;
 
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
               }
@@ -472,7 +475,7 @@
             copydata.objList = resp.d.results;
 
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -486,7 +489,7 @@
           break;
         case 'DVM-ITEM':
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 
                 var counter=0;
 
@@ -516,7 +519,7 @@
           break;
         case 'DVM-BLOCK':
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -561,7 +564,7 @@
             copydata.lineChartValue = new Array(total_time);
             copydata.lineChartStep = new Array(step);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 console.log('pageStatus chart = ');
                 console.log(pageStatus);
                 console.log('cardId = ');
@@ -607,7 +610,7 @@ console.log('url: ',url);
             copydata.lineChartValue = new Array(total_entries);
             copydata.lineChartMonthEntries = new Array(month_entries);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 console.log('pageStatus chart = ');
                 console.log(pageStatus);
                 console.log('cardId = ');
@@ -689,7 +692,7 @@ console.log('url: ',url);
           }
 
           $.each(that.displayAreaData, function (idx, item) {
-            if (pageStatus === item.pageStatus) {
+            if (that.isStatusEqual(item.pageStatus,pageStatus)) {
               item.content.push(copydata);
               that.trigger(item.content);
             }
@@ -697,7 +700,7 @@ console.log('url: ',url);
           break;
         case "RCA_SIM":
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -708,7 +711,7 @@ console.log('url: ',url);
         case "WHAT_IF":
           
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -719,7 +722,7 @@ console.log('url: ',url);
           break;
         case "SAVE":
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -728,7 +731,7 @@ console.log('url: ',url);
           break;
         case "ART_TEMP":
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -737,7 +740,7 @@ console.log('url: ',url);
           break;
         case "SAVE-ARTI":
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -783,7 +786,7 @@ console.log('url: ',url);
             copydata.chartDBValue = new Array(dbValueArr);
             copydata.chartCumValue = new Array(cumValueArr);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 
                 item.content.push(copydata);
                 that.trigger(item.content);
@@ -841,7 +844,7 @@ console.log('url: ',url);
             copydata.chartDBValue = new Array(dbValueArr);
             copydata.chartStepValue = new Array(stepValueArr);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 
                 item.content.push(copydata);
                 that.trigger(item.content);
@@ -899,7 +902,7 @@ console.log('url: ',url);
             copydata.chartDBValue = new Array(dbValueArr);
             copydata.chartCumValue = new Array(cumValueArr);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 
                 item.content.push(copydata);
                 that.trigger(item.content);
@@ -923,7 +926,7 @@ console.log('url: ',url);
       var index = 0;
       var that = this;
       $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             if (id === item1.id) {
               index = idx1;
@@ -967,7 +970,7 @@ console.log('url: ',url);
     onDisplayAreaRemovePageAction: function onDisplayAreaRemovePageAction(pageStatus) {
       var that = this;
       $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           that.displayAreaData.splice(idx, 1);
           return false;
         }
@@ -977,7 +980,7 @@ console.log('url: ',url);
       var that = this;
       if(data.category == 'B'){
         $.each(this.displayAreaData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
             $.each(item.content, function (idx1, item1) {
 
               if (item1.id === cardId) {
@@ -1043,7 +1046,7 @@ console.log('url: ',url);
         });
     }else if(data.category == 'S'){
       $.each(this.displayAreaData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
             $.each(item.content, function (idx1, item1) {
 
               if (item1.id === cardId) {
@@ -1117,7 +1120,7 @@ console.log('url: ',url);
     }else if(pageStatus == "INIT0"){
 
          $.each(this.displayAreaData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
               $.ajax({
                 url: "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO",
                 method: 'POST',
@@ -1144,8 +1147,9 @@ console.log('url: ',url);
     }
     },
     onDisplayAreaUpdateCardPosAction: function onDisplayAreaUpdateCardPosAction(cardId, pos) {
+      var that = this;
       $.each(this.displayAreaData, function (idx, item) {
-        if (pageStatusDataStore.getCurrentStatus() == item.pageStatus) {
+        if (that.isStatusEqual(pageStatusDataStore.getCurrentStatus(),item.pageStatus)) {
           $.each(item.content, function (i, obj) {
             if (cardId == obj.id) {
               obj.style.top = obj.style.top + pos.topOffset;
@@ -1162,9 +1166,9 @@ console.log('url: ',url);
         var that = this;
         var tmpData = [];
         $.each(this.displayAreaData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
-            if (pageStatus == "INIT0" && item.content.length === 0) {
-              that.getInitData("INIT0");
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+            if (pageStatus.pageName == "INIT0" && item.content.length === 0) {
+              that.getInitData(pageStatus);
             }
             else{
               tmpData = item.content;
@@ -1183,10 +1187,9 @@ console.log('url: ',url);
         
     },
     getInitData: function getInitData(pageStatus) {
-       if(pageStatus == "INIT0"){
-          var logInfo =  global.pageStatusDataStore.getCustomerID();
-          var logCustomerId = logInfo.CUSTOMER_ID;
-          var url = "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+logCustomerId;
+       if(pageStatus.pageName == "INIT0"){
+          var customerId =  global.pageStatusDataStore.getCustomerID().CUSTOMER_ID;
+          var url = "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+customerId;
           
           $.ajax({
             url: url,
@@ -1207,7 +1210,12 @@ console.log('url: ',url);
                   logInfo:results,
                   type:"INIT0"
                 };
-                displayAreaChangeActions.displayAreaAddCardAction("INIT0",data);
+                var pageStatus = {
+                  pageName:"INIT0",
+                  sid:"",
+                  client:""
+                }
+                displayAreaChangeActions.displayAreaAddCardAction(pageStatus,data);
                 
               }         
               
@@ -1219,20 +1227,10 @@ console.log('url: ',url);
       };
        
     },
-    isStatusExisted: function isStatusExisted(pageStatus) {
-      var flag = 0;
-      $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
-          flag = 1;
-          return false;
-        }
-      });
-      return !!flag;
-    },
     isCardExisted: function isCardExisted(pageStatus, cardType) {
       var flag = 0;
       $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             if (item1.type === cardType) {
               flag = 1;
@@ -1247,7 +1245,7 @@ console.log('url: ',url);
     getCardLineNumber: function getCardLineNumber(pageStatus, cardId) {
       var num = 0;
       $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             if (item1.id === cardId) {
               num = item1.guidArr.length;
@@ -1258,7 +1256,27 @@ console.log('url: ',url);
         }
       });
       return num;
-    }
+    },
+    isStatusEqual:function isStatusEqual(pageStatus1,pageStatus2){
+      if(pageStatus1.pageName === pageStatus2.pageName && pageStatus1.sid === pageStatus2.sid 
+        && pageStatus1.client === pageStatus2.client){
+        return true;
+      }
+      else{
+        return false;
+      }
+    },
+    isStatusExisted: function isStatusExisted(pageStatus) {
+      var flag = 0;
+      var that = this;
+      $.each(this.displayAreaData, function (idx, item) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+          flag = 1;
+          return false;
+        }
+      });
+      return !!flag;
+    },
 
   });
 })(window.Reflux, window.jQuery, window.dataPanelDataStore, window);

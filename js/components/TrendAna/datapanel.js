@@ -43,7 +43,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       var item = this.props.item;
 
-      if(currentStatus == "INIT"){
+      if(currentStatus.pageName == "INIT"){
 
         return React.createElement(
           Tooltip,
@@ -55,7 +55,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
               className: "data-item", type: "dashed",
               "key" :(new Date() + Math.floor(Math.random() * 999999)).toString(31),
               "data-type": "ITEM",
-              "data-info": currentStatus + "-ITEM",
+              "data-info": currentStatus.pageName+ "-ITEM",
               "data-factor_guid": this.props.item.FACTOR_GUID,
               "data-factor_name": this.props.item.FACTOR_NAME,
               "data-trend": this.props.item.TREND,
@@ -74,14 +74,14 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
           )
         );
       }
-      else if(currentStatus == "CAPACITY_MGMT"){///123456789
+      else if(currentStatus.pageName == "CAPACITY_MGMT"){///123456789
 
         if(this.props.item.category == "CPM-Overview"){
           return React.createElement(
               Button,
               { className: "data-item", type: "dashed",
                 "data-type": this.props.item.category,
-                "data-info": currentStatus + "-CPMITEM",
+                "data-info": currentStatus.pageName + "-CPMITEM",
                 "data-year": this.props.item.dateYear,
                 "data-month": this.props.item.dateMonth,
                 "data-factor_name": this.props.item.ITEM_NAME,
@@ -98,7 +98,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
               Button,
               { className: "data-item", type: "dashed",
                 
-                "data-info": currentStatus + "-CPMITEM",
+                "data-info": currentStatus.pageName + "-CPMITEM",
                 "data-factor_name": this.props.item.ITEM_NAME,
                 "data-type": this.props.item.category,
                 "data-m_count": this.props.item.monthCount,
@@ -144,7 +144,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
             Button,
             { className: "data-item", type: "dashed",
                 "data-type": "ITEM",
-                "data-info": currentStatus + "-ITEM",
+                "data-info": currentStatus.pageName+ "-ITEM",
                 "data-factor_guid": this.props.item.FACTOR_GUID,
                 "data-factor_name": this.props.item.FACTOR_NAME,
                 "data-trend": this.props.item.TREND,
@@ -164,7 +164,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
             Button,
             { className: "data-item-rca", type: "dashed",
               "data-type": "ITEM",
-              "data-info": currentStatus + "-ITEM",
+              "data-info": currentStatus.pageName + "-ITEM",
               "data-factor_guid": this.props.item.FACTOR_GUID,
               "data-factor_name": this.props.item.FACTOR_NAME,
                "key" :(new Date() + Math.floor(Math.random() * 999999)).toString(31),
@@ -215,7 +215,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
         "div",
         { className: "data-block", 
           "data-type": "TITLE", 
-          "data-info": currentStatus + "-BLOCK",
+          "data-info": currentStatus.pageName + "-BLOCK",
           "data-category": block.title,
           "data-customer_id":customerId
         },
@@ -235,8 +235,13 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
 
 
     getInitialState: function getInitialState() {
+      var pageStatus = {
+        pageName:"INIT0",
+        sid:"",
+        client:""
+      }
       return {
-        dataPanelData: dataPanelDataStore.getData("INIT0")
+        dataPanelData: dataPanelDataStore.getData(pageStatus)
       };
     },
 

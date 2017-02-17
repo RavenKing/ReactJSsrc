@@ -37,11 +37,15 @@ export default class TemplateSelect extends React.Component {
 
         var datatype= this.props.key1;
         if(datatype == "INIT0"){
-          var nextStatus = "INIT";
-          pageStatusChangeActions.pageStatusAddAction(nextStatus);         
+          var nextStatus = {
+            pageName:"INIT",
+            sid:this.props.name,
+            client:this.props.description
+          };         
           dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
           displayAreaChangeActions.displayAreaAddPageAction(nextStatus);
-          pageStatusChangeActions.pageStatusChangeAction(nextStatus);
+          functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
+          pageStatusChangeActions.pageStatusAddAction(nextStatus);
           pageStatusDataStore.setLogInfo(this.props.name,this.props.description);
           
         }
@@ -57,7 +61,11 @@ export default class TemplateSelect extends React.Component {
           var factorName = card.FACTOR_NAME[0];
         
           if(datatype == "CAPA"){
-            var nextStatus = "ANALYSIS_RCA_" + factorName;
+            var nextStatus = {
+              pageName:"ANALYSIS_RCA_" + factorName,
+              sid:currentStatus.sid,
+              client:currentStatus.client
+            }
 
             if(pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
                 var sIntervalCallId;
@@ -100,7 +108,11 @@ export default class TemplateSelect extends React.Component {
               }
               else if (datatype == "DVM" ){
 
-                  var nextStatus = "ANALYSIS_DVM_" + factorName;
+                  var nextStatus = {
+                    pageName:"ANALYSIS_DVM_" + factorName,
+                    sid:currentStatus.sid,
+                    client:currentStatus.client
+                  } 
                   var status = pageStatusDataStore.getAllStatus();
                   if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
                       var sIntervalCallId;
@@ -142,7 +154,11 @@ export default class TemplateSelect extends React.Component {
               }
               else{
 
-                  var nextStatus = "ANALYSIS_WIF_" + factorName;
+                  var nextStatus = {
+                    pageName:"ANALYSIS_WIF_" + factorName,
+                    sid:currentStatus.sid,
+                    client:currentStatus.client
+                  }
 
                   if(pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
                     var sIntervalCallId;

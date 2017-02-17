@@ -31,61 +31,84 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
     displayName: 'SwitchButton',
 
     handleChange: function handleChange(event) {
-      pageStatusChangeActions.pageStatusChangeAction(event.target.parentNode.getAttribute('data-status'));
+      var node = event.target.parentNode;
+      var pageStatus = {
+        pageName:node.getAttribute('data-name'),
+        sid:node.getAttribute('data-sid'),
+        client:node.getAttribute('data-client')
+      }
+      pageStatusChangeActions.pageStatusChangeAction(pageStatus);
     },
     handleDelete: function handleDelete(event) {
-      pageStatusChangeActions.pageStatusRemoveAction(event.target.parentNode.getAttribute('data-status'), 'INIT');
-      dataPanelItemChangeActions.dataPanelRemovePageAction(event.target.parentNode.getAttribute('data-status'));
-      displayAreaChangeActions.displayAreaRemovePageAction(event.target.parentNode.getAttribute('data-status'));
-      functionPanelItemChangeActions.functionPanelRemovePageAction(event.target.parentNode.getAttribute('data-status'));
+      var node = event.target.parentNode;
+      var pageStatus = {
+        pageName:node.getAttribute('data-name'),
+        sid:node.getAttribute('data-sid'),
+        client:node.getAttribute('data-client')
+      }
+      var init0Status = {
+        pageName:"INIT0",
+        sid:"",
+        client:""
+      }
+      pageStatusChangeActions.pageStatusRemoveAction(pageStatus, init0Status);
+      dataPanelItemChangeActions.dataPanelRemovePageAction(pageStatus);
+      displayAreaChangeActions.displayAreaRemovePageAction(pageStatus);
+      functionPanelItemChangeActions.functionPanelRemovePageAction(pageStatus);
     },
     render: function render() {
       var statuses = pageStatusDataStore.getAllStatus();
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       var options = [];
       for (var i = 0; i < statuses.length; i++) {
-        if (statuses[i] == 'INIT') {
-          if (statuses[i] == currentStatus) {
+        if (statuses[i].pageName == 'INIT') {
+          if (statuses[i].pageName == currentStatus.pageName) {
             options.push(React.createElement(
               'li',
               { disabled: true },
               React.createElement(
                 'span',
                 null,
-                statuses[i]
+                statuses[i].pageName+" "+statuses[i].sid+" "+statuses[i].client
               )
             ));
           } else {
             options.push(React.createElement(
               'li',
-              { 'data-status': statuses[i] },
+              { 'data-name': statuses[i].pageName,
+                'data-sid':statuses[i].sid,
+                'data-client':statuses[i].client
+              },
               React.createElement(
                 'span',
                 { onClick: this.handleChange },
-                statuses[i]
+                statuses[i].pageName+" "+statuses[i].sid+" "+statuses[i].client
               )
             ));
           }
         } else {
-          if (statuses[i] == currentStatus) {
+          if (statuses[i].pageName == currentStatus.pageName) {
             options.push(React.createElement(
               'li',
               { disabled: true },
               React.createElement(
                 'span',
                 null,
-                statuses[i]
+                statuses[i].pageName+" "+statuses[i].sid+" "+statuses[i].client
               ),
               React.createElement(Icon, { type: 'cross', disabled: true })
             ));
           } else {
             options.push(React.createElement(
               'li',
-              { 'data-status': statuses[i] },
+              { 'data-name': statuses[i].pageName,
+                'data-sid':statuses[i].sid,
+                'data-client':statuses[i].client
+              },
               React.createElement(
                 'span',
                 { onClick: this.handleChange },
-                statuses[i]
+                statuses[i].pageName+" "+statuses[i].sid+" "+statuses[i].client
               ),
               React.createElement(Icon, { type: 'cross', onClick: this.handleDelete })
             ));
@@ -319,7 +342,7 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
 
     render: function render() {
 
-      if(pageStatusDataStore.getCurrentStatus() == "INIT"){
+      if(pageStatusDataStore.getCurrentStatus().pageName == "INIT"){
         var buttons = [];
         this.props.funs.forEach(function (fun) {
           buttons.push(React.createElement(FunctionButton, { fun: fun }));
@@ -351,8 +374,13 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
     displayName: 'FunctionPanel',
 
     getInitialState: function getInitialState() {
+      var pageStatus = {
+        pageName:"INIT0",
+        sid:"",
+        client:""
+      }
       return {
-        funs: functionPanelDataStore.getData("INIT")
+        funs: functionPanelDataStore.getData(pageStatus)
       };
     },
 

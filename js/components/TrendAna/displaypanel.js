@@ -43,8 +43,13 @@ if (!rc) {
 
     getInitialState: function getInitialState() {
       console.log(this.props);
+      var pageStatus = {
+        pageName:"INIT0",
+        sid:"",
+        client:""
+      }
       return {
-        cards: displayAreaDataStore.getData("INIT0")
+        cards: displayAreaDataStore.getData(pageStatus)
       };
     },
 

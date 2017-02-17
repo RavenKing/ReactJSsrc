@@ -35,7 +35,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 				// }
 				var currentStatus = pageStatusDataStore.getCurrentStatus();
 
-				if (currentStatus === "INIT" || this.props.card.type !== "ITEM-ANA" || currentStatus.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
+				if (currentStatus.pageName === "INIT" || this.props.card.type !== "ITEM-ANA" || currentStatus.pageName.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
 
 					displayAreaChangeActions.displayAreaRemoveCardAction(currentStatus, that.props.card.id);
 				} else {
@@ -284,9 +284,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 							}
 							
 							break;
-						case currentStatus + "-ITEM":
-							if (currentStatus != "INIT" && that.props.card.type === "ITEM-ANA") {
-								if(currentStatus.indexOf("ANALYSIS_RCA") > -1||currentStatus.indexOf("ANALYSIS_WIF") > -1){
+						case currentStatus.pageName + "-ITEM":
+							if (currentStatus.pageName != "INIT" && that.props.card.type === "ITEM-ANA") {
+								if(currentStatus.pageName.indexOf("ANALYSIS_RCA") > -1||currentStatus.pageName.indexOf("ANALYSIS_WIF") > -1){
 									data.guid = draggableElement.getAttribute('data-factor_guid');
 									data.FACTOR_NAME_S = draggableElement.getAttribute('data-factor_name');
 									data.category = draggableElement.getAttribute('data-category');
@@ -297,7 +297,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 									console.log(data);
 									displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId);
 								}
-								else if(currentStatus.indexOf("ANALYSIS_DVM") > -1){
+								else if(currentStatus.pageName.indexOf("ANALYSIS_DVM") > -1){
 									data.factor_name = draggableElement.getAttribute('data-factor_name');
 									data.factor_info = draggableElement.getAttribute('data-factor_info');
 									data.category = draggableElement.getAttribute('data-category');
@@ -308,8 +308,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 								
 							}
 							break;
-						case currentStatus + "-BLOCK":
-							console.log('case ' + currentStatus + '-BLOCK');
+						case currentStatus.pageName + "-BLOCK":
+							console.log('case ' + currentStatus.pageName + '-BLOCK');
 							var currentStatus = pageStatusDataStore.getCurrentStatus();
     						
 							data.title = draggableElement.getAttribute('data-category');
