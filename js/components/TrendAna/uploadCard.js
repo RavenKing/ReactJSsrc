@@ -50,10 +50,11 @@ var UploadCard = React.createClass({
 		getInitialState: function getInitialState() {
 			var curDate = new Date();
 			var curYearMonth = curDate.getFullYear().toString() + '-' + (curDate.getMonth()+1).toString();
-			var getSelectData=null;
-			   setTimeout(function(){
-			    getSelectData = global.displayAreaDataStore.getSystemIDbyCustomer("1001");
-			   }.bind(this),1000);
+							var currentStatus = pageStatusDataStore.getCurrentStatus();
+
+			var client = currentStatus.client;
+			var sysId = currentStatus.sid;
+
 
 			return {
 				echoData: false,
@@ -65,9 +66,8 @@ var UploadCard = React.createClass({
 				checkType: true,
 				curYearMonth: curYearMonth,
 				taskType: "BACKGROUND",
-				sysID:"KEV",
-				sysClt:"001",
-				selection:getSelectData
+				sysID:client,
+				sysClt:sysId
 				};
 		},
 		componentWillMount:function componentWillMount(){
@@ -140,16 +140,6 @@ var UploadCard = React.createClass({
 				checkType: ((!!value) && (!!this.state.curYearMonth)) ? false : true
 			});
 		},
-
-		ChangeSys:function ChangeSys(e)
-		{
-			this.setState({sysId:e.target.value})
-		},
-		ChangeClient:function ChangeClient(e)
-		{
-			this.setState({sysClt:e.target.value})
-		},
-
 		onChangeTime: function onChangeTime(value,dateString) {
 			console.log('Year/Month = ',dateString.slice(0,4), dateString.slice(5,7));
 			this.setState({
@@ -229,7 +219,7 @@ var UploadCard = React.createClass({
 				name: 'file',
 				accept: '.csv',
 
-				action: 'http://10.97.144.117:8000/SmartOperations/services/testUpload.xsjs',
+				action: '/SmartOperations/services/testUpload.xsjs',
 				headers: {
 					authorization: 'Basic ' + btoa('ZENGHENG:Sap12345')
 				},
@@ -434,21 +424,6 @@ var UploadCard = React.createClass({
 								      <Select.Option value="BACKGROUND">BACKGROUND</Select.Option>
 								      <Select.Option value="RFC">RFC</Select.Option>
 								    </Select>
-								)
-							),
-							React.createElement(
-								Row,
-								{ style: { marginTop: 5} },
-								null,
-								React.createElement(
-									Col,
-									{ span: 10 },
-									React.createElement(Input, { onChange:this.ChangeSys})
-								),
-								React.createElement(
-									Col,
-									{ span: 12 },
- 									<Input placeholder="Input Client" onChange={this.ChangeClient}/>
 								)
 							)
 						);
