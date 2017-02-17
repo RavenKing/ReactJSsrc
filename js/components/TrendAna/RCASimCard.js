@@ -35,7 +35,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 				// }
 				var currentStatus = pageStatusDataStore.getCurrentStatus();
 
-				if (currentStatus === "INIT" || this.props.card.type !== "ITEM-ANA" || currentStatus.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
+				if (currentStatus.pageName === "INIT" || this.props.card.type !== "ITEM-ANA" || currentStatus.pageName.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
 
 					displayAreaChangeActions.displayAreaRemoveCardAction(currentStatus, that.props.card.id);
 				} else {
@@ -98,7 +98,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 						{
 							let factordata = one.lineChartValue[i]
 // WIF  donnt handle the factor data 
-							if(currentStatus.indexOf("ANALYSIS_WIF")== -1)
+							if(currentStatus.pageName.indexOf("ANALYSIS_WIF")== -1)
 							for (var g=1;g<factordata.length;g++)
 							{
 
@@ -117,7 +117,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 					}
 
 			})
-			if(currentStatus.indexOf("ANALYSIS_WIF")> -1 )
+			if(currentStatus.pageName.indexOf("ANALYSIS_WIF")> -1 )
 			{
 
 				let mathdata = (simOptions[0]+100)/100;

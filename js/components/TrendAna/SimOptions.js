@@ -76,7 +76,7 @@ if( currentStatus.indexOf("ANALYSIS_WIF")>-1)
   	const that = this;
     const { getFieldProps, getFieldValue } = this.props.form;
 let formItems=<h1></h1>
-if(currentStatus.indexOf("ANALYSIS_WIF")>-1)
+if(currentStatus.pageName.indexOf("ANALYSIS_WIF")>-1)
   {  getFieldProps('keys', {
       initialValue: that.state.target,
     });
