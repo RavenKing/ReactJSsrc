@@ -66,7 +66,7 @@ export default class SYSCLTCard extends React.Component {
           CLIENT:client
         }
         var pageStatus = {
-          pagename:"INIT0",
+          pageName:"INIT0",
           sid:"",
           client:"" 
                  }
