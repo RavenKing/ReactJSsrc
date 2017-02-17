@@ -140,6 +140,16 @@ var UploadCard = React.createClass({
 				checkType: ((!!value) && (!!this.state.curYearMonth)) ? false : true
 			});
 		},
+
+		ChangeSys:function ChangeSys(e)
+		{
+			this.setState({sysId:e.target.value})
+		},
+		ChangeClient:function ChangeClient(e)
+		{
+			this.setState({sysClt:e.target.value})
+		},
+
 		onChangeTime: function onChangeTime(value,dateString) {
 			console.log('Year/Month = ',dateString.slice(0,4), dateString.slice(5,7));
 			this.setState({
@@ -424,6 +434,21 @@ var UploadCard = React.createClass({
 								      <Select.Option value="BACKGROUND">BACKGROUND</Select.Option>
 								      <Select.Option value="RFC">RFC</Select.Option>
 								    </Select>
+								)
+							),
+							React.createElement(
+								Row,
+								{ style: { marginTop: 5} },
+								null,
+								React.createElement(
+									Col,
+									{ span: 10 },
+									React.createElement(Input, { value:this.state.sysId ,disabled=true})
+								),
+								React.createElement(
+									Col,
+									{ span: 12 },
+ 									<Input placeholder="Input Client" value={this.state.sysClt} disabled={true}/>
 								)
 							)
 						);
