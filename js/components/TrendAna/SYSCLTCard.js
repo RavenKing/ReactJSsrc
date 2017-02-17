@@ -65,8 +65,13 @@ export default class SYSCLTCard extends React.Component {
           SID:sid.toUpperCase(),
           CLIENT:client
         }
+        var pageStatus = {
+          pagename:"INIT0",
+          sid:"",
+          client:"" 
+                 }
         //this.props.dispatch(AddSystem(data));
-        displayAreaChangeActions.displayAreaChangeCardAction("INIT0",data,this.props.card.id);
+        displayAreaChangeActions.displayAreaChangeCardAction(pageStatus,data,this.props.card.id);
         const modal = Modal.success({
           title:'Successfully!',
           content:'New System Added Successfully!'
