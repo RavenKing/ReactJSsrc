@@ -534,11 +534,9 @@
 
         if(copydata.category[0] == 'S')
         {
-<<<<<<< HEAD
-          var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
-=======
-          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
->>>>>>> cassie
+
+          var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
+
           console.log('ITEM url: ',url);
           console.log('RCA data ----', copydata);
           $.ajax({
@@ -589,12 +587,9 @@
         else if(copydata.category[0] == 'B')
         {
           console.log(copydata)
-<<<<<<< HEAD
-          var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
 
-=======
-          var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
->>>>>>> cassie
+          var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
+
 console.log('url: ',url);
           $.ajax({
             url: url,
@@ -764,12 +759,8 @@ console.log('url: ',url);
         case "CPM-RFC":
           console.log('go to dataStore CPM drilldown ------ ', copydata);
 
-<<<<<<< HEAD
-          var url = "/SmartOperations/services/getTransaction.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
+          var url = "/SmartOperations/services/getTransaction.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
 
-=======
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getTransaction.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
->>>>>>> cassie
 
           $.ajax({
             url: url,
@@ -819,12 +810,8 @@ console.log('url: ',url);
 
         case "CPM-History":
 
-<<<<<<< HEAD
-          var url = "/SmartOperations/services/getWLHistory.xsjs?customerId=" + copydata.customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
 
-=======
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLHistory.xsjs?customerId=" + customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
->>>>>>> cassie
+          var url = "/SmartOperations/services/getWLHistory.xsjs?customerId=" + customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
 
           $.ajax({
             url: url,
@@ -890,12 +877,9 @@ console.log('url: ',url);
             });*/
 
           //////////
-<<<<<<< HEAD
-          var url = "/SmartOperations/services/getWLOverview.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
 
-=======
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
->>>>>>> cassie
+          var url = "/SmartOperations/services/getWLOverview.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
+
 
           $.ajax({
             url: url,
@@ -1144,12 +1128,12 @@ console.log('url: ',url);
             return false;
           }
         });
-    }else if(pageStatus == "INIT0"){
+    }else if(pageStatus.pageName == "INIT0"){
 
          $.each(this.displayAreaData, function (idx, item) {
           if (that.isStatusEqual(item.pageStatus,pageStatus)) {
               $.ajax({
-                url: "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO",
+                url: "/SmartOperations/services/authorization.xsodata/LOGONINFO",
                 method: 'POST',
                 async: true,
                 data: JSON.stringify(data),
@@ -1216,7 +1200,7 @@ console.log('url: ',url);
     getInitData: function getInitData(pageStatus) {
        if(pageStatus.pageName == "INIT0"){
           var customerId =  global.pageStatusDataStore.getCustomerID().CUSTOMER_ID;
-          var url = "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+customerId;
+          var url = "/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+customerId;
           
           $.ajax({
             url: url,
