@@ -1117,7 +1117,7 @@ console.log('url: ',url);
             return false;
           }
         });
-    }else if(pageStatus == "INIT0"){
+    }else if(pageStatus.pageName == "INIT0"){
 
          $.each(this.displayAreaData, function (idx, item) {
           if (that.isStatusEqual(item.pageStatus,pageStatus)) {
