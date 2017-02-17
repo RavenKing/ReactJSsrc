@@ -1256,6 +1256,7 @@ console.log('url: ',url);
     },
     isCardExisted: function isCardExisted(pageStatus, cardType) {
       var flag = 0;
+      var that = this;
       $.each(this.displayAreaData, function (idx, item) {
         if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
@@ -1271,6 +1272,7 @@ console.log('url: ',url);
     },
     getCardLineNumber: function getCardLineNumber(pageStatus, cardId) {
       var num = 0;
+      var that = this;
       $.each(this.displayAreaData, function (idx, item) {
         if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
