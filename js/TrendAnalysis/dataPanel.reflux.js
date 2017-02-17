@@ -8,101 +8,116 @@
   global.dataPanelDataStore = Reflux.createStore({
     listenables: [global.dataPanelItemChangeActions],
     dataPanelData: [{
-      pageStatus: "INIT",
+      pageStatus:{
+        pageName:"INIT0",
+        sid:"",
+        client:
+        ""
+      },
       content: []
     }],
     onDataPanelItemAddAction: function onDataPanelItemAddAction(pageStatus, data) {
       var that = this;
       $.each(this.dataPanelData, function (idx, item) {
-        if (pageStatus === item.pageStatus) {
+        if(that.isStatusEqual(pageStatus,item.pageStatus)){//equal
           item.content = data;
           that.trigger(item.content);
           return false;
         }
+        
       });
     },
     onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus) {
+      if(!this.isStatusExisted(pageStatus)){
 
-      var anaType = pageStatus.substr(9,3);
+        if(pageStatus.pageName == "INIT"){
+          this.dataPanelData.push({
+            pageStatus:pageStatus,
+            content:[]
+          })
+        }
+      
+        else if(pageStatus.pageName == "CAPACITY_MGMT"){
+          this.dataPanelData.push({
+              pageStatus: pageStatus,
+              content: [{
+                title: "WL Overview",
+                objList: []
+              }, {
+                title: "WL History",
+                objList: []
+              }]
+            });
+        }
+        else{
+          var anaType = pageStatus.pageName.substr(9,3);
+          switch(anaType){
+            case "RCA":
+              this.dataPanelData.push({
+                pageStatus: pageStatus,
+                content: [{
+                  title: "Performance",
+                  objList: []
+                }, {
+                  title: "Service",
+                  objList: []
+                }, {
+                  title: "Business",
+                  objList: []
+                }, {
+                  title: "Resource",
+                  objList: []
+                }]
+              });
+              break;
+            case "DVM":
+              this.dataPanelData.push({
+                pageStatus: pageStatus,
+                content: [{
+                  title: "Arch Obj",
+                  objList: []
+                }, {
+                  title: "Tables",
+                  objList: []
+                }, {
+                  title: "Strategy",
+                  objList: []
+                }, {
+                  title: "Residence Time",
+                  objList: []
+                }]
+              });
+              break;
 
-      if(anaType == "RCA"){
-        this.dataPanelData.push({
-          pageStatus: pageStatus,
-          content: [{
-            title: "Performance",
-            objList: []
-          }, {
-            title: "Service",
-            objList: []
-          }, {
-            title: "Business",
-            objList: []
-          }, {
-            title: "Resource",
-            objList: []
-          }]
-        });
+            case "WIF":
+              this.dataPanelData.push({
+                pageStatus: pageStatus,
+                content: [{
+                  title: "Performance",
+                  objList: []
+                }, {
+                  title: "Service",
+                  objList: []
+                }, {
+                  title: "Business",
+                  objList: []
+                }, {
+                  title: "Resource",
+                  objList: []
+                }]
+              });
+              break;
 
+          }     
+
+        }
       }
-      else if(anaType == "DVM"){
-        this.dataPanelData.push({
-          pageStatus: pageStatus,
-          content: [{
-            title: "Arch Obj",
-            objList: []
-          }, {
-            title: "Tables",
-            objList: []
-          }, {
-            title: "Strategy",
-            objList: []
-          }, {
-            title: "Residence Time",
-            objList: []
-          }]
-        });
-
-
-      }
-      else if(anaType == "WIF"){
-        this.dataPanelData.push({
-          pageStatus: pageStatus,
-          content: [{
-            title: "Performance",
-            objList: []
-          }, {
-            title: "Service",
-            objList: []
-          }, {
-            title: "Business",
-            objList: []
-          }, {
-            title: "Resource",
-            objList: []
-          }]
-        });
-      }
-      else if(pageStatus == "CAPACITY_MGMT"){
-
-        this.dataPanelData.push({
-          pageStatus: pageStatus,
-          content: [{
-            title: "WL Overview",
-            objList: []
-          }, {
-            title: "WL History",
-            objList: []
-          }]
-        });
-
-      }
-
       
     },
     onDataPanelRemovePageAction: function onDataPanelRemovePageAction(pageStatus) {
       var that = this;
       $.each(this.dataPanelData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           that.dataPanelData.splice(idx, 1);
           return false;
         }
@@ -111,7 +126,7 @@
     onDataPanelRCAAddItemAction: function onDataPanelRCAAddItemAction(pageStatus, card) {
       var that = this;
       $.each(this.dataPanelData, function (idx, item) {
-        if (pageStatus === item.pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           var len = 0;
           $.each(item.content, function (idx1, item1) {
             len += item1.objList.length;
@@ -172,7 +187,7 @@ console.log('prepare to run RCA -------', card);
     onDataPanelCPMAddItemAction: function onDataPanelCPMAddItemAction(pageStatus, customerId) {
       var that = this;
       $.each(this.dataPanelData, function (idx, item) {
-        if (pageStatus === item.pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           var len = 0;
           $.each(item.content, function (idx1, item1) {
             len += item1.objList.length;
@@ -288,7 +303,7 @@ console.log('prepare to run RCA -------', card);
     onDataPanelDVMAddItemAction:function onDataPanelDVMAddItemAction(pageStatus, factorName){
         var that = this;
         $.each(this.dataPanelData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
             var len = 0;
             $.each(item.content, function (idx1, item1) {
               len += item1.objList.length;
@@ -435,9 +450,8 @@ console.log('prepare to run RCA -------', card);
         var that = this;
         var tmpData = [];
         $.each(this.dataPanelData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
             if (item.content.length === 0) {
-
               that.getDataPanelData(pageStatus);
             } else {
               tmpData = item.content;
@@ -454,7 +468,7 @@ console.log('prepare to run RCA -------', card);
     getSpeData: function getSpeData(pageStatus, text) {
       var tmpData = [];
       $.each(this.dataPanelData, function (idx, item) {
-        if (pageStatus === item.pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             if (text === item1.title) {
               tmpData = item1;
@@ -467,7 +481,24 @@ console.log('prepare to run RCA -------', card);
     },
     getDataPanelData: function getDataPanelData(pageStatus) {
 
-      switch (pageStatus) {
+      switch (pageStatus.pageName) {
+        case "INIT0":
+          var data = [
+          {
+            title:"Bisiness",
+            objList:[]
+          },
+          {
+            title:"Service",
+            objList:[]
+          },
+          {
+            title:"Resource",
+            objList:[]
+          }]
+
+          dataPanelItemChangeActions.dataPanelItemAddAction(pageStatus, data);
+          break;
         case "INIT":
           this.getInitPageData(pageStatus);
           break;
@@ -480,8 +511,10 @@ console.log('prepare to run RCA -------', card);
     },
     getInitPageData: function getInitPageData(pageStatus) {
 
-    var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
-    var logCustomerId = logCustomerInfo.CUSTOMER_ID;
+      var customerId=  global.pageStatusDataStore.getCustomerID().CUSTOMER_ID;
+      var currentStatus = global.pageStatusDataStore.getCurrentStatus();
+      var sid = currentStatus.sid;
+      var client = currentStatus.client;
 
       var ajaxData = [];
       var that = this;
@@ -497,6 +530,7 @@ console.log('prepare to run RCA -------', card);
         bUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=B&sysId=KEV&sysClt=001',
         sUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + logCustomerId.toString() + '&factorCate=S&sysId=KEV&sysClt=001',
         rUrl: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
+
       };
       /*var urls = {
         bUrl: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5',
@@ -546,7 +580,7 @@ console.log('prepare to run RCA -------', card);
           });
 
           if (ajaxCount == ajaxTotal) {
-            dataPanelItemChangeActions.dataPanelItemAddAction(pageStatus, ajaxData);
+            dataPanelItemChangeActions.dataPanelItemAddAction(currentStatus, ajaxData);
           }
         }).fail(function () {
           console.error('Data panel fetch error:');
@@ -559,10 +593,20 @@ console.log('prepare to run RCA -------', card);
       }
     },
     getAnalysisPageData: function getAnalysisPageData(pageStatus) {},
+    isStatusEqual:function isStatusEqual(pageStatus1,pageStatus2){
+      if(pageStatus1.pageName === pageStatus2.pageName && pageStatus1.sid === pageStatus2.sid 
+        && pageStatus1.client === pageStatus2.client){
+        return true;
+      }
+      else{
+        return false;
+      }
+    },
     isStatusExisted: function isStatusExisted(pageStatus) {
       var flag = 0;
+      var that = this;
       $.each(this.dataPanelData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           flag = 1;
           return false;
         }
@@ -571,8 +615,9 @@ console.log('prepare to run RCA -------', card);
     },
     isSubItemExisted: function isSubItemExisted(pageStatus) {
       var flag = 0;
+      var that = this;
       $.each(this.dataPanelData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             if (item1.objList.length) {
               flag = 1;
@@ -586,8 +631,9 @@ console.log('prepare to run RCA -------', card);
     },
     getBlockObjList:function getBlockObjList(pageStatus,title){
       var objList = [];
+      var that = this;
       $.each(this.dataPanelData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             if(item1.title == title){
               objList = objList.concat(item1.objList);
@@ -601,9 +647,10 @@ console.log('prepare to run RCA -------', card);
       return objList;
     },
     getObjList: function getObjList(pageStatus) {
+      var that = this;
       var objList = [];
       $.each(this.dataPanelData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             objList = objList.concat(item1.objList);
           });

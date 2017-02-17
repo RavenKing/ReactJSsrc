@@ -9,9 +9,44 @@
   global.displayAreaDataStore = Reflux.createStore({
     listenables: [global.displayAreaChangeActions],
     displayAreaData: [{
-      pageStatus: "INIT",
+      pageStatus: {
+        pageName:"INIT0",
+        sid:"",
+        client:""
+      },
       content: []
     }],
+
+
+          getSystemIDbyCustomer:function getSystemIDbyCustomer(customer_id)
+      {
+
+          var url = "/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+customer_id;
+            $.ajax({
+              url: url,
+              method: 'GET',
+              async: false,
+              headers: {
+                'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'DataServiceVersion': '2.0',
+                'X-CSRF-Token': 'Fetch'
+              }
+            }).done(function (resp) {
+              console.log(resp)
+          return resp.d.results;
+
+              }).fail(function () {
+              console.error('Create object error:');
+              console.error(arguments);
+          //    flag = false;
+            });
+  
+
+      },
+
 
     trendSimulation: function(dataInfo, getSimResult) {
       console.log(dataInfo);
@@ -277,16 +312,29 @@
     onDisplayAreaAddCardAction: function onDisplayAreaAddCardAction(pageStatus, data) {
 
       data.id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
-      var customerId = data.customerId;
+      //var customerId = data.customerId;
+      var customerId =  global.pageStatusDataStore.getCustomerID().CUSTOMER_ID;
+      var sid = pageStatus.sid;
+      var client = pageStatus.client;
+
       let copydata = JSON.parse(JSON.stringify(data));
       var that = this;
       console.log('add card action');
       console.log(data);
-      switch (copydata.type) {
+      switch (data.type) {
+        case 'INIT0':
+          $.each(that.displayAreaData,function(idx,item){
+            if(that.isStatusEqual(item.pageStatus,pageStatus)){
+              item.content.push(data);
+              that.trigger(item.content);
+            }
+          });
+
+          break;
         case 'COM':
 
           $.each(that.displayAreaData,function(idx,item){
-            if(pageStatus === item.pageStatus){
+            if(that.isStatusEqual(item.pageStatus,pageStatus)){
               item.content.push(copydata);
               that.trigger(item.content);
             }
@@ -297,7 +345,7 @@
 
 
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
               }
@@ -331,7 +379,7 @@
             copydata.objList = resp.d.results;
 
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
               }
@@ -367,7 +415,7 @@
             copydata.objList = resp.d.results;
 
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
               }
@@ -392,13 +440,15 @@
             case 'Service':
               //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27S%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
               url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\'&$orderby=TREND desc';
+
               
               break;
 
             case 'Resource':
+
               //url = '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27&$orderby=TREND%20desc';
               url = '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \''+customerId+'\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'R\'&$orderby=TREND desc';
-              break;
+            break;
 
             default:
               ;
@@ -427,7 +477,7 @@
             copydata.objList = resp.d.results;
 
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -441,7 +491,7 @@
           break;
         case 'DVM-ITEM':
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 
                 var counter=0;
 
@@ -471,7 +521,7 @@
           break;
         case 'DVM-BLOCK':
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -516,7 +566,7 @@
             copydata.lineChartValue = new Array(total_time);
             copydata.lineChartStep = new Array(step);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 console.log('pageStatus chart = ');
                 console.log(pageStatus);
                 console.log('cardId = ');
@@ -535,6 +585,7 @@
         {
           console.log(copydata)
           var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + copydata.customerId + '&sysId=' + copydata.systemId + '&sysClt=' + copydata.systemClt + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
+
 console.log('url: ',url);
           $.ajax({
             url: url,
@@ -562,7 +613,7 @@ console.log('url: ',url);
             copydata.lineChartValue = new Array(total_entries);
             copydata.lineChartMonthEntries = new Array(month_entries);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 console.log('pageStatus chart = ');
                 console.log(pageStatus);
                 console.log('cardId = ');
@@ -644,7 +695,7 @@ console.log('url: ',url);
           }
 
           $.each(that.displayAreaData, function (idx, item) {
-            if (pageStatus === item.pageStatus) {
+            if (that.isStatusEqual(item.pageStatus,pageStatus)) {
               item.content.push(copydata);
               that.trigger(item.content);
             }
@@ -652,7 +703,7 @@ console.log('url: ',url);
           break;
         case "RCA_SIM":
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -663,7 +714,7 @@ console.log('url: ',url);
         case "WHAT_IF":
           
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -674,7 +725,7 @@ console.log('url: ',url);
           break;
         case "SAVE":
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -683,7 +734,7 @@ console.log('url: ',url);
           break;
         case "ART_TEMP":
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -692,7 +743,7 @@ console.log('url: ',url);
           break;
         case "SAVE-ARTI":
           $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
                 that.trigger(item.content);
                 return false;
@@ -705,6 +756,7 @@ console.log('url: ',url);
           console.log('go to dataStore CPM drilldown ------ ', copydata);
 
           var url = "/SmartOperations/services/getTransaction.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
+
 
           $.ajax({
             url: url,
@@ -738,7 +790,7 @@ console.log('url: ',url);
             copydata.chartDBValue = new Array(dbValueArr);
             copydata.chartCumValue = new Array(cumValueArr);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 
                 item.content.push(copydata);
                 that.trigger(item.content);
@@ -755,6 +807,7 @@ console.log('url: ',url);
         case "CPM-History":
 
           var url = "/SmartOperations/services/getWLHistory.xsjs?customerId=" + copydata.customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
+
 
           $.ajax({
             url: url,
@@ -796,7 +849,7 @@ console.log('url: ',url);
             copydata.chartDBValue = new Array(dbValueArr);
             copydata.chartStepValue = new Array(stepValueArr);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 
                 item.content.push(copydata);
                 that.trigger(item.content);
@@ -821,6 +874,7 @@ console.log('url: ',url);
 
           //////////
           var url = "/SmartOperations/services/getWLOverview.xsjs?customerId=" + copydata.customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
+
 
           $.ajax({
             url: url,
@@ -854,7 +908,7 @@ console.log('url: ',url);
             copydata.chartDBValue = new Array(dbValueArr);
             copydata.chartCumValue = new Array(cumValueArr);
             $.each(that.displayAreaData, function (idx, item) {
-              if (pageStatus === item.pageStatus) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 
                 item.content.push(copydata);
                 that.trigger(item.content);
@@ -878,7 +932,7 @@ console.log('url: ',url);
       var index = 0;
       var that = this;
       $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             if (id === item1.id) {
               index = idx1;
@@ -890,7 +944,7 @@ console.log('url: ',url);
         }
       });
     },
-    onDisplayAreaAddPageAction: function onDisplayAreaAddPageAction(pageStatus, cardId) {
+    onDisplayAreaAddPageAction: function onDisplayAreaAddPageAction(pageStatus) {
       /*var tmpObj = {};
       $.each(this.displayAreaData, function (idx, item) {
         if (item.pageStatus === "INIT") {
@@ -922,7 +976,7 @@ console.log('url: ',url);
     onDisplayAreaRemovePageAction: function onDisplayAreaRemovePageAction(pageStatus) {
       var that = this;
       $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           that.displayAreaData.splice(idx, 1);
           return false;
         }
@@ -932,7 +986,7 @@ console.log('url: ',url);
       var that = this;
       if(data.category == 'B'){
         $.each(this.displayAreaData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
             $.each(item.content, function (idx1, item1) {
 
               if (item1.id === cardId) {
@@ -998,7 +1052,7 @@ console.log('url: ',url);
         });
     }else if(data.category == 'S'){
       $.each(this.displayAreaData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
             $.each(item.content, function (idx1, item1) {
 
               if (item1.id === cardId) {
@@ -1069,11 +1123,39 @@ console.log('url: ',url);
             return false;
           }
         });
+    }else if(pageStatus == "INIT0"){
+
+         $.each(this.displayAreaData, function (idx, item) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+              $.ajax({
+                url: "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO",
+                method: 'POST',
+                async: true,
+                data: JSON.stringify(data),
+                headers: {
+                  'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                  'X-Requested-With': 'XMLHttpRequest',
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'DataServiceVersion': '2.0',
+                  'X-CSRF-Token': 'Fetch'
+                }
+              }).done(function (resp) {                
+                item.content[0].logInfo.push(data);
+                that.trigger(item.content);
+              }).fail(function(){
+                console.log('Add systems failed')
+                console.log(arguments);
+              })
+        
+          }
+        })
     }
     },
     onDisplayAreaUpdateCardPosAction: function onDisplayAreaUpdateCardPosAction(cardId, pos) {
+      var that = this;
       $.each(this.displayAreaData, function (idx, item) {
-        if (pageStatusDataStore.getCurrentStatus() == item.pageStatus) {
+        if (that.isStatusEqual(pageStatusDataStore.getCurrentStatus(),item.pageStatus)) {
           $.each(item.content, function (i, obj) {
             if (cardId == obj.id) {
               obj.style.top = obj.style.top + pos.topOffset;
@@ -1087,33 +1169,74 @@ console.log('url: ',url);
     },
     getData: function getData(pageStatus) {
       if (pageStatus) {
+        var that = this;
         var tmpData = [];
         $.each(this.displayAreaData, function (idx, item) {
-          if (pageStatus === item.pageStatus) {
-            tmpData = item.content;
-            return false;
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+            if (pageStatus.pageName == "INIT0" && item.content.length === 0) {
+              that.getInitData(pageStatus);
+            }
+            else{
+              tmpData = item.content;
+              
+            }
+            return false; 
           }
         });
 
         return tmpData;
-      } else {
+      }
+        
+      else {
         return this.displayAreaData;
       }
+        
     },
-    isStatusExisted: function isStatusExisted(pageStatus) {
-      var flag = 0;
-      $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
-          flag = 1;
-          return false;
-        }
-      });
-      return !!flag;
+    getInitData: function getInitData(pageStatus) {
+       if(pageStatus.pageName == "INIT0"){
+          var customerId =  global.pageStatusDataStore.getCustomerID().CUSTOMER_ID;
+          var url = "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+customerId;
+          
+          $.ajax({
+            url: url,
+            method: 'get',
+            dataType: 'json',
+            headers: {
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function (data) { 
+            var results = data.d.results;
+              if(results.length > 0){
+                var data = {
+                  logInfo:results,
+                  type:"INIT0"
+                };
+                var pageStatus = {
+                  pageName:"INIT0",
+                  sid:"",
+                  client:""
+                }
+                displayAreaChangeActions.displayAreaAddCardAction(pageStatus,data);
+                
+              }         
+              
+                         
+          }).fail(function () {
+          console.error('Data panel fetch error:');
+          console.error(arguments);
+        });
+      };
+       
     },
     isCardExisted: function isCardExisted(pageStatus, cardType) {
       var flag = 0;
       $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             if (item1.type === cardType) {
               flag = 1;
@@ -1128,7 +1251,7 @@ console.log('url: ',url);
     getCardLineNumber: function getCardLineNumber(pageStatus, cardId) {
       var num = 0;
       $.each(this.displayAreaData, function (idx, item) {
-        if (item.pageStatus === pageStatus) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
           $.each(item.content, function (idx1, item1) {
             if (item1.id === cardId) {
               num = item1.guidArr.length;
@@ -1139,7 +1262,27 @@ console.log('url: ',url);
         }
       });
       return num;
-    }
+    },
+    isStatusEqual:function isStatusEqual(pageStatus1,pageStatus2){
+      if(pageStatus1.pageName === pageStatus2.pageName && pageStatus1.sid === pageStatus2.sid 
+        && pageStatus1.client === pageStatus2.client){
+        return true;
+      }
+      else{
+        return false;
+      }
+    },
+    isStatusExisted: function isStatusExisted(pageStatus) {
+      var flag = 0;
+      var that = this;
+      $.each(this.displayAreaData, function (idx, item) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+          flag = 1;
+          return false;
+        }
+      });
+      return !!flag;
+    },
 
   });
 })(window.Reflux, window.jQuery, window.dataPanelDataStore, window);

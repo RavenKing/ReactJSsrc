@@ -55,7 +55,7 @@ export default class Login extends React.Component {
         }.bind(this),1000);*/
 
     }
- 
+
     UserChange(e){
 
         this.setState({
@@ -89,14 +89,12 @@ export default class Login extends React.Component {
       //customer information
         var cus_id = this.refs.cus_id.refs.input.value;
         var cus_name = this.refs.cus_name.refs.input.value;
-        var sid = this.refs.sid.refs.input.value;
-        var client = this.refs.client.refs.input.value;
         var industry = this.state.industry;
         var region = this.state.region;
         var country = this.refs.country.refs.input.value;
         var city = this.refs.city.refs.input.value;
-      var valid = true;
-      var token;
+        var valid = true;
+        var token;
       
       
           //but customer id is empty
@@ -116,8 +114,6 @@ export default class Login extends React.Component {
           var regCusInfo = {};
           regCusInfo.customer_id = cus_id;
           regCusInfo.customer_name = cus_name;
-          regCusInfo.sid = sid;
-          regCusInfo.client = client;
           regCusInfo.industry = industry;
           regCusInfo.region = region;
           regCusInfo.country = country;
@@ -128,14 +124,16 @@ export default class Login extends React.Component {
 
     }
     saveUsrInfo(){
+     
       var username = this.refs.username.refs.input.value.toUpperCase();
       var usr_cus_id = this.refs.usr_cus_id.refs.input.value;
+
       var pwd1 = this.refs.pwd1.refs.input.value;
       var pwd2 = this.refs.pwd2.refs.input.value;
 
       var token;
       var valid = true;
-       
+
           if(username == ""){
             valid = false;
             token={
@@ -168,6 +166,8 @@ export default class Login extends React.Component {
           
             }
           }
+      
+      
         if(valid){
           if(pwd2 == ""){
             valid = false;
@@ -244,6 +244,7 @@ export default class Login extends React.Component {
             {token.error=="password"?"error":""}
 
             <Form horizontal id="login-form">
+
               <FormItem               
     
                 wrapperCol={{ span: 16 }}
@@ -262,7 +263,7 @@ export default class Login extends React.Component {
                 help={token.error=="username"?token.hint:""}
               >
                 <Input placeholder="UserName" onChange={this.UserChange.bind(this)}/>
-              </FormItem>
+              </FormItem>              
               
               <FormItem                
     
@@ -326,24 +327,6 @@ export default class Login extends React.Component {
                     
                   >
                   <Input ref="cus_name"/>
-                  </FormItem>
-
-                  <FormItem
-                    label="System ID:"
-                    labelCol={{ span: 7 }}
-                    wrapperCol={{ span: 12 }}
-                    
-                  >
-                  <Input  ref="sid"/>
-                  </FormItem>
-
-                  <FormItem
-                    label="Client:"
-                    labelCol={{ span: 7 }}
-                    wrapperCol={{ span: 12 }}
-                    
-                  >
-                  <Input  ref="client"/>
                   </FormItem>
 
                   <FormItem

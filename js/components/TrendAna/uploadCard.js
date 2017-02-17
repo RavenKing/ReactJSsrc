@@ -2,7 +2,7 @@ import React from "react"
 
 import { connect } from "react-redux";
 
-import {Card,message,Button,Cascader,Icon,Table,Upload,Row,Col,Form,DatePicker,Select } from "antd"
+import {Card,message,Button,Cascader,Icon,Table,Upload,Row,Col,Form,DatePicker,Select,Input } from "antd"
 var global = window
 
 var displayAreaDataStore= window.displayAreaDataStore
@@ -50,6 +50,10 @@ var UploadCard = React.createClass({
 		getInitialState: function getInitialState() {
 			var curDate = new Date();
 			var curYearMonth = curDate.getFullYear().toString() + '-' + (curDate.getMonth()+1).toString();
+			var getSelectData=null;
+			   setTimeout(function(){
+			    getSelectData = global.displayAreaDataStore.getSystemIDbyCustomer("1001");
+			   }.bind(this),1000);
 
 			return {
 				echoData: false,
@@ -60,10 +64,15 @@ var UploadCard = React.createClass({
 				tableLen: 550,
 				checkType: true,
 				curYearMonth: curYearMonth,
-				taskType: "BACKGROUND"
-			};
+				taskType: "BACKGROUND",
+				sysID:"KEV",
+				sysClt:"001",
+				selection:getSelectData
+				};
 		},
+		componentWillMount:function componentWillMount(){
 
+		},
 		componentDidMount: function componentDidMount() {
 			
 			this.interactDrag = global.setCardDragable(this.getDOMNode(), this.props.card.id);
@@ -77,11 +86,12 @@ var UploadCard = React.createClass({
 			var logCustomerInfo =  global.pageStatusDataStore.getCustomerID();
             var logCustomerId = logCustomerInfo.CUSTOMER_ID;
 			var that = this;
+
 			var uploadData = {
 				userInfo: {
 					customerId: logCustomerId.toString(),
-					sysId: "KEV",
-					sysClt: "001",
+					sysId: this.state.sysId,
+					sysClt: this.state.sysClt,
 					dateYear: this.state.curYearMonth.slice(0,4),
 					dateMonth: this.state.curYearMonth.slice(5,7)
 				},
@@ -131,6 +141,15 @@ var UploadCard = React.createClass({
 			});
 		},
 
+		ChangeSys:function ChangeSys(e)
+		{
+			this.setState({sysId:e.target.value})
+		},
+		ChangeClient:function ChangeClient(e)
+		{
+			this.setState({sysClt:e.target.value})
+		},
+
 		onChangeTime: function onChangeTime(value,dateString) {
 			console.log('Year/Month = ',dateString.slice(0,4), dateString.slice(5,7));
 			this.setState({
@@ -146,6 +165,16 @@ var UploadCard = React.createClass({
 		},
 
 		render: function render() {
+
+
+			// console.log(this.state)
+			var SelectionSysID
+			console.log(this.state)
+			if(this.state.selection)
+			{
+
+				console.log(this.state.selection);
+			}
 			var that = this;
 
 			var columns = [];
@@ -340,6 +369,23 @@ var UploadCard = React.createClass({
 								    </Select>
 								)
 
+							),	
+						React.createElement(
+								Row,
+								{ style: { marginTop: 5} },
+								null,
+								React.createElement(
+									Col,
+									{ span: 10 },
+									React.createElement(Input, { defaultValue:this.state.sysId,disabled:true})
+								),
+								React.createElement(
+									Col,
+									{ span: 12 },
+ 									<Input placeholder="Input Client" defaultValue={this.state.sysClt} disabled={true}/>
+								)
+													
+
 							)
 						);
 						break;
@@ -388,6 +434,21 @@ var UploadCard = React.createClass({
 								      <Select.Option value="BACKGROUND">BACKGROUND</Select.Option>
 								      <Select.Option value="RFC">RFC</Select.Option>
 								    </Select>
+								)
+							),
+							React.createElement(
+								Row,
+								{ style: { marginTop: 5} },
+								null,
+								React.createElement(
+									Col,
+									{ span: 10 },
+									React.createElement(Input, { onChange:this.ChangeSys})
+								),
+								React.createElement(
+									Col,
+									{ span: 12 },
+ 									<Input placeholder="Input Client" onChange={this.ChangeClient}/>
 								)
 							)
 						);

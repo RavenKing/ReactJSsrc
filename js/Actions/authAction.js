@@ -12,15 +12,18 @@ var pageStatusDataStore = window.pageStatusDataStore
 return dispatch=>{
 
 dispatch({type:"AUTH_VALIDATING"});
-  console.log(parameter);
+    console.log(parameter);
+    var valid = true;
+    var data;
     if(!parameter.customer_id){
-      var data = {
-          authorized:false,
-          error:"customer_id",
-          hint:"input customer id",
-          user:null
+      data = {
+        authorized:false,
+        error:"customer_id",
+        hint:"input customer id",
+        user:null
       };
       dispatch({type:"AUTH_SET_TOKEN",payload:data});
+     
     }
     else{
    axios.get("/SmartOperations/services/authorization.xsodata/AUTH1?$filter=USERNAME eq '"+parameter.username+"' and CUSTOMER_ID eq "+parameter.customer_id+"",{
@@ -32,33 +35,40 @@ dispatch({type:"AUTH_VALIDATING"});
         username:'zengheng',
         password:'Sap12345'
       }
+
       
-    }).then(function(response,err){
-      var data = response.data.d.results;
+      }).then(function(response,err){
+        var results = response.data.d.results;
 
-      if(data.length!=0)
-      {
+        if(results.length!=0)
+        {
 
-      		if(data[0].USERNAME == parameter.username &&data[0].CUSTOMER_ID == parameter.customer_id && data[0].PASSWORD == parameter.password)
-      		{
-      			data = {
+          if(results[0].USERNAME == parameter.username && results[0].CUSTOMER_ID == parameter.customer_id && results[0].PASSWORD == parameter.password)
+          {
+                        
+              data = {
+                  authorized:true,
+                  user:{
+                    USERNAME:parameter.username,
+                    CUSTOMER_ID:parameter.customer_id,
+                  },
+                  hint:"logged"
+              }
+              pageStatusDataStore.setUpCustomerID(results[0]);
+              
+              
+          }        
+          else 
+          {
+             data = {
 
-      				authorized:true,
-      				user:data[0],
-      				hint:"logged"
-      			}
-              pageStatusDataStore.setUpCustomerID(data[0]);
-      		}
-      		else 
-      		{
-			       data = {
-
-      				authorized:false,
-      				error:"password",
-      				hint:"incorrect password",
-      				user:null
-      			}
-      		}
+              authorized:false,
+              error:"password",
+              hint:"incorrect password",
+              user:null
+            }
+            
+          }
       }
       else{
 
@@ -68,6 +78,7 @@ dispatch({type:"AUTH_VALIDATING"});
           error:"username",
           hint:"incorrect username",
         }
+        
 
       }
 
@@ -79,8 +90,10 @@ dispatch({type:"AUTH_VALIDATING"});
     })
 
   }
+    }
+    
   }
-}
+
 
 export function invalidateAuthToken () {
   window.localStorage.removeItem('authToken')
@@ -99,8 +112,6 @@ export function CusRegister(data){
   return dispatch=>{
     var customer_id = data.customer_id;
     var customer_name = data.customer_name;    
-    var sid = data.sid;
-    var client = data.client;
     var industry = data.industry;
     var region = data.region;
     var country = data.country;
@@ -123,8 +134,6 @@ export function CusRegister(data){
         INDUSTRY:industry,
         COUNTRY:country,
         CITY:city,
-        SYSTEMID:sid,
-        CLIENT:client,
         REGION:region
     },
     config).then(function(response){
@@ -251,13 +260,34 @@ export function UserRegister(data){
       }).catch(function(response){
         console.log(response);
       })
-
-    
-
-
-
-
-
     
 }
+}
+
+export function AddSystem(data){
+  var sid = data.sid;
+  var client = data.client;
+  var customer_id = data.customer_id;
+  return dispatch=>{
+      axios.post("/SmartOperations/services/authorization.xsodata/LOGONINFO",{
+        CUSTOMER_ID:customer_id,
+        SID:sid,
+        CLIENT:client
+      },{
+      headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        },
+      auth: {
+        username: 'zengheng',
+        password: 'Sap12345'
+      }
+    }).then(function(response){
+      //dispatch({type:"ADD_SYSTEM",payload:data});
+      const modal = Modal.success({
+        title: 'Successfully register! ',
+        content: 'You have regitered done',
+      });
+    })
+  }
 }
