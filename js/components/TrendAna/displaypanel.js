@@ -141,8 +141,12 @@ if (!rc) {
               break;
 
             case 'CPM':
-
-              var nextStatus = "CAPACITY_MGMT";
+              var currentStatus = pageStatusDataStore.getCurrentStatus();
+              var nextStatus = {
+                pageName:"CAPACITY_MGMT",
+                sid:currentStatus.sid,
+                client:currentStatus.client
+              }
 
                 if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
                   var sIntervalCallId;

@@ -186,7 +186,7 @@ export function UserRegister(data){
       config).then(function(response){
         if(response.data.d.results.length > 0){
           //check user name whether exists
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$filter=USERNAME eq '"+username+"'",
+    axios.get("http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/users?$filter=CUSTOMER_ID eq "+customer_id+" and USERNAME eq '"+username+"'",
       config
       ).then(function(response){
         if(response.data.d.results.length > 0){
