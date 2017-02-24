@@ -143,53 +143,53 @@ export default class Login extends React.Component {
               hint:"input the user name"
             }
           } 
-          if(valid){
-            if(usr_cus_id == ""){
-              valid = false;
-              token={
-                authorized:false,
-                error:"usr_cus_id",
-                user:null,
-                hint:"input the customer id"
-              }
-            }
-          }
-          if(valid){
-            if(pwd1 == ""){
-              valid = false;
-              token={
-                authorized:false,
-                error:"pwd1",
-                user:null,
-                hint:"input the password"
-              }
-          
-            }
-          }
-      
-      
-        if(valid){
-          if(pwd2 == ""){
+          if(valid && usr_cus_id == ""){            
             valid = false;
             token={
               authorized:false,
-              error:"pwd2",
+              error:"usr_cus_id",
               user:null,
-              hint:"input the confirmed password"
+              hint:"input the customer id"
+            }           
+          }
+          if(valid && isNaN(usr_cus_id)){
+            valid = false;
+            token={
+              authorized:false,
+              error:"usr_cus_id",
+              user:null,
+              hint:"input valid customer id"
             }
-          
+          }
+          if(valid && pwd1 == ""){            
+            valid = false;
+            token={
+              authorized:false,
+              error:"pwd1",
+              user:null,
+              hint:"input the password"
+            } 
+          }
+      
+      
+        if(valid && pwd2 == ""){          
+          valid = false;
+          token={
+            authorized:false,
+            error:"pwd2",
+            user:null,
+            hint:"input the confirmed password"
           }
         }
-        if(valid){
-          if(pwd1 != pwd2){
-            valid = false;
-            token={
-              authorized:false,
-              error:"pwd2",
-              user:null,
-              hint:"input the confirmed password"
-            }
+        if(valid && pwd1 != pwd2){       
+          valid = false;
+          token={
+            authorized:false,
+            error:"pwd2",
+            user:null,
+            hint:"input the confirmed password"
           }
+          
         }
         if(valid){
           var regUsrInfo = {};

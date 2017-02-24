@@ -1216,20 +1216,25 @@ console.log('url: ',url);
             }
           }).done(function (data) { 
             var results = data.d.results;
-              if(results.length > 0){
+              if(results.length == 0){
+                var data = {
+                  logInfo:[],
+                  type:"INIT0"
+                }
+              }
+              else{
                 var data = {
                   logInfo:results,
                   type:"INIT0"
                 };
-                var pageStatus = {
+                
+              }         
+              var pageStatus = {
                   pageName:"INIT0",
                   sid:"",
                   client:""
-                }
-                displayAreaChangeActions.displayAreaAddCardAction(pageStatus,data);
-                
-              }         
-              
+              }
+              displayAreaChangeActions.displayAreaAddCardAction(pageStatus,data);
                          
           }).fail(function () {
           console.error('Data panel fetch error:');
