@@ -323,6 +323,7 @@
       console.log(data);
       switch (data.type) {
         case 'INIT0':
+        case "KPI":
           $.each(that.displayAreaData,function(idx,item){
             if(that.isStatusEqual(item.pageStatus,pageStatus)){
               item.content.push(data);

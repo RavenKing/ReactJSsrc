@@ -1,5 +1,6 @@
 import React from "react"
 import SYSCLTCard from "./SysCltCard";
+import KPICard from "./KPICard";
 import DataCard from "./DataCard";
 import LineChartCard from "./LineChartCard";
 import PieChartCard from "./PieChartCard";
@@ -219,8 +220,11 @@ if (!rc) {
         'div',
         { className: (!this.state.cards || !this.state.cards.length) ? 'display-panel help-bg' : 'display-panel' },
         this.state.cards.map(function (item) {
-         if(item.type == 'INIT0') {
+          if(item.type == 'INIT0') {
             return React.createElement(SYSCLTCard,{ key: item.id + "SysCltCard", card: item});
+          }
+          if(item.type == "KPI") {
+            return React.createElement(KPICard,{ key:item.id + "KPICard", card:item});
           }
           if (item.type == 'TITLE') {
             return React.createElement(DataCard, { key: item.id + "DataCard", card: item });

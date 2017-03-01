@@ -22,7 +22,7 @@ var componentMixin = {
 				// }
 				var currentStatus = pageStatusDataStore.getCurrentStatus();
 
-				if (currentStatus === "INIT" || this.props.card.type !== "ITEM" || currentStatus.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
+				if (currentStatus.pageName === "INIT" || this.props.card.type !== "ITEM" || currentStatus.pageName.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
 
 					displayAreaChangeActions.displayAreaRemoveCardAction(currentStatus, that.props.card.id);
 				} else {
@@ -54,18 +54,31 @@ var PieChartCard = React.createClass({
 		render: function render() {
 			return React.createElement(
 				Card,
-				{ className: "pie-card",
+				{
+					className:"pie-card",
 					title: "Potential Correlation with other objects?",
 					style: this.props.card.style,
 					extra: React.createElement(Icon, { type: "cross", onClick: this.removeCard().bind(this) }),
 					bodyStyle: {
 						padding: 0
 					} },
-				React.createElement(PieChart, { seriesArr: this.props.card.seriesArr }),
-				" ",
-				React.createElement(InfDetailBlock, { objs: this.props.card.objList
-				}),
-				" "
+				
+					React.createElement(PieChart, { seriesArr: this.props.card.seriesArr }),
+					" ",
+					React.createElement(InfDetailBlock, { objs: this.props.card.objList
+					}),
+					" ",
+				
+				<div className="RecommBlock">
+					<hr />
+					<h3>Industry-Based Suggestion (Retail)</h3>
+					<p>Content: (in plain text)<br />
+					90% of Retail customers will archive MSEG to solve the issue<br />
+					45% of Retail customers will create index to solve the issue<br />
+					</p>
+				</div>
+				
+				
 			);
 		}
 	});

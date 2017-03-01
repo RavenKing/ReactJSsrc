@@ -30,7 +30,7 @@
     onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus) {
       if(!this.isStatusExisted(pageStatus)){
 
-        if(pageStatus.pageName == "INIT"){
+        if(pageStatus.pageName == "INIT" || pageStatus.pageName == "INIT-KPI"){
           this.dataPanelData.push({
             pageStatus:pageStatus,
             content:[]
@@ -483,6 +483,7 @@ console.log('prepare to run RCA -------', card);
 
       switch (pageStatus.pageName) {
         case "INIT0":
+        case "INIT-KPI":
           var data = [
           {
             title:"Bisiness",

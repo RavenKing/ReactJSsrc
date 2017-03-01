@@ -248,6 +248,7 @@ li {
 
 .pie-card .ant-card-body {
   display: table;
+  padding-left:15px;
 }
 
 .pie {
@@ -262,6 +263,9 @@ li {
   padding: 20px 20px 20px 12px;
   line-height: 20px;
   vertical-align: middle;
+}
+.pie-card .RecommBlock {
+  display: table-row;
 }
 
 .pie-card ul {
@@ -691,4 +695,11 @@ text-align: center
 .mapspop{
   width:400px;
 
+}
+.KPI-Btn{
+  text-align: center;
+  margin-top:40px;
+}
+.KPI-Btn Button{
+  margin-left: 5px;
 }
