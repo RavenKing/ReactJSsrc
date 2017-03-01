@@ -44,12 +44,15 @@ dispatch({type:"AUTH_VALIDATING"});
 
           if(results[0].USERNAME == parameter.username && results[0].CUSTOMER_ID == parameter.customer_id && results[0].PASSWORD == parameter.password)
           {
-                        
+                   
+                   console.log(results);     
               data = {
                   authorized:true,
                   user:{
                     USERNAME:parameter.username,
                     CUSTOMER_ID:parameter.customer_id,
+                    INDUSTRY:results[0].INDUSTRY,
+                    COUNTRY:results[0].COUNTRY
                   },
                   hint:"logged"
               }
