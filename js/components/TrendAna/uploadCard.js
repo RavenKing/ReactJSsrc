@@ -52,7 +52,7 @@ var UploadCard = React.createClass({
 			var curYearMonth = curDate.getFullYear().toString() + '-' + (curDate.getMonth()+1).toString();
 			var currentStatus = pageStatusDataStore.getCurrentStatus();
 
-
+			console.log(currentStatus);
 			return {
 				echoData: false,
 				tableHeader: [],
@@ -87,7 +87,7 @@ var UploadCard = React.createClass({
 			var uploadData = {
 				userInfo: {
 					customerId: logCustomerId.toString(),
-					sysId: this.state.sysId,
+					sysId: this.state.sysID,
 					sysClt: this.state.sysClt,
 					dateYear: this.state.curYearMonth.slice(0,4),
 					dateMonth: this.state.curYearMonth.slice(5,7)

@@ -753,7 +753,7 @@ console.log('url: ',url);
         case "CPM-RFC":
           console.log('go to dataStore CPM drilldown ------ ', copydata);
 
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getTransaction.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getTransaction.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType+'&sysID=' + sid + '&client=' + client;
 
           $.ajax({
             url: url,
@@ -803,7 +803,7 @@ console.log('url: ',url);
 
         case "CPM-History":
 
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLHistory.xsjs?customerId=" + customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLHistory.xsjs?customerId=" + customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount+'&sysID=' + sid + '&client=' + client;
 
           $.ajax({
             url: url,
@@ -869,7 +869,7 @@ console.log('url: ',url);
             });*/
 
           //////////
-          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
+          var url = "http://10.97.144.117:8000/SmartOperations/services/getWLOverview.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth+'&sysID=' + sid + '&client=' + client;
 
           $.ajax({
             url: url,

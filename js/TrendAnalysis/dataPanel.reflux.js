@@ -194,8 +194,8 @@ console.log('prepare to run RCA -------', card);
           });
           if (!len) {
 
-            console.log("CPM content - item -----", item);
-            var url = "http://10.97.144.117:8000/SmartOperations/services/cpmDataItem.xsjs?customerId=" + customerId;
+            console.log("CPM content - item -----", pageStatus);
+            var url = "http://10.97.144.117:8000/SmartOperations/services/cpmDataItem.xsjs?customerId=" + customerId+"&sysID="+pageStatus.sid+"&client="+pageStatus.client;
             $.ajax({
               url: url,
               method: 'get',
