@@ -36,8 +36,23 @@ export default class TemplateSelect extends React.Component {
     ModeSelect(){
 
         var datatype= this.props.key1;
+        var currentStatus = pageStatusDataStore.getCurrentStatus();
         if(datatype == "INIT0"){
           var nextStatus = {
+            pageName:"INIT-KPI",
+            sid:this.props.name,
+            client:this.props.description
+          };
+          var data = {
+            type:"KPI"            
+          }
+          dataPanelItemChangeActions.dataPanelAddPageAction(nextStatus);
+          displayAreaChangeActions.displayAreaAddPageAction(nextStatus);
+          functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
+          pageStatusChangeActions.pageStatusAddAction(nextStatus);
+          displayAreaChangeActions.displayAreaAddCardAction(nextStatus,data);
+          pageStatusDataStore.setLogInfo(this.props.name,this.props.description);
+          /*var nextStatus = {
             pageName:"INIT",
             sid:this.props.name,
             client:this.props.description
@@ -46,7 +61,7 @@ export default class TemplateSelect extends React.Component {
           displayAreaChangeActions.displayAreaAddPageAction(nextStatus);
           functionPanelItemChangeActions.functionPanelAddPageAction(nextStatus);
           pageStatusChangeActions.pageStatusAddAction(nextStatus);
-          pageStatusDataStore.setLogInfo(this.props.name,this.props.description);
+          pageStatusDataStore.setLogInfo(this.props.name,this.props.description);*/
           
         }
         else{
@@ -54,7 +69,6 @@ export default class TemplateSelect extends React.Component {
           var that = this;
           var draggableElement = event.relatedTarget,
               dropzoneElement = event.target;
-          var currentStatus = pageStatusDataStore.getCurrentStatus();
           var cardId = card.id;
           var factorCate = card.category[0];
           console.log(factorCate);

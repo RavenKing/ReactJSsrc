@@ -120,7 +120,7 @@ export function BackwardStep(){
 }
 
 export function GetBestPractice(data){
-
+console.log(data);
   var customerid = data.customerid;  
   var archobj = data.archobj;
   archobj = archobj.replace(/^\s+|\s+$/g,"");
@@ -144,7 +144,7 @@ return dispatch=>{
     var data;        
     axios.get("/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry="+industry,
       config).then(function(response,err){
-          
+          console.log(response.data);
           data = response.data.results[0];
           data.articleid = articleid;              
           dispatch({type:"GET_BEST_PRACTICE",payload:data});

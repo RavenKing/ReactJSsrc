@@ -30,7 +30,7 @@
     onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus) {
       if(!this.isStatusExisted(pageStatus)){
 
-        if(pageStatus.pageName == "INIT"){
+        if(pageStatus.pageName == "INIT" || pageStatus.pageName == "INIT-KPI"){
           this.dataPanelData.push({
             pageStatus:pageStatus,
             content:[]
@@ -193,8 +193,10 @@ console.log('prepare to run RCA -------', card);
           });
           if (!len) {
 
-            console.log("CPM content - item -----", item);
-            var url = "/SmartOperations/services/cpmDataItem.xsjs?customerId=" + customerId;
+
+            console.log("CPM content - item -----", pageStatus);
+            var url = "/SmartOperations/services/cpmDataItem.xsjs?customerId=" + customerId+"&sysID="+pageStatus.sid+"&client="+pageStatus.client;
+
             $.ajax({
               url: url,
               method: 'get',
@@ -482,6 +484,7 @@ console.log('prepare to run RCA -------', card);
 
       switch (pageStatus.pageName) {
         case "INIT0":
+        case "INIT-KPI":
           var data = [
           {
             title:"Bisiness",

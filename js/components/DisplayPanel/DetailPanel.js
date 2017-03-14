@@ -33,13 +33,13 @@ export default class DetailPanel extends React.Component {
      archobj:article.ARCHOBJ,
      industry:user.INDUSTRY,
      country:user.COUNTRY,
-     
     }
     var parms2 = {
       articleid : article.ARTICLE_ID,
       archobj:article.ARCHOBJ,
       region:user.REGION
     }
+    console.log(parms2);
     if(article.FACTOR_TYPE=="DVM")
     {this.props.dispatch(GetBestPractice(parms1));
     this.props.dispatch(GetRegionData(parms2));

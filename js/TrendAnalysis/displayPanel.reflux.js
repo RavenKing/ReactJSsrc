@@ -324,6 +324,7 @@
       console.log(data);
       switch (data.type) {
         case 'INIT0':
+        case "KPI":
           $.each(that.displayAreaData,function(idx,item){
             if(that.isStatusEqual(item.pageStatus,pageStatus)){
               item.content.push(data);
@@ -759,8 +760,7 @@ console.log('url: ',url);
         case "CPM-RFC":
           console.log('go to dataStore CPM drilldown ------ ', copydata);
 
-          var url = "/SmartOperations/services/getTransaction.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType;
-
+          var url = "/SmartOperations/services/getTransaction.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth + "&taskType=" + copydata.taskType+'&sysID=' + sid + '&client=' + client;
 
           $.ajax({
             url: url,
@@ -810,8 +810,8 @@ console.log('url: ',url);
 
         case "CPM-History":
 
+          var url = "/SmartOperations/services/getWLHistory.xsjs?customerId=" + customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount+'&sysID=' + sid + '&client=' + client;
 
-          var url = "/SmartOperations/services/getWLHistory.xsjs?customerId=" + customerId + "&latestYear=" + copydata.latestYear + "&latestMonth=" + copydata.latestMonth + "&monthCount=" + copydata.monthCount;
 
           $.ajax({
             url: url,
@@ -878,7 +878,7 @@ console.log('url: ',url);
 
           //////////
 
-          var url = "/SmartOperations/services/getWLOverview.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth;
+          var url = "/SmartOperations/services/getWLOverview.xsjs?customerId=" + customerId + "&dateYear=" + copydata.dateYear + "&dateMonth=" + copydata.dateMonth+'&sysID=' + sid + '&client=' + client;
 
 
           $.ajax({

@@ -33,7 +33,7 @@
     onFunctionPanelAddPageAction: function onFunctionPanelAddPageAction(pageStatus) {
       if(!this.isStatusExisted(pageStatus)){
 
-        if(pageStatus.pageName == "INIT"){
+        if(pageStatus.pageName == "INIT" || pageStatus.pageName == "INIT-KPI"){
           this.functionPanelData.push({
             pageStatus:pageStatus,
             content:[{

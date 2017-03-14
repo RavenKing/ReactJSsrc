@@ -28,8 +28,6 @@ export default class BestPanel extends React.Component {
         var content;
         var number;
         const { detail } = bestpractice;
-
-        console.log(detail.BEST_PRACTICE)
         if(detail.BEST_PRACTICE)
         {
               number = parseInt(detail.BEST_PRACTICE)/12
