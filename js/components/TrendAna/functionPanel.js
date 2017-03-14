@@ -336,6 +336,77 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
     }
 
   });
+  var CapacityButton = React.createClass({
+    displayName: 'CapacityButton',
+
+    componentDidMount: function componentDidMount() {
+      this.interactDrag = global.setNodeDragable(this.getDOMNode());
+    },
+    componentWillUnmount: function componentWillUnmount() {
+      this.interactDrag.unset();
+      this.interactDrag = null;
+    },
+    render: function render() {
+      var type = 'dashed';
+      return React.createElement(
+        Button,
+        { className: 'config-upload-button draggable', size: 'small',
+          type: type, 'data-info': this.props.item.info, 'data-type': this.props.item.info },
+        this.props.item.name
+      );
+    }
+  });
+  var ToolButton = React.createClass({
+    displayName: 'ToolButton',
+
+
+    render: function render() {
+
+      var tools = [];
+      var items = [{
+        name: "CAPACITY",
+        info: "CPM"
+      }];
+
+      items.forEach(function (item) {
+        tools.push(React.createElement(
+          'li',
+          null,
+          React.createElement(
+            'span',
+            null,
+            React.createElement(CapacityButton, { item: item })
+          )
+        ));
+      });
+      var list = React.createElement(
+        'ul',
+        null,
+        tools
+      );
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(
+          Popover,
+          {
+            content:list,
+            placement:'left',
+            overlayClassName: 'switch-button-overlay'
+          },
+          React.createElement(
+            'span',
+            {
+              className:'function-button switch-button'
+            },
+            React.createElement(Icon,{type:'left'}),
+            'Tools'
+            )
+          )
+        )
+    }
+
+  });
 
   var FunctionList = React.createClass({
     displayName: 'FunctionList',
@@ -349,6 +420,7 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
         });
         buttons.push(React.createElement(ConfigButton, null));
         buttons.push(React.createElement(SwitchButton, null));
+        buttons.push(React.createElement(ToolButton,null));
 
 
       }
