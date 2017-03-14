@@ -33,12 +33,14 @@
     },
     onPageStatusAddAction: function onPageStatusAddAction(pageStatus) {
       if(!this.isStatusExisted(pageStatus)){
-        this.pageStatusData.pageStatusArr.push(pageStatus);
-        this.pageStatusData.currentStatus = pageStatus;
-        this.trigger(this.pageStatusData);
-
-        updateContentClassList();
+        this.pageStatusData.pageStatusArr.push(pageStatus);        
       }
+      this.pageStatusData.currentStatus = pageStatus;
+      this.trigger(this.pageStatusData);
+      updateContentClassList();
+      
+
+
       
     },
     onPageStatusRemoveAction: function onPageStatusRemoveAction(removedPageStatus, newPageStatus) {
@@ -80,7 +82,7 @@
     isStatusExisted: function isStatusExisted(pageStatus) {
       var flag = 0;
       var that = this;
-      $.each(this.pageStatusData, function (idx, item) {
+      $.each(this.pageStatusData.pageStatusArr, function (idx, item) {
         if (that.isStatusEqual(item,pageStatus)) {
           flag = 1;
           return false;

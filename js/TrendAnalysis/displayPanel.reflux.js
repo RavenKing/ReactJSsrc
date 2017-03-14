@@ -962,11 +962,14 @@ console.log('url: ',url);
         pageStatus: pageStatus,
         content: [tmpObj]
       });*/
-
-      this.displayAreaData.push({
+      
+      if(!this.isStatusExisted(pageStatus)){
+        this.displayAreaData.push({
         pageStatus: pageStatus,
         content: []
       });
+      }
+      
     },
     onDisplayAreaRemovePageAction: function onDisplayAreaRemovePageAction(pageStatus) {
       var that = this;
