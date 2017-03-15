@@ -108,7 +108,7 @@ import HighCharts from "highcharts"
 					;
 			}
 			
-
+			var count = this.props.chartContent.chartCateAxis.length;
 			this.chart = new HighCharts['Chart'](this.getDOMNode(), {
 
 		        title: {
@@ -118,7 +118,7 @@ import HighCharts from "highcharts"
 				    enabled: false
 				},
 		        xAxis: [{
-		            categories: this.props.chartContent.chartCateAxis[0],
+		            categories: this.props.chartContent.chartCateAxis[count-1],
 		            crosshair: true
 		        }],
 		        yAxis: yAxis,

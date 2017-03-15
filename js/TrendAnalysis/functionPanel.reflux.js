@@ -16,19 +16,19 @@
         name: 'Analysis',
         info: 'ANALYSIS',
         type: 'ANALYSIS'
-      }, {
+      }/*, {
         name: 'Capacity',
         info: 'CPM',
         type: 'CPM'
-      },{
+      },*/,{
         name: 'Knowledge',
         info: 'NOTE',
         type: 'NOTE'
-      },{
+      }/*,{
         name: 'Comment',
         info: 'COM',
         type: 'COM'
-      }]
+      }*/]
     }],
     onFunctionPanelAddPageAction: function onFunctionPanelAddPageAction(pageStatus) {
       if(!this.isStatusExisted(pageStatus)){
@@ -40,19 +40,19 @@
               name: 'Analysis',
               info: 'ANALYSIS',
               type: 'ANALYSIS'
-            }, {
+            }/*, {
               name: 'Capacity',
               info: 'CPM',
               type: 'CPM'
-            },{
+            }*/,{
               name: 'Knowledge',
               info: 'NOTE',
               type: 'NOTE'
-            },{
+            }/*,{
               name: 'Comment',
               info: 'COM',
               type: 'COM'
-            }]
+            }*/]
           })
         }
         else if(pageStatus.pageName == "CAPACITY_MGMT"){

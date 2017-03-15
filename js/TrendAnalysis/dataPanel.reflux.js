@@ -133,7 +133,8 @@
           if (!len) {
             //var url = "/SmartOperations/services/calcRate.xsjs?factorId=" + cardGuid;
 console.log('prepare to run RCA -------', card);
-            var url = '/SmartOperations/services/calcSigRate.xsjs?factorName=' + card.FACTOR_NAME + '&factorCate='+card.category+'&customerId='+card.customerId+'&sysId='+card.systemId+'&sysClt='+card.systemClt
+
+            var url = '/SmartOperations/services/Correlation.xsjs?factorName=' + card.FACTOR_NAME + '&factorCate='+card.category+'&customerId='+card.customerId+'&sysId='+card.systemId+'&sysClt='+card.systemClt
            console.log('url of calc rate --- ',url);
             $.ajax({
               url: url,

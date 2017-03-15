@@ -326,7 +326,7 @@
         case 'INIT0':
         case "KPI":
           $.each(that.displayAreaData,function(idx,item){
-            if(that.isStatusEqual(item.pageStatus,pageStatus)){
+            if(that.isStatusEqual(item.pageStatus,pageStatus) && item.content.length == 0){
               item.content.push(data);
               that.trigger(item.content);
             }
@@ -972,11 +972,14 @@ console.log('url: ',url);
         pageStatus: pageStatus,
         content: [tmpObj]
       });*/
-
-      this.displayAreaData.push({
+      
+      if(!this.isStatusExisted(pageStatus)){
+        this.displayAreaData.push({
         pageStatus: pageStatus,
         content: []
       });
+      }
+      
     },
     onDisplayAreaRemovePageAction: function onDisplayAreaRemovePageAction(pageStatus) {
       var that = this;
