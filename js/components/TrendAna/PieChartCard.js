@@ -67,16 +67,9 @@ var PieChartCard = React.createClass({
 					" ",
 					React.createElement(InfDetailBlock, { objs: this.props.card.objList
 					}),
-					" ",
+					" "
 				
-				<div className="RecommBlock">
-					<hr />
-					<h3>Industry-Based Suggestion (Retail)</h3>
-					<p>Content: (in plain text)<br />
-					90% of Retail customers will archive MSEG to solve the issue<br />
-					45% of Retail customers will create index to solve the issue<br />
-					</p>
-				</div>
+				
 				
 				
 			);
