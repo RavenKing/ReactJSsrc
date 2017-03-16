@@ -60,6 +60,10 @@
 
 
           console.log(dataInfo)
+          if(dataInfo.factorId==null)
+          {
+            dataInfo.factorId= '532130';
+          }
         if(dataInfo.factorCate == 'S'){
 
           var url = "/SmartOperations/services/rcaSimulation.xsjs";
@@ -998,11 +1002,9 @@ console.log('url: ',url);
             $.each(item.content, function (idx1, item1) {
 
               if (item1.id === cardId) {
-                console.log('pageStatus update = ');
-                console.log(pageStatus);
-                console.log('cardId = ');
-                console.log(cardId);
-                var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
+
+                var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + pageStatus.sid + '&sysClt=' + pageStatus.client + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
+
                 console.log('RCA Add factor URL---------', url);
                 $.ajax({
                   url: url,
@@ -1068,11 +1070,9 @@ console.log('url: ',url);
             $.each(item.content, function (idx1, item1) {
 
               if (item1.id === cardId) {
-                console.log('pageStatus update = ');
-                console.log(pageStatus);
-                console.log('cardId = ');
-                console.log(cardId);
-                var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
+   
+
+                var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + pageStatus.sid + '&sysClt=' + pageStatus.client + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
                 console.log('RCA Add factor URL---------', url);
                 $.ajax({
                   url: url,
