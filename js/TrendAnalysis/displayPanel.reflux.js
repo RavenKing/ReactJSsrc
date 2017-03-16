@@ -59,6 +59,10 @@
 
 
           console.log(dataInfo)
+          if(dataInfo.factorId==null)
+          {
+            dataInfo.factorId= '532130';
+          }
         if(dataInfo.factorCate == 'S'){
 
           var url = "http://10.97.144.117:8000/SmartOperations/services/rcaSimulation.xsjs";
@@ -992,7 +996,7 @@ console.log('url: ',url);
                 console.log(pageStatus);
                 console.log('cardId = ');
                 console.log(cardId);
-                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
+                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + pageStatus.sid + '&sysClt=' + pageStatus.client + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
                 console.log('RCA Add factor URL---------', url);
                 $.ajax({
                   url: url,
@@ -1062,7 +1066,7 @@ console.log('url: ',url);
                 console.log(pageStatus);
                 console.log('cardId = ');
                 console.log(cardId);
-                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + data.systemId + '&sysClt=' + data.systemClt + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
+                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + pageStatus.sid + '&sysClt=' + pageStatus.client + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
                 console.log('RCA Add factor URL---------', url);
                 $.ajax({
                   url: url,
