@@ -1022,9 +1022,13 @@ console.log('url: ',url);
                   var month_entries = [];
                   resp.results.forEach(function (item) {
                     //axis.push(item.CALENDARWEEK);
-                    axis.push(item.YEAR_MONTH)
+
+                    console.log(Date.parse(item.YEAR_MONTH));
+                    if(Date.parse(item.YEAR_MONTH)>=Date.parse('2016-08')) // delete once done
+                    {axis.push(item.YEAR_MONTH)
                     total_entries.push(item.TABLE_ENTRIES);
                     month_entries.push(item.MONTHLY_ENTRIES);
+                    }
                   });
                   //data.lineChartAxis = new Array(axis);
                   //data.lineChartValue = new Array(value);
@@ -1033,7 +1037,7 @@ console.log('url: ',url);
                   item1.FACTOR_NAME.push(data.FACTOR_NAME_S);
                   item1.guidArr.push(data.FACTOR_NAME_S);
                   item1.lineChartAxis.push(axis);
-                  item1.lineChartValue.push(total_entries);
+                  item1.lineChartValue.push(month_entries);
              //     item1.lineChartMonthEntries.push(month_entries);
                   item1.category.push(data.category);
                   that.trigger(item.content);

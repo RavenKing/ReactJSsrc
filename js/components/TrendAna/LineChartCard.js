@@ -58,7 +58,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 				rangeLimit: this.props.card.lineChartAxis[0].length
 			};
 		},
-		onChange: function onChange(value) {
+		changeSlider: function changeSlider(value) {
 			this.setState({
 				rangeMin: value[0],
 				rangeMax: value[1]
@@ -511,7 +511,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			}
 
 			////////////////
-
+			var that = this;
 			return React.createElement(
 				Card,
 				{ className: "line-card",
@@ -524,7 +524,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 					subLineChart,
 					this.state.tsvisible==true?tpselect:<div></div>,
 					this.props.card.category[0] == "S"?<Switch checkedChildren="AVG" unCheckedChildren="TOTAL" defaultChecked={false} onChange={this.changeTimeType.bind(this)} />:<div></div>,
-					React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })
+					<Slider min={1} max={this.state.rangeLimit} range="true" defaultValue={[this.state.rangeMin,this.state.rangeMax]} onChange={this.changeSlider.bind(this)}/>
+					/*React.createElement(Slider, { min: 1, max: this.state.rangeLimit, range: true, defaultValue: [this.state.rangeMin, this.state.rangeMax], onChange: this.onChange.bind(this) })*/
 			);
 
 		}

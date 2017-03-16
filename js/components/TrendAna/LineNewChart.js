@@ -32,7 +32,6 @@ import HighCharts from "highcharts"
 		componentDidMount: function componentDidMount() {
 			console.log(this.props.chartContent);
 			const {chartContent} = this.props;
-
 			switch (chartContent.factorCate) {
 				case "B":
 					var yAxis = [{ // primary yAxis
@@ -45,7 +44,7 @@ import HighCharts from "highcharts"
 		                	format: '{value}'
 		            	},
 		            	title: {
-		                	text: 'Total Entries Number'
+		                	text: ''
 		            	},
 		            	opposite: true
 		        	}]
@@ -55,12 +54,12 @@ import HighCharts from "highcharts"
 		            	name: 'Monthly Entries',
 		            	type: 'column',
 		            	yAxis: 1,
-		            	data: this.props.chartContent.month_data
+		            	data: this.props.chartContent.month_data?this.props.chartContent.month_data:this.props.chartContent.total_data
 		        	},{
 		            	name: 'Total Entries',
 		            	type: 'line',
 		            	yAxis: 0,
-		            	data: this.props.chartContent.total_data		            
+		            	data: this.props.chartContent.month_data?this.props.chartContent.total_data:null		            
 		        	}]
 
 					break;
