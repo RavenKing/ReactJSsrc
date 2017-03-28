@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Slider,Modal, message,Card,Icon,Switch} from "antd"
+import { Slider,Modal, message,Card,Icon,Switch,Tag} from "antd"
 import LineChart from  "./LineChart"
 import LineNewChart from "./LineNewChart"
 //import LineNewChart1 from "./LineNewChart1"
@@ -453,7 +453,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			} else if(this.props.card.type === "ITEM") {
 				var chartValueArr;
 				var subLineChart;
-				
+				var that = this;
 				if(this.props.card.category[0] == "B"){					
 					
 
@@ -462,13 +462,20 @@ var dataPanelDataStore = window.dataPanelDataStore
 							factorCate:"B",
 							total_data:this.props.card.lineChartValue[0],
 							month_data:this.props.card.lineChartMonthEntries[0],
-							chartCateAxis:this.props.card.lineChartAxis,
+							chartCateAxis:this.props.card.lineChartAxis,							
 							axisMin: this.state.rangeMin,
 							axisMax: this.state.rangeMax
 						}
 					}
 
-					subLineChart = React.createElement(LineNewChart,param);
+					subLineChart = React.createElement(
+						'div',null,
+						React.createElement(LineNewChart,param),
+						React.createElement('h3', {style:{"margin-left":15}}, 'Retention:',<Tag color="red" closable={false}>{that.props.card.retention}</Tag>,'Month'),
+						React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{that.props.card.efficiency}</Tag>,'%')
+						);
+
+					
 				}
 				else{//"S"
 					chartValueArr = this.props.card.lineChartValue[0].slice();

@@ -605,12 +605,19 @@ console.log('url: ',url);
             var axis = [];
             var total_entries = [];
             var month_entries = [];
+            var retention = resp.Retention;
             resp.results.forEach(function (item) {
               //axis.push(item.CALENDARWEEK);
               axis.push(item.YEAR_MONTH);
               total_entries.push(item.TABLE_ENTRIES);
               month_entries.push(item.MONTHLY_ENTRIES);
             });
+
+            var length = total_entries.length;
+            var efficiency = total_entries[length-retention-1] / total_entries[length-1] * 100;
+
+            copydata.efficiency = efficiency.toFixed(2);
+            copydata.retention = retention;
             copydata.lineChartAxis = new Array(axis);
             copydata.lineChartValue = new Array(total_entries);
             copydata.lineChartMonthEntries = new Array(month_entries);
