@@ -472,7 +472,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 						'div',null,
 						React.createElement(LineNewChart,param),
 						React.createElement('h3', {style:{"margin-left":15}}, 'Retention:',<Tag color="red" closable={false}>{that.props.card.retention}</Tag>,'Month'),
-						React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{that.props.card.efficiency}</Tag>,'%')
+						that.props.card.retention == '0'?<div/>:React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{that.props.card.efficiency}</Tag>,'%')
 						);
 
 					
