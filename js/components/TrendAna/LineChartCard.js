@@ -165,11 +165,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 					switch (data.info) {
 						case "ANALYSIS":
-						  that.setState({
-						tsvisible:true
-
-														})
-
+							that.setState({tsvisible:true})
 							break;
 						case "DVM_ANA":
 							var factorName = that.props.card.FACTOR_NAME[0];
@@ -177,7 +173,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 							break;
 						case "EFFI":
 							data.factor_name = that.props.card.FACTOR_NAME;
-							displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId)
+							displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId);
+							break;
 						case "RCA":
 							console.log('case RCA');
 							if (!dataPanelDataStore.isSubItemExisted(currentStatus)) {
@@ -428,7 +425,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 							subLineChart[i] = React.createElement('div',
 								null,
 								React.createElement(LineNewChart,param),
-								React.createElement('h3', {style:{"margin-left":15}}, 'Retention:',<Tag color="red" closable={false}>{that.props.card.retention}</Tag>,'Month'),
+								React.createElement('h3', {style:{"margin-left":15}}, 'Residence Time:',<Tag color="red" closable={false}>{that.props.card.retention}</Tag>,'Month'),
 								that.props.card.retention == '0'?<div/>:React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{that.props.card.efficiency}</Tag>,'%'),
 								React.createElement('h3', {style:{"margin-left":15}}, 'Last archiving run: '+DVM_ARCH.LAST_ARCH_RUN),
 								React.createElement('h3', {style:{"margin-left":15}}, 'Other reasons: '),
