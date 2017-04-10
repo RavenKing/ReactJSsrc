@@ -100,6 +100,10 @@
               this.functionPanelData.push({
                 pageStatus: pageStatus,
                 content: [{
+                  name: "Efficiency",
+                  info: "EFFI",
+                  type: "EFFI"
+                }, {
                   name: "Data Strategy",
                   info: "DVM_ANA",
                   type: "DVM_ANA"

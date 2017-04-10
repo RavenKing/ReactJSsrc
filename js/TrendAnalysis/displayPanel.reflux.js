@@ -1163,6 +1163,43 @@ console.log('url: ',url);
         
           }
         })
+    }else if(data.info == "EFFI"){
+
+       $.each(this.displayAreaData, function (idx, item) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+
+            $.each(item.content,function(idx1,item1){
+              if(item1.id == cardId){
+
+                var customerId =  global.pageStatusDataStore.getCustomerID().CUSTOMER_ID;
+                
+                $.ajax({
+                  url: "http://10.97.144.117:8000/SmartOperations/services/ArchEfficiency.xsjs?customerId="+customerId+"&sysId="+pageStatus.sid+"&sysClt="+pageStatus.client+"&tableName="+data.factor_name,
+                  method: 'GET',
+                  async: true,
+                  headers: {
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function (resp) {
+                    item1.DVM_ARCH=resp.results[1];
+                    that.trigger(item.content);
+                    
+                }).fail(function(){
+                console.log('Fetch efficiency failed')
+                console.log(arguments);
+              })
+              }
+            })
+              
+          }
+        })
+
+
     }
     },
     onDisplayAreaUpdateCardPosAction: function onDisplayAreaUpdateCardPosAction(cardId, pos) {

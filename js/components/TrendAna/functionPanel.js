@@ -46,12 +46,13 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
         sid:node.getAttribute('data-sid'),
         client:node.getAttribute('data-client')
       }
-      var init0Status = {
+      /*var init0Status = {
         pageName:"INIT0",
         sid:"",
         client:""
-      }
-      pageStatusChangeActions.pageStatusRemoveAction(pageStatus, init0Status);
+      }*/
+      var currentStatus = pageStatusDataStore.getCurrentStatus();
+      pageStatusChangeActions.pageStatusRemoveAction(pageStatus, currentStatus);
       dataPanelItemChangeActions.dataPanelRemovePageAction(pageStatus);
       displayAreaChangeActions.displayAreaRemovePageAction(pageStatus);
       functionPanelItemChangeActions.functionPanelRemovePageAction(pageStatus);
@@ -61,7 +62,7 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       var options = [];
       for (var i = 0; i < statuses.length; i++) {
-        if (statuses[i].pageName == 'INIT') {
+        if (statuses[i].pageName == 'INIT' || statuses[i].pageName == 'INIT0') {
           if (statuses[i].pageName == currentStatus.pageName) {
             options.push(React.createElement(
               'li',

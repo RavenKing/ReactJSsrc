@@ -175,6 +175,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 							var factorName = that.props.card.FACTOR_NAME[0];
 							dataPanelItemChangeActions.dataPanelDVMAddItemAction(currentStatus, factorName);
 							break;
+						case "EFFI":
+							data.factor_name = that.props.card.FACTOR_NAME;
+							displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId)
 						case "RCA":
 							console.log('case RCA');
 							if (!dataPanelDataStore.isSubItemExisted(currentStatus)) {
@@ -403,7 +406,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 			////////////////
 			if (this.props.card.type === "ITEM-ANA") {
-
+				var that = this;
 				var arrLen = this.props.card.FACTOR_NAME.length;
 				var subLineChart = [];
 
@@ -418,7 +421,26 @@ var dataPanelDataStore = window.dataPanelDataStore
 								axisMin: this.state.rangeMin,
 								axisMax: this.state.rangeMax
 							}
+						};
+
+						const { DVM_ARCH } = this.props.card;
+						if(DVM_ARCH){
+							subLineChart[i] = React.createElement('div',
+								null,
+								React.createElement(LineNewChart,param),
+								React.createElement('h3', {style:{"margin-left":15}}, 'Retention:',<Tag color="red" closable={false}>{that.props.card.retention}</Tag>,'Month'),
+								that.props.card.retention == '0'?<div/>:React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{that.props.card.efficiency}</Tag>,'%'),
+								React.createElement('h3', {style:{"margin-left":15}}, 'Last archiving run: '+DVM_ARCH.LAST_ARCH_RUN),
+								React.createElement('h3', {style:{"margin-left":15}}, 'Other reasons: '),
+								DVM_ARCH.OTHER_REASON.map((reason)=>{
+									return React.createElement('h4', {style:{"margin-left":15}},reason.TEXT)
+								})
+							)
 						}
+						else{
+							subLineChart[i] = React.createElement(LineNewChart,param);
+						}
+						
 					}
 					else {//"S"
 						chartValueArr = this.props.card.lineChartValue[i].slice();
@@ -439,8 +461,10 @@ var dataPanelDataStore = window.dataPanelDataStore
 							}
 
 						};
+
+						subLineChart[i] = React.createElement(LineNewChart,param);
 					}
-					subLineChart[i] = React.createElement(LineNewChart,param);
+					
 				}
 			} else if (this.props.card.type === "WHAT_IF") {
 				var subLineChart = React.createElement(PredictLineChart, { chartAxisArr: this.props.card.lineChartAxis,
@@ -468,12 +492,14 @@ var dataPanelDataStore = window.dataPanelDataStore
 						}
 					}
 
-					subLineChart = React.createElement(
+					subLineChart = React.createElement(LineNewChart,param);
+
+					/*subLineChart = React.createElement(
 						'div',null,
 						React.createElement(LineNewChart,param),
 						React.createElement('h3', {style:{"margin-left":15}}, 'Retention:',<Tag color="red" closable={false}>{that.props.card.retention}</Tag>,'Month'),
 						that.props.card.retention == '0'?<div/>:React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{that.props.card.efficiency}</Tag>,'%')
-						);
+						);*/
 
 					
 				}
