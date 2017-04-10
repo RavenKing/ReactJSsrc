@@ -1186,7 +1186,7 @@ console.log('url: ',url);
                     'X-CSRF-Token': 'Fetch'
                   }
                 }).done(function (resp) {
-                    item1.DVM_ARCH=resp.results[1];
+                    item1.DVM_ARCH=resp.results[0];
                     that.trigger(item.content);
                     
                 }).fail(function(){
