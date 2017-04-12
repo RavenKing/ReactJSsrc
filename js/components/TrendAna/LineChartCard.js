@@ -188,7 +188,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 											var oData = {
 												type: "PIE",
 												style: style,
-												objList: dataPanelDataStore.getObjList(currentStatus)
+												objList: dataPanelDataStore.getObjList(currentStatus),
+												factor_name:[],
+												scala:[]
 											};
 											displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 										}
@@ -294,8 +296,12 @@ var dataPanelDataStore = window.dataPanelDataStore
 									data.customerId = that.props.card.customerId;
 									data.systemId = that.props.card.systemId;
 									data.systemClt = that.props.card.systemClt;
-									console.log(data);
+									var pieData = {
+										factor_name:draggableElement.getAttribute('data-factor_name'),
+										type:'pie'
+									};
 									displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId);
+									displayAreaChangeActions.displayAreaChangeCardAction(currentStatus,pieData,cardId);
 								}
 								else if(currentStatus.pageName.indexOf("ANALYSIS_DVM") > -1){
 									data.factor_name = draggableElement.getAttribute('data-factor_name');
