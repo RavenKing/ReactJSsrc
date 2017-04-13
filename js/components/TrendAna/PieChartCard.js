@@ -52,7 +52,6 @@ var PieChartCard = React.createClass({
 			global.resetPosition(this.getDOMNode());
 		},
 		render: function render() {
-			var that = this;
 			return React.createElement(
 				Card,
 				{
@@ -68,11 +67,7 @@ var PieChartCard = React.createClass({
 					" ",
 					React.createElement(InfDetailBlock, { objs: this.props.card.objList
 					}),
-					" ",
-					this.props.card.factor_name.map((item,idx)=>{
-						return React.createElement('p',{},item + ' performance scalability: ' + that.props.card.scala[idx] )
-					})
-					
+					" "
 				
 				
 				

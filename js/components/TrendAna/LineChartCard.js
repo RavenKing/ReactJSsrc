@@ -167,9 +167,15 @@ var dataPanelDataStore = window.dataPanelDataStore
 						case "ANALYSIS":
 							that.setState({tsvisible:true})
 							break;
-						case "DVM_ANA":
+						case "KNOW":
+							var data = {};
+						    data.type = "SAVE";
+						    data.style = {};
+          				    data.style.left = event.dragEvent.clientX + window.scrollX;
+          				    data.style.top = event.dragEvent.clientY + window.scrollY;
 							var factorName = that.props.card.FACTOR_NAME[0];
-							dataPanelItemChangeActions.dataPanelDVMAddItemAction(currentStatus, factorName);
+							dataPanelItemChangeActions.dataPanelDVMAddItemAction(currentStatus, factorName);							
+          				    displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
 							break;
 						case "EFFI":
 							data.factor_name = that.props.card.FACTOR_NAME;
@@ -188,9 +194,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 											var oData = {
 												type: "PIE",
 												style: style,
-												objList: dataPanelDataStore.getObjList(currentStatus),
-												factor_name:[],
-												scala:[]
+												objList: dataPanelDataStore.getObjList(currentStatus)
 											};
 											displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 										}
@@ -296,12 +300,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 									data.customerId = that.props.card.customerId;
 									data.systemId = that.props.card.systemId;
 									data.systemClt = that.props.card.systemClt;
-									var pieData = {
-										factor_name:draggableElement.getAttribute('data-factor_name'),
-										type:'pie'
-									};
+									console.log(data);
 									displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId);
-									displayAreaChangeActions.displayAreaChangeCardAction(currentStatus,pieData,cardId);
 								}
 								else if(currentStatus.pageName.indexOf("ANALYSIS_DVM") > -1){
 									data.factor_name = draggableElement.getAttribute('data-factor_name');

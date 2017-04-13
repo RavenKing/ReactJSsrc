@@ -103,7 +103,11 @@
                   name: "Efficiency",
                   info: "EFFI",
                   type: "EFFI"
-                }, {
+                },{
+                  name: "Knowledge",
+                  info: "KNOW",
+                  type: "KNOW"
+                },/*{
                   name: "Data Strategy",
                   info: "DVM_ANA",
                   type: "DVM_ANA"
@@ -111,20 +115,16 @@
                   name:"Template",
                   info:"ART_TEMP",
                   type:"ART_TEMP"
-                },
+                },*/
                 {
                   name: "Simulate",
                   info: "DVM_SIM",
                   type: "DVM_SIM"
-                },{
+                }/*,{
                   name:"Save Article",
                   info:"SAVE",
                   type:"SAVE"
-                }/*,{
-                  name: "Knowledge",
-                  info: "NOTE",
-                  type: "NOTE"
-              }*/]
+                }*/]
               });
               break;
             case "WIF":

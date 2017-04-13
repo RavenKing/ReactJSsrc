@@ -996,11 +996,13 @@ console.log('url: ',url);
       if(data.category == 'B'){
         $.each(this.displayAreaData, function (idx, item) {
           if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-            
             $.each(item.content, function (idx1, item1) {
 
               if (item1.id === cardId) {
-               
+                console.log('pageStatus update = ');
+                console.log(pageStatus);
+                console.log('cardId = ');
+                console.log(cardId);
                 var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + data.customerId + '&sysId=' + pageStatus.sid + '&sysClt=' + pageStatus.client + '&factorCate=' + data.category + '&factorType=' + data.factor_type + '&factorName=' + data.FACTOR_NAME_S;
                 console.log('RCA Add factor URL---------', url);
                 $.ajax({
@@ -1021,6 +1023,8 @@ console.log('url: ',url);
                   var month_entries = [];
                   resp.results.forEach(function (item) {
                     //axis.push(item.CALENDARWEEK);
+
+                    console.log(Date.parse(item.YEAR_MONTH));
                     if(Date.parse(item.YEAR_MONTH)>=Date.parse('2016-08')) // delete once done
                     {axis.push(item.YEAR_MONTH)
                     total_entries.push(item.TABLE_ENTRIES);
@@ -1035,20 +1039,9 @@ console.log('url: ',url);
                   item1.guidArr.push(data.FACTOR_NAME_S);
                   item1.lineChartAxis.push(axis);
                   item1.lineChartValue.push(month_entries);
-
-                  var new_length = month_entries.length;
-                  var diff = month_entries[new_length-1]  - month_entries[new_length-2];
-                  var init_length = item1.lineChartValue[0].length;
-                  scala = (item1.lineChartValue[0][init_length-1] - item1.lineChartValue[0][init_length-2]) / diff;
-                  scala = scala.toFixed(2);
              //     item1.lineChartMonthEntries.push(month_entries);
                   item1.category.push(data.category);
-                  item1.scala = scala;
-
-
-              
-                 that.trigger(item.content);
-
+                  that.trigger(item.content);
                   /*$.each(that.displayAreaData, function (idx, item) {
                     if (pageStatus === item.pageStatus) {
                       console.log('pageStatus chart = ');
@@ -1065,10 +1058,9 @@ console.log('url: ',url);
                   console.error('Fetch line chart data error:');
                   console.error(arguments);
                 });
-            return false;
               }
-
-            });            
+            });
+            return false;
           }
         });
     }else if(data.category == 'S'){
@@ -1206,26 +1198,8 @@ console.log('url: ',url);
               
           }
         })
-    }else if(data.type == "pie"){
-      var scala;
-      $.each(this.displayAreaData,function(idx,item){
-        if(that.isStatusEqual(item.pageStatus,pageStatus)){
-          $.each(item.content,function(idx1,item1){
-            if(item1.type != 'PIE'){
-             scala = item1.scala;
-              
-              return false;
-            }
-          })
-          $.each(item.content,function(idx1,item1){
-            if(item1.type == 'PIE'){
-              item1.factor_name.push(data.factor_name);
-              item1.scala.push(scala);
-              that.trigger(item.content);
-            }
-          })
-        }
-      })
+
+
     }
     },
     onDisplayAreaUpdateCardPosAction: function onDisplayAreaUpdateCardPosAction(cardId, pos) {
