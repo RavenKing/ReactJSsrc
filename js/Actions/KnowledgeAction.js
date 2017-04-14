@@ -754,5 +754,39 @@ export function DeleteArticle(data){
   
   }
 }
+export function AddRelation(data){
+  var report_name = data.REPORT_NAME;
+  var related_name = data.RELATED_NAME;
+  var factor = data.FACTOR;
+
+  var config = {
+        headers:{
+            'X-My-Custom-Header':'Header-Value',
+            'content-type':'application/json'
+            },
+            auth:{
+                username:'zengheng',
+                password:'Sap12345'
+        }
+  };
+  return dispatch=>{
+      axios.post("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SM_REL",{
+        
+        REPORT_NAME:report_name,
+        RELATED_NAME:related_name,
+        FACTOR:factor
+      },
+      config).then(function(resp){
+          const modal = Modal.success({
+              title: 'Add Successfully! ',
+              content: 'The relationship has been added!',
+          });  
+      }).catch(function(err){
+        console.log(err);
+      })
+  }
+
+  
+}
 
 

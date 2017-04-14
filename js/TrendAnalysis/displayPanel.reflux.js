@@ -337,6 +337,7 @@
 
           break;
         case 'COM':
+        case 'UPLOAD':
 
           $.each(that.displayAreaData,function(idx,item){
             if(that.isStatusEqual(item.pageStatus,pageStatus)){
@@ -346,19 +347,6 @@
           });
 
           break;
-        case 'UPLOAD':
-
-
-            $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-              }
-            });
-          
-
-          break;
-
         case 'EDIT':
 
           $.ajax({
@@ -710,47 +698,11 @@ console.log('url: ',url);
             }
           });
           break;
-        case "RCA_SIM":
-          $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-                return false;
-              }
-            });          
-
-          break;
-        case "WHAT_IF":
-          
-            $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-                return false;
-              }
-            });
-          
-
-          break;
         case "SAVE":
-          $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-                return false;
-              }
-          });
-          break;
-        case "ART_TEMP":
-          $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-                return false;
-              }
-          });
-          break;
         case "SAVE-ARTI":
+        case "RCA_SIM":
+        case "WHAT_IF":
+        case "REL":
           $.each(that.displayAreaData, function (idx, item) {
               if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);

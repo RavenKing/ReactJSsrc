@@ -679,6 +679,9 @@ text-align: center
   width:550px;
   
 }
+.relatedCard{
+  width:450px;
+}
 .bscInfo{
   margin-left: 25px;
 }

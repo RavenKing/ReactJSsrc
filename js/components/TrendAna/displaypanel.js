@@ -8,7 +8,7 @@ import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
 import CommentCard from "./CommentCard";
 import SaveArticle from "./SaveArticle";
-import ArticleTemplate from "./ArticleTemplate";
+import Relation from "./Relation";
 import DVMAPanel from "./DVMPanel/DVMAPanel";
 import RCASimCard from "./RCASimCard";
 import WhatIfCard from "./WhatIfCard";
@@ -238,6 +238,9 @@ if (!rc) {
           else if (item.type == "RCA_SIM") {
             return React.createElement(RCASimCard, { key: item.id + "RCASimCard", card: item });
           } 
+          else if(item.type == "REL") {
+            return React.createElement(Relation, { key: item.id + "Relation", card: item});
+          }
           else if(item.type == "WHAT_IF") {
             return React.createElement(RCASimCard, { key: item.id + "WhatSimCard", card: item });
           }
