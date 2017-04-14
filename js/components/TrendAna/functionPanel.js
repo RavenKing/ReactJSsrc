@@ -277,6 +277,9 @@ var functionPanelItemChangeActions = window.functionPanelItemChangeActions
       var items = [{
         name: "CREATE OBJECT",
         info: "CREATE"
+      },{
+        name: "ADD RELATION",
+        info: "REL"
       }];
       items.forEach(function (item) {
         options.push(React.createElement(

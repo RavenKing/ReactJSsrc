@@ -120,6 +120,10 @@ if (!rc) {
               data.title = 'Upload Statistics File';
       
               break;
+            case "REL":
+              data.type = "REL";
+              displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
+              break;
 
             case 'CPM-Overview':
               data.title = 'Workload Overview - ' + draggableElement.getAttribute('data-factor_name');

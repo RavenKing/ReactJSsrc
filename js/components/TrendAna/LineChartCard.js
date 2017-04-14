@@ -338,10 +338,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 							browserHistory.push("/km?object=" + that.props.card.FACTOR_NAME[0] + "&stype=" + stype);
 
 							break;
-						case "REL":
-							data.type = "REL";
-							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
-							break;
 						case "COM":
 							console.log('COMMENT -factor name =');
 							console.log(that.props.card.FACTOR_NAME[0]);
