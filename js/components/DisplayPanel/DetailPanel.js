@@ -21,6 +21,7 @@ export default class DetailPanel extends React.Component {
   constructor(props)
   {
     super(props);
+    console.log(this.props.onClose);
 
     // get number 
     const { display} = this.props;
@@ -214,7 +215,7 @@ export default class DetailPanel extends React.Component {
 
       return (
         
-        <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,false)} />}>
+        <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.props.onClose?this.props.onClose.bind(this):this.removeCard.bind(this,false)} />}>
          {displayzone}
         </Card>
         

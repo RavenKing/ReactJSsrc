@@ -52,7 +52,8 @@ dispatch({type:"AUTH_VALIDATING"});
                     USERNAME:parameter.username,
                     CUSTOMER_ID:parameter.customer_id,
                     INDUSTRY:results[0].INDUSTRY,
-                    COUNTRY:results[0].COUNTRY
+                    COUNTRY:results[0].COUNTRY,
+                    REGION:results[0].REGION
                   },
                   hint:"logged"
               }

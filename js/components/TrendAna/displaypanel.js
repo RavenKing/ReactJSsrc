@@ -253,7 +253,7 @@ if (!rc) {
             return React.createElement(PieChartCard, { key: item.id + "PIEChartCard", card: item });
           } 
           else if(item.type == "DVM" || item.type == "GEN") {
-            return React.createElement(DetailPanel, { key: item.id + "DetailPanel",article:item.article,display:item.display});
+            return React.createElement(DetailPanel, { key: item.id + "DetailPanel",article:item.article,display:item.display,onClose:displayAreaChangeActions.displayAreaRemoveCardAction});
           }
           else if (item.type == 'CREATE') {
 
