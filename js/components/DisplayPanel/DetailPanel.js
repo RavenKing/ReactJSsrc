@@ -8,6 +8,8 @@ import CapacityPanel from "./CapacityPanel"
 import { AddCard,RemoveCard,GetBestPractice,DeleteArticle,GetRegionData,fetchArticles} from "../../Actions/KnowledgeAction";
 import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
+var pageStatusDataStore = window.pageStatusDataStore
+
 const confirm = Modal.confirm;
 const success= Modal.success;
 @connect((store)=>{
@@ -22,8 +24,11 @@ export default class DetailPanel extends React.Component {
   {
     super(props);
     console.log(this.props.onClose);
+    console.log(this.props.cardItem)
 
-    // get number 
+   
+
+       // get number 
     const { display} = this.props;
     const { article } = this.props;
     const { user } = this.props.auth;
@@ -154,6 +159,15 @@ export default class DetailPanel extends React.Component {
   }
 
     removeCard(refresh){
+
+
+       if(this.props.cardItem)
+    {
+     var that = this;
+
+      var currentStatus = pageStatusDataStore.getCurrentStatus();
+        this.props.onClose(currentStatus, that.props.cardItem.id);
+    }
       var data = {
         data_id:this.props.article.ARTICLE_ID,
         type:this.props.article.FACTOR_TYPE,
@@ -215,7 +229,7 @@ export default class DetailPanel extends React.Component {
 
       return (
         
-        <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.props.onClose?this.props.onClose.bind(this):this.removeCard.bind(this,false)} />}>
+        <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,false)} />}>
          {displayzone}
         </Card>
         
