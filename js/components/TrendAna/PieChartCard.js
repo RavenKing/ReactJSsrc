@@ -1,5 +1,5 @@
 import React from "react"
-import {Card,Icon } from "antd"
+import {Card,Icon,Table } from "antd"
 var global = window;
 
 import PieChart from "./PieChart"
@@ -52,27 +52,75 @@ var PieChartCard = React.createClass({
 			global.resetPosition(this.getDOMNode());
 		},
 		render: function render() {
-			return React.createElement(
-				Card,
-				{
-					className:"pie-card",
-					title: "Potential Correlation with other objects?",
-					style: this.props.card.style,
-					extra: React.createElement(Icon, { type: "cross", onClick: this.removeCard().bind(this) }),
-					bodyStyle: {
-						padding: 0
-					} },
-				
-					React.createElement(PieChart, { seriesArr: this.props.card.seriesArr }),
-					" ",
-					React.createElement(InfDetailBlock, { objs: this.props.card.objList
-					}),
-					" "
-				
-				
-				
-				
-			);
+
+console.log(this.props.card)
+
+const columns = [
+	{
+        title:"Article Name",
+        width:"100px",
+        dataIndex:'Article_Name'
+      }, 
+      {
+        title:"Description",
+        width:"200px",
+        dataIndex:'Article_Dsc'
+      },{
+        title:"Create On",
+        width:"100px",
+        dataIndex:'Article_time'
+      },
+      {
+        title:"Create By",
+        width:"50px",
+        dataIndex:'Creator'
+      }
+      ];
+
+const {objList} = this.props.card;
+
+console.log(this.props.card)
+const marked = objList.filter((one)=>{if(one.marked)return one})
+let show =<p>No Predifined Model </p>
+
+if(marked.length > 0 )
+{
+	show = marked.map((one)=>{
+
+		var difference = Math.abs(one.INFLUENCE_RATE - one.modelRate);
+		if(difference >= 0.2)
+		{
+
+		}
+
+	return (<p> {one.FACTOR_NAME}  :  {one.INFLUENCE_RATE} / Predifined Rate : {one.modelRate} |difference:{difference}
+			</p>)
+
+	})
+
+
+}
+			return(
+			<Card className = "pie-card"
+			 title= "Potential Correlation with other objects?" 
+			extra = {<Icon type="cross" onClick={this.removeCard.bind(this)} > </Icon>}
+			>
+
+				<div  style={this.props.card.style} >
+				<PieChart seriesArr = {this.props.card.seriesArr} />
+				<InfDetailBlock objs={this.props.card.objList} />
+				</div>
+				<div>
+				{show}
+				</div>
+				<div>
+				<Table dataSource={objList.Knowledges}  columns={columns} />
+				</div>
+
+
+			</Card>	
+			)	
+		
 		}
 	});
 export default PieChartCard

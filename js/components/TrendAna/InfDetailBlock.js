@@ -18,7 +18,7 @@
 					{ key: i },
 					React.createElement(
 						Tooltip,
-						{ placement: "right", title: 'Influence rate: ' + parseFloat(objList[i].INFLUENCE_RATE).toFixed(2) },
+						{ placement: "right", title: objList[i].marked == 'x'?'Influence rate(Predefined Model Detected): ' + parseFloat(objList[i].INFLUENCE_RATE).toFixed(2):'Influence rate: ' + parseFloat(objList[i].INFLUENCE_RATE).toFixed(2) },
 						React.createElement(
 							"span",
 							null,

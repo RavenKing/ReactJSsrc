@@ -149,6 +149,12 @@ console.log('prepare to run RCA -------', card);
                 'X-CSRF-Token': 'Fetch'
               }
             }).done(function (resp) {
+
+              if(resp.Knowledges)
+              {
+                item.content.Knowledges = resp.Knowledges;
+              }
+
               resp.results.forEach(function (d) {
                 if (d.FACTOR_CATEGORY === "B") {
                   $.each(item.content, function (idx1, item1) {

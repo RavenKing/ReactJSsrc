@@ -93,6 +93,10 @@
                   name: "Simulate",
                   info: "RCA_SIM",
                   type: "RCA_SIM"
+                },{
+                  name: "Knowledge",
+                  info: "KNOWGE",
+                  type: "KNOWGE"
                 }
                 ]
               });
