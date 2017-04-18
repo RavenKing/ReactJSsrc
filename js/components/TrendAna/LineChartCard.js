@@ -194,7 +194,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 											var oData = {
 												type: "PIE",
 												style: style,
-												objList: dataPanelDataStore.getObjList(currentStatus)
+												objList: dataPanelDataStore.getObjList(currentStatus),
+												knowledges:dataPanelDataStore.getKnowledges(currentStatus)
 											};
 											displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 										}
@@ -220,7 +221,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 								var oData = {
 									type: "PIE",
 									style: _style,
-									objList: dataPanelDataStore.getObjList(currentStatus)
+									objList: dataPanelDataStore.getObjList(currentStatus),
+									knowledges:dataPanelDataStore.getKnowledges(currentStatus)
 								};
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
@@ -248,6 +250,23 @@ var dataPanelDataStore = window.dataPanelDataStore
 								};
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
+
+							break;
+						case "KNOWGE":
+							console.log('COMMENT -factor name =');
+							console.log(that.props.card.FACTOR_NAME[0]);
+							console.log(draggableElement);
+
+							var data = {
+								type: "COM",
+								title: "Comments for " + that.props.card.FACTOR_NAME[0],
+								factor_name:that.props.card.FACTOR_NAME[0],
+								factor_cat:that.props.card.category[0],
+								article_nam:that.props.card.FACTOR_NAME[0],
+								article_dsc:that.props.card.FACTOR_NAME[0]
+
+							}
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
 
 							break;
 						case "WHAT_IF":
@@ -336,22 +355,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 							//define article type
 							var stype = that.props.card.category[0] == "B"?"DVM":"GEN";
 							browserHistory.push("/km?object=" + that.props.card.FACTOR_NAME[0] + "&stype=" + stype);
-
-							break;
-						case "COM":
-							console.log('COMMENT -factor name =');
-							console.log(that.props.card.FACTOR_NAME[0]);
-							console.log(draggableElement);
-							var data = {
-								type: "COM",
-								title: "Comments for " + that.props.card.FACTOR_NAME[0],
-								factor_name:that.props.card.FACTOR_NAME[0],
-								factor_cat:that.props.card.category[0],
-								article_nam:that.props.card.business_name[0],
-								article_dsc:that.props.card.business_name[0]
-
-							}
-							displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
 
 							break;
 

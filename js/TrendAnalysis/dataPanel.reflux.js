@@ -665,6 +665,20 @@ console.log('prepare to run RCA -------', card);
         }
       });
       return objList;
+    },
+    getKnowledges: function getKnowledges(pageStatus){
+      var that = this;
+      var knowledges = [];
+      $.each(this.dataPanelData,function(idx,item){
+        if(that.isStatusEqual(item.pageStatus,pageStatus)){
+          if(item.content.Knowledges){
+            knowledges = item.content.Knowledges;           
+          }
+          return false;
+        }
+      })
+
+      return knowledges;
     }
 
   });

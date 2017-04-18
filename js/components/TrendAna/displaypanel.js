@@ -4,6 +4,7 @@ import KPICard from "./KPICard";
 import DataCard from "./DataCard";
 import LineChartCard from "./LineChartCard";
 import PieChartCard from "./PieChartCard";
+import DetailPanel from "../DisplayPanel/DetailPanel";
 import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
 import CommentCard from "./CommentCard";
@@ -251,7 +252,9 @@ if (!rc) {
           else if (item.type == 'PIE') {
             return React.createElement(PieChartCard, { key: item.id + "PIEChartCard", card: item });
           } 
-
+          else if(item.type == "DVM" || item.type == "GEN") {
+            return React.createElement(DetailPanel, { key: item.id + "DetailPanel",article:item.article,display:item.display});
+          }
           else if (item.type == 'CREATE') {
 
             return React.createElement(CreateObjCard, { key: item.id + "CreateObjCard", card: item });

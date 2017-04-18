@@ -698,6 +698,67 @@ console.log('url: ',url);
             }
           });
           break;
+        case "DVM":
+          $.each(that.displayAreaData, function (idx, item) {
+            if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+              var url = "http://10.97.144.117:8000/SmartOperations/services/articleContent.xsjs?articleId="+data.articleId;
+              $.ajax({
+                  url: url,
+                  method: 'get',
+                  dataType: 'json',
+                  headers: {
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function (resp) {
+                  if(resp.results.length > 0){
+                    copydata.article = resp.results[0];
+                    item.content.push(copydata);
+                    that.trigger(item.content);
+                  }
+                }).fail(function () {
+                  console.error('Fetch article error:');
+                  console.error(arguments);
+                });
+              }
+            });
+            break;
+        case "GEN":
+          $.each(that.displayAreaData, function (idx, item) {
+            if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+              var url = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP?$filter=ARTICLE_ID eq "+data.articleId;
+              $.ajax({
+                  url: url,
+                  method: 'get',
+                  dataType: 'json',
+                  headers: {
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function (resp) {
+                    if(resp.d.results.length>0){
+                      console.log(resp.d.results[0]);
+                      copydata.article = resp.d.results[0];
+                      copydata.article.FACTOR_TYPE = "GEN";
+                      item.content.push(copydata);
+                      that.trigger(item.content);
+                    }
+                  
+                }).fail(function () {
+                  console.error('Fetch article error:');
+                  console.error(arguments);
+                });
+              }
+            });
+          break;
         case "SAVE":
         case "SAVE-ARTI":
         case "RCA_SIM":

@@ -1,126 +1,112 @@
-import React from "react"
+import React from "react";
+import ReactDOM from "react-dom";
 import {Card,Icon,Table } from "antd"
-var global = window;
-
 import PieChart from "./PieChart"
 import InfDetailBlock from "./InfDetailBlock"
-var componentMixin = {
-		removeCard: function removeCard() {
+
+var displayAreaChangeActions = window.displayAreaChangeActions;
+var pageStatusDataStore = window.pageStatusDataStore
+var global = window;
+
+export default class PieChartCard extends React.Component{
+		
+
+		removeCard() {
 			var that = this;
-			return function () {
-				// if (that.interactable) {
-				//   that.interactable.unset();
-				//   that.interactable = null;
-				// }
-				// if (that.interactDrag) {
-				//   that.interactDrag.unset();
-				//   that.interactDrag = null;
-				// }
-				// if (that.interactDrop) {
-				//   that.interactDrop.unset();
-				//   that.interactDrop = null;
-				// }
-				var currentStatus = pageStatusDataStore.getCurrentStatus();
+			var currentStatus = pageStatusDataStore.getCurrentStatus();
 
-				if (currentStatus.pageName === "INIT" || this.props.card.type !== "ITEM" || currentStatus.pageName.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
+			if (currentStatus.pageName === "INIT" || this.props.card.type !== "ITEM" || currentStatus.pageName.indexOf(this.props.card.FACTOR_NAME[0]) < 0) {
 
-					displayAreaChangeActions.displayAreaRemoveCardAction(currentStatus, that.props.card.id);
-				} else {
+				displayAreaChangeActions.displayAreaRemoveCardAction(currentStatus, that.props.card.id);
+			} else {
 
-					message.warning('Can\'t remove object card which is being analyzed.');
-				}
+				message.warning('Can\'t remove object card which is being analyzed.');
+			}
+			
+		}
+		componentDidMount() {
+			this.interactable = global.setCardDragable(ReactDOM.findDOMNode(this), this.props.card.id);
+			global.handleFocus(ReactDOM.findDOMNode(this));
+		}
+		componentWillUpdate() {
+			global.resetPosition(ReactDOM.findDOMNode(this));
+		}
+		onRowClick(record, index){
+
+			const {knowledges} = this.props.card;
+			var data = {};
+			data.display = {
+				y: this.props.card.style.top,
+				x: 240
 			};
+			data.type = knowledges[index].type;
+			data.articleId = knowledges[index].ArticleID;
+
+          	displayAreaChangeActions.displayAreaAddCardAction(pageStatusDataStore.getCurrentStatus(), data);
+        
 		}
-	};
+		render() {
 
+			console.log(this.props.card)
 
+			const columns = [{
+        		title:"Article Name",
+        		width:"150px",
+        		dataIndex:'Article_Name'
+      		},{
+        		title:"Description",
+        		width:"150px",
+        		dataIndex:'Article_Dsc'
+      		},{
+        		title:"Create On",
+        		width:"100px",
+        		dataIndex:'Article_time'
+      		},{
+        		title:"Create By",
+        		width:"100px",
+        		dataIndex:'Creator'
+      		}];
 
+			const {objList} = this.props.card;
+			const {knowledges} = this.props.card;
 
+			console.log(this.props.card)
+			const marked = objList.filter((one)=>{if(one.marked)return one})
+			let show =<p>No Predifined Model </p>
 
+			if(marked.length > 0 )
+			{
+				show = marked.map((one)=>{
 
+					var difference = Math.abs(one.INFLUENCE_RATE - one.modelRate);
+					if(difference >= 0.2)
+					{
 
+					}
 
-var PieChartCard = React.createClass({
-		displayName: "PieChartCard",
+					return (
+						<p> {one.FACTOR_NAME}  :  {one.INFLUENCE_RATE} / Predifined Rate : {one.modelRate} |difference:{difference}</p>
+					)
 
-		mixins: [componentMixin],
-		componentDidMount: function componentDidMount() {
-			this.interactable = global.setCardDragable(this.getDOMNode(), this.props.card.id);
-			global.handleFocus(this.getDOMNode());
-		},
-		componentWillUpdate: function componentWillUpdate() {
-			global.resetPosition(this.getDOMNode());
-		},
-		render: function render() {
+				})
 
-console.log(this.props.card)
-
-const columns = [
-	{
-        title:"Article Name",
-        width:"100px",
-        dataIndex:'Article_Name'
-      }, 
-      {
-        title:"Description",
-        width:"200px",
-        dataIndex:'Article_Dsc'
-      },{
-        title:"Create On",
-        width:"100px",
-        dataIndex:'Article_time'
-      },
-      {
-        title:"Create By",
-        width:"50px",
-        dataIndex:'Creator'
-      }
-      ];
-
-const {objList} = this.props.card;
-
-console.log(this.props.card)
-const marked = objList.filter((one)=>{if(one.marked)return one})
-let show =<p>No Predifined Model </p>
-
-if(marked.length > 0 )
-{
-	show = marked.map((one)=>{
-
-		var difference = Math.abs(one.INFLUENCE_RATE - one.modelRate);
-		if(difference >= 0.2)
-		{
-
-		}
-
-	return (<p> {one.FACTOR_NAME}  :  {one.INFLUENCE_RATE} / Predifined Rate : {one.modelRate} |difference:{difference}
-			</p>)
-
-	})
-
-
-}
+			}
 			return(
-			<Card className = "pie-card"
-			 title= "Potential Correlation with other objects?" 
-			extra = {<Icon type="cross" onClick={this.removeCard.bind(this)} > </Icon>}
-			>
+				<Card className = "pie-card" title= "Potential Correlation with other objects?" 
+					extra = {<Icon type="cross" onClick={this.removeCard.bind(this)} > </Icon>}>
 
-				<div  style={this.props.card.style} >
-				<PieChart seriesArr = {this.props.card.seriesArr} />
-				<InfDetailBlock objs={this.props.card.objList} />
-				</div>
-				<div>
-				{show}
-				</div>
-				<div>
-				<Table dataSource={objList.Knowledges}  columns={columns} />
-				</div>
-
-
-			</Card>	
+					<div style={this.props.card.style} >
+						<PieChart seriesArr = {this.props.card.seriesArr} />
+						<InfDetailBlock objs={this.props.card.objList} />
+					</div>
+					<div>
+						{show}
+					</div>
+					<div>
+						<Table dataSource={knowledges}  columns={columns} onRowClick={this.onRowClick.bind(this)} />
+					</div>
+				</Card>	
 			)	
 		
 		}
-	});
-export default PieChartCard
+}
