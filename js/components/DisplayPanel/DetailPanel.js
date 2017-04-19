@@ -23,11 +23,6 @@ export default class DetailPanel extends React.Component {
   constructor(props)
   {
     super(props);
-    console.log(this.props.onClose);
-    console.log(this.props.cardItem)
-
-   
-
        // get number 
     const { display} = this.props;
     const { article } = this.props;
@@ -50,12 +45,13 @@ export default class DetailPanel extends React.Component {
     {this.props.dispatch(GetBestPractice(parms1));
     this.props.dispatch(GetRegionData(parms2));
     }
+
+    const filtedAr = this.props.articles.articles.results.filter((one)=>{if(one.ARTICLE_ID==article.ARTICLE_ID) return one})
     this.state={
-      article:article,
+      article:filtedAr[0],
       page:1
     }
   }
-
 
   NavLeft(){
 
@@ -154,9 +150,6 @@ export default class DetailPanel extends React.Component {
     });
   }
 
-  componentWillMount(){
-
-  }
 
     removeCard(refresh){
 
@@ -182,6 +175,9 @@ export default class DetailPanel extends React.Component {
         top: this.state.y+'px',
         left:this.state.x+'px'
       };*/
+
+      console.log(this.state)
+      console.log(this.props.article)
       const pos1 = {
         top:this.props.display.y+'px',
         left:this.props.display.x+'px'
@@ -195,7 +191,7 @@ export default class DetailPanel extends React.Component {
               <Icon type="left" />
             </div>
             <div className="middlecontainer">  
-              <DvmPanel Page={this.state.page} Article={this.props.article} />
+              <DvmPanel Page={this.state.page} Article={this.state.article} />
             </div>
             <div className="rightside" onClick={this.NavRight.bind(this)}>
               <Icon type="right"/>
@@ -210,7 +206,7 @@ export default class DetailPanel extends React.Component {
               <Icon type="left" />
             </div>
             <div className="middlecontainer">  
-              <CapacityPanel Article ={this.props.article}/>
+              <CapacityPanel Article ={this.state.article}/>
             </div>
             <div className="rightside" onClick={this.NavRight.bind(this)}>
               <Icon type="right"/>
@@ -220,7 +216,7 @@ export default class DetailPanel extends React.Component {
       }
       else if(this.props.article.FACTOR_TYPE == "GEN"){
         displayzone = (
-          <Input type="textarea" value={this.props.article.COMMENT} rows={8}/>
+          <Input type="textarea" value={this.state.article.COMMENT} rows={8}/>
 
         )
       }
@@ -229,7 +225,7 @@ export default class DetailPanel extends React.Component {
 
       return (
         
-        <Card className="detail-panel" data-id={this.props.article.ARTICLE_ID} style={pos1} title={this.props.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,false)} />}>
+        <Card className="detail-panel" data-id={this.state.article.ARTICLE_ID} style={pos1} title={this.state .article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,false)} />}>
          {displayzone}
         </Card>
         
