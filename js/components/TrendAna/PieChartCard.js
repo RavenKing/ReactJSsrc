@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Card,Icon,Table } from "antd"
+import {Card,Icon,Table,Tag} from "antd"
 import PieChart from "./PieChart"
 import InfDetailBlock from "./InfDetailBlock"
 
@@ -78,14 +78,14 @@ export default class PieChartCard extends React.Component{
 			{
 				show = marked.map((one)=>{
 
-					var difference = Math.abs(one.INFLUENCE_RATE - one.modelRate);
+					var difference = (Math.abs(one.INFLUENCE_RATE - one.modelRate)).toFixed(2);
 					if(difference >= 0.2)
 					{
 
 					}
 
 					return (
-						<p> {one.FACTOR_NAME}  :  {one.INFLUENCE_RATE} / Predifined Rate : {one.modelRate} |difference:{difference}</p>
+						<p> {one.FACTOR_NAME}:<Tag color="red" closable={false}>{one.INFLUENCE_RATE}</Tag> / Predifined Rate : <Tag color="green" closable={false}>{one.modelRate}</Tag> |difference:<Tag color="yellow" closable={false}>{difference}</Tag></p>
 					)
 
 				})

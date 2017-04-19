@@ -745,7 +745,6 @@ console.log('url: ',url);
                   }
                 }).done(function (resp) {
                     if(resp.d.results.length>0){
-                      console.log(resp.d.results[0]);
                       copydata.article = resp.d.results[0];
                       copydata.article.FACTOR_TYPE = "GEN";
                       item.content.push(copydata);

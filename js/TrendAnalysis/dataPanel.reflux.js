@@ -156,6 +156,7 @@ console.log('prepare to run RCA -------', card);
               }
 
               resp.results.forEach(function (d) {
+                d.INFLUENCE_RATE = d.INFLUENCE_RATE.toFixed(2);
                 if (d.FACTOR_CATEGORY === "B") {
                   $.each(item.content, function (idx1, item1) {
                     if (item1.title === "Business") {
