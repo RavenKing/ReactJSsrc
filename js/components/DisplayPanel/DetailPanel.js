@@ -216,7 +216,9 @@ export default class DetailPanel extends React.Component {
       }
       else if(this.props.article.FACTOR_TYPE == "GEN"){
         displayzone = (
-          <Input type="textarea" value={this.state.article.COMMENT} rows={8}/>
+          /*<Input type="textarea" value={this.state.article.COMMENT} rows={8}/>*/
+          
+            <p>{this.state.article.COMMENT}</p>        
 
         )
       }
@@ -224,11 +226,9 @@ export default class DetailPanel extends React.Component {
 
 
       return (
-        
-        <Card className="detail-panel" data-id={this.state.article.ARTICLE_ID} style={pos1} title={this.state .article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,false)} />}>
-         {displayzone}
-        </Card>
-        
+          <Card className="detail-panel" data-id={this.state.article.ARTICLE_ID} style={pos1} title={this.state .article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,false)} />}>
+            {displayzone}
+          </Card>
       );
   }
 }

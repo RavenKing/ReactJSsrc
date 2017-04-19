@@ -184,6 +184,9 @@ li {
 .detail-panel { 
   width:750px; 
 }
+.detail-panel-gen {
+  width:300px;
+}
 
 .data-card:hover, .line-card:hover, .pie-card:hover , .create-obj-card:hover, .upload-card:hover, .comment-card:hover,.detail-panel:hover, .create-panel:hover, .edit-panel:hover, .main-panel:hover{
   position: absolute;
