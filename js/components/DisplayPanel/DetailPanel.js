@@ -218,7 +218,7 @@ export default class DetailPanel extends React.Component {
         displayzone = (
           /*<Input type="textarea" value={this.state.article.COMMENT} rows={8}/>*/
           
-            <p>{this.state.article.COMMENT}</p>        
+            <p>{this.props.article.COMMENT}</p>        
 
         )
       }
