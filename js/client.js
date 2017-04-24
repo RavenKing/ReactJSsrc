@@ -29,11 +29,8 @@ ReactDOM.render(
      <Route path="/SMARTOPERATION/" component ={requireAuth(First)}> 
         <Route path="/SMARTOPERATION/trend" component={First}>   </Route>  
       </Route>
-<<<<<<< HEAD
     <Route path="/SMARTOPERATION/km" component={requireAuth(Layout)}>   </Route> 
-=======
-    <Route path="/km" component={requireAuth(Layout)}></Route> 
->>>>>>> cassie
+
   </Router>
     </Provider>,
 app);
