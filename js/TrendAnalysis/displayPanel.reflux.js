@@ -828,7 +828,7 @@ console.log('url: ',url);
         case "REL":
           $.each(that.displayAreaData, function (idx, item) {
               if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                var url = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SM_REL";
+                var url = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SM_REL?$filter=REPORT_NAME eq '"+data.report_name+"'";
                 $.ajax({
                   url: url,
                   method: 'get',

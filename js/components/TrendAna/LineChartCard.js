@@ -254,6 +254,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 							break;
 						case "REL":
 							data.type = "REL";
+							data.report_name = that.props.card.FACTOR_NAME[0];
 							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
 							break;
 						case "KNOWGE":
