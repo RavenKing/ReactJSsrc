@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Slider,Modal, message,Card,Icon,Switch} from "antd"
+import { Slider,Modal, message,Card,Icon,Switch,Tag} from "antd"
 import LineChart from  "./LineChart"
 import LineNewChart from "./LineNewChart"
 //import LineNewChart1 from "./LineNewChart1"
@@ -165,15 +165,21 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 					switch (data.info) {
 						case "ANALYSIS":
-						  that.setState({
-						tsvisible:true
-
-														})
-
+							that.setState({tsvisible:true})
 							break;
-						case "DVM_ANA":
+						case "KNOW":
+							var data = {};
+						    data.type = "SAVE";
+						    data.style = {};
+          				    data.style.left = event.dragEvent.clientX + window.scrollX;
+          				    data.style.top = event.dragEvent.clientY + window.scrollY;
 							var factorName = that.props.card.FACTOR_NAME[0];
-							dataPanelItemChangeActions.dataPanelDVMAddItemAction(currentStatus, factorName);
+							dataPanelItemChangeActions.dataPanelDVMAddItemAction(currentStatus, factorName);							
+          				    displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
+							break;
+						case "EFFI":
+							data.factor_name = that.props.card.FACTOR_NAME;
+							displayAreaChangeActions.displayAreaChangeCardAction(currentStatus, data, cardId);
 							break;
 						case "RCA":
 							console.log('case RCA');
@@ -188,7 +194,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 											var oData = {
 												type: "PIE",
 												style: style,
-												objList: dataPanelDataStore.getObjList(currentStatus)
+												objList: dataPanelDataStore.getObjList(currentStatus),
+												knowledges:dataPanelDataStore.getKnowledges(currentStatus)
 											};
 											displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 										}
@@ -214,7 +221,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 								var oData = {
 									type: "PIE",
 									style: _style,
-									objList: dataPanelDataStore.getObjList(currentStatus)
+									objList: dataPanelDataStore.getObjList(currentStatus),
+									knowledges:dataPanelDataStore.getKnowledges(currentStatus)
 								};
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
@@ -242,6 +250,28 @@ var dataPanelDataStore = window.dataPanelDataStore
 								};
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
+
+							break;
+						case "REL":
+							data.type = "REL";
+							data.report_name = that.props.card.FACTOR_NAME[0];
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
+							break;
+						case "KNOWGE":
+							console.log('COMMENT -factor name =');
+							console.log(that.props.card.FACTOR_NAME[0]);
+							console.log(draggableElement);
+
+							var data = {
+								type: "COM",
+								title: "Comments for " + that.props.card.FACTOR_NAME[0],
+								factor_name:that.props.card.FACTOR_NAME[0],
+								factor_cat:that.props.card.category[0],
+								article_nam:that.props.card.FACTOR_NAME[0],
+								article_dsc:that.props.card.FACTOR_NAME[0]
+
+							}
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
 
 							break;
 						case "WHAT_IF":
@@ -332,22 +362,6 @@ var dataPanelDataStore = window.dataPanelDataStore
 							browserHistory.push("/SMARTOPERATION/km?object=" + that.props.card.FACTOR_NAME[0] + "&stype=" + stype);
 
 							break;
-						case "COM":
-							console.log('COMMENT -factor name =');
-							console.log(that.props.card.FACTOR_NAME[0]);
-							console.log(draggableElement);
-							var data = {
-								type: "COM",
-								title: "Comments for " + that.props.card.FACTOR_NAME[0],
-								factor_name:that.props.card.FACTOR_NAME[0],
-								factor_cat:that.props.card.category[0],
-								article_nam:that.props.card.business_name[0],
-								article_dsc:that.props.card.business_name[0]
-
-							}
-							displayAreaChangeActions.displayAreaAddCardAction(currentStatus,data);
-
-							break;
 
 						case "DELETE":
 							console.log('DELETE');
@@ -403,7 +417,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 
 			////////////////
 			if (this.props.card.type === "ITEM-ANA") {
-
+				var that = this;
 				var arrLen = this.props.card.FACTOR_NAME.length;
 				var subLineChart = [];
 
@@ -418,7 +432,26 @@ var dataPanelDataStore = window.dataPanelDataStore
 								axisMin: this.state.rangeMin,
 								axisMax: this.state.rangeMax
 							}
+						};
+
+						const { DVM_ARCH } = this.props.card;
+						if(DVM_ARCH){
+							subLineChart[i] = React.createElement('div',
+								null,
+								React.createElement(LineNewChart,param),
+								React.createElement('h3', {style:{"margin-left":15}}, 'Residence Time:',<Tag color="red" closable={false}>{that.props.card.retention}</Tag>,'Month'),
+								that.props.card.retention == '0'?<div/>:React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{that.props.card.efficiency}</Tag>,'%'):'',
+								DVM_ARCH.IS_EFFICIENT == 0?React.createElement('h3', {style:{"margin-left":15}}, 'Last archiving run: '+DVM_ARCH.LAST_ARCH_RUN):'',
+								DVM_ARCH.IS_EFFICIENT == 0?React.createElement('h3', {style:{"margin-left":15}}, 'Other reasons: '):'',
+								DVM_ARCH.IS_EFFICIENT == 0?DVM_ARCH.OTHER_REASON.map((reason)=>{
+									return React.createElement('h4', {style:{"margin-left":15}},reason.TEXT)
+								}):''
+							)
 						}
+						else{
+							subLineChart[i] = React.createElement(LineNewChart,param);
+						}
+						
 					}
 					else {//"S"
 						chartValueArr = this.props.card.lineChartValue[i].slice();
@@ -439,8 +472,10 @@ var dataPanelDataStore = window.dataPanelDataStore
 							}
 
 						};
+
+						subLineChart[i] = React.createElement(LineNewChart,param);
 					}
-					subLineChart[i] = React.createElement(LineNewChart,param);
+					
 				}
 			} else if (this.props.card.type === "WHAT_IF") {
 				var subLineChart = React.createElement(PredictLineChart, { chartAxisArr: this.props.card.lineChartAxis,
@@ -453,7 +488,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 			} else if(this.props.card.type === "ITEM") {
 				var chartValueArr;
 				var subLineChart;
-				
+				var that = this;
 				if(this.props.card.category[0] == "B"){					
 					
 
@@ -462,13 +497,22 @@ var dataPanelDataStore = window.dataPanelDataStore
 							factorCate:"B",
 							total_data:this.props.card.lineChartValue[0],
 							month_data:this.props.card.lineChartMonthEntries[0],
-							chartCateAxis:this.props.card.lineChartAxis,
+							chartCateAxis:this.props.card.lineChartAxis,							
 							axisMin: this.state.rangeMin,
 							axisMax: this.state.rangeMax
 						}
 					}
 
 					subLineChart = React.createElement(LineNewChart,param);
+
+					/*subLineChart = React.createElement(
+						'div',null,
+						React.createElement(LineNewChart,param),
+						React.createElement('h3', {style:{"margin-left":15}}, 'Retention:',<Tag color="red" closable={false}>{that.props.card.retention}</Tag>,'Month'),
+						that.props.card.retention == '0'?<div/>:React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{that.props.card.efficiency}</Tag>,'%')
+						);*/
+
+					
 				}
 				else{//"S"
 					chartValueArr = this.props.card.lineChartValue[0].slice();

@@ -61,8 +61,8 @@ export default class GeneralArticle extends React.Component {
               TYPE:"GEN",
               CUSTOMER_ID:user.CUSTOMER_ID,
               USERNAME:user.USERNAME,
-              ARTICLE_NAM:fieldsValue["ARTICLE_NAM"],
-              ARTICLE_DSC:fieldsValue["ARTICLE_DSC"],
+              ARTICLE_NAM:fieldsValuhe["ARTICLE_NAM"],
+              ARTICLE_DSC:"No Description",
               COMMENT:fieldsValue["COMMENT"],
               FACTOR_CAT:"G",
               FACTOR_NAME:fieldsValue["FACTOR_NAME"]
@@ -110,38 +110,24 @@ export default class GeneralArticle extends React.Component {
 
                 <FormItem
                 {...formItemLayout}
-                label="Article Name:"
+                label="General Article Title:"
                 >
-                <Input type="text" placeholder="Type in an article name" 
+                <Input type="text" placeholder="Type in an Title" 
                 {...getFieldProps('ARTICLE_NAM')}/>
                 </FormItem>
-
                 <FormItem
                 {...formItemLayout}
-                label="Article Description:"
+                label="Report Or Table Name:"
                 >
-                <Input type="text" placeholder="Type in an description for article"
-                {...getFieldProps('ARTICLE_DSC')}/>
-                </FormItem>
-
-                <FormItem
-                {...formItemLayout}
-                label="Factor Name:"
-                >
-                <Select showSearch
-                    placeholder="please select factor name"                   
-                    {...getFieldProps('FACTOR_NAME')}               
-                    
-                  >
-                    {options}
-                  </Select>
+                 <Input type="textarea" placeholder="Report Or Table Name "
+                {...getFieldProps('FACTOR_NAME')}/>
                 </FormItem>
 
                 <FormItem
                 {...formItemLayout}
                 label="Comment:"
                 >
-                <Input type="text" placeholder="Type in comment "
+                <Input type="textarea" placeholder="Type in comment "
                 {...getFieldProps('COMMENT')}/>
                 </FormItem>
 

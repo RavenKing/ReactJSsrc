@@ -140,6 +140,7 @@ import HighCharts from "highcharts"
 
 				////
 			});
+			
 		},
 
 		componentWillUnmount: function componentWillUnmount() {
@@ -151,6 +152,8 @@ import HighCharts from "highcharts"
 		
 
 		render: function render() {
+			
+			
 
 			if (this.props.showLabel) {
 
@@ -164,7 +167,7 @@ import HighCharts from "highcharts"
 				return React.createElement(
 					"div",
 					//{ className: "line-item" },
-					" "
+					""
 				);
 			}
 		}

@@ -4,11 +4,12 @@ import KPICard from "./KPICard";
 import DataCard from "./DataCard";
 import LineChartCard from "./LineChartCard";
 import PieChartCard from "./PieChartCard";
+import DetailPanel from "../DisplayPanel/DetailPanel";
 import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
 import CommentCard from "./CommentCard";
 import SaveArticle from "./SaveArticle";
-import ArticleTemplate from "./ArticleTemplate";
+import RelationCard from "./RelationCard";
 import DVMAPanel from "./DVMPanel/DVMAPanel";
 import RCASimCard from "./RCASimCard";
 import WhatIfCard from "./WhatIfCard";
@@ -120,7 +121,6 @@ if (!rc) {
               data.title = 'Upload Statistics File';
       
               break;
-
             case 'CPM-Overview':
               data.title = 'Workload Overview - ' + draggableElement.getAttribute('data-factor_name');
               data.customerId = draggableElement.getAttribute('data-customer');
@@ -238,13 +238,18 @@ if (!rc) {
           else if (item.type == "RCA_SIM") {
             return React.createElement(RCASimCard, { key: item.id + "RCASimCard", card: item });
           } 
+          else if(item.type == "REL") {
+            return React.createElement(RelationCard, { key: item.id + "RelationCard", card: item});
+          }
           else if(item.type == "WHAT_IF") {
             return React.createElement(RCASimCard, { key: item.id + "WhatSimCard", card: item });
           }
           else if (item.type == 'PIE') {
             return React.createElement(PieChartCard, { key: item.id + "PIEChartCard", card: item });
           } 
-
+          else if(item.type == "DVM" || item.type == "GEN") {
+            return React.createElement(DetailPanel, { key: item.id + "DetailPanel",article:item.article,display:item.display,onClose:displayAreaChangeActions.displayAreaRemoveCardAction,cardItem:item} );
+          }
           else if (item.type == 'CREATE') {
 
             return React.createElement(CreateObjCard, { key: item.id + "CreateObjCard", card: item });

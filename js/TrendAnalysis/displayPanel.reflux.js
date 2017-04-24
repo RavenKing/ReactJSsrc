@@ -18,7 +18,7 @@
     }],
 
 
-          getSystemIDbyCustomer:function getSystemIDbyCustomer(customer_id)
+      getSystemIDbyCustomer:function getSystemIDbyCustomer(customer_id)
       {
 
 
@@ -230,8 +230,75 @@
             return false;
           });
     
-  },
+    },
+    addRelation:function addRelation(data){
+      var flag = false;
+      var url = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SM_REL";
 
+      $.ajax({
+        url:url,
+        method: 'POST',
+        async:false,
+        data: JSON.stringify(data),
+        headers: {
+          'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'DataServiceVersion': '2.0',
+          'X-CSRF-Token': 'Fetch'
+        }
+      }).done(function(resp){
+          flag = true;
+      }).fail(function(resp){
+          console.log("fail "+resp);
+      })
+      return flag;
+    },
+    deleteRelation:function deleteRelation(data){
+      var flag = false;
+      var url = "http://10.97.144.117:8000/SmartOperations/services/deleteRelation.xsjs?REPORT_NAME="+data.REPORT_NAME+"&RELATED_NAME="+data.RELATED_NAME;
+      $.ajax({
+        url:url,
+        method:"GET",
+        async: false,
+        headers:{
+          'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'DataServiceVersion': '2.0',
+          'X-CSRF-Token': 'Fetch'
+        }
+      }).done(function(resp){
+          flag = true;
+      }).fail(function(err){
+        console.log(err);
+      })
+      return flag;
+    },
+    updateRelation:function updateRelation(data){
+      var flag = false;
+      var url = "http://10.97.144.117:8000/SmartOperations/services/updateRelation.xsjs?REPORT_NAME="+data.REPORT_NAME+"&RELATED_NAME="+data.RELATED_NAME+"&FACTOR="+data.FACTOR;
+      $.ajax({
+        url:url,
+        method:"GET",
+        async: false,
+        headers:{
+          'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'DataServiceVersion': '2.0',
+          'X-CSRF-Token': 'Fetch'
+        }
+      }).done(function(resp){
+          flag = true;
+      }).fail(function(err){
+        console.log(err);
+      })
+      return flag;
+    },
     pinObject: function pinObject(factorId, setPin) {
       var flag = false;
       var url = "/SmartOperations/services/pinObject.xsjs?factorId=" + factorId + "&pin=" + setPin;
@@ -338,6 +405,7 @@
 
           break;
         case 'COM':
+        case 'UPLOAD':
 
           $.each(that.displayAreaData,function(idx,item){
             if(that.isStatusEqual(item.pageStatus,pageStatus)){
@@ -347,19 +415,6 @@
           });
 
           break;
-        case 'UPLOAD':
-
-
-            $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-              }
-            });
-          
-
-          break;
-
         case 'EDIT':
 
           $.ajax({
@@ -612,12 +667,19 @@ console.log('url: ',url);
             var axis = [];
             var total_entries = [];
             var month_entries = [];
+            var retention = resp.Retention;
             resp.results.forEach(function (item) {
               //axis.push(item.CALENDARWEEK);
               axis.push(item.YEAR_MONTH);
               total_entries.push(item.TABLE_ENTRIES);
               month_entries.push(item.MONTHLY_ENTRIES);
             });
+
+            var length = total_entries.length;
+            var efficiency = total_entries[length-retention-1] / total_entries[length-1] * 100;
+
+            copydata.efficiency = efficiency.toFixed(2);
+            copydata.retention = retention;
             copydata.lineChartAxis = new Array(axis);
             copydata.lineChartValue = new Array(total_entries);
             copydata.lineChartMonthEntries = new Array(month_entries);
@@ -710,47 +772,97 @@ console.log('url: ',url);
             }
           });
           break;
-        case "RCA_SIM":
+        case "DVM":
           $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-                return false;
-              }
-            });          
-
-          break;
-        case "WHAT_IF":
-          
-            $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-                return false;
+            if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+              var url = "http://10.97.144.117:8000/SmartOperations/services/articleContent.xsjs?articleId="+data.articleId;
+              $.ajax({
+                  url: url,
+                  method: 'get',
+                  dataType: 'json',
+                  headers: {
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function (resp) {
+                  if(resp.results.length > 0){
+                    copydata.article = resp.results[0];
+                    item.content.push(copydata);
+                    that.trigger(item.content);
+                  }
+                }).fail(function () {
+                  console.error('Fetch article error:');
+                  console.error(arguments);
+                });
               }
             });
-          
-
+            break;
+        case "GEN":
+          $.each(that.displayAreaData, function (idx, item) {
+            if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+              var url = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP?$filter=ARTICLE_ID eq "+data.articleId;
+              $.ajax({
+                  url: url,
+                  method: 'get',
+                  dataType: 'json',
+                  headers: {
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function (resp) {
+                    if(resp.d.results.length>0){
+                      copydata.article = resp.d.results[0];
+                      copydata.article.FACTOR_TYPE = "GEN";
+                      item.content.push(copydata);
+                      that.trigger(item.content);
+                    }
+                  
+                }).fail(function () {
+                  console.error('Fetch article error:');
+                  console.error(arguments);
+                });
+              }
+            });
+          break;
+        case "REL":
+          $.each(that.displayAreaData, function (idx, item) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+                var url = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SM_REL?$filter=REPORT_NAME eq '"+data.report_name+"'";
+                $.ajax({
+                  url: url,
+                  method: 'get',
+                  dataType: 'json',
+                  headers: {
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function (resp) {
+                    copydata.relations = resp.d.results;
+                    item.content.push(copydata);
+                    that.trigger(item.content);
+                }).fail(function () {
+                    console.error('Fetch Transaction chart data error:');
+                    console.error(arguments);
+                });
+              }
+          });
           break;
         case "SAVE":
-          $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-                return false;
-              }
-          });
-          break;
-        case "ART_TEMP":
-          $.each(that.displayAreaData, function (idx, item) {
-              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-                item.content.push(copydata);
-                that.trigger(item.content);
-                return false;
-              }
-          });
-          break;
         case "SAVE-ARTI":
+        case "RCA_SIM":
+        case "WHAT_IF":
           $.each(that.displayAreaData, function (idx, item) {
               if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
@@ -1162,6 +1274,55 @@ console.log('url: ',url);
         
           }
         })
+    }else if(data.info == "EFFI"){
+
+       $.each(this.displayAreaData, function (idx, item) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+
+            $.each(item.content,function(idx1,item1){
+              if(item1.id == cardId){
+
+                var customerId =  global.pageStatusDataStore.getCustomerID().CUSTOMER_ID;
+                
+                $.ajax({
+                  url: "http://10.97.144.117:8000/SmartOperations/services/ArchEfficiency.xsjs?customerId="+customerId+"&sysId="+pageStatus.sid+"&sysClt="+pageStatus.client+"&tableName="+data.factor_name,
+                  method: 'GET',
+                  async: true,
+                  headers: {
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function (resp) {
+                    item1.DVM_ARCH=resp.results[0];
+                    that.trigger(item.content);
+                    
+                }).fail(function(){
+                console.log('Fetch efficiency failed')
+                console.log(arguments);
+              })
+              }
+            })
+              
+          }
+        })
+
+    }else if(data.info == "REL"){
+      $.each(this.displayAreaData, function (idx, item) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+            $.each(item.content,function(idx1,item1){
+              if(item1.type == "REL"){
+                item1.relations = data.relations; 
+                that.trigger(item.content);
+                return false;
+              }
+            })
+            return false;
+          }
+      });
     }
     },
     onDisplayAreaUpdateCardPosAction: function onDisplayAreaUpdateCardPosAction(cardId, pos) {

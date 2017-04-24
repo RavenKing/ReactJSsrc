@@ -44,7 +44,7 @@
       
     },
     onPageStatusRemoveAction: function onPageStatusRemoveAction(removedPageStatus, newPageStatus) {
-      this.pageStatusData.pageStatusArr.splice(this.pageStatusData.pageStatusArr.indexOf(removedPageStatus), 1);
+      this.pageStatusData.pageStatusArr.splice(this.statusIndexOf(removedPageStatus), 1);
       this.pageStatusData.currentStatus = newPageStatus;
       this.trigger(this.pageStatusData);
 
@@ -89,7 +89,19 @@
         }
       });
       return !!flag;
+    },
+    statusIndexOf:function statusIndexOf(pageStatus) {
+      var index = -1;
+      var that = this;
+      $.each(this.pageStatusData.pageStatusArr, function (idx, item) {
+        if (that.isStatusEqual(item,pageStatus)) {
+          index = idx;
+          return false;
+        }
+      });
+      return index;
     }
+
     
 
   });

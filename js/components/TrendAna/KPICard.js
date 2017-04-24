@@ -23,17 +23,12 @@ export default class KPICard extends React.Component {
         pageStatusChangeActions.pageStatusAddAction(nextStatus);
     }
 	render(){
-		var KPI = ["Material Movement (Retail)","Sales & Distribution (Retail)",
-                    "Finance – New G/L (Retail)","Warehouse Management (Retail)",
-                    "Archiving Efficiency (All) ","Business Increase (All)"
-        ]
+		var KPI = ["Archiving Efficiency","Performance scalability"];
 		
 		return (
 			<Card style={{width:500,height:250}} title={"Select KPI"} >
 				<div>
-					<CheckboxGroup options={[KPI[0],KPI[1]]} defaultValue={[KPI[0]]}/>
-					<CheckboxGroup options={[KPI[2],KPI[3]]} defaultValue={[KPI[2]]}/>
-					<CheckboxGroup options={[KPI[4],KPI[5]]} defaultValue={[KPI[4],KPI[5]]}/>
+					<CheckboxGroup options={[KPI[0],KPI[1]]} defaultValue={[KPI[0],KPI[1]]}/>
 				</div>
 				<div className="KPI-Btn">
 					<Button icon="plus" type="primary ">Add KPI</Button>

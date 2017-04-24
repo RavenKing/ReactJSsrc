@@ -81,7 +81,7 @@ export default class TemplateSelect extends React.Component {
               client:currentStatus.client
             }
 
-            if(pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
+            if(!pageStatusDataStore.isStatusExisted(nextStatus)) {
                 var sIntervalCallId;
 
                 (function () {
@@ -128,7 +128,7 @@ export default class TemplateSelect extends React.Component {
                     client:currentStatus.client
                   } 
                   var status = pageStatusDataStore.getAllStatus();
-                  if (pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
+                  if (!pageStatusDataStore.isStatusExisted(nextStatus)) {
                       var sIntervalCallId;
 
                       (function () {
@@ -174,7 +174,7 @@ export default class TemplateSelect extends React.Component {
                     client:currentStatus.client
                   }
 
-                  if(pageStatusDataStore.getAllStatus().indexOf(nextStatus) < 0) {
+                  if(!pageStatusDataStore.isStatusExisted(nextStatus)) {
                     var sIntervalCallId;
 
                     (function () {

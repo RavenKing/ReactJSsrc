@@ -52,7 +52,6 @@ export default class CreatePanel extends React.Component {
  
     MoveDoc(){
 
-        alert("shitty");
 
     }
  
@@ -130,12 +129,9 @@ export default class CreatePanel extends React.Component {
       }
 
 
-  return (
-  <div className="create-panel">
 
-   <Card  title="Create New Article" extra={<Icon type="cross" onClick = {this.CloseCreatePanel.bind(this)}/>}>
-    <div>
-      <Steps current={currentstep}>
+      let steps =  
+      (<Steps current={currentstep}>
         <Step title="Template Selection" description="Currenct template in System" />
         <Step title="Object Definition" description="What do you want to record" />
         <Step title="Practice Analysis" description="Best Practice vs Industry Practice"/>
@@ -143,7 +139,26 @@ export default class CreatePanel extends React.Component {
         <Step title="Strategy Definition" description="Do you have exsiting Strategy" />
         <Step title="Predict Analysis" description="Predict Analysis"/>
         
-      </Steps>
+      </Steps>);
+
+      if(newArticle)
+      {
+        if(newArticle.type == 'GEN')
+            steps=      (<Steps current={currentstep}>
+        <Step title="Template Selection" description="Currenct template in System" />
+        <Step title="Write Comment" description="Write Comment" />
+        
+      </Steps>);
+      }
+
+
+
+  return (
+  <div className="create-panel">
+
+   <Card  title="Create New Article" extra={<Icon type="cross" onClick = {this.CloseCreatePanel.bind(this)}/>}>
+    <div>
+    {steps}
      </div>
   <div className="mainstep">
     

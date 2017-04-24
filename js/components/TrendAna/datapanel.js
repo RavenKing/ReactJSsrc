@@ -194,22 +194,27 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
     },
 
     render: function render() {
+      console.log(this.props.block);
+
       var block = this.props.block;
       var items = [];
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       for (var ind in block.objList) {
         
         let keyitem = (Date.now() + Math.floor(Math.random() * 999999)).toString(31);
+
+        if(block.objList)
         items.push(React.createElement(DataItem, { key:keyitem , item: block.objList[ind] ,keynumber:block.objList[ind].FACTOR_GUID}));
 
       }
       var customerId;
-      if(block.objList[0]){
+      if(block.objList)
+      {if(block.objList[0]){
         customerId = block.objList[0].CUSTOMER_ID;
       }
       else{
         customerId = "";
-      }
+      }}
 
       return React.createElement(
         "div",

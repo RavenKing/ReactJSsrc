@@ -150,7 +150,14 @@ console.log('prepare to run RCA -------', card);
                 'X-CSRF-Token': 'Fetch'
               }
             }).done(function (resp) {
+
+              if(resp.Knowledges)
+              {
+                item.content.Knowledges = resp.Knowledges;
+              }
+
               resp.results.forEach(function (d) {
+                d.INFLUENCE_RATE = d.INFLUENCE_RATE.toFixed(2);
                 if (d.FACTOR_CATEGORY === "B") {
                   $.each(item.content, function (idx1, item1) {
                     if (item1.title === "Business") {
@@ -372,6 +379,7 @@ console.log('prepare to run RCA -------', card);
                   url: url2,
                   method: 'get',
                   dataType: 'json',
+                  async:false,
                   headers: {
                     'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                     'X-Requested-With': 'XMLHttpRequest',
@@ -662,6 +670,20 @@ console.log('prepare to run RCA -------', card);
         }
       });
       return objList;
+    },
+    getKnowledges: function getKnowledges(pageStatus){
+      var that = this;
+      var knowledges = [];
+      $.each(this.dataPanelData,function(idx,item){
+        if(that.isStatusEqual(item.pageStatus,pageStatus)){
+          if(item.content.Knowledges){
+            knowledges = item.content.Knowledges;           
+          }
+          return false;
+        }
+      })
+
+      return knowledges;
     }
 
   });
