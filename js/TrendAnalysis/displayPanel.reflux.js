@@ -18,7 +18,7 @@
     }],
 
 
-          getSystemIDbyCustomer:function getSystemIDbyCustomer(customer_id)
+      getSystemIDbyCustomer:function getSystemIDbyCustomer(customer_id)
       {
 
           var url = "http://10.97.144.117:8000/SmartOperations/services/authorization.xsodata/LOGONINFO?$filter=CUSTOMER_ID eq "+customer_id;
@@ -229,8 +229,75 @@
             return false;
           });
     
-  },
+    },
+    addRelation:function addRelation(data){
+      var flag = false;
+      var url = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SM_REL";
 
+      $.ajax({
+        url:url,
+        method: 'POST',
+        async:false,
+        data: JSON.stringify(data),
+        headers: {
+          'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'DataServiceVersion': '2.0',
+          'X-CSRF-Token': 'Fetch'
+        }
+      }).done(function(resp){
+          flag = true;
+      }).fail(function(resp){
+          console.log("fail "+resp);
+      })
+      return flag;
+    },
+    deleteRelation:function deleteRelation(data){
+      var flag = false;
+      var url = "http://10.97.144.117:8000/SmartOperations/services/deleteRelation.xsjs?REPORT_NAME="+data.REPORT_NAME+"&RELATED_NAME="+data.RELATED_NAME;
+      $.ajax({
+        url:url,
+        method:"GET",
+        async: false,
+        headers:{
+          'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'DataServiceVersion': '2.0',
+          'X-CSRF-Token': 'Fetch'
+        }
+      }).done(function(resp){
+          flag = true;
+      }).fail(function(err){
+        console.log(err);
+      })
+      return flag;
+    },
+    updateRelation:function updateRelation(data){
+      var flag = false;
+      var url = "http://10.97.144.117:8000/SmartOperations/services/updateRelation.xsjs?REPORT_NAME="+data.REPORT_NAME+"&RELATED_NAME="+data.RELATED_NAME+"&FACTOR="+data.FACTOR;
+      $.ajax({
+        url:url,
+        method:"GET",
+        async: false,
+        headers:{
+          'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'DataServiceVersion': '2.0',
+          'X-CSRF-Token': 'Fetch'
+        }
+      }).done(function(resp){
+          flag = true;
+      }).fail(function(err){
+        console.log(err);
+      })
+      return flag;
+    },
     pinObject: function pinObject(factorId, setPin) {
       var flag = false;
       var url = "http://10.97.144.117:8000/SmartOperations/services/pinObject.xsjs?factorId=" + factorId + "&pin=" + setPin;
@@ -758,11 +825,37 @@ console.log('url: ',url);
               }
             });
           break;
+        case "REL":
+          $.each(that.displayAreaData, function (idx, item) {
+              if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+                var url = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SM_REL";
+                $.ajax({
+                  url: url,
+                  method: 'get',
+                  dataType: 'json',
+                  headers: {
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function (resp) {
+                    copydata.relations = resp.d.results;
+                    item.content.push(copydata);
+                    that.trigger(item.content);
+                }).fail(function () {
+                    console.error('Fetch Transaction chart data error:');
+                    console.error(arguments);
+                });
+              }
+          });
+          break;
         case "SAVE":
         case "SAVE-ARTI":
         case "RCA_SIM":
         case "WHAT_IF":
-        case "REL":
           $.each(that.displayAreaData, function (idx, item) {
               if (that.isStatusEqual(item.pageStatus,pageStatus)) {
                 item.content.push(copydata);
@@ -1211,7 +1304,19 @@ console.log('url: ',url);
           }
         })
 
-
+    }else if(data.info == "REL"){
+      $.each(this.displayAreaData, function (idx, item) {
+          if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+            $.each(item.content,function(idx1,item1){
+              if(item1.type == "REL"){
+                item1.relations = data.relations; 
+                that.trigger(item.content);
+                return false;
+              }
+            })
+            return false;
+          }
+      });
     }
     },
     onDisplayAreaUpdateCardPosAction: function onDisplayAreaUpdateCardPosAction(cardId, pos) {

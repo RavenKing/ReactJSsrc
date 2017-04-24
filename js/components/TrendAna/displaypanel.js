@@ -9,7 +9,7 @@ import CreateObjCard from "./CreateObjCard";
 import UploadCard from "./uploadCard";
 import CommentCard from "./CommentCard";
 import SaveArticle from "./SaveArticle";
-import Relation from "./Relation";
+import RelationCard from "./RelationCard";
 import DVMAPanel from "./DVMPanel/DVMAPanel";
 import RCASimCard from "./RCASimCard";
 import WhatIfCard from "./WhatIfCard";
@@ -121,11 +121,6 @@ if (!rc) {
               data.title = 'Upload Statistics File';
       
               break;
-            case "REL":
-              data.type = "REL";
-              displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
-              break;
-
             case 'CPM-Overview':
               data.title = 'Workload Overview - ' + draggableElement.getAttribute('data-factor_name');
               data.customerId = draggableElement.getAttribute('data-customer');
@@ -244,7 +239,7 @@ if (!rc) {
             return React.createElement(RCASimCard, { key: item.id + "RCASimCard", card: item });
           } 
           else if(item.type == "REL") {
-            return React.createElement(Relation, { key: item.id + "Relation", card: item});
+            return React.createElement(RelationCard, { key: item.id + "RelationCard", card: item});
           }
           else if(item.type == "WHAT_IF") {
             return React.createElement(RCASimCard, { key: item.id + "WhatSimCard", card: item });

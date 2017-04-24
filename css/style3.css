@@ -535,7 +535,12 @@ margin-bottom: 10px;
   display: inline-block;
   margin-left: 10px;
   margin-right: 10px;
-
+}
+.margin5{
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 .margin10:hover {
   box-shadow: 1px 2px 10px rgba(22, 22, 22, 0.5);
@@ -680,7 +685,7 @@ text-align: center
   
 }
 .relatedCard{
-  width:450px;
+  width:550px;
 }
 .bscInfo{
   margin-left: 25px;
@@ -705,4 +710,43 @@ text-align: center
 }
 .KPI-Btn Button{
   margin-left: 5px;
+}
+.editable-cell {
+  position: relative;
+}
+.editable-cell-input-wrapper,
+.editable-cell-text-wrapper {
+  padding-right: 24px;
+}
+.editable-cell-text-wrapper {
+  padding: 5px 24px 5px 5px;
+}
+
+.editable-cell-icon,
+.editable-cell-icon-check {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  cursor: pointer;
+}
+
+.editable-cell-icon {
+  line-height: 18px;
+  display: none;
+}
+.editable-cell-icon-check {
+  line-height: 28px;
+}
+
+.editable-cell:hover .editable-cell-icon {
+  display: inline-block;
+}
+
+.editable-cell-icon:hover,
+.editable-cell-icon-check:hover {
+  color: #108ee9;
+}
+
+.editable-add-btn {
+  margin-bottom: 8px;
 }

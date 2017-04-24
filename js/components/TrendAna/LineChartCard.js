@@ -252,6 +252,10 @@ var dataPanelDataStore = window.dataPanelDataStore
 							}
 
 							break;
+						case "REL":
+							data.type = "REL";
+							displayAreaChangeActions.displayAreaAddCardAction(currentStatus, data);
+							break;
 						case "KNOWGE":
 							console.log('COMMENT -factor name =');
 							console.log(that.props.card.FACTOR_NAME[0]);

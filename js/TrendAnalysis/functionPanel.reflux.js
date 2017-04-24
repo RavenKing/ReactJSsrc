@@ -94,6 +94,10 @@
                   info: "RCA_SIM",
                   type: "RCA_SIM"
                 },{
+                  name: "Relation",
+                  info: "REL",
+                  type: "REL"
+                },{
                   name: "Knowledge",
                   info: "KNOWGE",
                   type: "KNOWGE"
