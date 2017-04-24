@@ -69,8 +69,19 @@ export default class PieChartCard extends React.Component{
 
 			const {objList} = this.props.card;
 			const {knowledges} = this.props.card;
+//origin
 
-			console.log(this.props.card)
+
+var customer_id = objList[0].FACTOR_GUID;
+console.log(customer_id)
+var referK = [];
+
+const originK = knowledges.filter((one)=>{if(customer_id==one.Customer_id)
+										 {return one
+										  }
+										  referK.push(one)
+										});
+
 			const marked = objList.filter((one)=>{if(one.marked)return one})
 			let show =<p>No Predifined Model </p>
 
@@ -103,8 +114,16 @@ export default class PieChartCard extends React.Component{
 						{show}
 					</div>
 					<div>
-						<Table dataSource={knowledges}  columns={columns} onRowClick={this.onRowClick.bind(this)} />
+					<h3>Knowledges</h3>
+						<Table dataSource={originK}  columns={columns} onRowClick={this.onRowClick.bind(this)} />
 					</div>
+					<div>
+					<h3> Reference </h3>
+							<Table dataSource={referK}  columns={columns} onRowClick={this.onRowClick.bind(this)} />
+					</div>
+
+
+
 				</Card>	
 			)	
 		

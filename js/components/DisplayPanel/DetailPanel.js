@@ -175,9 +175,6 @@ export default class DetailPanel extends React.Component {
         top: this.state.y+'px',
         left:this.state.x+'px'
       };*/
-
-      console.log(this.state)
-      console.log(this.props.article)
       const pos1 = {
         top:this.props.display.y+'px',
         left:this.props.display.x+'px'
