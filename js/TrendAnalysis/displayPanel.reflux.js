@@ -766,6 +766,19 @@ console.log('url: ',url);
           });
           break;
         case "DVM":
+          var industry;
+          var region;
+          var customer_id;
+          var archobj;
+          var bestpractice = {};
+          const headers = {
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'      
+          };
           $.each(that.displayAreaData, function (idx, item) {
             if (that.isStatusEqual(item.pageStatus,pageStatus)) {
               var url = "http://10.97.144.117:8000/SmartOperations/services/articleContent.xsjs?articleId="+data.articleId;
@@ -773,19 +786,99 @@ console.log('url: ',url);
                   url: url,
                   method: 'get',
                   dataType: 'json',
-                  headers: {
-                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'DataServiceVersion': '2.0',
-                    'X-CSRF-Token': 'Fetch'
-                  }
+                  //async:false,
+                  headers: headers
                 }).done(function (resp) {
                   if(resp.results.length > 0){
                     copydata.article = resp.results[0];
-                    item.content.push(copydata);
-                    that.trigger(item.content);
+                    customer_id = resp.results[0].CUSTOMER_ID;
+                    archobj = resp.results[0].ARCHOBJ;
+
+                    if(customerId != customer_id){//reference
+                      var url1 = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/SMCUST?$filter=CUSTOMER_ID eq "+customer_id;
+                      $.ajax({
+                        url: url1,
+                        method: 'get',
+                        dataType: 'json',
+                        async:false,
+                        headers: headers
+                      }).done(function (resp1) {
+                        if(resp1.d.results.length > 0){
+                          industry = resp1.d.results[0].INDUSTRY;
+                          region = resp1.d.results[0].REGION;
+                      }
+                    
+                    }).fail(function(){
+                      console.log('Fetch industry of customer failed!');
+                    })
+
+                    if(industry && region){
+
+
+                      var url2 = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=RECOMMENDATAION&archobj=" + archobj + "&industry="+industry;
+                      $.ajax({
+                          url: url2,
+                          method: 'get',
+                          dataType: 'json',
+                          async:true,
+                          headers: headers
+                      }).done(function (resp2) {
+                          if(resp2.results.length > 0){
+                            bestpractice.AVGS = resp2.results[0].AVGS;
+                            bestpractice.Retention = resp2.results[0].Retention;                      
+                            
+                          }
+                                
+                      }).fail(function(){
+                        console.log('Fetch bestpractice failed!');
+                      })
+
+                      
+                        var url3 = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/DVMBPRACTICE?$filter= ARCHOBJ eq \'"+archobj+"\'";
+                        $.ajax({
+                            url: url3,
+                            method: 'get',
+                            dataType: 'json',
+                            async:true,
+                            headers: headers
+                        }).done(function (resp3) {
+                            if(resp3.d.results.length > 0){
+                              bestpractice.detail = resp3.d.results[0];
+                            }
+                        }).fail(function(){
+                            console.log('Fetch detail failed!');
+                        })
+
+                        
+
+                          var url4 = "http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsjs?cmd=ALLRECOM&region='"+region+"'&archobj="+archobj;
+
+                          $.ajax({
+                              url: url4,
+                              method: 'get',
+                              dataType: 'json',
+                              async:true,
+                              headers: headers
+                          }).done(function(resp4){
+                              if(resp4.results.length > 0){
+                                  bestpractice.region_data = {
+                                    region:resp4.results
+                                  };
+                                  copydata.article.bestpractice = bestpractice;
+                                  item.content.push(copydata);
+                                  that.trigger(item.content);
+                              }
+                          }).fail(function(){
+                              console.log('Fetch region data failed!');
+                          })
+
+                      }
+
+                     
+                    }else{//article
+                      item.content.push(copydata);
+                      that.trigger(item.content);
+                    } 
                   }
                 }).fail(function () {
                   console.error('Fetch article error:');
@@ -814,6 +907,7 @@ console.log('url: ',url);
                     if(resp.d.results.length>0){
                       copydata.article = resp.d.results[0];
                       copydata.article.FACTOR_TYPE = "GEN";
+                      copydata.article.ARTICLE_NAM = data.ARTICLE_NAM;
                       item.content.push(copydata);
                       that.trigger(item.content);
                     }
