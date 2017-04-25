@@ -45,9 +45,10 @@ export default class DetailPanel extends React.Component {
     {this.props.dispatch(GetBestPractice(parms1));
     this.props.dispatch(GetRegionData(parms2));
     }
+
     let filtedAr = [];
     filtedAr.push(article);
-   this.props.articles.articles.results.filter((one)=>{if(one.ARTICLE_ID==article.ARTICLE_ID) filtedAr.push(one)})
+   this.props.articles.articles.results.filter((one)=>{if(one.ARTICLE_ID==article.ARTICLE_ID) filtedAr.unshift(one)})
 
     if(filtedAr)
     this.state={
@@ -217,21 +218,18 @@ export default class DetailPanel extends React.Component {
         );
       }
       else if(this.props.article.FACTOR_TYPE == "GEN"){
-        console.log(this.state);
         displayzone = (
           /*<Input type="textarea" value={this.state.article.COMMENT} rows={8}/>*/
-           <div>
-        
-            <p>{this.state.article.COMMENT}</p>        
-            </div>
+          
+            <p>{this.props.article.COMMENT}</p>        
+
         )
       }
      
-        console.log(this.state);
 
 
       return (
-          <Card className="detail-panel" data-id={this.state.article.ARTICLE_ID} style={pos1} title={this.state.article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,false)} />}>
+          <Card className="detail-panel" data-id={this.state.article.ARTICLE_ID} style={pos1} title={this.state .article.ARTICLE_NAM} extra={<Icon type="cross" onClick={this.removeCard.bind(this,false)} />}>
             {displayzone}
           </Card>
       );
