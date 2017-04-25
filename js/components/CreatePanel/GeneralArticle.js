@@ -61,7 +61,7 @@ export default class GeneralArticle extends React.Component {
               TYPE:"GEN",
               CUSTOMER_ID:user.CUSTOMER_ID,
               USERNAME:user.USERNAME,
-              ARTICLE_NAM:fieldsValuhe["ARTICLE_NAM"],
+              ARTICLE_NAM:fieldsValue["ARTICLE_NAM"],
               ARTICLE_DSC:"No Description",
               COMMENT:fieldsValue["COMMENT"],
               FACTOR_CAT:"G",
@@ -119,7 +119,7 @@ export default class GeneralArticle extends React.Component {
                 {...formItemLayout}
                 label="Report Or Table Name:"
                 >
-                 <Input type="textarea" placeholder="Report Or Table Name "
+                 <Input type="text" placeholder="Report Or Table Name "
                 {...getFieldProps('FACTOR_NAME')}/>
                 </FormItem>
 
