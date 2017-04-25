@@ -69,6 +69,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
             React.createElement(
               Badge,
               { dot:( parseFloat(item.TREND) > 5.0 && parseFloat(item.TREND)!=9999.99) },
+
               item.FACTOR_BUSINESS_NAME
             )
           )

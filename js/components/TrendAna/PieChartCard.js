@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Card,Icon,Table,Tag} from "antd"
+import {Card,Icon,Table,Tag} from "antd";
 import PieChart from "./PieChart"
 import InfDetailBlock from "./InfDetailBlock"
 
@@ -41,14 +41,12 @@ export default class PieChartCard extends React.Component{
 			};
 			data.type = knowledges[index].type;
 			data.articleId = knowledges[index].ArticleID;
-
+			data.ARTICLE_NAM = knowledges[index].Article_Name;
+				data.FACTOR_TYPE = knowledges[index].type;
           	displayAreaChangeActions.displayAreaAddCardAction(pageStatusDataStore.getCurrentStatus(), data);
         
 		}
 		render() {
-
-			console.log(this.props.card)
-
 			const columns = [{
         		title:"Article Name",
         		width:"150px",

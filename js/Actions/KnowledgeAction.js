@@ -689,7 +689,9 @@ export function UpdateArticle(data,type){
         var capacity_date = new Date(data.capacity_date).getTime();
         capacity_date = "\/Date("+capacity_date+")\/"
           
-        axios.put("/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
+        
+
+        return dispatch=>{axios.put("/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
         
             ARTICLE_ID:data.article_id,
             COMMENT:data.comment,
@@ -704,6 +706,7 @@ export function UpdateArticle(data,type){
         }).catch(function(err){
             console.log(err);
         })
+      }
     }
 }
 export function DeleteArticle(data){
