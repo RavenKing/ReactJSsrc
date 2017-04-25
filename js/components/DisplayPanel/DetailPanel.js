@@ -47,10 +47,19 @@ export default class DetailPanel extends React.Component {
     }
 
     const filtedAr = this.props.articles.articles.results.filter((one)=>{if(one.ARTICLE_ID==article.ARTICLE_ID) return one})
-    this.state={
-      article:filtedAr[0],
-      page:1
+    if(filtedAr.length < 1){
+      this.state={
+        article:article,
+        page:1
+      }
     }
+    else{
+      this.state={
+        article:filtedAr[0],
+        page:1
+      }
+    }
+    
   }
 
   NavLeft(){

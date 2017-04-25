@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Card,Icon,Table,Tag} from "antd"
+import {Card,Icon,Table,Tag} from "antd";
 import PieChart from "./PieChart"
 import InfDetailBlock from "./InfDetailBlock"
 
@@ -46,6 +46,7 @@ export default class PieChartCard extends React.Component{
         
 		}
 		render() {
+			console.log(this.props.auth);
 
 			console.log(this.props.card)
 
