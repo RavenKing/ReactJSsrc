@@ -46,18 +46,15 @@ export default class DetailPanel extends React.Component {
     this.props.dispatch(GetRegionData(parms2));
     }
 
-    const filtedAr = this.props.articles.articles.results.filter((one)=>{if(one.ARTICLE_ID==article.ARTICLE_ID) return one})
-    if(filtedAr.length < 1){
-      this.state={
-        article:article,
-        page:1
-      }
-    }
-    else{
-      this.state={
-        article:filtedAr[0],
-        page:1
-      }
+    let filtedAr = [];
+    filtedAr.push(article);
+   this.props.articles.articles.results.filter((one)=>{if(one.ARTICLE_ID==article.ARTICLE_ID) filtedAr.unshift(one)})
+
+    if(filtedAr)
+    this.state={
+      article:filtedAr[0],
+      page:1
+
     }
     
   }

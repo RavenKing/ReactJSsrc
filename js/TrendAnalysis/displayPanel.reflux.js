@@ -907,6 +907,7 @@
                     if(resp.d.results.length>0){
                       copydata.article = resp.d.results[0];
                       copydata.article.FACTOR_TYPE = "GEN";
+                      copydata.article.ARTICLE_NAM = data.ARTICLE_NAM;
                       item.content.push(copydata);
                       that.trigger(item.content);
                     }
