@@ -570,6 +570,33 @@ console.log('prepare to run RCA -------', card);
             case 'bUrl':
               title = 'Business';
               index = 0;
+              data.d.results.map((item)=>{
+                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=B&factorType=TBL&factorName=' + item.FACTOR_NAME;
+                $.ajax({
+                  url:url,
+                  method:'get',
+                  dataType:'json',
+                  headers:{
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function(resp){
+                  console.log(resp);
+                  var retention = resp.Retention;
+                  var results = resp.results;
+                  var length = results.length;
+                  var efficiency = results[length-retention-1].TABLE_ENTRIES / results[length-1].TABLE_ENTRIES * 100;
+                  item.EFFICIENCY = efficiency.toFixed(2);
+                })
+
+
+
+              })
+              
               break;
             case 'sUrl':
               title = 'Service';
@@ -586,6 +613,7 @@ console.log('prepare to run RCA -------', card);
             title: title,
             objList: data.d.results
           });
+
 
           if (ajaxCount == ajaxTotal) {
             dataPanelItemChangeActions.dataPanelItemAddAction(currentStatus, ajaxData);

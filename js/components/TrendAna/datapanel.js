@@ -47,7 +47,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
 
         return React.createElement(
           Tooltip,
-          { className: "ant-tooltip-open", placement: "rightBottom", title: this.props.item.FACTOR_NAME},
+          { className: "ant-tooltip-open", placement: "rightBottom", title: "Archiving efficiency: "+this.props.item.EFFICIENCY+"%"},
 
           React.createElement(
             Button,
