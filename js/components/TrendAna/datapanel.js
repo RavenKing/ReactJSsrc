@@ -287,7 +287,12 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
     // },
 
     render: function render() {
-      var dataPanelData = this.state.dataPanelData;
+      var pageStatus = {
+        pageName:"INIT0",
+        sid:"",
+        client:""
+      };
+      var dataPanelData = dataPanelDataStore.getData(pageStatus);
       var blocks = [];
       for (var ind in dataPanelData) {
         blocks.push(React.createElement(DataBlock, { key: ind + "DataBlock", block: dataPanelData[ind] }));

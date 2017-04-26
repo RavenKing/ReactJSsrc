@@ -622,7 +622,7 @@ console.log('prepare to run RCA -------', card);
           });
 
           console.log(besCount,besTotal);
-          if (ajaxCount == ajaxTotal && besCount == besTotal) {
+          if (ajaxCount == ajaxTotal ) {
             console.log("good")
             dataPanelItemChangeActions.dataPanelItemAddAction(currentStatus, ajaxData);
           }
