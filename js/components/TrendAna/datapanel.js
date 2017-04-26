@@ -254,6 +254,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
         client:""
       }
       return {
+        pageStatus:pageStatus,
         dataPanelData: dataPanelDataStore.getData(pageStatus)
       };
     },
@@ -287,7 +288,8 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
     // },
 
     render: function render() {
-      var dataPanelData = this.state.dataPanelData;
+      var currentStatus = pageStatusDataStore.getCurrentStatus()
+      var dataPanelData = dataPanelDataStore.getData(currentStatus);
       var blocks = [];
       for (var ind in dataPanelData) {
         blocks.push(React.createElement(DataBlock, { key: ind + "DataBlock", block: dataPanelData[ind] }));

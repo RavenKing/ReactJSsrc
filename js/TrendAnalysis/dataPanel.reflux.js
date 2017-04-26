@@ -616,13 +616,15 @@ console.log('prepare to run RCA -------', card);
             default:
               ;
           }
+
           ajaxData.splice(index, 0, {
             title: title,
             objList: data.d.results
           });
+          console.log(ajaxData);
 
           console.log(besCount,besTotal);
-          if (ajaxCount == ajaxTotal && besCount == besTotal) {
+          if (ajaxCount == ajaxTotal ) {
             console.log("good")
             dataPanelItemChangeActions.dataPanelItemAddAction(currentStatus, ajaxData);
           }
