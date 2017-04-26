@@ -36,18 +36,26 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
     },
 
     componentDidMount: function componentDidMount() {
-     setNodeDragable(ReactDOM.findDOMNode(this));
+     global.setNodeDragable(ReactDOM.findDOMNode(this));
     },
-
+    componentWillReceiveProps: function(nextProps) {
+        console.log(nextProps);
+    },
     render: function render() {
+
+      console.log(dataPanelDataStore.dataPanelData)
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       var item = this.props.item;
-
+      console.log(item);
+    let title=" "
+      if(item.EFFICIENCY!=null||item.Scal!=null)
+      { title ="Effi/Scal: "+ (item.EFFICIENCY?item.EFFICIENCY:item.Scal.toFixed(2)).toString() + "%";
+      }console.log(title)
       if(currentStatus.pageName == "INIT"){
 
         return React.createElement(
           Tooltip,
-          { className: "ant-tooltip-open", placement: "rightBottom", title: "Archiving efficiency: "+this.props.item.EFFICIENCY+"%"},
+          { className: "ant-tooltip-open", placement: "rightBottom", title: title},
 
           React.createElement(
             Button,

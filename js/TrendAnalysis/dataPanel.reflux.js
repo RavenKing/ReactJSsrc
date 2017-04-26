@@ -529,6 +529,8 @@ console.log('prepare to run RCA -------', card);
       var that = this;
       var ajaxTotal = 0;
       var ajaxCount = 0;
+      var besCount=0;
+      var besTotal=0;
       /*var urls = {
         bUrl: 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\' and FACTOR_TYPE eq \'TBL\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
         sUrl: 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
@@ -563,13 +565,13 @@ console.log('prepare to run RCA -------', card);
           }
         }).done(function (data) {
           ajaxCount++;
-
           var title = '';
           var index = void 0;
           switch (url) {
             case 'bUrl':
               title = 'Business';
               index = 0;
+              besTotal=data.d.results.length;
               data.d.results.map((item)=>{
                 var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=B&factorType=TBL&factorName=' + item.FACTOR_NAME;
                 $.ajax({
@@ -585,12 +587,17 @@ console.log('prepare to run RCA -------', card);
                     'X-CSRF-Token': 'Fetch'
                   }
                 }).done(function(resp){
+                  besCount++;
                   console.log(resp);
                   var retention = resp.Retention;
                   var results = resp.results;
                   var length = results.length;
+                  item.EFFICIENCY=0;
+                  if(retention != 0)
+                  {
                   var efficiency = results[length-retention-1].TABLE_ENTRIES / results[length-1].TABLE_ENTRIES * 100;
                   item.EFFICIENCY = efficiency.toFixed(2);
+                  }
                 })
 
 
@@ -614,8 +621,9 @@ console.log('prepare to run RCA -------', card);
             objList: data.d.results
           });
 
-
-          if (ajaxCount == ajaxTotal) {
+          console.log(besCount,besTotal);
+          if (ajaxCount == ajaxTotal && besCount == besTotal) {
+            console.log("good")
             dataPanelItemChangeActions.dataPanelItemAddAction(currentStatus, ajaxData);
           }
         }).fail(function () {
