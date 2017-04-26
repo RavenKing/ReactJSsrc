@@ -649,8 +649,7 @@
           console.log(copydata)
 
           var url = '/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
-
-console.log('url: ',url);
+          console.log('url: ',url);
           $.ajax({
             url: url,
             method: 'get',
@@ -676,9 +675,11 @@ console.log('url: ',url);
             });
 
             var length = total_entries.length;
-            var efficiency = total_entries[length-retention-1] / total_entries[length-1] * 100;
-
+            copydata.efficiency=0;
+            if(retention!=0)
+            {var efficiency = total_entries[length-retention-1] / total_entries[length-1] * 100;
             copydata.efficiency = efficiency.toFixed(2);
+            }
             copydata.retention = retention;
             copydata.lineChartAxis = new Array(axis);
             copydata.lineChartValue = new Array(total_entries);

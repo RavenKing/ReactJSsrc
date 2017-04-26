@@ -55,11 +55,8 @@ export function fetchArticles(user){
     axios.get("/SmartOperations/services/articleContent.xsjs?customerId="+customerid,
       config).then(function (response,err) {
           data.articles = response.data; 
-          axios.get("/SmartOperations/services/smopsMaster.xsodata/FACTOR_NAME",
-            config).then(function(resp){
-                data.factor_name = (resp.data.d.results);
                 dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data}); 
-            })
+          
             
        
            
