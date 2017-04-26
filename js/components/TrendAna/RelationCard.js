@@ -6,7 +6,7 @@ import { Card,Icon, Form,Table, Input, Button, Modal } from 'antd';
 import { AddRelation } from "../../Actions/KnowledgeAction";
 import { setCardDragable,handleFocus } from "../../interactScript";
 const FormItem = Form.Item;
-var global =window
+var global = window;
 var displayAreaChangeActions = window.displayAreaChangeActions
 var pageStatusDataStore = window.pageStatusDataStore
 
@@ -92,8 +92,8 @@ var EditableCell = React.createClass({
       
     },
     componentDidMount:function componentDidMount() {
-      this.interactDrag = global.setCardDragable(this.getDOMNode(), this.props.card.id);   
-      global.handleFocus(this.getDOMNode());   
+      this.interactable = global.setCardDragable(this.getDOMNode(), this.props.card.id);
+      global.handleFocus(this.getDOMNode());  
     },   
     onCellChange:function(index, key){
       return (value) => {
@@ -139,7 +139,7 @@ var EditableCell = React.createClass({
       var related_name = this.refs.RELATED_NAME.refs.input.value;
       var factor = this.refs.FACTOR.refs.input.value;
       var valid = true;
-      if(!report_name || !related_name || !factor){
+      if(!related_name || !factor){
         valid = false;
         const modal = Modal.warning({
           title: 'Fields are empty! ',
@@ -254,7 +254,7 @@ var EditableCell = React.createClass({
                 (this.state.add)?
                 (
                 <div style={{display:"inline"}}>
-                <Input className="margin5" style={{width:"100"}} ref="REPORT_NAME" placeholder="report name" />
+                <Input className="margin5" style={{width:"100"}} ref="REPORT_NAME" value={that.props.card.report_name} placeholder="report name" />
            
                 <Input className="margin5" style={{width:"200"}} ref="RELATED_NAME" placeholder="related report name" />
             

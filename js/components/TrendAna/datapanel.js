@@ -52,10 +52,10 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
       { title ="Effi/Scal: "+ (item.EFFICIENCY?item.EFFICIENCY:item.Scal.toFixed(2)).toString() + "%";
       }console.log(title)
       if(currentStatus.pageName == "INIT"){
-
         return React.createElement(
           Tooltip,
           { className: "ant-tooltip-open", placement: "rightBottom", title: title},
+
 
           React.createElement(
             Button,
