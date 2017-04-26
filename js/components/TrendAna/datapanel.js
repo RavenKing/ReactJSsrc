@@ -44,10 +44,11 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
       var item = this.props.item;
 
       if(currentStatus.pageName == "INIT"){
+        var tooltip = this.props.item.EFFICIENCY ? "Archiving efficiency: "+this.props.item.EFFICIENCY+"%":'';
 
         return React.createElement(
           Tooltip,
-          { className: "ant-tooltip-open", placement: "rightBottom", title: "Archiving efficiency: "+this.props.item.EFFICIENCY+"%"},
+          { className: "ant-tooltip-open", placement: "rightBottom", title:tooltip},
 
           React.createElement(
             Button,
