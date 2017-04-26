@@ -643,7 +643,7 @@
         {
           console.log(copydata)
           var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=' + copydata.category[0] + '&factorType=' + copydata.factor_type + '&factorName=' + copydata.FACTOR_NAME[0];
-console.log('url: ',url);
+          console.log('url: ',url);
           $.ajax({
             url: url,
             method: 'get',
