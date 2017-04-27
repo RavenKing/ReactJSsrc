@@ -195,7 +195,9 @@ var dataPanelDataStore = window.dataPanelDataStore
 												type: "PIE",
 												style: style,
 												objList: dataPanelDataStore.getObjList(currentStatus),
-												knowledges:dataPanelDataStore.getKnowledges(currentStatus)
+												knowledges:dataPanelDataStore.getKnowledges(currentStatus),
+												scal:dataPanelDataStore.getScal(currentStatus)
+
 											};
 											displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 										}
@@ -218,11 +220,13 @@ var dataPanelDataStore = window.dataPanelDataStore
 									top: that.props.card.style.top + that.getDOMNode().clientHeight + 30,
 									left: 240
 								};
+								console.log(dataPanelDataStore.getScal(currentStatus))
 								var oData = {
 									type: "PIE",
 									style: _style,
 									objList: dataPanelDataStore.getObjList(currentStatus),
-									knowledges:dataPanelDataStore.getKnowledges(currentStatus)
+									knowledges:dataPanelDataStore.getKnowledges(currentStatus),
+									scal:dataPanelDataStore.getScal(currentStatus)
 								};
 								displayAreaChangeActions.displayAreaAddCardAction(currentStatus, oData);
 							}
