@@ -154,6 +154,8 @@ console.log('prepare to run RCA -------', card);
               {
                 item.content.Knowledges = resp.Knowledges;
               }
+              if(resp.Scal)
+              {item.content.Scal=resp.Scal}
 
               resp.results.forEach(function (d) {
                 d.INFLUENCE_RATE = d.INFLUENCE_RATE.toFixed(2);
@@ -705,6 +707,20 @@ console.log('prepare to run RCA -------', card);
         }
       });
       return objList;
+    },
+    getScal:function getScal(pageStatus)
+    {
+       var that = this;
+      var Scal ={};
+      $.each(this.dataPanelData,function(idx,item){
+        if(that.isStatusEqual(item.pageStatus,pageStatus)){
+          if(item.content.Scal){
+            Scal = item.content.Scal;           
+          }
+          return false;
+        }
+      })
+      return Scal;
     },
     getKnowledges: function getKnowledges(pageStatus){
       var that = this;

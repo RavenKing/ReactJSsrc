@@ -98,7 +98,7 @@
                   info: "REL",
                   type: "REL"
                 },{
-                  name: "Knowledge",
+                  name: "Edit",
                   info: "KNOWGE",
                   type: "KNOWGE"
                 }

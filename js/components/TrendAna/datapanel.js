@@ -46,11 +46,10 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
       console.log(dataPanelDataStore.dataPanelData)
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       var item = this.props.item;
-      console.log(item);
     let title=" "
       if(item.EFFICIENCY!=null||item.Scal!=null)
       { title ="Effi/Scal: "+ (item.EFFICIENCY?item.EFFICIENCY:item.Scal.toFixed(2)).toString() + "%";
-      }console.log(title)
+      }
       if(currentStatus.pageName == "INIT"){
         return React.createElement(
           Tooltip,
