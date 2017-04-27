@@ -289,8 +289,9 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
 
     render: function render() {
 
-      var currentStatus = pageStatusDataStore.getCurrentStatus()
-      var dataPanelData = dataPanelDataStore.getData(currentStatus);
+     /* var currentStatus = pageStatusDataStore.getCurrentStatus()
+      var dataPanelData = dataPanelDataStore.getData(currentStatus);*/
+      var dataPanelData = this.state.dataPanelData;
 
       var blocks = [];
       for (var ind in dataPanelData) {
