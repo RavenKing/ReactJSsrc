@@ -582,6 +582,7 @@ console.log('prepare to run RCA -------', card);
                   url:url,
                   method:'get',
                   dataType:'json',
+                  async:false,
                   headers:{
                     'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
                     'X-Requested-With': 'XMLHttpRequest',
