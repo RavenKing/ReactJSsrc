@@ -69,7 +69,7 @@ export default class PieChartCard extends React.Component{
 			const {knowledges} = this.props.card;
 			const {scal} = this.props.card;
 
-			var scali = 0；
+			var scali = 0;
 			if(scal!=null)
 			{
 				scali = <div>Scalibilty: {scal.Scal.toFixed(2)} %</div>
