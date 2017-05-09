@@ -28,9 +28,9 @@
       });
     },
     onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus,kpi) {
-      if(!this.isStatusExisted(pageStatus)){
-
-        if(pageStatus.pageName == "INIT"){
+      var that = this;
+      if(pageStatus.pageName == "INIT" && kpi){
+        if(!this.isStatusExisted(pageStatus)){
           this.dataPanelData.push({
             pageStatus:pageStatus,
             content:[{
@@ -38,7 +38,21 @@
             }]
           })
         }
-        else if(pageStatus.pageName == "INIT-KPI"){
+        else{
+          $.each(this.dataPanelData,function(idx,item){
+            if(that.isStatusEqual(pageStatus,item.pageStatus)){
+              item.content = [{
+                kpi:kpi
+              }]
+            }
+          })
+        }
+        
+      }
+      else{
+        if(!this.isStatusExisted(pageStatus)){
+
+        if(pageStatus.pageName == "INIT-KPI"){
           this.dataPanelData.push({
             pageStatus:pageStatus,
             content:[]
@@ -119,6 +133,8 @@
 
         }
       }
+      }
+      
       
     },
     onDataPanelRemovePageAction: function onDataPanelRemovePageAction(pageStatus) {
@@ -343,35 +359,36 @@ console.log('prepare to run RCA -------', card);
                 }
               }).done(function(response){
                 var data = response.results;
-                archobj = data[0].ARCHOBJ;
-                data.forEach(function (d) {
-                  var table = {
-                    FACTOR_NAME:d.TABLENAME,
-                    FACTOR_CATEGORY:"TBL"
-                  };
+                if(data.length > 0){
 
-                  var obj = {
-                    FACTOR_NAME:d.ARCHOBJ,
-                    FACTOR_CATEGORY:"OBJ"
-                  };
-                  $.each(item.content, function (idx1, item1) {
-                    if (item1.title === "Arch Obj" && !item1.objList.length) {
-                      item1.objList.push(obj);
-                      return false;
-                    }  
-                  });
+                  archobj = data[0].ARCHOBJ;
+                  data.forEach(function (d) {
+                    var table = {
+                      FACTOR_NAME:d.TABLENAME,
+                      FACTOR_CATEGORY:"TBL"
+                    };
+
+                    var obj = {
+                      FACTOR_NAME:d.ARCHOBJ,
+                      FACTOR_CATEGORY:"OBJ"
+                    };
+                    $.each(item.content, function (idx1, item1) {
+                      if (item1.title === "Arch Obj" && !item1.objList.length) {
+                        item1.objList.push(obj);
+                        return false;
+                      }  
+                    });
                 
-                  $.each(item.content, function (idx1, item1) {
-                    if (item1.title === "Tables") {
-                      item1.objList.push(table);
-                      return false;
-                    }
-                  });
+                    $.each(item.content, function (idx1, item1) {
+                      if (item1.title === "Tables") {
+                        item1.objList.push(table);
+                        return false;
+                      }
+                    });
 
-
-
-
-                });
+                })
+              }
+                
 
               }).fail(function(){
                 console.log('error in DVM analysis');
@@ -546,6 +563,10 @@ console.log('prepare to run RCA -------', card);
           kpi = item.content[0].kpi;
         }
       })
+
+      ajaxData[0] = {
+        kpi:kpi
+      }
       /*var urls = {
         bUrl: 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\' and FACTOR_TYPE eq \'TBL\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
         sUrl: 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
