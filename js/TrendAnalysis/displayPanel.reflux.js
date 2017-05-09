@@ -671,7 +671,10 @@
             var length = total_entries.length;
             copydata.efficiency=0;
             if(retention!=0)
-            {var efficiency = total_entries[length-retention-1] / total_entries[length-1] * 100;
+            {
+
+
+            var efficiency = (total_entries[length-1] - total_entries[length-retention-1]) / total_entries[length-1] * 100;
             copydata.efficiency = efficiency.toFixed(2);
             }
             copydata.retention = retention;

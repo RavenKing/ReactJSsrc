@@ -98,7 +98,7 @@
                   info: "REL",
                   type: "REL"
                 },{
-                  name: "Edit",
+                  name: "General Article",
                   info: "KNOWGE",
                   type: "KNOWGE"
                 }
@@ -113,7 +113,7 @@
                   info: "EFFI",
                   type: "EFFI"
                 },{
-                  name: "Knowledge",
+                  name: "Strategy",
                   info: "KNOW",
                   type: "KNOW"
                 },/*{
