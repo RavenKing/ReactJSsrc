@@ -67,16 +67,20 @@ export default class PieChartCard extends React.Component{
 
 			const {objList} = this.props.card;
 			const {knowledges} = this.props.card;
+			const {scal} = this.props.card;
+
+			var scali = 0；
+			if(scal!=null)
+			{
+				scali = <div>Scalibilty: {scal.Scal.toFixed(2)} %</div>
+			}
 //origin
+			var customer_id = objList[0].FACTOR_GUID;
+			var referK = [];
 
-
-var customer_id = objList[0].FACTOR_GUID;
-console.log(customer_id)
-var referK = [];
-
-const originK = knowledges.filter((one)=>{if(customer_id==one.Customer_id)
-										 {return one
-										  }
+			const originK = knowledges.filter((one)=>{if(customer_id==one.Customer_id)
+													 {return one
+													  }
 										  referK.push(one)
 										});
 
@@ -110,6 +114,7 @@ const originK = knowledges.filter((one)=>{if(customer_id==one.Customer_id)
 					</div>
 					<div>
 						{show}
+						{scali}
 					</div>
 					<div>
 					<h3>Knowledges</h3>
