@@ -27,16 +27,23 @@
         
       });
     },
-    onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus) {
+    onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus,kpi) {
       if(!this.isStatusExisted(pageStatus)){
 
-        if(pageStatus.pageName == "INIT" || pageStatus.pageName == "INIT-KPI"){
+        if(pageStatus.pageName == "INIT"){
+          this.dataPanelData.push({
+            pageStatus:pageStatus,
+            content:[{
+              kpi:kpi
+            }]
+          })
+        }
+        else if(pageStatus.pageName == "INIT-KPI"){
           this.dataPanelData.push({
             pageStatus:pageStatus,
             content:[]
           })
-        }
-      
+        }      
         else if(pageStatus.pageName == "CAPACITY_MGMT"){
           this.dataPanelData.push({
               pageStatus: pageStatus,
@@ -459,7 +466,7 @@ console.log('prepare to run RCA -------', card);
         var tmpData = [];
         $.each(this.dataPanelData, function (idx, item) {
           if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-            if (item.content.length === 0) {
+            if (pageStatus.pageName == "INIT" && item.content.length == 1 || item.content.length === 0) {
               that.getDataPanelData(pageStatus);
             } else {
               tmpData = item.content;
@@ -531,6 +538,12 @@ console.log('prepare to run RCA -------', card);
       var ajaxCount = 0;
       var besCount=0;
       var besTotal=0;
+      var kpi;
+      $.each(this.dataPanelData, function (idx, item) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+          kpi = item.content[0].kpi;
+        }
+      })
       /*var urls = {
         bUrl: 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\' and FACTOR_TYPE eq \'TBL\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
         sUrl: 'http://10.97.144.117:8000/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
@@ -538,8 +551,8 @@ console.log('prepare to run RCA -------', card);
       };*/
 
       var urls = {
-        bUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=B&sysId='+sid+'&sysClt='+client,
-        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=S&sysId='+sid+'&sysClt='+client,
+        bUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=B&sysId='+sid+'&sysClt='+client+'&orderBy='+kpi[0],
+        sUrl: 'http://10.97.144.117:8000/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=S&sysId='+sid+'&sysClt='+client+'&orderBy='+kpi[1],
         rUrl: 'http://10.97.144.117:8000/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
       };
       /*var urls = {
