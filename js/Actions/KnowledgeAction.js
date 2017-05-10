@@ -754,34 +754,7 @@ export function DeleteArticle(data){
   
   }
 }
-export function GetArchobj(data){
-  var config = {
-    headers:{
-            'X-My-Custom-Header':'Header-Value',
-            'content-type':'application/json'
-          },
-          auth:{
-            username:'zengheng',
-            password:'Sap12345'
-          }
-  };
 
-  return dispatch=>{
-    axios.get("http://10.97.144.117:8000/SmartOperations/services/getArchobj.xsjs?tbl_nam="+data,config)
-    .then(function(resp){
-      console.log(resp);
-      if(resp.data.results.length > 0){
-        return resp.data.results[0].ARCHOBJ;
-      }
-      else{
-        return '';
-      }
-    }).catch(function(err){
-      console.log(err);
-    })
-  }
-
-}
 
 
 
