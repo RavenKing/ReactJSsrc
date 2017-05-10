@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Button,Card,Icon,Table,Input } from "antd";
 
 import ArticleMenuTile from "./ArticleMenuTile";
-import { RemoveCard,AddCard }  from "../../Actions/KnowledgeAction";
+import { RemoveCard,AddCard,GetArchobj }  from "../../Actions/KnowledgeAction";
 import { setCardDragable,handleFocus,setAreaDropable } from "../../interactScript";
 import { connect } from "react-redux";
 
@@ -19,10 +19,11 @@ export default class MainPanel extends React.Component {
       super(props)    
       //   const { results } = this.props;
       const {query } =this.props;
+      var archobj;
       var tabledata ;
       if(query!="")
       {
-        tabledata = this.setNewData(query.object);
+          tabledata = this.setNewData(query);
       }
       console.log(this.props);
 
@@ -30,7 +31,7 @@ export default class MainPanel extends React.Component {
       this.state={ 
           selectedRowKeys: [],  // 这里配置默认勾选列
           loading: false,
-          query:query.object,
+          query:query.tbl,
           tabledata:tabledata
       }
 
@@ -81,20 +82,26 @@ export default class MainPanel extends React.Component {
 
     setNewData(filterdata)
     {
-
       const { results } = this.props;
       const searcharray = results.concat();
       console.log("searche")
       console.log(searcharray);
       var data = searcharray.filter((one)=>{
 
-        if(one.ARTICLE_NAM.indexOf(filterdata)!=-1)
-        {
-          return one;     
-        }
-        else if(one.ARTICLE_DSC.indexOf(filterdata)!=-1)
-        {
+        if(one.ARTICLE_NAM.indexOf(filterdata.tbl)!=-1){
+
+          return one;  
+
+        }else if(one.ARTICLE_DSC.indexOf(filterdata.tbl)!=-1){
+
           return one;
+
+        }else{
+          
+          if(one.ARCHOBJ && one.ARCHOBJ.indexOf(filterdata.archobj) != -1){
+            return one;
+          }
+
         }
 
       });
