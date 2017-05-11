@@ -37,6 +37,25 @@ export default class SaveArticle extends React.Component {
       setCardDragable(ReactDOM.findDOMNode(this));     
       handleFocus(ReactDOM.findDOMNode(this));   
     }
+    addTable(){
+        var table_name = this.refs.tbl_nam.refs.input.value;
+        if(!table_name){
+            const modal = Modal.warning({
+                title:"Table name can not be empty!",
+                content:"Please input the table name."
+            })
+        }
+        else{
+            const { tables } = this.state;
+            tables.push({
+                FACTOR_NAME:table_name
+            })
+            this.setState({
+                tables:tables
+            });
+        }
+
+    }
     handleSubmit(e) {
        
         e.preventDefault();
@@ -275,6 +294,22 @@ export default class SaveArticle extends React.Component {
                 </Col>
             </Row>
 
+            <br />
+            <Row gutter={16}>
+                <Col sm={5}>
+                    Table Name:
+                </Col>
+
+                <Col sm={14}>
+                    <Input ref="tbl_nam" placeholder="input table name"/>
+                </Col>
+
+                <Col sm={4}>
+                    <Button type="primary" onClick={this.addTable.bind(this)}><Icon type="plus" />add</Button>
+                </Col>
+
+            </Row>
+            <br />
             
             <p>Dvm Methods</p>
             <hr />
