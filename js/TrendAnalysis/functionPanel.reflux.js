@@ -113,7 +113,7 @@
                   info: "EFFI",
                   type: "EFFI"
                 },{
-                  name: "Strategy",
+                  name: "Save as Article",
                   info: "KNOW",
                   type: "KNOW"
                 },/*{
