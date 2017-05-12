@@ -632,7 +632,15 @@ console.log('prepare to run RCA -------', card);
                   item.EFFICIENCY=0;
                   if(retention != 0)
                   {
-                  var efficiency = (results[length-1].TABLE_ENTRIES - results[length-retention-1].TABLE_ENTRIES) / results[length-1].TABLE_ENTRIES * 100;
+                var efficiency = 0 ; 
+                  if(length<=retention)
+                  {
+                    efficiency = 100;
+                  }
+                  else
+                  {
+                   efficiency = (results[length-1].TABLE_ENTRIES - results[length-retention-1].TABLE_ENTRIES) / results[length-1].TABLE_ENTRIES * 100;
+                  }
                   item.EFFICIENCY = efficiency.toFixed(2);
                   }
                 })
