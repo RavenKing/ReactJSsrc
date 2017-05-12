@@ -164,6 +164,37 @@
 
 
     },
+    getArchobj:function(table_name){
+
+      var url = "http://10.97.144.117:8000/SmartOperations/services/getArchobj.xsjs?tbl_nam="+table_name;
+      var archobj = "";
+      $.ajax({
+            url: url,
+            method: 'GET',
+            async: false,
+            headers: {
+              'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'DataServiceVersion': '2.0',
+              'X-CSRF-Token': 'Fetch'
+            }
+          }).done(function(resp) {
+            console.log(resp);
+            if(resp.results.length > 0){
+              archobj = resp.results[0].ARCHOBJ;
+            }
+
+
+          }).fail(function(err){
+            console.log(err);
+          })
+          
+        return archobj;
+
+
+    },
 
     uploadConfirm: function(dataInfo, getRespond) {
     var flag = false;

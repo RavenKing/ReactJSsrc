@@ -98,7 +98,7 @@
                   info: "REL",
                   type: "REL"
                 },{
-                  name: "General Article",
+                  name: "Save as Article",
                   info: "KNOWGE",
                   type: "KNOWGE"
                 }
@@ -113,7 +113,7 @@
                   info: "EFFI",
                   type: "EFFI"
                 },{
-                  name: "Strategy",
+                  name: "Save as Article",
                   info: "KNOW",
                   type: "KNOW"
                 },/*{
@@ -147,6 +147,10 @@
                   name: "What If",
                   info: "WHAT_IF",
                   type: "WHAT_IF"
+                },{
+                  name:"Save as Article",
+                  info:"KNOWGE",
+                  type:"KNOWGE"
                 }]
               });
               break;
