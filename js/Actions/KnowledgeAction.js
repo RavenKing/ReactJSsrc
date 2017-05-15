@@ -702,7 +702,7 @@ export function UpdateArticle(data,type){
         }).catch(function(err){
             console.log(err);
         })
-      }
+      
     }
 }
 export function DeleteArticle(data){
