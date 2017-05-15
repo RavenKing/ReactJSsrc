@@ -55,11 +55,9 @@ export function fetchArticles(user){
     axios.get("/SmartOperations/services/articleContent.xsjs?customerId="+customerid,
       config).then(function (response,err) {
           data.articles = response.data; 
-          axios.get("/SmartOperations/services/smopsMaster.xsodata/FACTOR_NAME",
-            config).then(function(resp){
-                data.factor_name = (resp.data.d.results);
-                dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data}); 
-            })
+
+          dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data}); 
+          
             
        
            
@@ -689,7 +687,13 @@ export function UpdateArticle(data,type){
         var capacity_date = new Date(data.capacity_date).getTime();
         capacity_date = "\/Date("+capacity_date+")\/"
           
+<<<<<<< HEAD
         axios.put("/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
+=======
+        
+
+        return dispatch=>{axios.put("http://10.97.144.117:8000/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
+>>>>>>> cassie
         
             ARTICLE_ID:data.article_id,
             COMMENT:data.comment,
@@ -704,6 +708,7 @@ export function UpdateArticle(data,type){
         }).catch(function(err){
             console.log(err);
         })
+      }
     }
 }
 export function DeleteArticle(data){
@@ -753,4 +758,12 @@ export function DeleteArticle(data){
       })
   
   }
+<<<<<<< HEAD
 }
+=======
+}
+
+
+
+
+>>>>>>> cassie

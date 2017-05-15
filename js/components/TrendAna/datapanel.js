@@ -36,18 +36,25 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
     },
 
     componentDidMount: function componentDidMount() {
-     setNodeDragable(ReactDOM.findDOMNode(this));
+     global.setNodeDragable(ReactDOM.findDOMNode(this));
     },
-
+    componentWillReceiveProps: function(nextProps) {
+        console.log(nextProps);
+    },
     render: function render() {
+
+      console.log(dataPanelDataStore.dataPanelData)
       var currentStatus = pageStatusDataStore.getCurrentStatus();
       var item = this.props.item;
-
+    let title=" "
+      if(item.EFFICIENCY!=null||item.Scal!=null)
+      { title ="Effi/Scal: "+ (item.EFFICIENCY?item.EFFICIENCY:item.Scal.toFixed(2)).toString() + "%";
+      }
       if(currentStatus.pageName == "INIT"){
-
         return React.createElement(
           Tooltip,
-          { className: "ant-tooltip-open", placement: "rightBottom", title: this.props.item.FACTOR_NAME},
+          { className: "ant-tooltip-open", placement: "rightBottom", title: title},
+
 
           React.createElement(
             Button,
@@ -68,7 +75,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
             },
             React.createElement(
               Badge,
-              { dot: parseFloat(item.TREND) > 5.0 },
+              { dot: parseFloat(item.TREND) > 5.0 &&  parseFloat(item.TREND)!=9999.99},
               item.FACTOR_BUSINESS_NAME
             )
           )
@@ -246,6 +253,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
         client:""
       }
       return {
+        pageStatus:pageStatus,
         dataPanelData: dataPanelDataStore.getData(pageStatus)
       };
     },
@@ -279,7 +287,11 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript
     // },
 
     render: function render() {
+
+     /* var currentStatus = pageStatusDataStore.getCurrentStatus()
+      var dataPanelData = dataPanelDataStore.getData(currentStatus);*/
       var dataPanelData = this.state.dataPanelData;
+
       var blocks = [];
       for (var ind in dataPanelData) {
         blocks.push(React.createElement(DataBlock, { key: ind + "DataBlock", block: dataPanelData[ind] }));

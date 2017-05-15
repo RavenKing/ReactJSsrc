@@ -27,16 +27,37 @@
         
       });
     },
-    onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus) {
-      if(!this.isStatusExisted(pageStatus)){
+    onDataPanelAddPageAction: function onDataPanelAddPageAction(pageStatus,kpi) {
+      var that = this;
+      if(pageStatus.pageName == "INIT" && kpi){
+        if(!this.isStatusExisted(pageStatus)){
+          this.dataPanelData.push({
+            pageStatus:pageStatus,
+            content:[{
+              kpi:kpi
+            }]
+          })
+        }
+        else{
+          $.each(this.dataPanelData,function(idx,item){
+            if(that.isStatusEqual(pageStatus,item.pageStatus)){
+              item.content = [{
+                kpi:kpi
+              }]
+            }
+          })
+        }
+        
+      }
+      else{
+        if(!this.isStatusExisted(pageStatus)){
 
-        if(pageStatus.pageName == "INIT" || pageStatus.pageName == "INIT-KPI"){
+        if(pageStatus.pageName == "INIT-KPI"){
           this.dataPanelData.push({
             pageStatus:pageStatus,
             content:[]
           })
-        }
-      
+        }      
         else if(pageStatus.pageName == "CAPACITY_MGMT"){
           this.dataPanelData.push({
               pageStatus: pageStatus,
@@ -111,6 +132,8 @@
           }     
         }
       }
+      }
+      
       
     },
     onDataPanelRemovePageAction: function onDataPanelRemovePageAction(pageStatus) {
@@ -155,6 +178,8 @@ console.log('prepare to run RCA -------', card);
               {
                 item.content.Knowledges = resp.Knowledges;
               }
+              if(resp.Scal)
+              {item.content.Scal=resp.Scal}
 
               resp.results.forEach(function (d) {
                 d.INFLUENCE_RATE = d.INFLUENCE_RATE.toFixed(2);
@@ -337,35 +362,36 @@ console.log('prepare to run RCA -------', card);
                 }
               }).done(function(response){
                 var data = response.results;
-                archobj = data[0].ARCHOBJ;
-                data.forEach(function (d) {
-                  var table = {
-                    FACTOR_NAME:d.TABLENAME,
-                    FACTOR_CATEGORY:"TBL"
-                  };
+                if(data.length > 0){
 
-                  var obj = {
-                    FACTOR_NAME:d.ARCHOBJ,
-                    FACTOR_CATEGORY:"OBJ"
-                  };
-                  $.each(item.content, function (idx1, item1) {
-                    if (item1.title === "Arch Obj" && !item1.objList.length) {
-                      item1.objList.push(obj);
-                      return false;
-                    }  
-                  });
+                  archobj = data[0].ARCHOBJ;
+                  data.forEach(function (d) {
+                    var table = {
+                      FACTOR_NAME:d.TABLENAME,
+                      FACTOR_CATEGORY:"TBL"
+                    };
+
+                    var obj = {
+                      FACTOR_NAME:d.ARCHOBJ,
+                      FACTOR_CATEGORY:"OBJ"
+                    };
+                    $.each(item.content, function (idx1, item1) {
+                      if (item1.title === "Arch Obj" && !item1.objList.length) {
+                        item1.objList.push(obj);
+                        return false;
+                      }  
+                    });
                 
-                  $.each(item.content, function (idx1, item1) {
-                    if (item1.title === "Tables") {
-                      item1.objList.push(table);
-                      return false;
-                    }
-                  });
+                    $.each(item.content, function (idx1, item1) {
+                      if (item1.title === "Tables") {
+                        item1.objList.push(table);
+                        return false;
+                      }
+                    });
 
-
-
-
-                });
+                })
+              }
+                
 
               }).fail(function(){
                 console.log('error in DVM analysis');
@@ -462,7 +488,7 @@ console.log('prepare to run RCA -------', card);
         var tmpData = [];
         $.each(this.dataPanelData, function (idx, item) {
           if (that.isStatusEqual(item.pageStatus,pageStatus)) {
-            if (item.content.length === 0) {
+            if (pageStatus.pageName == "INIT" && item.content.length == 1 || item.content.length === 0) {
               that.getDataPanelData(pageStatus);
             } else {
               tmpData = item.content;
@@ -532,6 +558,18 @@ console.log('prepare to run RCA -------', card);
       var that = this;
       var ajaxTotal = 0;
       var ajaxCount = 0;
+      var besCount=0;
+      var besTotal=0;
+      var kpi;
+      $.each(this.dataPanelData, function (idx, item) {
+        if (that.isStatusEqual(item.pageStatus,pageStatus)) {
+          kpi = item.content[0].kpi;
+        }
+      })
+
+      ajaxData[0] = {
+        kpi:kpi
+      }
       /*var urls = {
         bUrl: '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'B\' and FACTOR_TYPE eq \'TBL\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
         sUrl: '/SmartOperations/services/smopsMaster.xsodata/FACTORMASTER?$format=json&$filter=CUSTOMER_ID eq \'1001\' and SYSID eq \'KEV\' and SYSCLT eq \'001\' and FACTOR_CATEGORY eq \'S\' and PIN eq \'X\'&$orderby=TREND desc&$top=5',
@@ -540,9 +578,11 @@ console.log('prepare to run RCA -------', card);
 
       var urls = {
 
+
         bUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=B&sysId='+sid+'&sysClt='+client,
         sUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=S&sysId='+sid+'&sysClt='+client,
         rUrl: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
+
       };
       /*var urls = {
         bUrl: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27B%27%20and%20FACTOR_TYPE%20eq%20%27TBL%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5',
@@ -567,13 +607,48 @@ console.log('prepare to run RCA -------', card);
           }
         }).done(function (data) {
           ajaxCount++;
-
           var title = '';
           var index = void 0;
           switch (url) {
             case 'bUrl':
               title = 'Business';
               index = 0;
+              besTotal=data.d.results.length;
+              data.d.results.map((item)=>{
+                var url = "http://10.97.144.117:8000/SmartOperations/services/ArchEfficiency.xsjs?customerId="+customerId+"&sysId="+sid+"&sysClt="+client+"&tableName="+item.FACTOR_NAME;
+                $.ajax({
+                  url:url,
+                  method:'get',
+                  dataType:'json',
+                  async:false,
+                  headers:{
+                    'Authorization': 'Basic ' + btoa('ZENGHENG:Sap12345'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'DataServiceVersion': '2.0',
+                    'X-CSRF-Token': 'Fetch'
+                  }
+                }).done(function(resp){
+                  besCount++;
+                  console.log(resp);
+                 /* var retention = resp.Retention;
+                  var results = resp.results;
+                  var length = results.length;*/                 
+                  
+                  //var efficiency = (results[length-1].TABLE_ENTRIES - results[length-retention-1].TABLE_ENTRIES) / results[length-1].TABLE_ENTRIES * 100;
+  
+                  item.EFFICIENCY = (resp.results[0].EFFICIENCY*100).toFixed(2);
+                  
+                })
+
+
+
+              })
+              var dest = [];
+              that.sortEfficiency(data.d.results,dest);
+              data.d.results = dest;
+              
               break;
             case 'sUrl':
               title = 'Service';
@@ -586,12 +661,16 @@ console.log('prepare to run RCA -------', card);
             default:
               ;
           }
+
           ajaxData.splice(index, 0, {
             title: title,
             objList: data.d.results
           });
+          console.log(ajaxData);
 
-          if (ajaxCount == ajaxTotal) {
+          console.log(besCount,besTotal);
+          if (ajaxCount == ajaxTotal ) {
+            console.log("good")
             dataPanelItemChangeActions.dataPanelItemAddAction(currentStatus, ajaxData);
           }
         }).fail(function () {
@@ -671,6 +750,20 @@ console.log('prepare to run RCA -------', card);
       });
       return objList;
     },
+    getScal:function getScal(pageStatus)
+    {
+       var that = this;
+      var Scal ={};
+      $.each(this.dataPanelData,function(idx,item){
+        if(that.isStatusEqual(item.pageStatus,pageStatus)){
+          if(item.content.Scal){
+            Scal = item.content.Scal;           
+          }
+          return false;
+        }
+      })
+      return Scal;
+    },
     getKnowledges: function getKnowledges(pageStatus){
       var that = this;
       var knowledges = [];
@@ -684,6 +777,22 @@ console.log('prepare to run RCA -------', card);
       })
 
       return knowledges;
+    },
+    sortEfficiency:function sortEfficiency(source,dest){
+
+      var length = source.length;
+      for(var i = 0;i < length-1;i++){
+        for(var j = i+1;j < length;j++){
+          if(Number(source[i].EFFICIENCY) > Number(source[j].EFFICIENCY)){
+            var temp = source[j];
+            source[j] = source[i];
+            source[i] = temp;
+          }
+        }
+        dest.push(source[i]);
+      }
+      dest.push(source[length-1]);
+
     }
 
   });

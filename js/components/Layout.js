@@ -41,7 +41,7 @@ export default class Layout extends React.Component {
     const {location} = this.props; 
     const {query} = location;
     console.log(query);
-    if(query.object && query.stype)
+    if(query.tbl && query.stype)
     {
       setTimeout(function(){
         var data = {
