@@ -444,8 +444,8 @@ var dataPanelDataStore = window.dataPanelDataStore
 							subLineChart[i] = React.createElement('div',
 								null,
 								React.createElement(LineNewChart,param),
-								React.createElement('h3', {style:{"margin-left":15}}, 'Residence Time:',<Tag color="red" closable={false}>{that.props.card.retention}</Tag>,'Month'),
-								that.props.card.retention == '0'?<div/>:React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{that.props.card.efficiency}</Tag>,'%'):'',
+								React.createElement('h3', {style:{"margin-left":15}}, 'Residence Time:',<Tag color="red" closable={false}>{DVM_ARCH.RESIDENCE}</Tag>,'Month'),
+								that.props.card.retention == '0'?<div/>:React.createElement('h3', {style:{"margin-left":15}}, 'Archiving Efficiency:',<Tag color="red" closable={false}>{(DVM_ARCH.EFFICIENCY*100).toFixed(2)}</Tag>,'%'):'',
 								DVM_ARCH.IS_EFFICIENT == 0?React.createElement('h3', {style:{"margin-left":15}}, 'Last archiving run: '+DVM_ARCH.LAST_ARCH_RUN):'',
 								DVM_ARCH.IS_EFFICIENT == 0?React.createElement('h3', {style:{"margin-left":15}}, 'Other reasons: '):'',
 								DVM_ARCH.IS_EFFICIENT == 0?DVM_ARCH.OTHER_REASON.map((reason)=>{
