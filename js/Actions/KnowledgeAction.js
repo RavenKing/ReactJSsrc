@@ -752,12 +752,5 @@ export function DeleteArticle(data){
       })
   
   }
-<<<<<<< HEAD
-}
-=======
 }
 
-
-
-
->>>>>>> cassie
