@@ -614,7 +614,7 @@ console.log('prepare to run RCA -------', card);
               index = 0;
               besTotal=data.d.results.length;
               data.d.results.map((item)=>{
-                var url = 'http://10.97.144.117:8000/SmartOperations/services/getFactorStat.xsjs?customerId=' + customerId + '&sysId=' + sid + '&sysClt=' + client + '&factorCate=B&factorType=TBL&factorName=' + item.FACTOR_NAME;
+                var url = "http://10.97.144.117:8000/SmartOperations/services/ArchEfficiency.xsjs?customerId="+customerId+"&sysId="+sid+"&sysClt="+client+"&tableName="+item.FACTOR_NAME;
                 $.ajax({
                   url:url,
                   method:'get',
@@ -631,28 +631,22 @@ console.log('prepare to run RCA -------', card);
                 }).done(function(resp){
                   besCount++;
                   console.log(resp);
-                  var retention = resp.Retention;
+                 /* var retention = resp.Retention;
                   var results = resp.results;
-                  var length = results.length;
-                  item.EFFICIENCY=0;
-                  if(retention != 0)
-                  {
-                var efficiency = 0 ; 
-                  if(length<=retention)
-                  {
-                    efficiency = 100;
-                  }
-                  else
-                  {
-                   efficiency = (results[length-1].TABLE_ENTRIES - results[length-retention-1].TABLE_ENTRIES) / results[length-1].TABLE_ENTRIES * 100;
-                  }
-                  item.EFFICIENCY = efficiency.toFixed(2);
-                  }
+                  var length = results.length;*/                 
+                  
+                  //var efficiency = (results[length-1].TABLE_ENTRIES - results[length-retention-1].TABLE_ENTRIES) / results[length-1].TABLE_ENTRIES * 100;
+  
+                  item.EFFICIENCY = (resp.results[0].EFFICIENCY*100).toFixed(2);
+                  
                 })
 
 
 
               })
+              var dest = [];
+              that.sortEfficiency(data.d.results,dest);
+              data.d.results = dest;
               
               break;
             case 'sUrl':
@@ -782,6 +776,22 @@ console.log('prepare to run RCA -------', card);
       })
 
       return knowledges;
+    },
+    sortEfficiency:function sortEfficiency(source,dest){
+
+      var length = source.length;
+      for(var i = 0;i < length-1;i++){
+        for(var j = i+1;j < length;j++){
+          if(Number(source[i].EFFICIENCY) > Number(source[j].EFFICIENCY)){
+            var temp = source[j];
+            source[j] = source[i];
+            source[i] = temp;
+          }
+        }
+        dest.push(source[i]);
+      }
+      dest.push(source[length-1]);
+
     }
 
   });
