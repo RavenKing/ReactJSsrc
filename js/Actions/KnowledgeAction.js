@@ -55,7 +55,12 @@ export function fetchArticles(user){
     axios.get("/SmartOperations/services/articleContent.xsjs?customerId="+customerid,
       config).then(function (response,err) {
           data.articles = response.data; 
+<<<<<<< HEAD
                 dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data}); 
+=======
+
+          dispatch({type:"FETCH_ARTICLE_FULFILLED",payload:data}); 
+>>>>>>> f80bd30ef8f0bc1b96838ec23598adbf538c8821
           
             
        
@@ -686,10 +691,8 @@ export function UpdateArticle(data,type){
         var capacity_date = new Date(data.capacity_date).getTime();
         capacity_date = "\/Date("+capacity_date+")\/"
           
-        
-
         return dispatch=>{axios.put("/SmartOperations/services/KnowledgeManagement.xsodata/KMCAP("+data.article_id+")", {
-        
+   
             ARTICLE_ID:data.article_id,
             COMMENT:data.comment,
             CAPACITY_DATE: capacity_date   
@@ -703,7 +706,7 @@ export function UpdateArticle(data,type){
         }).catch(function(err){
             console.log(err);
         })
-      }
+      
     }
 }
 export function DeleteArticle(data){

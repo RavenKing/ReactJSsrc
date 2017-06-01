@@ -577,8 +577,7 @@ console.log('prepare to run RCA -------', card);
       };*/
 
       var urls = {
-
-        bUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=B&sysId='+sid+'&sysClt='+client+'&orderBy='+kpi[0],
+     bUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=B&sysId='+sid+'&sysClt='+client+'&orderBy='+kpi[0],
         sUrl: '/SmartOperations/services/getInitData.xsjs?customerId=' + customerId.toString() + '&factorCate=S&sysId='+sid+'&sysClt='+client+'&orderBy='+kpi[1],
         rUrl: '/SmartOperations/services/factorMaster.xsodata/FACTORMASTER?$format=json&$filter=FACTOR_CATEGORY%20eq%20%27R%27%20and%20STATUS%20eq%20%27A%27%20and%20PIN%20eq%20%27X%27&$orderby=TREND%20desc&$top=5'
 

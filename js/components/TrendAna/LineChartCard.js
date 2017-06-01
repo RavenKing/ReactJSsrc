@@ -369,8 +369,7 @@ var dataPanelDataStore = window.dataPanelDataStore
 							if(type=="DVM")
 							 archobj = displayAreaDataStore.getArchobj(that.props.card.FACTOR_NAME[0]);
 							browserHistory.push("/km?tbl=" + that.props.card.FACTOR_NAME[0] + "&archobj=" + archobj +"&stype=" + stype);
-
-							break;
+						break;
 
 						case "DELETE":
 							console.log('DELETE');
